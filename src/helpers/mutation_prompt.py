@@ -1,3 +1,4 @@
+
 """
 mutation_prompt.py
 ==================
@@ -12,11 +13,11 @@ tweaks — which are the gradient optimizer's job.
 def _format_program_block(rank: int, entry: dict) -> str:
     """Format a single program entry for the prompt."""
 
-    def _fmt_params(initial: dict, optimized: dict) -> str:
+    def _fmt_params(initial: dict, optimized: dict, has_optimization: bool) -> str:
         """Show initial → final for each parameter, with delta."""
         lines = []
         for name, init_val in initial.items():
-            opt_tensor = optimized.get(name)
+            opt_tensor = optimized.get(name) if has_optimization else None
             if opt_tensor is None:
                 lines.append(f"    {name}: {init_val:.4f}")
                 continue
@@ -39,7 +40,14 @@ def _format_program_block(rank: int, entry: dict) -> str:
     elif final_loss is not None:
         loss_line = f"  loss: {final_loss:.4f}"
 
-    params_block = _fmt_params(entry.get("params", {}), entry.get("optimized_params", {}))
+    # Deterministic mutation-strategy hint based on Δloss / Δparams
+    strategy_hint = _suggest_strategy(entry, loss_delta)
+
+    params_block = _fmt_params(
+        entry.get("params", {}),
+        entry.get("optimized_params", {}),
+        has_optimization=final_loss is not None,
+    )
 
     return (
         f"### Program {rank}  [id={entry['id']}]\n"
@@ -47,16 +55,98 @@ def _format_program_block(rank: int, entry: dict) -> str:
         f"{loss_line}\n"
         f"  parameters (initial → after gradient):\n"
         f"{params_block}\n"
+        f"  suggested mutation focus: {strategy_hint}\n"
         f"  program:\n"
         f"    {entry['program']}\n"
     )
+
+
+def _suggest_strategy(entry: dict, loss_delta: float | None) -> str:
+    """Deterministically suggest a mutation strategy based on loss/param deltas.
+
+    This is a heuristic hint shown to the LLM, not a hard constraint —
+    it grounds the generic mutation menu in this specific program's
+    diagnostics so the LLM doesn't apply the same boilerplate to every entry.
+    """
+    final_loss = entry.get("final_loss")
+    initial = entry.get("params", {})
+    optimized = entry.get("optimized_params", {})
+
+    # No optimization info available (e.g. brand-new program)
+    if final_loss is None or loss_delta is None:
+        return "not yet evaluated — treat as a baseline; mutate freely"
+
+    # Compute max relative parameter movement
+    max_rel_move = 0.0
+    for name, init_val in initial.items():
+        opt_val = optimized.get(name)
+        if opt_val is None or init_val == 0:
+            continue
+        rel_move = abs(float(opt_val) - float(init_val)) / (abs(float(init_val)) + 1e-6)
+        max_rel_move = max(max_rel_move, rel_move)
+
+    near_zero_delta = abs(loss_delta) < 0.01
+    large_param_move = max_rel_move > 0.3
+
+    if near_zero_delta and final_loss > 5.0:
+        return ("near-zero Δloss with high loss — the structure itself is likely "
+                "a poor fit; consider re-initialising with a different hypothesis "
+                "rather than tweaking this one")
+    if large_param_move:
+        return ("large parameter movement during optimisation — the LLM's initial "
+                "guess was far off; consider whether this signals a missing "
+                "component (e.g. split a `gm` into a mixture) near the shifted "
+                "parameter(s)")
+    if near_zero_delta:
+        return ("small Δloss and small parameter movement — this program is stable; "
+                "try a more exploratory structural change (conditional, dependency) "
+                "rather than a small tweak")
+    return ("moderate improvement from gradient descent — structure seems reasonable; "
+            "try a targeted refinement (e.g. add/remove one component or branch)")
+
+
+def _format_failure_history(history: list[dict] | None) -> str:
+    """Format a compact summary of previously rejected mutations.
+
+    Parameters
+    ----------
+    history : list[dict] or None
+        Each entry should have at least:
+          - "parent_id": id of the program it was derived from
+          - "structure": structure tag (e.g. "mixture2")
+          - "hypothesis": one-line hypothesis
+          - "parent_loss": loss of the parent program at time of mutation
+          - "result_loss": loss of the mutated program (None if it failed validation)
+    """
+    if not history:
+        return "  (no rejected mutations recorded yet)\n"
+
+    lines = []
+    for h in history:
+        parent_loss = h.get("parent_loss")
+        result_loss = h.get("result_loss")
+        if result_loss is None:
+            outcome = "FAILED (invalid program / did not evaluate)"
+        else:
+            diff = result_loss - parent_loss if parent_loss is not None else None
+            if diff is not None:
+                outcome = f"loss {result_loss:.4f} (Δ vs parent {diff:+.4f}, did not improve)"
+            else:
+                outcome = f"loss {result_loss:.4f} (did not improve)"
+        lines.append(
+            f"  - from program [id={h.get('parent_id')}], "
+            f"structure='{h.get('structure')}', "
+            f"hypothesis: \"{h.get('hypothesis')}\" -> {outcome}"
+        )
+    return "\n".join(lines) + "\n"
 
 
 def build_mutation_prompt(
     pool: list[dict],
     n_mutations: int = 5,
     iteration: int = 1,
-    grammar: str = "DeGAS grammar as specified in the system prompt"
+    grammar: str = "DeGAS grammar as specified in the system prompt",
+    rejected_history: list[dict] | None = None,
 ) -> str:
     """
     Build the user-turn mutation prompt.
@@ -67,11 +157,16 @@ def build_mutation_prompt(
         The current best programs, sorted best-first (lowest loss first).
         Each entry is a program dict as produced by the ALPS pipeline.
     n_mutations : int
-        How many mutated programs to request.
+        How many mutated programs to request. Should normally equal len(pool)
+        so each pool program gets exactly one mutation.
     iteration : int
-        Current iteration number (for context).
+        Current iteration number (for context and id assignment).
     grammar : str
         The grammar specification for the DeGAS language.
+    rejected_history : list[dict], optional
+        Previously proposed mutations that did not improve on their parent
+        (or failed validation). Used to steer the LLM away from repeating
+        unsuccessful structural changes. See `_format_failure_history`.
 
     Returns
     -------
@@ -83,6 +178,22 @@ def build_mutation_prompt(
     program_blocks = "\n".join(
         _format_program_block(rank + 1, entry)
         for rank, entry in enumerate(pool_sorted)
+    )
+
+    failure_block = _format_failure_history(rejected_history)
+
+    # Deterministic id assignment: ids for this iteration are
+    # [iteration * n_mutations + 1, ..., iteration * n_mutations + n_mutations].
+    # This avoids leaving id arithmetic to the LLM (see note below).
+    id_start = iteration * n_mutations + 1
+    id_end = id_start + n_mutations - 1
+    assigned_ids = list(range(id_start, id_end + 1))
+
+    # Map each pool program to one assigned id, in order (best program first).
+    parent_ids = [entry["id"] for entry in pool_sorted[:n_mutations]]
+    id_mapping_lines = "\n".join(
+        f"  - parent_id={pid} (Program {rank + 1} above)  ->  use id={new_id}"
+        for rank, (pid, new_id) in enumerate(zip(parent_ids, assigned_ids))
     )
 
     prompt = f"""\
@@ -104,16 +215,31 @@ A near-zero Δ means the structure may be a poor fit regardless of parameter val
 Large moves mean the LLM's initial value was far from the optimum — the structure \
 is acceptable but the initialisation was poor. \
 Small moves mean the parameter is either well-initialised or insensitive.
+- **suggested mutation focus**: a hint derived directly from this program's own \
+loss and parameter deltas — use it to ground your mutation in this program's \
+specific diagnostics rather than a generic strategy.
+
+## Previously rejected mutations (do not repeat these)
+
+The following structural mutations were already tried and did NOT improve on \
+their parent program (or were invalid). Avoid proposing the same structure + \
+hypothesis combination again for the same parent:
+
+{failure_block}
 
 ## Your task
 
-For each program in the pool, propose one mutated program that is likely to achieve a **lower loss** \
-than the current best.
+For EACH program in the pool below, propose EXACTLY ONE mutated program that is \
+likely to achieve a **lower loss** than that program. You must produce \
+{n_mutations} mutated programs total, one per parent, using the id mapping below:
+
+{id_mapping_lines}
 
 Focus on **structural mutations** — the gradient optimizer will handle numeric \
 fine-tuning after you. Avoid simply changing numbers.
 
-Useful structural mutations to consider:
+Useful structural mutations to consider (use the "suggested mutation focus" for \
+each program to pick the most relevant ones):
 - **Split a component**: replace a single-component `gm` with a 2- or 3-component mixture \
 if the gradient moved its mean or sigma a lot (the data may be multimodal there).
 - **Merge components**: if two components of a mixture have similar optimized means, \
@@ -126,6 +252,12 @@ similar parameter values, flatten them into a single distribution.
 (scaled sums, products) to capture correlations between `a` and `b`.
 - **Re-initialise a poor program**: if a program has near-zero Δ loss and high loss, \
 replace it with a structurally different hypothesis.
+
+## Diversity requirement
+
+Across the {n_mutations} mutated programs you return, use at least 2 distinct \
+`structure` tags. Do not return {n_mutations} programs that are all minor \
+variations of the same structural idea.
 
 All the mutated programs must adhere to the following grammar rules:
 {grammar}
@@ -143,7 +275,8 @@ but a good starting point helps.
 Reply ONLY with a valid JSON array of {n_mutations} objects. \
 No prose, no markdown fences. Return a list of dictionaries, each has exactly these fields:
 
-  "id": <integer, unique program identifier, consider we are in iteration {iteration} and in each iteration we generate {n_mutations} programs>,
+  "id": <integer, use the exact id assigned to this parent in the mapping above>,
+  "parent_id": <integer, the id of the program this mutation was derived from>,
   "hypothesis": "<one sentence describing the generative assumption>",
   "structure":  "<short tag, e.g. mixture2 / conditional / hierarchical>",
   "program":    "<valid DeGAS program as a single string>"
@@ -230,5 +363,16 @@ if __name__ == "__main__":
         },
     ]
 
-    prompt = build_mutation_prompt(pool, n_mutations=5, iteration=1)
+    # Example rejected history from a previous iteration
+    rejected_history = [
+        {
+            "parent_id": 1,
+            "structure": "mixture2",
+            "hypothesis": "Variable a is bimodal with components near 0 and 4.",
+            "parent_loss": 5.3264,
+            "result_loss": 5.4012,
+        },
+    ]
+
+    prompt = build_mutation_prompt(pool, n_mutations=5, iteration=1, rejected_history=rejected_history)
     print(prompt)
