@@ -15,6 +15,7 @@ from helpers.llm_comunication import call_ollama
 from helpers.dataset_generation import get_dataset
 from helpers.generation_prompt import make_init_prompt, SYSTEM_PROMPT, DEGAS_GRAMMAR
 
+llm_model = "gpt-oss:120b"
 program = "if"
 data_size = 100
 data = get_dataset(program, data_size)
@@ -37,7 +38,7 @@ prompt = make_init_prompt(stats, n_programs=5)
 n_steps = 15
 
 # First generation
-result = call_ollama(prompt, SYSTEM_PROMPT,  model="gpt-oss:20b", temperature=0.2, require_json=True, max_retries=1, use_chat=True)
+result = call_ollama(prompt, SYSTEM_PROMPT,  model=llm_model, temperature=0.2, require_json=True, max_retries=1, use_chat=True)
 candidates = result["programs"]
 
 print("\n=== Initial Candidates ===")
@@ -80,9 +81,14 @@ best_fitness = []
 
 for i in range(n_steps):
     print(f"\n--- Iteration {i+1} ---")
-    new_programs = call_ollama(build_mutation_prompt(candidates, n_mutations=5, iteration=i+1, grammar=DEGAS_GRAMMAR), SYSTEM_PROMPT, model="gpt-oss:20b", temperature=0.4, require_json=True, max_retries=1, use_chat=True)
+    new_programs = call_ollama(build_mutation_prompt(candidates, n_mutations=5, iteration=i+1, grammar=DEGAS_GRAMMAR), SYSTEM_PROMPT, model=llm_model, temperature=0.4, require_json=True, max_retries=1, use_chat=True)
     new_candidates = new_programs['programs']
     #extract parameters and optimize each new program
+
+    if not new_candidates:
+        print(f"No new candidates generated in iteration {i+1}; stopping early.")
+        break
+
     for prog in new_candidates:
         #print(f"\nExtracting parameters from Program ID: {prog['id']}...")
         try:
@@ -103,7 +109,7 @@ for i in range(n_steps):
 
             # Define loss function for optimization
             loss = lambda output_dist : -compute_likelihood(output_dist, stats['var_names'], data)
-            loss_list, time, number_of_iterations = optimize(cfg, params_dict, loss, n_steps=200, lr=0.01, print_progress=False)
+            loss_list, time, number_of_iterations = optimize(cfg, params_dict, loss, n_steps=100, lr=0.01, print_progress=False)
             print(f"Program ID {prog['id']} optimization completed. Initial loss: {loss_list[0]:.4f}, Final loss: {loss_list[-1]:.4f}")
             prog['optimized_params'] = params_dict
             prog['initial_loss'] = loss_list[0]
@@ -120,9 +126,30 @@ for i in range(n_steps):
     all_candidates = [prog for prog in all_candidates if 'final_loss' in prog]
     all_candidates.sort(key=lambda x: x['final_loss'])
     candidates = all_candidates[:5]
-    if not candidates:
-        print(f"No valid candidates after iteration {i+1}; stopping early.")
-        break
+
+    #Another gradient improvement step on the selected candidates
+    for prog in candidates:
+        try:
+            prog['params'] = prog['optimized_params']
+            compiledFile = compile2SOGA_text(prog['rewritten'])
+            cfg = produce_cfg_text(compiledFile)
+            smooth_cfg(cfg)
+        
+            # Initialize parameters
+            params_dict = initialize_params(prog['optimized_params'])
+            
+            # Define loss function for optimization
+            loss = lambda output_dist : -compute_likelihood(output_dist, stats['var_names'], data)
+            loss_list, time, number_of_iterations = optimize(cfg, params_dict, loss, n_steps=200, lr=0.01, print_progress=False)
+            print(f"Program ID {prog['id']} additional optimization completed. Initial loss: {loss_list[0]:.4f}, Final loss: {loss_list[-1]:.4f}")
+            prog['optimized_params'] = params_dict
+            prog['initial_loss'] = loss_list[0]
+            prog['final_loss'] = loss_list[-1]
+
+        except Exception as e:
+            print(f"Error in program ID {prog['id']} during additional optimization: {e}")
+            prog['errors'] = str(e)
+            prog['final_loss'] = float('inf')
 
     best_candidate = candidates[0]
     print(f"Best candidate after iteration {i+1}: Program ID {best_candidate['id']}, Final Loss: {best_candidate['final_loss']:.4f}")

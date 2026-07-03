@@ -45,6 +45,51 @@ Return ONE JSON object with the exact shape below (no prose, no markdown):
 """
 
 DEGAS_GRAMMAR = """
+DEGAS Language Reference:
+STRUCTURE
+- Instructions end with ;
+- Two instruction types: assignment (var = expr;) and conditional (if condition { program } else { program } end if;)
+- Only dataset variables are usable
+
+NUMBERS
+- Decimals with at most 2 decimal places, range [-100.00, 100.00]
+- Weights and standard deviations must be > 0
+
+DISTRIBUTIONS
+- gm([pi_1,...,pi_n], [mu_1,...,mu_n], [sigma_1,...,sigma_n])
+  - All three lists same length, n >= 1
+  - pi_i > 0 and sum(pi) = 1.00
+  - sigma_i > 0
+  - mu_i any number in [-100, 100]
+- uniform([start, end], 2)
+  - start < end, both in [-100.00, 100.00]
+  - the trailing 2 is a fixed literal, never change it
+
+ASSIGNMENTS (key constraint)
+- var = expr;
+- At most ONE multiplication (*) per line, no division allowed
+- If a product has a number and a variable, the number must come first (3.00*b, not b*3.00)
+- Legal forms: atom | number*var | number*dist | var*var | atom+atom | atom-atom | number*var + atom | number*var - atom | atom + number*var | atom - number*var | number*dist + atom | atom + number*dist
+  (atom = var | number | distribution)
+- Two products need a temp variable:
+  INVALID: a = 2.00*b + 3.00*c;
+  VALID:   a = 2.00*b;  a = a + 3.00*c;
+
+CONDITIONALS
+- if condition { program } else { program } end if;
+- condition forms: var == number | var != number | lexpr < number | lexpr <= number | lexpr >= number | lexpr > number
+- lexpr = var
+
+COMMON MISTAKES TO AVOID
+- Normal(0,1) syntax is invalid -> use gm([1.00],[0.00],[1.00])
+- Weights must sum exactly to 1.00 at 2 decimal places
+- No division (b/c is invalid)
+- Number must come first in products (b*3.00 -> 3.00*b)
+- No more than one multiplication per line -> split with a temp variable
+- uniform([0,1]) is invalid -> must be uniform([0.00, 1.00], 2)
+"""
+
+DEGAS_GRAMMAR_LONG = """
 ## DeGAS Language Reference
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

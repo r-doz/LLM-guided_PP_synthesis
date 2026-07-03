@@ -38,9 +38,67 @@ def _extract_response_text(resp_json: dict) -> str:
     message = resp_json.get("message")
     if isinstance(message, dict) and isinstance(message.get("content"), str):
         return message["content"]
+    # Some models can emit reasoning text under "thinking" when "content" is empty.
+    if isinstance(message, dict) and isinstance(message.get("thinking"), str):
+        return message["thinking"]
     if isinstance(resp_json.get("content"), str):
         return resp_json["content"]
     return ""
+
+
+def _salvage_unstructured_output(
+    raw_text: str,
+    model: str,
+    system_prompt: str,
+    use_chat: bool,
+    request_timeout: int,
+    max_http_retries: int,
+    num_predict: int,
+):
+    """Ask the model to convert unstructured text into the expected JSON schema."""
+    salvage_user_message = (
+        "Convert the text below into ONLY valid JSON using this exact top-level shape:\n"
+        "{\"programs\": [{\"id\": int, \"hypothesis\": str, \"structure\": str, \"program\": str}]}\n\n"
+        "Rules:\n"
+        "- Keep only recoverable program entries.\n"
+        "- If an id is missing, assign sequential ids starting from 1.\n"
+        "- Output JSON only (no prose, no markdown).\n\n"
+        f"Text to convert:\n{raw_text}"
+    )
+
+    if use_chat:
+        salvage_payload = {
+            "model": model,
+            "messages": [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": salvage_user_message},
+            ],
+            "stream": False,
+            "format": PROGRAMS_SCHEMA,
+            "options": {"temperature": 0.0, "num_predict": num_predict},
+        }
+    else:
+        salvage_prompt = f"""{system_prompt}
+
+User: {salvage_user_message}
+Assistant:"""
+        salvage_payload = {
+            "model": model,
+            "prompt": salvage_prompt,
+            "stream": False,
+            "format": PROGRAMS_SCHEMA,
+            "options": {"temperature": 0.0, "num_predict": num_predict},
+        }
+
+    salvage_resp = _post_ollama(
+        salvage_payload,
+        use_chat=use_chat,
+        request_timeout=request_timeout,
+        max_http_retries=max_http_retries,
+    )
+    salvage_raw = _extract_response_text(salvage_resp)
+    salvage_parsed = _extract_json(salvage_raw)
+    return _normalize_programs_payload(salvage_parsed)
 
 def _extract_json(raw: str):
     """Parse direct JSON first, then recover JSON object/array embedded in text."""
@@ -63,7 +121,7 @@ def _normalize_programs_payload(obj):
         return obj
     raise ValueError(f"Unexpected JSON shape: {type(obj)}")
 
-def _post_ollama(payload: dict, use_chat: bool = True, request_timeout: int = 600, max_http_retries: int = 3) -> dict:
+def _post_ollama(payload: dict, use_chat: bool = True, request_timeout: int = 1000, max_http_retries: int = 3) -> dict:
     """POST to Ollama with retry on transient timeout/connection errors."""
     url = OLLAMA_CHAT_URL if use_chat else OLLAMA_GENERATE_URL
     last_exc = None
@@ -133,6 +191,7 @@ Assistant:"""
             max_http_retries=max_http_retries,
         )
     except Exception as exc:
+        print(f"\n❌ Ollama transport error: {exc}")
         return {
             "programs": [],
             "parse_error": f"Transport error: {exc}",
@@ -150,7 +209,28 @@ Assistant:"""
             parsed = _extract_json(raw)
             return _normalize_programs_payload(parsed)
         except Exception as exc:
+            print(f"\n❌ Ollama response parse error: {exc}")
             if attempt >= max_retries:
+                # Last chance: convert any unstructured text into valid JSON.
+                if raw.strip():
+                    try:
+                        return _salvage_unstructured_output(
+                            raw_text=raw,
+                            model=model,
+                            system_prompt=system_prompt,
+                            use_chat=use_chat,
+                            request_timeout=request_timeout,
+                            max_http_retries=max_http_retries,
+                            num_predict=num_predict,
+                        )
+                    except Exception as salvage_exc:
+                        print(f"\n❌ Salvage attempt failed: {salvage_exc}")
+                        return {
+                            "programs": [],
+                            "parse_error": f"{exc}; salvage failed: {salvage_exc}",
+                            "raw_response": raw,
+                            "response_json": resp_json,
+                        }
                 return {
                     "programs": [],
                     "parse_error": str(exc),
@@ -195,6 +275,7 @@ Assistant:"""
                 )
                 raw = _extract_response_text(resp_json)
             except Exception as retry_exc:
+                print(f"\n❌ Ollama transport error on retry: {retry_exc}")
                 return {
                     "programs": [],
                     "parse_error": f"Transport error on retry: {retry_exc}",
