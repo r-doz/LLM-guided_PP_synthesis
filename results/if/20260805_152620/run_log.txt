@@ -1,0 +1,287 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "program": "if",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 15,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 50,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/LLM-guided_PP_synthesis/results/if/20260805_152620"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: The data for both variables follow a single Gaussian-like distribution centered near their sample means.
+DeGAS code:
+a = gm([1.00],[0.99],[1.94]);
+b = gm([1.00],[4.35],[5.72]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Each variable arises from two subpopulations, captured by a two-component mixture model.
+DeGAS code:
+a = gm([0.55,0.45],[-1.20,3.20],[1.50,2.30]);
+b = gm([0.35,0.65],[-2.50,6.80],[2.10,4.40]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: The joint distribution exhibits multiple modes and skewness, modeled with three Gaussian components per variable.
+DeGAS code:
+a = gm([0.30,0.40,0.30],[-2.00,0.80,4.00],[1.20,1.80,2.50]);
+b = gm([0.30,0.40,0.30],[-5.00,2.00,8.00],[3.00,2.20,3.60]);
+
+Program ID: 4, Structure: conditional, Hypothesis: The generation process switches between two regimes depending on whether variable a is non‑negative.
+DeGAS code:
+if a >= 0.00 {
+    a = gm([1.00],[1.50],[1.80]);
+    b = gm([1.00],[5.00],[6.00]);
+} else {
+    a = gm([1.00],[-2.00],[2.20]);
+    b = gm([1.00],[3.00],[4.50]);
+}
+end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Variables a and b interact multiplicatively, suggesting a hierarchical model where the product of their latent distributions shapes the outcome.
+DeGAS code:
+a = gm([1.00],[0.99],[1.94]);
+b = gm([1.00],[4.35],[5.72]);
+temp = 1.00*a;
+a = temp*b;
+
+Program ID 1 initial optimization completed. Initial loss: 5.2436, Final loss: 5.2436
+Program ID 2 initial optimization completed. Initial loss: 5.4279, Final loss: 5.1429
+Program ID 3 initial optimization completed. Initial loss: 5.6165, Final loss: 5.3184
+Program ID 4 initial optimization completed. Initial loss: 5.4362, Final loss: 5.2173
+Program ID 5 initial optimization completed. Initial loss: 6.7913, Final loss: 6.3501
+Program ID 6 mutation optimization completed. Initial loss: 5.4076, Final loss: 4.9741
+Program ID 7 mutation optimization completed. Initial loss: 5.8293, Final loss: 5.3445
+Program ID 8 mutation optimization completed. Initial loss: 5.3935, Final loss: 5.2485
+Program ID 9 mutation optimization completed. Initial loss: 5.8135, Final loss: 5.1768
+Program ID 10 mutation optimization completed. Initial loss: 7.0083, Final loss: 5.2363
+Program ID 6 additional optimization completed. Initial loss: 5.4076, Final loss: 4.6874
+Program ID 2 additional optimization completed. Initial loss: 5.4279, Final loss: 4.6870
+Program ID 9 additional optimization completed. Initial loss: 5.8135, Final loss: 4.8262
+Program ID 4 additional optimization completed. Initial loss: 5.4362, Final loss: 4.8156
+Program ID 10 additional optimization completed. Initial loss: 7.0083, Final loss: 4.6438
+Best candidate after iteration 1: Program ID 6, Final Loss: 4.6874
+Selected candidates for next iteration: [6, 2, 9, 4, 10]
+Program ID 11 mutation optimization completed. Initial loss: 6.5436, Final loss: 4.6626
+Program ID 12 mutation optimization completed. Initial loss: 5.3609, Final loss: 4.9659
+Program ID 13 mutation optimization completed. Initial loss: 5.6581, Final loss: 5.1077
+Error in program ID 14: Expected parameter loc (Tensor of shape (2,)) of distribution MultivariateNormal(loc: torch.Size([2]), covariance_matrix: torch.Size([2, 2])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan], grad_fn=<ExpandBackward0>)
+Program ID 15 mutation optimization completed. Initial loss: 5.3083, Final loss: 4.8482
+Program ID 10 additional optimization completed. Initial loss: 7.0083, Final loss: 4.6438
+Program ID 11 additional optimization completed. Initial loss: 6.5436, Final loss: 4.2912
+Program ID 2 additional optimization completed. Initial loss: 5.4279, Final loss: 4.6870
+Program ID 6 additional optimization completed. Initial loss: 5.4076, Final loss: 4.6874
+Program ID 4 additional optimization completed. Initial loss: 5.4362, Final loss: 4.8156
+Best candidate after iteration 2: Program ID 10, Final Loss: 4.6438
+Selected candidates for next iteration: [10, 11, 2, 6, 4]
+Program ID 16 mutation optimization completed. Initial loss: 6.5782, Final loss: 4.6370
+Error in program ID 17: Expected parameter loc (Tensor of shape (2,)) of distribution Normal(loc: torch.Size([2]), scale: torch.Size([2])) to satisfy the constraint Real(), but found invalid values:
+tensor([nan, nan], grad_fn=<SelectBackward0>)
+Program ID 18 mutation optimization completed. Initial loss: 6.8155, Final loss: 5.3031
+Error in program ID 19: Expected parameter loc (Tensor of shape (3,)) of distribution Normal(loc: torch.Size([3]), scale: torch.Size([3])) to satisfy the constraint Real(), but found invalid values:
+tensor([nan, nan, nan], grad_fn=<SelectBackward0>)
+Program ID 20 mutation optimization completed. Initial loss: 8.0733, Final loss: 7.2760
+Program ID 11 additional optimization completed. Initial loss: 6.5436, Final loss: 4.2912
+Program ID 16 additional optimization completed. Initial loss: 6.5782, Final loss: 4.2134
+Program ID 10 additional optimization completed. Initial loss: 7.0083, Final loss: 4.6438
+Program ID 2 additional optimization completed. Initial loss: 5.4279, Final loss: 4.6870
+Program ID 6 additional optimization completed. Initial loss: 5.4076, Final loss: 4.6874
+Best candidate after iteration 3: Program ID 11, Final Loss: 4.2912
+Selected candidates for next iteration: [11, 16, 10, 2, 6]
+Program ID 21 mutation optimization completed. Initial loss: 7.0504, Final loss: 5.0330
+Program ID 22 mutation optimization completed. Initial loss: 6.5340, Final loss: 4.6065
+Program ID 23 mutation optimization completed. Initial loss: 7.4675, Final loss: 5.2734
+Program ID 24 mutation optimization completed. Initial loss: 6.2982, Final loss: 5.3566
+Program ID 25 mutation optimization completed. Initial loss: 6.7735, Final loss: 5.4615
+Program ID 16 additional optimization completed. Initial loss: 6.5782, Final loss: 4.2134
+Program ID 11 additional optimization completed. Initial loss: 6.5436, Final loss: 4.2912
+Program ID 22 additional optimization completed. Initial loss: 6.5340, Final loss: 4.2024
+Program ID 10 additional optimization completed. Initial loss: 7.0083, Final loss: 4.6438
+Program ID 2 additional optimization completed. Initial loss: 5.4279, Final loss: 4.6870
+Best candidate after iteration 4: Program ID 16, Final Loss: 4.2134
+Selected candidates for next iteration: [16, 11, 22, 10, 2]
+Program ID 26 mutation optimization completed. Initial loss: 6.8758, Final loss: 4.9256
+Program ID 22 additional optimization completed. Initial loss: 6.5340, Final loss: 4.2024
+Program ID 16 additional optimization completed. Initial loss: 6.5782, Final loss: 4.2134
+Program ID 11 additional optimization completed. Initial loss: 6.5436, Final loss: 4.2912
+Program ID 10 additional optimization completed. Initial loss: 7.0083, Final loss: 4.6438
+Program ID 2 additional optimization completed. Initial loss: 5.4279, Final loss: 4.6870
+Best candidate after iteration 5: Program ID 22, Final Loss: 4.2024
+Selected candidates for next iteration: [22, 16, 11, 10, 2]
+Program ID 31 mutation optimization completed. Initial loss: 6.4685, Final loss: 4.5962
+Program ID 32 mutation optimization completed. Initial loss: 6.6178, Final loss: 4.6719
+Program ID 33 mutation optimization completed. Initial loss: 6.7423, Final loss: 4.7369
+Program ID 34 mutation optimization completed. Initial loss: 7.3355, Final loss: 5.5226
+Program ID 35 mutation optimization completed. Initial loss: 12.2732, Final loss: 9.9964
+Program ID 22 additional optimization completed. Initial loss: 6.5340, Final loss: 4.2024
+Program ID 16 additional optimization completed. Initial loss: 6.5782, Final loss: 4.2134
+Program ID 11 additional optimization completed. Initial loss: 6.5436, Final loss: 4.2912
+Program ID 31 additional optimization completed. Initial loss: 6.4685, Final loss: 4.1507
+Program ID 10 additional optimization completed. Initial loss: 7.0083, Final loss: 4.6438
+Best candidate after iteration 6: Program ID 22, Final Loss: 4.2024
+Selected candidates for next iteration: [22, 16, 11, 31, 10]
+Program ID 36 mutation optimization completed. Initial loss: 6.4685, Final loss: 4.5962
+Program ID 37 mutation optimization completed. Initial loss: 6.5340, Final loss: 4.6065
+Program ID 38 mutation optimization completed. Initial loss: 6.5640, Final loss: 4.6399
+Program ID 39 mutation optimization completed. Initial loss: 7.1095, Final loss: 5.1269
+Program ID 40 mutation optimization completed. Initial loss: 7.7909, Final loss: 5.8611
+Program ID 31 additional optimization completed. Initial loss: 6.4685, Final loss: 4.1507
+Program ID 22 additional optimization completed. Initial loss: 6.5340, Final loss: 4.2024
+Program ID 16 additional optimization completed. Initial loss: 6.5782, Final loss: 4.2134
+Program ID 11 additional optimization completed. Initial loss: 6.5436, Final loss: 4.2912
+Program ID 36 additional optimization completed. Initial loss: 6.4685, Final loss: 4.1507
+Best candidate after iteration 7: Program ID 31, Final Loss: 4.1507
+Selected candidates for next iteration: [31, 22, 16, 11, 36]
+Program ID 41 mutation optimization completed. Initial loss: 6.4685, Final loss: 4.5962
+Error in program ID 42: Expected parameter loc (Tensor of shape (2,)) of distribution Normal(loc: torch.Size([2]), scale: torch.Size([2])) to satisfy the constraint Real(), but found invalid values:
+tensor([nan, nan], grad_fn=<SelectBackward0>)
+Program ID 43 mutation optimization completed. Initial loss: 6.5340, Final loss: 4.6065
+Program ID 44 mutation optimization completed. Initial loss: 6.5640, Final loss: 4.6399
+Error in program ID 45: Expected parameter loc (Tensor of shape (2,)) of distribution Normal(loc: torch.Size([2]), scale: torch.Size([2])) to satisfy the constraint Real(), but found invalid values:
+tensor([nan, nan], grad_fn=<SelectBackward0>)
+Program ID 31 additional optimization completed. Initial loss: 6.4685, Final loss: 4.1507
+Program ID 36 additional optimization completed. Initial loss: 6.4685, Final loss: 4.1507
+Program ID 22 additional optimization completed. Initial loss: 6.5340, Final loss: 4.2024
+Program ID 16 additional optimization completed. Initial loss: 6.5782, Final loss: 4.2134
+Program ID 11 additional optimization completed. Initial loss: 6.5436, Final loss: 4.2912
+Best candidate after iteration 8: Program ID 31, Final Loss: 4.1507
+Selected candidates for next iteration: [31, 36, 22, 16, 11]
+Program ID 46 mutation optimization completed. Initial loss: 6.6198, Final loss: 4.6210
+Error in program ID 47: Expected parameter loc (Tensor of shape (2,)) of distribution Normal(loc: torch.Size([2]), scale: torch.Size([2])) to satisfy the constraint Real(), but found invalid values:
+tensor([nan, nan], grad_fn=<SelectBackward0>)
+Program ID 48 mutation optimization completed. Initial loss: 6.5400, Final loss: 4.6059
+Program ID 49 mutation optimization completed. Initial loss: 5.9130, Final loss: 4.4302
+Error in program ID 50: Expected parameter loc (Tensor of shape (2,)) of distribution Normal(loc: torch.Size([2]), scale: torch.Size([2])) to satisfy the constraint Real(), but found invalid values:
+tensor([nan, nan], grad_fn=<SelectBackward0>)
+Program ID 31 additional optimization completed. Initial loss: 6.4685, Final loss: 4.1507
+Program ID 36 additional optimization completed. Initial loss: 6.4685, Final loss: 4.1507
+Program ID 22 additional optimization completed. Initial loss: 6.5340, Final loss: 4.2024
+Program ID 16 additional optimization completed. Initial loss: 6.5782, Final loss: 4.2134
+Program ID 11 additional optimization completed. Initial loss: 6.5436, Final loss: 4.2912
+Best candidate after iteration 9: Program ID 31, Final Loss: 4.1507
+Selected candidates for next iteration: [31, 36, 22, 16, 11]
+Error in program ID 51: Expected parameter loc (Tensor of shape (2,)) of distribution Normal(loc: torch.Size([2]), scale: torch.Size([2])) to satisfy the constraint Real(), but found invalid values:
+tensor([nan, nan], grad_fn=<SelectBackward0>)
+Program ID 52 mutation optimization completed. Initial loss: 6.4262, Final loss: 4.6130
+Program ID 53 mutation optimization completed. Initial loss: 7.6383, Final loss: 5.6547
+Program ID 54 mutation optimization completed. Initial loss: 6.6668, Final loss: 4.7848
+Program ID 55 mutation optimization completed. Initial loss: 6.5895, Final loss: 4.6777
+Program ID 31 additional optimization completed. Initial loss: 6.4685, Final loss: 4.1507
+Program ID 36 additional optimization completed. Initial loss: 6.4685, Final loss: 4.1507
+Program ID 22 additional optimization completed. Initial loss: 6.5340, Final loss: 4.2024
+Program ID 16 additional optimization completed. Initial loss: 6.5782, Final loss: 4.2134
+Program ID 11 additional optimization completed. Initial loss: 6.5436, Final loss: 4.2912
+Best candidate after iteration 10: Program ID 31, Final Loss: 4.1507
+Selected candidates for next iteration: [31, 36, 22, 16, 11]
+Program ID 56 mutation optimization completed. Initial loss: 6.4685, Final loss: 4.5962
+Program ID 57 mutation optimization completed. Initial loss: 6.4917, Final loss: 4.5963
+Program ID 58 mutation optimization completed. Initial loss: 6.5179, Final loss: 4.6068
+Program ID 59 mutation optimization completed. Initial loss: 5.9130, Final loss: 4.4302
+Program ID 60 mutation optimization completed. Initial loss: 6.5455, Final loss: 4.6839
+Program ID 31 additional optimization completed. Initial loss: 6.4685, Final loss: 4.1507
+Program ID 36 additional optimization completed. Initial loss: 6.4685, Final loss: 4.1507
+Program ID 22 additional optimization completed. Initial loss: 6.5340, Final loss: 4.2024
+Program ID 16 additional optimization completed. Initial loss: 6.5782, Final loss: 4.2134
+Program ID 11 additional optimization completed. Initial loss: 6.5436, Final loss: 4.2912
+Best candidate after iteration 11: Program ID 31, Final Loss: 4.1507
+Selected candidates for next iteration: [31, 36, 22, 16, 11]
+Program ID 61 mutation optimization completed. Initial loss: 6.6962, Final loss: 4.5989
+Error in program ID 62: Expected parameter loc (Tensor of shape (2,)) of distribution Normal(loc: torch.Size([2]), scale: torch.Size([2])) to satisfy the constraint Real(), but found invalid values:
+tensor([nan, nan], grad_fn=<SelectBackward0>)
+Error in program ID 63: 'low'
+Program ID 64 mutation optimization completed. Initial loss: 6.6079, Final loss: 4.7714
+Error in program ID 65: Expected parameter loc (Tensor of shape (2,)) of distribution Normal(loc: torch.Size([2]), scale: torch.Size([2])) to satisfy the constraint Real(), but found invalid values:
+tensor([nan, nan], grad_fn=<SelectBackward0>)
+Program ID 31 additional optimization completed. Initial loss: 6.4685, Final loss: 4.1507
+Program ID 36 additional optimization completed. Initial loss: 6.4685, Final loss: 4.1507
+Program ID 22 additional optimization completed. Initial loss: 6.5340, Final loss: 4.2024
+Program ID 16 additional optimization completed. Initial loss: 6.5782, Final loss: 4.2134
+Program ID 11 additional optimization completed. Initial loss: 6.5436, Final loss: 4.2912
+Best candidate after iteration 12: Program ID 31, Final Loss: 4.1507
+Selected candidates for next iteration: [31, 36, 22, 16, 11]
+Error in program ID 66: Expected parameter loc (Tensor of shape (2,)) of distribution Normal(loc: torch.Size([2]), scale: torch.Size([2])) to satisfy the constraint Real(), but found invalid values:
+tensor([nan, nan], grad_fn=<SelectBackward0>)
+Program ID 67 mutation optimization completed. Initial loss: 6.2881, Final loss: 4.5407
+Error in program ID 68: Expected parameter loc (Tensor of shape (2,)) of distribution Normal(loc: torch.Size([2]), scale: torch.Size([2])) to satisfy the constraint Real(), but found invalid values:
+tensor([nan, nan], grad_fn=<SelectBackward0>)
+Error in program ID 69: Expected parameter loc (Tensor of shape (2,)) of distribution Normal(loc: torch.Size([2]), scale: torch.Size([2])) to satisfy the constraint Real(), but found invalid values:
+tensor([nan, nan], grad_fn=<SelectBackward0>)
+Program ID 70 mutation optimization completed. Initial loss: 6.8910, Final loss: 5.0426
+Program ID 31 additional optimization completed. Initial loss: 6.4685, Final loss: 4.1507
+Program ID 36 additional optimization completed. Initial loss: 6.4685, Final loss: 4.1507
+Program ID 22 additional optimization completed. Initial loss: 6.5340, Final loss: 4.2024
+Program ID 16 additional optimization completed. Initial loss: 6.5782, Final loss: 4.2134
+Program ID 11 additional optimization completed. Initial loss: 6.5436, Final loss: 4.2912
+Best candidate after iteration 13: Program ID 31, Final Loss: 4.1507
+Selected candidates for next iteration: [31, 36, 22, 16, 11]
+Program ID 71 mutation optimization completed. Initial loss: 6.4104, Final loss: 4.5816
+Program ID 72 mutation optimization completed. Initial loss: 6.4524, Final loss: 4.5964
+Program ID 73 mutation optimization completed. Initial loss: 5.8773, Final loss: 4.5417
+Program ID 74 mutation optimization completed. Initial loss: 6.6900, Final loss: 4.6426
+Program ID 75 mutation optimization completed. Initial loss: 6.5544, Final loss: 4.6627
+Program ID 31 additional optimization completed. Initial loss: 6.4685, Final loss: 4.1507
+Program ID 36 additional optimization completed. Initial loss: 6.4685, Final loss: 4.1507
+Program ID 22 additional optimization completed. Initial loss: 6.5340, Final loss: 4.2024
+Program ID 16 additional optimization completed. Initial loss: 6.5782, Final loss: 4.2134
+Program ID 11 additional optimization completed. Initial loss: 6.5436, Final loss: 4.2912
+Best candidate after iteration 14: Program ID 31, Final Loss: 4.1507
+Selected candidates for next iteration: [31, 36, 22, 16, 11]
+Program ID 76 mutation optimization completed. Initial loss: 7.1360, Final loss: 4.6168
+Program ID 77 mutation optimization completed. Initial loss: 6.4685, Final loss: 4.5962
+Error in program ID 78: Expected parameter loc (Tensor of shape (2,)) of distribution Normal(loc: torch.Size([2]), scale: torch.Size([2])) to satisfy the constraint Real(), but found invalid values:
+tensor([nan, nan], grad_fn=<SelectBackward0>)
+Program ID 79 mutation optimization completed. Initial loss: 6.5752, Final loss: 4.6377
+Program ID 80 mutation optimization completed. Initial loss: 7.5474, Final loss: 5.6234
+Program ID 31 additional optimization completed. Initial loss: 6.4685, Final loss: 4.1507
+Program ID 36 additional optimization completed. Initial loss: 6.4685, Final loss: 4.1507
+Program ID 22 additional optimization completed. Initial loss: 6.5340, Final loss: 4.2024
+Program ID 16 additional optimization completed. Initial loss: 6.5782, Final loss: 4.2134
+Program ID 11 additional optimization completed. Initial loss: 6.5436, Final loss: 4.2912
+Best candidate after iteration 15: Program ID 31, Final Loss: 4.1507
+Selected candidates for next iteration: [31, 36, 22, 16, 11]
+
+--- Final Selected Programs ---
+Program ID: 31, Final Loss: 4.1507
+Hypothesis: Split the low‑mean component of b into two subcomponents to capture additional modality.
+Structure: split_mixture
+DeGAS code:
+a = gm([0.50,0.50],[0.00,3.00],[1.20,2.80]); b = gm([0.12,0.13,0.25,0.20,0.30],[-2.00,0.00,5.00,7.50,8.50],[1.50,1.50,3.30,2.00,2.00]); temp = 1.00*a; a = temp*b;
+
+Program ID: 36, Final Loss: 4.1507
+Hypothesis: Split the low‑mean component of b into two subcomponents to capture additional modality.
+Structure: mixture_split
+DeGAS code:
+a = gm([0.50,0.50],[0.00,3.00],[1.20,2.80]); b = gm([0.06,0.06,0.13,0.25,0.20,0.30],[-2.00,-2.00,0.00,5.00,7.50,8.50],[1.50,1.50,1.50,3.30,2.00,2.00]); temp = 1.00*a; a = temp*b;
+
+Program ID: 22, Final Loss: 4.2024
+Hypothesis: Variable b is split into four components to better model its high‑mean region, while variable a stays as a two‑component mixture; they are multiplied together.
+Structure: mixture_split_b
+DeGAS code:
+a = gm([0.50,0.50],[0.00,3.00],[1.20,2.80]); b = gm([0.25,0.25,0.20,0.30],[-1.00,5.00,7.50,8.50],[1.50,3.30,2.00,2.00]); temp = 1.00*a; a = temp*b;
+
+Program ID: 16, Final Loss: 4.2134
+Hypothesis: Variable a follows a two‑component mixture and variable b follows a four‑component mixture where the high‑mean mode is split, then they are combined multiplicatively.
+Structure: mixture_split
+DeGAS code:
+a = gm([0.50,0.50],[0.00,3.00],[1.20,2.80]); b = gm([0.25,0.30,0.20,0.25],[-1.00,5.00,8.00,9.00],[1.50,3.30,2.00,2.00]); temp = 1.00*a; a = temp*b;
+
+Program ID: 11, Final Loss: 4.2912
+Hypothesis: Variable a and b arise from mixtures, with b's high-mean component split into two subcomponents to capture additional modes before multiplicative combination.
+Structure: mixture_split
+DeGAS code:
+a = gm([0.50,0.50],[0.00,3.00],[1.20,2.80]);
+b = gm([0.30,0.30,0.40],[-1.00,5.00,8.00],[1.50,3.30,2.00]);
+temp = 1.00*a;
+a = temp*b;
+
+=== Run finished in 2763.3s ===

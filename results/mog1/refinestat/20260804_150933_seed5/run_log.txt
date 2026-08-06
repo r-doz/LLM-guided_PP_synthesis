@@ -1,0 +1,5 @@
+=== program=mog1 seed=5 inference=gradient ===
+[attempt=1 r=0 ell=0] score=5/5 held_out_nll=13.5248 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'held_out_ok': True}
+[attempt=2 r=0 ell=0] score=5/5 held_out_nll=7.7025 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'held_out_ok': True}
+[attempt=3 r=0 ell=0] score=5/5 held_out_nll=7.7025 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'held_out_ok': True}
+=== SUCCESS: /home/rdoz/LLM-guided_PP_synthesis/results/mog1/refinestat/20260804_150933_seed5 ===

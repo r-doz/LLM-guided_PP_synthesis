@@ -1,0 +1,20 @@
+{
+  "method": "refinestat_degas",
+  "program": "if",
+  "seed": 1,
+  "model_id": "Qwen/Qwen2.5-Coder-7B-Instruct",
+  "data_size": 1000,
+  "train_frac": 0.8,
+  "unit_name": "toplevel",
+  "max_units": 8,
+  "Rmax": 3,
+  "alpha": 1,
+  "beta": 1,
+  "K": 3,
+  "n_opt_steps": 30,
+  "lr": 0.01,
+  "n_samples": 500,
+  "n_chains": 4,
+  "held_out_nll_margin_floor": 1.0,
+  "held_out_nll_margin_frac": 0.5
+}

@@ -1,0 +1,290 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "program": "burglary",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 15,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 50,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/burglary/20260731_175409"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: All variables arise from a single Gaussian-like component centered at their empirical means.
+DeGAS code:
+burglary = gm([1.00],[0.00],[0.01]);
+earthquake = gm([1.00],[0.00],[0.05]);
+alarm = gm([1.00],[0.00],[0.06]);
+johncalls = gm([1.00],[0.00],[0.21]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Each variable consists of two subpopulations representing low and high occurrence rates.
+DeGAS code:
+burglary = gm([0.95,0.05],[0.00,1.00],[0.01,0.01]);
+earthquake = gm([0.99,0.01],[0.00,1.00],[0.02,0.02]);
+alarm = gm([0.96,0.04],[0.00,1.00],[0.03,0.03]);
+johncalls = gm([0.90,0.10],[0.00,1.00],[0.05,0.05]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Variables exhibit three distinct regimes captured by a three-component mixture.
+DeGAS code:
+burglary = gm([0.85,0.10,0.05],[0.00,0.50,1.00],[0.01,0.01,0.01]);
+earthquake = gm([0.95,0.04,0.01],[0.00,0.50,1.00],[0.02,0.02,0.02]);
+alarm = gm([0.90,0.08,0.02],[0.00,0.50,1.00],[0.03,0.03,0.03]);
+johncalls = gm([0.80,0.15,0.05],[0.00,0.50,1.00],[0.04,0.04,0.04]);
+
+Program ID: 4, Structure: conditional, Hypothesis: If an earthquake occurs, the alarm and johncalls probabilities increase.
+DeGAS code:
+burglary = gm([1.00],[0.00],[0.01]);
+earthquake = gm([0.99,0.01],[0.00,1.00],[0.02,0.02]);
+if earthquake == 1.00 { 
+    alarm = gm([1.00],[1.00],[0.01]); 
+    johncalls = gm([1.00],[1.00],[0.01]); 
+} else { 
+    alarm = gm([1.00],[0.00],[0.01]); 
+    johncalls = gm([1.00],[0.00],[0.01]); 
+} end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Alarm intensity is modeled as a product of earthquake influence and a base alarm distribution.
+DeGAS code:
+burglary = gm([1.00],[0.00],[0.01]);
+earthquake = gm([1.00],[0.00],[0.02]);
+johncalls = gm([1.00],[0.00],[0.03]);
+temp = 0.30*earthquake;
+alarm = temp + gm([1.00],[0.00],[0.04]);
+
+Error extracting parameters from program ID 1: Expected parameter loc (Tensor of shape (4,)) of distribution MultivariateNormal(loc: torch.Size([4]), covariance_matrix: torch.Size([4, 4])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan, nan], grad_fn=<ExpandBackward0>)
+Program ID 2 initial optimization completed. Initial loss: -11.0086, Final loss: -12.6084
+Program ID 3 initial optimization completed. Initial loss: -10.8681, Final loss: -12.0685
+Error extracting parameters from program ID 4: 
+Error extracting parameters from program ID 5: Expected parameter loc (Tensor of shape (4,)) of distribution MultivariateNormal(loc: torch.Size([4]), covariance_matrix: torch.Size([4, 4])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan, nan], grad_fn=<ExpandBackward0>)
+Program ID 6 mutation optimization completed. Initial loss: -10.6909, Final loss: -9.6522
+Error in program ID 7: 
+Program ID 8 mutation optimization completed. Initial loss: -8.6457, Final loss: -10.9740
+Program ID 9 mutation optimization completed. Initial loss: -13.7966, Final loss: -8.7423
+Error in program ID 10: Expected parameter loc (Tensor of shape (4,)) of distribution MultivariateNormal(loc: torch.Size([4]), covariance_matrix: torch.Size([4, 4])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan, nan], grad_fn=<ExpandBackward0>)
+Program ID 2 additional optimization completed. Initial loss: -11.0086, Final loss: -8.9077
+Program ID 3 additional optimization completed. Initial loss: -10.8681, Final loss: -6.5906
+Program ID 8 additional optimization completed. Initial loss: -8.6457, Final loss: -6.2308
+Program ID 6 additional optimization completed. Initial loss: -10.6909, Final loss: -6.0477
+Program ID 9 additional optimization completed. Initial loss: -13.7966, Final loss: -7.3966
+Best candidate after iteration 1: Program ID 2, Final Loss: -8.9077
+Selected candidates for next iteration: [2, 3, 8, 6, 9]
+Error in program ID 11: 
+Program ID 12 mutation optimization completed. Initial loss: -13.7048, Final loss: -8.6506
+Error in program ID 13: 
+Program ID 14 mutation optimization completed. Initial loss: -8.5122, Final loss: -10.8596
+Program ID 15 mutation optimization completed. Initial loss: -10.5980, Final loss: -8.9852
+Program ID 14 additional optimization completed. Initial loss: -8.5122, Final loss: -10.0492
+Program ID 15 additional optimization completed. Initial loss: -10.5980, Final loss: -10.4482
+Program ID 2 additional optimization completed. Initial loss: -11.0086, Final loss: -8.9077
+Program ID 12 additional optimization completed. Initial loss: -13.7048, Final loss: -7.4723
+Program ID 9 additional optimization completed. Initial loss: -13.7966, Final loss: -7.3966
+Best candidate after iteration 2: Program ID 14, Final Loss: -10.0492
+Selected candidates for next iteration: [14, 15, 2, 12, 9]
+Error in program ID 16: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 17 mutation optimization completed. Initial loss: -8.5122, Final loss: -10.8596
+Program ID 18 mutation optimization completed. Initial loss: -10.5421, Final loss: -9.5289
+Program ID 19 mutation optimization completed. Initial loss: -13.6800, Final loss: -10.2225
+Error in program ID 20: Expected parameter loc (Tensor of shape (4,)) of distribution MultivariateNormal(loc: torch.Size([4]), covariance_matrix: torch.Size([4, 4])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan, nan], grad_fn=<ExpandBackward0>)
+Program ID 17 additional optimization completed. Initial loss: -8.5122, Final loss: -10.0492
+Program ID 15 additional optimization completed. Initial loss: -10.5980, Final loss: -10.4482
+Error in program ID 19 during additional optimization: Expected parameter covariance_matrix (Tensor of shape (4, 4)) of distribution MultivariateNormal(loc: torch.Size([4]), covariance_matrix: torch.Size([4, 4])) to satisfy the constraint PositiveDefinite(), but found invalid values:
+tensor([[ 0.0031,  0.0000,  0.0000,  0.0000],
+        [ 0.0000, -0.0029,  0.0000,  0.0000],
+        [ 0.0000,  0.0000,  0.0098,  0.0000],
+        [ 0.0000,  0.0000,  0.0000,  0.0005]], grad_fn=<ExpandBackward0>)
+Program ID 14 additional optimization completed. Initial loss: -8.5122, Final loss: -10.0492
+Program ID 18 additional optimization completed. Initial loss: -10.5421, Final loss: -7.8659
+Best candidate after iteration 3: Program ID 17, Final Loss: -10.0492
+Selected candidates for next iteration: [17, 15, 19, 14, 18]
+Error in program ID 21: 'mix'
+Error in program ID 22: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 23: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 24: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 25 mutation optimization completed. Initial loss: -10.3913, Final loss: -8.0410
+Program ID 15 additional optimization completed. Initial loss: -10.5980, Final loss: -10.4482
+Program ID 17 additional optimization completed. Initial loss: -8.5122, Final loss: -10.0492
+Program ID 14 additional optimization completed. Initial loss: -8.5122, Final loss: -10.0492
+Program ID 25 additional optimization completed. Initial loss: -10.3913, Final loss: -6.6045
+Program ID 18 additional optimization completed. Initial loss: -10.5421, Final loss: -7.8659
+Best candidate after iteration 4: Program ID 15, Final Loss: -10.4482
+Selected candidates for next iteration: [15, 17, 14, 25, 18]
+Program ID 26 mutation optimization completed. Initial loss: -10.3462, Final loss: -11.0580
+Error in program ID 27: Expected parameter covariance_matrix (Tensor of shape (4, 4)) of distribution MultivariateNormal(loc: torch.Size([4]), covariance_matrix: torch.Size([4, 4])) to satisfy the constraint PositiveDefinite(), but found invalid values:
+tensor([[ 3.6961e-04, -1.5968e-04,  0.0000e+00,  0.0000e+00],
+        [-1.5968e-04,  6.1572e-05,  0.0000e+00,  0.0000e+00],
+        [ 0.0000e+00,  0.0000e+00,  2.5000e-03,  0.0000e+00],
+        [ 0.0000e+00,  0.0000e+00,  0.0000e+00,  1.0000e-02]],
+       grad_fn=<ExpandBackward0>)
+Program ID 28 mutation optimization completed. Initial loss: -8.6457, Final loss: -10.9740
+Program ID 29 mutation optimization completed. Initial loss: -10.5435, Final loss: -10.0421
+Error in program ID 30: Expected parameter loc (Tensor of shape (4,)) of distribution MultivariateNormal(loc: torch.Size([4]), covariance_matrix: torch.Size([4, 4])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan, nan], grad_fn=<ExpandBackward0>)
+Program ID 26 additional optimization completed. Initial loss: -10.3462, Final loss: -10.2032
+Program ID 28 additional optimization completed. Initial loss: -8.6457, Final loss: -6.2308
+Program ID 15 additional optimization completed. Initial loss: -10.5980, Final loss: -10.4482
+Program ID 17 additional optimization completed. Initial loss: -8.5122, Final loss: -10.0492
+Program ID 14 additional optimization completed. Initial loss: -8.5122, Final loss: -10.0492
+Best candidate after iteration 5: Program ID 26, Final Loss: -10.2032
+Selected candidates for next iteration: [26, 28, 15, 17, 14]
+Error in program ID 31: 'base'
+Error in program ID 32: Expected parameter scale (Tensor of shape (12,)) of distribution Normal(loc: torch.Size([12]), scale: torch.Size([12])) to satisfy the constraint GreaterThan(lower_bound=0.0), but found invalid values:
+tensor([0.0000, 0.0200, 0.0317, 0.0400, 0.0000, 0.0200, 0.0317, 0.0400, 0.0000,
+        0.0200, 0.0317, 0.0400], grad_fn=<SqrtBackward0>)
+Error in program ID 33: 'base'
+Program ID 34 mutation optimization completed. Initial loss: -8.3167, Final loss: -10.6827
+Program ID 35 mutation optimization completed. Initial loss: -8.3580, Final loss: -10.8330
+Program ID 35 additional optimization completed. Initial loss: -8.3580, Final loss: -7.3476
+Program ID 34 additional optimization completed. Initial loss: -8.3167, Final loss: -7.9449
+Program ID 15 additional optimization completed. Initial loss: -10.5980, Final loss: -10.4482
+Program ID 26 additional optimization completed. Initial loss: -10.3462, Final loss: -10.2032
+Program ID 17 additional optimization completed. Initial loss: -8.5122, Final loss: -10.0492
+Best candidate after iteration 6: Program ID 35, Final Loss: -7.3476
+Selected candidates for next iteration: [35, 34, 15, 26, 17]
+Error in program ID 36: Expected parameter loc (Tensor of shape (4,)) of distribution MultivariateNormal(loc: torch.Size([4]), covariance_matrix: torch.Size([4, 4])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan, nan], grad_fn=<ExpandBackward0>)
+Error in program ID 37: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 38 mutation optimization completed. Initial loss: -8.4478, Final loss: -10.7835
+Error in program ID 39: Expected parameter loc (Tensor of shape (4,)) of distribution MultivariateNormal(loc: torch.Size([4]), covariance_matrix: torch.Size([4, 4])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan, nan], grad_fn=<ExpandBackward0>)
+Error in program ID 40: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 38 additional optimization completed. Initial loss: -8.4478, Final loss: -6.3608
+Program ID 15 additional optimization completed. Initial loss: -10.5980, Final loss: -10.4482
+Program ID 26 additional optimization completed. Initial loss: -10.3462, Final loss: -10.2032
+Program ID 17 additional optimization completed. Initial loss: -8.5122, Final loss: -10.0492
+Program ID 34 additional optimization completed. Initial loss: -8.3167, Final loss: -7.9449
+Best candidate after iteration 7: Program ID 38, Final Loss: -6.3608
+Selected candidates for next iteration: [38, 15, 26, 17, 34]
+Error in program ID 41: 'mix'
+Error in program ID 42: 'part'
+Error in program ID 43: 'bur'
+Error in program ID 44: 'eq'
+Error in program ID 45: 'part'
+Program ID 15 additional optimization completed. Initial loss: -10.5980, Final loss: -10.4482
+Program ID 26 additional optimization completed. Initial loss: -10.3462, Final loss: -10.2032
+Program ID 17 additional optimization completed. Initial loss: -8.5122, Final loss: -10.0492
+Program ID 34 additional optimization completed. Initial loss: -8.3167, Final loss: -7.9449
+Program ID 38 additional optimization completed. Initial loss: -8.4478, Final loss: -6.3608
+Best candidate after iteration 8: Program ID 15, Final Loss: -10.4482
+Selected candidates for next iteration: [15, 26, 17, 34, 38]
+Error in program ID 46: 'mix'
+Error in program ID 47: 'base'
+Error in program ID 48: Expected parameter loc (Tensor of shape (4,)) of distribution MultivariateNormal(loc: torch.Size([4]), covariance_matrix: torch.Size([4, 4])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan, nan], grad_fn=<ExpandBackward0>)
+Program ID 49 mutation optimization completed. Initial loss: -8.0938, Final loss: -6.9463
+Error in program ID 50: Expected parameter covariance_matrix (Tensor of shape (4, 4)) of distribution MultivariateNormal(loc: torch.Size([4]), covariance_matrix: torch.Size([4, 4])) to satisfy the constraint PositiveDefinite(), but found invalid values:
+tensor([[ 1.5182e-03,  0.0000e+00,  0.0000e+00,  0.0000e+00],
+        [ 0.0000e+00, -7.7426e-05,  0.0000e+00,  0.0000e+00],
+        [ 0.0000e+00,  0.0000e+00,  3.7466e-04,  0.0000e+00],
+        [ 0.0000e+00,  0.0000e+00,  0.0000e+00,  8.7872e-05]],
+       grad_fn=<ExpandBackward0>)
+Program ID 15 additional optimization completed. Initial loss: -10.5980, Final loss: -10.4482
+Program ID 26 additional optimization completed. Initial loss: -10.3462, Final loss: -10.2032
+Program ID 17 additional optimization completed. Initial loss: -8.5122, Final loss: -10.0492
+Program ID 34 additional optimization completed. Initial loss: -8.3167, Final loss: -7.9449
+Program ID 49 additional optimization completed. Initial loss: -8.0938, Final loss: -6.4273
+Best candidate after iteration 9: Program ID 15, Final Loss: -10.4482
+Selected candidates for next iteration: [15, 26, 17, 34, 49]
+Error in program ID 51: Expected parameter loc (Tensor of shape (4,)) of distribution MultivariateNormal(loc: torch.Size([4]), covariance_matrix: torch.Size([4, 4])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan, nan], grad_fn=<ExpandBackward0>)
+Error in program ID 52: Expected parameter loc (Tensor of shape (4,)) of distribution MultivariateNormal(loc: torch.Size([4]), covariance_matrix: torch.Size([4, 4])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan, nan], grad_fn=<ExpandBackward0>)
+Error in program ID 53: Expected parameter covariance_matrix (Tensor of shape (4, 4)) of distribution MultivariateNormal(loc: torch.Size([4]), covariance_matrix: torch.Size([4, 4])) to satisfy the constraint PositiveDefinite(), but found invalid values:
+tensor([[ 0.0029, -0.0013,  0.0000,  0.0000],
+        [-0.0013,  0.0005,  0.0000,  0.0000],
+        [ 0.0000,  0.0000,  0.0016,  0.0000],
+        [ 0.0000,  0.0000,  0.0000,  0.0016]], grad_fn=<ExpandBackward0>)
+Error in program ID 54: Expected parameter covariance_matrix (Tensor of shape (4, 4)) of distribution MultivariateNormal(loc: torch.Size([4]), covariance_matrix: torch.Size([4, 4])) to satisfy the constraint PositiveDefinite(), but found invalid values:
+tensor([[ 9.5856e-04,  0.0000e+00,  0.0000e+00,  0.0000e+00],
+        [ 0.0000e+00, -1.1491e-02,  0.0000e+00,  0.0000e+00],
+        [ 0.0000e+00,  0.0000e+00,  2.3892e-05,  0.0000e+00],
+        [ 0.0000e+00,  0.0000e+00,  0.0000e+00,  3.7623e-04]],
+       grad_fn=<ExpandBackward0>)
+Program ID 55 mutation optimization completed. Initial loss: -8.1557, Final loss: -5.5229
+Program ID 15 additional optimization completed. Initial loss: -10.5980, Final loss: -10.4482
+Program ID 26 additional optimization completed. Initial loss: -10.3462, Final loss: -10.2032
+Program ID 17 additional optimization completed. Initial loss: -8.5122, Final loss: -10.0492
+Program ID 34 additional optimization completed. Initial loss: -8.3167, Final loss: -7.9449
+Program ID 49 additional optimization completed. Initial loss: -8.0938, Final loss: -6.4273
+Best candidate after iteration 10: Program ID 15, Final Loss: -10.4482
+Selected candidates for next iteration: [15, 26, 17, 34, 49]
+Error in program ID 56: Expected parameter loc (Tensor of shape (4,)) of distribution MultivariateNormal(loc: torch.Size([4]), covariance_matrix: torch.Size([4, 4])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan, nan], grad_fn=<ExpandBackward0>)
+Error in program ID 57: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 58 mutation optimization completed. Initial loss: -8.5673, Final loss: -8.4828
+Program ID 59 mutation optimization completed. Initial loss: -8.1988, Final loss: -9.5234
+Error in program ID 60: Expected parameter loc (Tensor of shape (4,)) of distribution MultivariateNormal(loc: torch.Size([4]), covariance_matrix: torch.Size([4, 4])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan, nan], grad_fn=<ExpandBackward0>)
+Program ID 15 additional optimization completed. Initial loss: -10.5980, Final loss: -10.4482
+Program ID 26 additional optimization completed. Initial loss: -10.3462, Final loss: -10.2032
+Program ID 17 additional optimization completed. Initial loss: -8.5122, Final loss: -10.0492
+Program ID 59 additional optimization completed. Initial loss: -8.1988, Final loss: -10.1504
+Program ID 58 additional optimization completed. Initial loss: -8.5673, Final loss: -6.8021
+Best candidate after iteration 11: Program ID 15, Final Loss: -10.4482
+Selected candidates for next iteration: [15, 26, 17, 59, 58]
+Error in program ID 61: Expected parameter loc (Tensor of shape (4,)) of distribution MultivariateNormal(loc: torch.Size([4]), covariance_matrix: torch.Size([4, 4])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan, nan], grad_fn=<ExpandBackward0>)
+Error in program ID 62: Expected parameter loc (Tensor of shape (4,)) of distribution MultivariateNormal(loc: torch.Size([4]), covariance_matrix: torch.Size([4, 4])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan, nan], grad_fn=<ExpandBackward0>)
+Error in program ID 63: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 64 mutation optimization completed. Initial loss: -8.2722, Final loss: -7.6907
+Error in program ID 65: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 15 additional optimization completed. Initial loss: -10.5980, Final loss: -10.4482
+Program ID 26 additional optimization completed. Initial loss: -10.3462, Final loss: -10.2032
+Program ID 59 additional optimization completed. Initial loss: -8.1988, Final loss: -10.1504
+Program ID 17 additional optimization completed. Initial loss: -8.5122, Final loss: -10.0492
+Program ID 64 additional optimization completed. Initial loss: -8.2722, Final loss: -7.9817
+Best candidate after iteration 12: Program ID 15, Final Loss: -10.4482
+Selected candidates for next iteration: [15, 26, 59, 17, 64]
+No new candidates generated in iteration 13; stopping early.
+
+--- Final Selected Programs ---
+Program ID: 15, Final Loss: -10.4482
+Hypothesis: Alarm is a linear combination of burglary influence and its own mixture distribution.
+Structure: hierarchical
+DeGAS code:
+burglary = gm([0.90,0.07,0.03],[0.00,0.50,1.00],[0.01,0.02,0.03]); earthquake = gm([0.92,0.05,0.03],[0.00,0.50,1.00],[0.02,0.03,0.04]); alarm = 0.40*burglary + gm([0.80,0.15,0.05],[0.00,0.50,1.00],[0.03,0.04,0.05]); johncalls = gm([0.85,0.10,0.05],[0.00,0.50,1.00],[0.05,0.06,0.07]);
+
+Program ID: 26, Final Loss: -10.2032
+Hypothesis: Burglary is modeled as a four-component mixture to capture finer subpopulations.
+Structure: mixture4
+DeGAS code:
+burglary = gm([0.70,0.15,0.10,0.05],[0.00,0.30,0.70,1.00],[0.01,0.02,0.03,0.04]); earthquake = gm([0.92,0.05,0.03],[0.00,0.50,1.00],[0.02,0.03,0.04]); alarm = 0.40*burglary; alarm = alarm + gm([0.80,0.15,0.05],[0.00,0.50,1.00],[0.03,0.04,0.05]); johncalls = gm([0.85,0.10,0.05],[0.00,0.50,1.00],[0.05,0.06,0.07]);
+
+Program ID: 59, Final Loss: -10.1504
+Hypothesis: Alarm combines weighted contributions from burglary and earthquake before adding its own mixture.
+Structure: hierarchical
+DeGAS code:
+burglary = gm([0.70,0.20,0.10],[0.00,0.50,1.00],[0.01,0.02,0.03]); earthquake = gm([0.70,0.20,0.10],[0.00,0.50,1.00],[0.03,0.04,0.05]); temp = 0.45*burglary; temp2 = 0.55*earthquake; alert = temp + temp2; alarm = alert + gm([0.75,0.25],[0.00,1.00],[0.05,0.06]); johncalls = gm([0.70,0.30],[0.00,1.00],[0.10,0.12]);
+
+Program ID: 17, Final Loss: -10.0492
+Hypothesis: Alarm risk is a weighted combination of burglary and earthquake influences.
+Structure: hierarchical
+DeGAS code:
+burglary = gm([0.70,0.20,0.10],[0.00,0.50,1.00],[0.01,0.02,0.03]);
+earthquake = gm([0.85,0.15],[0.00,1.00],[0.03,0.04]);
+risk = 0.30*burglary;
+risk = risk + 0.70*earthquake;
+alarm = gm([0.75,0.25],[0.00,1.00],[0.05,0.06]);
+johncalls = gm([0.70,0.30],[0.00,1.00],[0.10,0.12]);
+
+Program ID: 64, Final Loss: -7.9817
+Hypothesis: Alarm risk combines weighted burglary and earthquake influences and uses a three-component mixture.
+Structure: mixture3
+DeGAS code:
+burglary = gm([0.70,0.20,0.10],[0.00,0.50,1.00],[0.01,0.02,0.03]); earthquake = gm([0.85,0.15],[0.00,1.00],[0.03,0.04]); risk = 0.30*burglary; temp = 0.70*earthquake; risk = risk + temp; alarm = risk + gm([0.60,0.25,0.15],[0.00,0.50,1.00],[0.05,0.06,0.07]); johncalls = gm([0.70,0.30],[0.00,1.00],[0.10,0.12]);
+

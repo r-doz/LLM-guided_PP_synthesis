@@ -1,0 +1,54 @@
+[
+  {
+    "rewritten": "burglary = uniform( [0.00, 1.00] , 2.00 ) ; earthquake = uniform( [0.00, 1.00] , 2.00 ) ; alarm = gm([0.80, 0.20], [_mu1, _mu2], [_sigma1, _sigma2]) ; johncalls = gm([0.95, 0.05], [_mu3, _mu4], [_sigma3, _sigma4]) ;",
+    "params": {
+      "mu1": 0.0,
+      "mu2": 1.0,
+      "sigma1": 1.0,
+      "sigma2": 0.5,
+      "mu3": 0.0,
+      "mu4": 1.0,
+      "sigma3": 0.1,
+      "sigma4": 1.0
+    },
+    "optimized_params": {
+      "mu1": 0.0,
+      "mu2": 0.3790997773013487,
+      "sigma1": 0.013253916908940917,
+      "sigma2": 0.6092020960124364,
+      "mu3": -0.031056250788032598,
+      "mu4": 1.0200835156298982,
+      "sigma3": 0.04769612308358829,
+      "sigma4": 0.05750982861552503
+    },
+    "initial_loss": 2.3575755469588104,
+    "final_loss": -2.275750922760593,
+    "train_nll": -2.5435148271680386,
+    "held_out_nll": -2.5584175181967987,
+    "reliability": {
+      "max_r_hat": 1.0,
+      "min_ess_bulk": 1985.0,
+      "min_ess_tail": 1566.0,
+      "divergence_frac": 0.0,
+      "missing_vars": [],
+      "checks": {
+        "r_hat": true,
+        "ess_bulk": true,
+        "ess_tail": true,
+        "no_divergences": true
+      }
+    },
+    "checks": {
+      "r_hat": true,
+      "ess_bulk": true,
+      "ess_tail": true,
+      "no_divergences": true,
+      "held_out_ok": true
+    },
+    "reliability_score": 5,
+    "opt_time": 6.654,
+    "opt_iterations": 100,
+    "error": null,
+    "program": "burglary = uniform( [0.00, 1.00] , 2.00 ) ; earthquake = uniform( [0.00, 1.00] , 2.00 ) ; alarm = gm( [0.80, 0.20] , [0.00, 1.00] , [1.00, 0.50] ) ; johncalls = gm( [0.95, 0.05] , [0.00, 1.00] , [0.10, 1.00] ) ;"
+  }
+]

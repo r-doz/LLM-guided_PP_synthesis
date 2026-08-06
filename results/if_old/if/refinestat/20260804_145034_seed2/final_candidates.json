@@ -1,0 +1,54 @@
+[
+  {
+    "rewritten": "a = gm([0.50, 0.50], [_mu1, _mu2], [_sigma1, _sigma2]) ; b = gm([0.30, 0.70], [_mu3, _mu4], [_sigma3, _sigma4]) ;",
+    "params": {
+      "mu1": 1.0,
+      "mu2": 2.0,
+      "sigma1": 1.0,
+      "sigma2": 2.0,
+      "mu3": 4.0,
+      "mu4": 6.0,
+      "sigma3": 3.0,
+      "sigma4": 4.0
+    },
+    "optimized_params": {
+      "mu1": 0.5771704313218301,
+      "mu2": 1.492849308967424,
+      "sigma1": 1.622678882745607,
+      "sigma2": 2.2014124252547265,
+      "mu3": 5.236695680099669,
+      "mu4": 5.087380057080235,
+      "sigma3": 3.7094473224237134,
+      "sigma4": 4.844533271388998
+    },
+    "initial_loss": 5.73707234651951,
+    "final_loss": 5.341103125260174,
+    "train_nll": 5.339615301307945,
+    "held_out_nll": 5.294862696946752,
+    "reliability": {
+      "max_r_hat": 1.0,
+      "min_ess_bulk": 1739.0,
+      "min_ess_tail": 1740.0,
+      "divergence_frac": 0.0,
+      "missing_vars": [],
+      "checks": {
+        "r_hat": true,
+        "ess_bulk": true,
+        "ess_tail": true,
+        "no_divergences": true
+      }
+    },
+    "checks": {
+      "r_hat": true,
+      "ess_bulk": true,
+      "ess_tail": true,
+      "no_divergences": true,
+      "held_out_ok": true
+    },
+    "reliability_score": 5,
+    "opt_time": 1.925,
+    "opt_iterations": 100,
+    "error": null,
+    "program": "a = gm( [0.50, 0.50] , [1.00, 2.00] , [1.00, 2.00] ) ; b = gm( [0.30, 0.70] , [4.00, 6.00] , [3.00, 4.00] ) ;"
+  }
+]

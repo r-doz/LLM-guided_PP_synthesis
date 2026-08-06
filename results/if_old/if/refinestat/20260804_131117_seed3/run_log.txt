@@ -1,0 +1,5 @@
+=== program=if seed=3 inference=gradient ===
+[attempt=1 r=0 ell=0] score=5/5 held_out_nll=5.2198 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'held_out_ok': True}
+[attempt=2 r=0 ell=0] score=5/5 held_out_nll=5.2198 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'held_out_ok': True}
+[attempt=3 r=0 ell=0] score=5/5 held_out_nll=5.2198 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'held_out_ok': True}
+=== SUCCESS: /home/rdoz/LLM-guided_PP_synthesis/results/if/refinestat/20260804_131117_seed3 ===

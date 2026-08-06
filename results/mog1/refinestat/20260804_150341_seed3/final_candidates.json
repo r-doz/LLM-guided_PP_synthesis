@@ -1,0 +1,46 @@
+[
+  {
+    "rewritten": "mu = uniform( [10.62, 28.62] , 2.00 ) ; sigma = uniform( [1.61, 5.40] , 2.00 ) ; x = gm([0.33, 0.67], [_mu1, _mu2], [_sigma1, _sigma2]) ;",
+    "params": {
+      "mu1": 20.02,
+      "mu2": 22.09,
+      "sigma1": 3.08,
+      "sigma2": 3.95
+    },
+    "optimized_params": {
+      "mu1": 20.67161243048496,
+      "mu2": 22.729004375674382,
+      "sigma1": 3.089195145599782,
+      "sigma2": 4.137856825962351
+    },
+    "initial_loss": 8.878512415410356,
+    "final_loss": 8.861975487679446,
+    "train_nll": 8.861970148662467,
+    "held_out_nll": 8.465181196360856,
+    "reliability": {
+      "max_r_hat": 1.0,
+      "min_ess_bulk": 1973.0,
+      "min_ess_tail": 1728.0,
+      "divergence_frac": 0.0,
+      "missing_vars": [],
+      "checks": {
+        "r_hat": true,
+        "ess_bulk": true,
+        "ess_tail": true,
+        "no_divergences": true
+      }
+    },
+    "checks": {
+      "r_hat": true,
+      "ess_bulk": true,
+      "ess_tail": true,
+      "no_divergences": true,
+      "held_out_ok": true
+    },
+    "reliability_score": 5,
+    "opt_time": 2.881,
+    "opt_iterations": 100,
+    "error": null,
+    "program": "mu = uniform( [10.62, 28.62] , 2.00 ) ; sigma = uniform( [1.61, 5.40] , 2.00 ) ; x = gm( [0.33, 0.67] , [20.02, 22.09] , [3.08, 3.95] ) ;"
+  }
+]

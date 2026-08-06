@@ -1,0 +1,62 @@
+[
+  {
+    "rewritten": "burglary = gm([0.50, 0.50], [_mu1, _mu2], [_sigma1, _sigma2]) ;  earthquake = uniform( [0.00, 0.01] , 2.00 ) ;  alarm = gm([0.95, 0.05], [_mu3, _mu4], [_sigma3, _sigma4]) ;  johncalls = gm([0.05, 0.95], [_mu5, _mu6], [_sigma5, _sigma6]) ;",
+    "params": {
+      "mu1": 0.0,
+      "mu2": 0.01,
+      "sigma1": 0.05,
+      "sigma2": 0.05,
+      "mu3": 0.0,
+      "mu4": 0.05,
+      "sigma3": 0.05,
+      "sigma4": 0.05,
+      "mu5": 0.0,
+      "mu6": 0.01,
+      "sigma5": 0.05,
+      "sigma6": 0.05
+    },
+    "optimized_params": {
+      "mu1": -0.01856434894448857,
+      "mu2": 0.03191511969154845,
+      "sigma1": 0.05205287193325949,
+      "sigma2": 0.08632811471090038,
+      "mu3": -0.013695476034816698,
+      "mu4": 0.14133670431504333,
+      "sigma3": 0.04133516726270723,
+      "sigma4": 0.23622433537214726,
+      "mu5": 0.0271696020581884,
+      "mu6": 0.055568967531161646,
+      "sigma5": 0.04715556532700277,
+      "sigma6": 0.20944926288350135
+    },
+    "initial_loss": 0.22553538344089227,
+    "final_loss": -7.432378098659058,
+    "train_nll": -7.44310546583403,
+    "held_out_nll": -7.61079563362352,
+    "reliability": {
+      "max_r_hat": 1.0,
+      "min_ess_bulk": 1782.0,
+      "min_ess_tail": 1889.0,
+      "divergence_frac": 0.0,
+      "missing_vars": [],
+      "checks": {
+        "r_hat": true,
+        "ess_bulk": true,
+        "ess_tail": true,
+        "no_divergences": true
+      }
+    },
+    "checks": {
+      "r_hat": true,
+      "ess_bulk": true,
+      "ess_tail": true,
+      "no_divergences": true,
+      "held_out_ok": true
+    },
+    "reliability_score": 5,
+    "opt_time": 5.86,
+    "opt_iterations": 100,
+    "error": null,
+    "program": "burglary = gm( [0.50, 0.50] , [0.00, 0.01] , [0.05, 0.05] ) ;  earthquake = uniform( [0.00, 0.01] , 2.00 ) ;  alarm = gm( [0.95, 0.05] , [0.00, 0.05] , [0.05, 0.05] ) ;  johncalls = gm( [0.05, 0.95] , [0.00, 0.01] , [0.05, 0.05] ) ;"
+  }
+]

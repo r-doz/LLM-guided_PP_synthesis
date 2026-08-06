@@ -1,0 +1,80 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "program": "easytugwar",
+  "data_size": 5000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 15,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 50,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/easytugwar/20260713_142755"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: The data are generated from a single unimodal Gaussian distribution for each variable.
+DeGAS code:
+a = gm([1.00], [19.95], [4.07]); b = gm([1.00], [19.96], [4.01]); c = gm([1.00], [0.50], [0.50]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: There are two latent subpopulations producing the observed skill levels and win probabilities.
+DeGAS code:
+a = gm([0.50,0.50], [10.00,30.00], [3.00,3.00]); b = gm([0.50,0.50], [10.00,30.00], [3.00,3.00]); c = gm([0.50,0.50], [0.20,0.80], [0.10,0.10]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Three distinct skill clusters and win‑rate groups explain the observed skewness.
+DeGAS code:
+a = gm([0.33,0.34,0.33], [5.00,20.00,35.00], [2.00,2.00,2.00]); b = gm([0.33,0.34,0.33], [5.00,20.00,35.00], [2.00,2.00,2.00]); c = gm([0.33,0.34,0.33], [0.10,0.50,0.90], [0.05,0.05,0.05]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Skill levels follow different distributions depending on whether a baseline ability is below or above a threshold.
+DeGAS code:
+a = uniform([0.00,40.00], 2); if a < 15.00 { b = gm([1.00], [12.00], [2.00]); } else { b = gm([1.00], [28.00], [2.00]); } c = gm([1.00], [0.50], [0.50]);
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Observed win probability is the product of two independent latent factors.
+DeGAS code:
+a = gm([1.00], [10.00], [3.00]); b = gm([1.00], [20.00], [3.00]); c = a * b;
+
+Error extracting parameters from program ID 1: 'list' object has no attribute 'shape'
+Error extracting parameters from program ID 2: 'list' object has no attribute 'shape'
+Error extracting parameters from program ID 3: 'list' object has no attribute 'shape'
+Error extracting parameters from program ID 4: 'list' object has no attribute 'shape'
+Error extracting parameters from program ID 5: 'list' object has no attribute 'shape'
+Error in program ID 6: 'list' object has no attribute 'shape'
+Error in program ID 7: 'list' object has no attribute 'shape'
+Error in program ID 8: 'list' object has no attribute 'shape'
+Error in program ID 9: 'list' object has no attribute 'shape'
+Error in program ID 10: 'list' object has no attribute 'shape'
+Error in program ID 6 during additional optimization: 'optimized_params'
+Error in program ID 7 during additional optimization: 'optimized_params'
+Error in program ID 8 during additional optimization: 'optimized_params'
+Error in program ID 9 during additional optimization: 'optimized_params'
+Error in program ID 10 during additional optimization: 'optimized_params'
+Best candidate after iteration 1: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+Error in program ID 11: 'list' object has no attribute 'shape'
+Error in program ID 12: 'list' object has no attribute 'shape'
+Error in program ID 13: 'list' object has no attribute 'shape'
+Error in program ID 14: 'list' object has no attribute 'shape'
+Error in program ID 15: 'list' object has no attribute 'shape'
+Error in program ID 6 during additional optimization: 'optimized_params'
+Error in program ID 7 during additional optimization: 'optimized_params'
+Error in program ID 8 during additional optimization: 'optimized_params'
+Error in program ID 9 during additional optimization: 'optimized_params'
+Error in program ID 10 during additional optimization: 'optimized_params'
+Best candidate after iteration 2: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+Error in program ID 16: 'list' object has no attribute 'shape'
+Error in program ID 6 during additional optimization: 'optimized_params'
+Error in program ID 7 during additional optimization: 'optimized_params'
+Error in program ID 8 during additional optimization: 'optimized_params'
+Error in program ID 9 during additional optimization: 'optimized_params'
+Error in program ID 10 during additional optimization: 'optimized_params'
+Best candidate after iteration 3: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]

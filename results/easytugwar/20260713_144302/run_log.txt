@@ -1,0 +1,60 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "program": "easytugwar",
+  "data_size": 5000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 15,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 50,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/easytugwar/20260713_144302"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Skill levels and win probability follow a single Gaussian distribution matching observed means and variances.
+DeGAS code:
+a = gm([1.00], [19.96], [3.99]); b = gm([1.00], [19.91], [4.01]); c = gm([1.00], [0.51], [0.50]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: The population consists of two subgroups with distinct skill means, leading to a bimodal distribution for skills and win rates.
+DeGAS code:
+a = gm([0.60,0.40], [15.00,24.00], [2.50,3.50]); b = gm([0.55,0.45], [14.00,26.00], [2.80,4.20]); c = gm([0.50,0.50], [0.30,0.70], [0.40,0.40]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Three latent clusters generate the skewed skill distributions and varied win probabilities.
+DeGAS code:
+a = gm([0.30,0.40,0.30], [12.00,20.00,28.00], [2.00,3.00,4.00]); b = gm([0.25,0.50,0.25], [13.00,21.00,29.00], [2.10,3.10,4.10]); c = gm([0.33,0.34,0.33], [0.20,0.50,0.80], [0.30,0.30,0.30]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Players with lower skill1 receive one performance model while higher skill1 players follow another, affecting skill2.
+DeGAS code:
+if a < 20.00 { b = gm([1.00], [15.00], [3.00]); } else { b = gm([1.00], [25.00], [3.00]); } end if; c = gm([1.00], [0.50], [0.50]);
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Win probability is modeled as the product of an overall skill factor and a baseline success rate.
+DeGAS code:
+a = gm([1.00], [20.00], [4.00]); b = gm([1.00], [0.50], [0.10]); temp = a; c = temp * b;
+
+Error extracting parameters from program ID 1: element 0 of tensors does not require grad and does not have a grad_fn
+Error extracting parameters from program ID 2: element 0 of tensors does not require grad and does not have a grad_fn
+Error extracting parameters from program ID 3: element 0 of tensors does not require grad and does not have a grad_fn
+Error extracting parameters from program ID 4: element 0 of tensors does not require grad and does not have a grad_fn
+Error extracting parameters from program ID 5: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 6: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 7: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 8: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 9: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 10: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 6 during additional optimization: 'optimized_params'
+Error in program ID 7 during additional optimization: 'optimized_params'
+Error in program ID 8 during additional optimization: 'optimized_params'
+Error in program ID 9 during additional optimization: 'optimized_params'
+Error in program ID 10 during additional optimization: 'optimized_params'
+Best candidate after iteration 1: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]

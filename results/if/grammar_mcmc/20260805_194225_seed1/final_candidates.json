@@ -1,0 +1,14 @@
+[
+  {
+    "ok": true,
+    "rewritten": "a = gm([1.00], [_mu1], [_sigma1]);\nb = uniform([-22.50,66.74],2.00);\n",
+    "optimized_params": {
+      "mu1": 1.0098226188111803,
+      "sigma1": 2.1346168181092566
+    },
+    "train_nll": 6.41364210802921,
+    "held_out_nll": 6.473941447833872,
+    "error": null,
+    "program": "a = gm([1.00],[0.60],[2.60]);\nb = uniform([-22.50,66.74],2.00);\n"
+  }
+]

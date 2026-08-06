@@ -1,0 +1,46 @@
+[
+  {
+    "rewritten": "a = gm([1.00], [_mu1], [_sigma1]) ; b = gm([1.00], [_mu2], [_sigma2]) ;",
+    "params": {
+      "mu1": 1.06,
+      "sigma1": 2.07,
+      "mu2": 4.3,
+      "sigma2": 5.73
+    },
+    "optimized_params": {
+      "mu1": 1.0629650296092246,
+      "sigma1": 2.0662431846911224,
+      "mu2": 4.299755153744265,
+      "sigma2": 5.730963290861266
+    },
+    "initial_loss": 5.30950524236358,
+    "final_loss": 5.309500916819534,
+    "train_nll": 5.309500916819534,
+    "held_out_nll": 5.392928310785769,
+    "reliability": {
+      "max_r_hat": 1.0,
+      "min_ess_bulk": 1761.0,
+      "min_ess_tail": 1616.0,
+      "divergence_frac": 0.0,
+      "missing_vars": [],
+      "checks": {
+        "r_hat": true,
+        "ess_bulk": true,
+        "ess_tail": true,
+        "no_divergences": true
+      }
+    },
+    "checks": {
+      "r_hat": true,
+      "ess_bulk": true,
+      "ess_tail": true,
+      "no_divergences": true,
+      "held_out_ok": true
+    },
+    "reliability_score": 5,
+    "opt_time": 0.826,
+    "opt_iterations": 88,
+    "error": null,
+    "program": "a = gm( [1.00] , [1.06] , [2.07] ) ; b = gm( [1.00] , [4.30] , [5.73] ) ;"
+  }
+]

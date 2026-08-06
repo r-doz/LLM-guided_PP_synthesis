@@ -1,0 +1,146 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "program": "if",
+  "data_size": 100,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 15,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 50,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/if/20260703_120102"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: The data for both variables arise from a single Gaussian-like distribution centered near the observed means.
+DeGAS code:
+a = gm([1.00], [1.26], [2.03]); b = gm([1.00], [5.30], [5.35]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Each variable consists of two subpopulations, modeled as a mixture of two Gaussian components.
+DeGAS code:
+a = gm([0.50,0.50], [-2.00,5.00], [1.50,1.50]); b = gm([0.60,0.40], [0.00,10.00], [3.00,4.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Both variables exhibit multiple modes and skewness, captured by three-component Gaussian mixtures.
+DeGAS code:
+a = gm([0.20,0.30,0.50], [-5.00,0.00,6.00], [2.00,1.00,2.50]); b = gm([0.25,0.35,0.40], [-8.00,2.00,12.00], [3.00,2.00,4.00]);
+
+Program ID: 4, Structure: conditional, Hypothesis: A latent uniform factor determines which of two regimes generates the observations for each variable.
+DeGAS code:
+c = uniform([0.00,1.00], 2); if c < 0.50 { a = gm([1.00], [0.00], [1.00]); b = gm([1.00], [5.00], [2.00]); } else { a = gm([1.00], [3.00], [1.50]); b = gm([1.00], [8.00], [3.00]); } end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: The distributions of the variables are generated hierarchically as products of independent Gaussian components.
+DeGAS code:
+temp1 = gm([1.00], [0.00], [1.00]); temp2 = gm([1.00], [5.00], [2.00]); a = temp1 * temp2; temp3 = gm([1.00], [0.00], [1.00]); temp4 = gm([1.00], [10.00], [3.00]); b = temp3 * temp4;
+
+Program ID 1 initial optimization completed. Initial loss: 5.2213, Final loss: 5.2213
+Program ID 2 initial optimization completed. Initial loss: 6.5112, Final loss: 5.8172
+Program ID 3 initial optimization completed. Initial loss: 6.5349, Final loss: 6.0674
+Program ID 4 initial optimization completed. Initial loss: 6.8174, Final loss: 5.9654
+Program ID 5 initial optimization completed. Initial loss: 6.2253, Final loss: 5.2630
+Program ID 6 mutation optimization completed. Initial loss: 7.0141, Final loss: 5.5828
+Program ID 1 additional optimization completed. Initial loss: 5.2213, Final loss: 5.2213
+Program ID 5 additional optimization completed. Initial loss: 6.2253, Final loss: 5.2213
+Program ID 6 additional optimization completed. Initial loss: 7.0141, Final loss: 4.8792
+Program ID 2 additional optimization completed. Initial loss: 6.5112, Final loss: 4.9426
+Program ID 4 additional optimization completed. Initial loss: 6.8174, Final loss: 4.9333
+Best candidate after iteration 1: Program ID 1, Final Loss: 5.2213
+Selected candidates for next iteration: [1, 5, 6, 2, 4]
+Program ID 11 mutation optimization completed. Initial loss: 7.0747, Final loss: 5.6047
+Program ID 12 mutation optimization completed. Initial loss: 6.8698, Final loss: 5.2965
+Program ID 13 mutation optimization completed. Initial loss: 6.4557, Final loss: 5.1359
+Program ID 14 mutation optimization completed. Initial loss: 5.2586, Final loss: 5.0048
+Program ID 15 mutation optimization completed. Initial loss: 6.9137, Final loss: 5.0415
+Program ID 6 additional optimization completed. Initial loss: 7.0141, Final loss: 4.8792
+Program ID 4 additional optimization completed. Initial loss: 6.8174, Final loss: 4.9333
+Program ID 2 additional optimization completed. Initial loss: 6.5112, Final loss: 4.9426
+Program ID 14 additional optimization completed. Initial loss: 5.2586, Final loss: 4.6506
+Program ID 15 additional optimization completed. Initial loss: 6.9137, Final loss: 4.3407
+Best candidate after iteration 2: Program ID 6, Final Loss: 4.8792
+Selected candidates for next iteration: [6, 4, 2, 14, 15]
+Program ID 16 mutation optimization completed. Initial loss: 7.7959, Final loss: 6.0876
+Program ID 17 mutation optimization completed. Initial loss: 5.2717, Final loss: 4.9785
+Program ID 18 mutation optimization completed. Initial loss: 5.8903, Final loss: 4.7243
+Program ID 19 mutation optimization completed. Initial loss: 6.5383, Final loss: 5.5691
+Error in program ID 20: 'raw'
+Program ID 15 additional optimization completed. Initial loss: 6.9137, Final loss: 4.3407
+Program ID 14 additional optimization completed. Initial loss: 5.2586, Final loss: 4.6506
+Program ID 18 additional optimization completed. Initial loss: 5.8903, Final loss: 4.3832
+Program ID 6 additional optimization completed. Initial loss: 7.0141, Final loss: 4.8792
+Program ID 4 additional optimization completed. Initial loss: 6.8174, Final loss: 4.9333
+Best candidate after iteration 3: Program ID 15, Final Loss: 4.3407
+Selected candidates for next iteration: [15, 14, 18, 6, 4]
+No new candidates generated in iteration 4; stopping early.
+
+--- Final Selected Programs ---
+Program ID: 15, Final Loss: 4.3407
+Hypothesis: A latent binary factor determines which pair of independent Gaussian components are multiplied, capturing varying scales across subpopulations.
+Structure: conditional_product
+DeGAS code:
+c = uniform([0.00,1.00], 2);
+if c < 0.50 {
+   tempA = gm([1.00],[0.00],[1.00]);
+   tempB = gm([1.00],[5.00],[2.00]);
+   a = tempA * tempB;
+   tempC = gm([1.00],[0.00],[1.00]);
+   tempD = gm([1.00],[10.00],[3.00]);
+   b = tempC * tempD;
+} else {
+   tempA = gm([1.00],[2.00],[0.50]);
+   tempB = gm([1.00],[6.00],[1.50]);
+   a = tempA * tempB;
+   tempC = gm([1.00],[3.00],[0.70]);
+   tempD = gm([1.00],[12.00],[2.20]);
+   b = tempC * tempD;
+}
+end if;
+
+Program ID: 14, Final Loss: 4.6506
+Hypothesis: Each variable is generated from a two-component Gaussian mixture capturing multimodality.
+Structure: mixture2
+DeGAS code:
+a = gm([0.50,0.50],[1.00,2.00],[2.00,3.00]);
+b = gm([0.55,0.45],[5.00,6.00],[5.00,4.00]);
+
+Program ID: 18, Final Loss: 4.3832
+Hypothesis: Each regime introduces an independent scaling Gaussian multiplied with a mixture distribution, modeling hierarchical variability.
+Structure: hierarchical_product
+DeGAS code:
+c = uniform([0.00,1.00], 2);
+if c < 0.50 {
+   scaleA = gm([1.00],[0.00],[1.00]);
+   baseA = gm([0.60,0.40],[-1.00,3.00],[1.20,2.30]);
+   a = scaleA * baseA;
+   scaleB = gm([1.00],[0.00],[1.00]);
+   baseB = gm([0.55,0.45],[4.00,7.00],[1.80,2.70]);
+   b = scaleB * baseB;
+} else {
+   scaleA2 = gm([1.00],[0.00],[1.00]);
+   baseA2 = gm([0.70,0.30],[-2.00,5.00],[1.50,3.00]);
+   a = scaleA2 * baseA2;
+   scaleB2 = gm([1.00],[0.00],[1.00]);
+   baseB2 = gm([0.65,0.35],[6.00,9.00],[2.10,3.20]);
+   b = scaleB2 * baseB2;
+}
+end if;
+
+Program ID: 6, Final Loss: 4.8792
+Hypothesis: A latent uniform factor selects between two regimes, each with its own Gaussian mixture for both variables.
+Structure: conditional_mixture
+DeGAS code:
+c = uniform([0.00,1.00], 2); if c < 0.50 { a = gm([0.60,0.40],[-1.00,3.00],[1.20,2.30]); b = gm([0.55,0.45],[4.00,7.00],[1.80,2.70]); } else { a = gm([0.70,0.30],[-2.00,5.00],[1.50,3.00]); b = gm([0.65,0.35],[6.00,9.00],[2.10,3.20]); } end if;
+
+Program ID: 4, Final Loss: 4.9333
+Hypothesis: A latent uniform factor determines which of two regimes generates the observations for each variable.
+Structure: conditional
+DeGAS code:
+c = uniform([0.00,1.00], 2); if c < 0.50 { a = gm([1.00], [0.00], [1.00]); b = gm([1.00], [5.00], [2.00]); } else { a = gm([1.00], [3.00], [1.50]); b = gm([1.00], [8.00], [3.00]); } end if;
+

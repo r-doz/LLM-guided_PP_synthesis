@@ -3,7 +3,7 @@ def make_init_prompt(data_stats: dict, n_programs: int = 5) -> str:
     User message for initial population generation.
  
     data_stats example:
-        {"n": 340, "mean": 8.4, "std": 9.1, "min": 0.1, "max": 47.3,
+        {"var_names": ["a", "b"], "n": 340, "mean": 8.4, "std": 9.1, "min": 0.1, "max": 47.3,
          "skewness": 2.1, "kurtosis": 6.4, "sample": [0.3, 1.1, 8.2]}
     """
     stats_lines = "\n".join(f"  {k}: {v}" for k, v in data_stats.items())
@@ -12,7 +12,7 @@ def make_init_prompt(data_stats: dict, n_programs: int = 5) -> str:
         "unimodal      — single gm component, match the data mean and std",
         "mixture2      — two-component gm, one per apparent subpopulation",
         "mixture3      — three-component gm for skewed or multi-modal data",
-        "conditional   — uniform latent + if/else branching on its value",
+        "conditional   — if/else branching",
         "hierarchical  — product of two distributions (use temp variable)",
     ]
     targets = "\n".join(
@@ -22,7 +22,7 @@ def make_init_prompt(data_stats: dict, n_programs: int = 5) -> str:
     return f"""Data summary:
 {stats_lines}
  
-Generate exactly {n_programs} DeGAS programs that are STRUCTURALLY DIVERSE and include all the variables of the dataset.
+Generate exactly {n_programs} DeGAS programs that are STRUCTURALLY DIVERSE and include all the variables of the dataset (var_names in the stats).
 Aim for one program per structure type below:
 {targets}
  
@@ -38,7 +38,7 @@ Return ONE JSON object with the exact shape below (no prose, no markdown):
       "id": 1,
       "hypothesis": "Data is unimodal and right-skewed.",
       "structure": "unimodal",
-      "program": "a = gm([1.00], [8.00], [9.00]); b = gm([1.00], [8.00], [9.00]);"
+      "program": "..."
     }}
   ]
 }}
@@ -49,7 +49,7 @@ DEGAS Language Reference:
 STRUCTURE
 - Instructions end with ;
 - Two instruction types: assignment (var = expr;) and conditional (if condition { program } else { program } end if;)
-- Only dataset variables are usable
+- Only dataset variables are usable (see var_names in the stats)
 
 NUMBERS
 - Decimals with at most 2 decimal places, range [-100.00, 100.00]
@@ -72,8 +72,8 @@ ASSIGNMENTS (key constraint)
 - Legal forms: atom | number*var | number*dist | var*var | atom+atom | atom-atom | number*var + atom | number*var - atom | atom + number*var | atom - number*var | number*dist + atom | atom + number*dist
   (atom = var | number | distribution)
 - Two products need a temp variable:
-  INVALID: a = 2.00*b + 3.00*c;
-  VALID:   a = 2.00*b;  a = a + 3.00*c;
+  INVALID: x = 2.00*y + 3.00*z;
+  VALID:   var1 = 2.00*var2;  var1 = var1 + 3.00*var3;
 
 CONDITIONALS
 - if condition { program } else { program } end if;
@@ -84,7 +84,7 @@ COMMON MISTAKES TO AVOID
 - Normal(0,1) syntax is invalid -> use gm([1.00],[0.00],[1.00])
 - Weights must sum exactly to 1.00 at 2 decimal places
 - No division (b/c is invalid)
-- Number must come first in products (b*3.00 -> 3.00*b)
+- Number must come first in products (var1*3.00 -> 3.00*var1)
 - No more than one multiplication per line -> split with a temp variable
 - uniform([0,1]) is invalid -> must be uniform([0.00, 1.00], 2)
 """
@@ -266,7 +266,7 @@ SYSTEM_PROMPT = (
 • At most one * per assignment line
 • Coefficient always before variable in products
 • No division
-• Only variables a, b, c, d. Do NOT put underscores or other characters in variable names.
+• Do NOT put underscores or other characters in variable names, use the names of the dataset variables exactly as they appear in the stats
 • Reply ONLY with a valid JSON object — no prose, no markdown fences
 """
 )

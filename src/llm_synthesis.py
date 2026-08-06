@@ -1,9 +1,11 @@
-import os
-import re
 import json
+import csv
 import sys
+import time
 import torch
-import requests
+from datetime import datetime
+from pathlib import Path
+
 sys.path.insert(0, "../DeGAS/src")
 from optimization import optimize, compile2SOGA, compile2SOGA_text, produce_cfg, produce_cfg_text, smooth_cfg, start_SOGA, initialize_params
 from PROGRAMS.likelihood import compute_likelihood
@@ -12,16 +14,103 @@ from helpers.param_extractor import extract_params
 from helpers.mutation_prompt import build_mutation_prompt
 import matplotlib.pyplot as plt
 from helpers.llm_comunication import call_ollama
-from helpers.dataset_generation import get_dataset
+from helpers.dataset_generation import get_dataset, get_var_names
 from helpers.generation_prompt import make_init_prompt, SYSTEM_PROMPT, DEGAS_GRAMMAR
 
+# Hyperparameters
 llm_model = "gpt-oss:120b"
-program = "if"
-data_size = 100
+program = "if"  # Options: "if", "mog1", "burglary", "csi", "easytugwar"
+data_size = 1000
+n_programs = 5
+n_mutations = 5
+n_steps = 15
+init_temperature = 0.2
+mutation_temperature = 0.4
+init_opt_steps = 50
+mutation_opt_steps = 100
+extra_opt_steps = 200
+learning_rate = 0.01
+require_json = True
+max_retries = 1
+use_chat = True
+request_timeout = 600
+max_http_retries = 3
+
+# Results folder: results/<program>/<timestamp>/
+timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+run_dir = Path(__file__).resolve().parent.parent / "results" / program / timestamp
+run_dir.mkdir(parents=True, exist_ok=True)
+
+log_path = run_dir / "run_log.txt"
+best_fitness_csv_path = run_dir / "best_fitness.csv"
+plot_path = run_dir / "best_fitness.png"
+hyperparams_path = run_dir / "hyperparams.json"
+final_candidates_path = run_dir / "final_candidates.json"
+
+
+def log_line(message: str) -> None:
+    with open(log_path, "a", encoding="utf-8") as f:
+        f.write(message + "\n")
+
+
+def optimize_candidate(prog: dict, data_array, stats_dict, n_opt_steps: int, lr: float) -> None:
+    """Compile and optimize a single candidate in-place."""
+    rewritten, params_dict = extract_params(prog["program"])
+    prog["params"] = params_dict
+    prog["rewritten"] = rewritten
+
+    compiled_file = compile2SOGA_text(prog["rewritten"])
+    cfg = produce_cfg_text(compiled_file)
+    smooth_cfg(cfg)
+
+    loss = lambda output_dist: -compute_likelihood(output_dist, stats_dict["var_names"], data_array)
+
+    if not prog["params"]:
+        # No optimizable parameters were extracted -- e.g. the candidate uses only
+        # uniform(...), whose bounds param_extractor.py intentionally leaves as literals
+        # (that extraction is commented out there). DeGAS's optimize() would call
+        # torch.optim.Adam([]) in this case (zero parameters), and the subsequent
+        # loss.backward() fails with "element 0 of tensors does not require grad and does
+        # not have a grad_fn" since nothing in the graph requires gradients. Skip the
+        # gradient loop entirely and just evaluate this (fixed) program's likelihood once.
+        params_dict = {}
+        output_dist = start_SOGA(cfg, params_dict)
+        fixed_loss = loss(output_dist).item()
+        prog["optimized_params"] = params_dict
+        prog["initial_loss"] = fixed_loss
+        prog["final_loss"] = fixed_loss
+        prog["opt_time"] = 0.0
+        prog["opt_iterations"] = 0
+        return
+
+    params_dict = initialize_params(prog["params"])
+    #take a random subset of data_array
+    n = len(data_array)
+    #idx = np.random.choice(n, size=min(500, n), replace=False)
+    #data_subset = [data_array[i] for i in idx]
+    loss_list, elapsed_time, number_of_iterations = optimize(
+        cfg,
+        params_dict,
+        loss,
+        n_steps=n_opt_steps,
+        lr=lr,
+        print_progress=False,
+    )
+
+    prog["optimized_params"] = params_dict
+    prog["initial_loss"] = loss_list[0]
+    prog["final_loss"] = loss_list[-1]
+    prog["opt_time"] = elapsed_time
+    prog["opt_iterations"] = number_of_iterations
+
+
+run_start_time = time.time()
+
 data = get_dataset(program, data_size)
+#print(data)
 
 stats = {
-    "var_names": ['a', 'b'],
+    "var_names": get_var_names(program),
     "n": len(data),
     "mean": np.mean(data, axis=0).tolist(),
     "std": np.std(data, axis=0).tolist(),
@@ -30,144 +119,172 @@ stats = {
     "min": np.min(data, axis=0).tolist(),
     "max": np.max(data, axis=0).tolist(),
 }
-prompt = make_init_prompt(stats, n_programs=5)
-#print(prompt)
+print(stats)
+prompt = make_init_prompt(stats, n_programs=n_programs)
+print(prompt)
 
+# Save hyperparameters and run metadata
+hyperparams = {
+    "llm_model": llm_model,
+    "program": program,
+    "data_size": data_size,
+    "n_programs": n_programs,
+    "n_mutations": n_mutations,
+    "n_steps": n_steps,
+    "init_temperature": init_temperature,
+    "mutation_temperature": mutation_temperature,
+    "init_opt_steps": init_opt_steps,
+    "mutation_opt_steps": mutation_opt_steps,
+    "extra_opt_steps": extra_opt_steps,
+    "learning_rate": learning_rate,
+    "require_json": require_json,
+    "max_retries": max_retries,
+    "use_chat": use_chat,
+    "request_timeout": request_timeout,
+    "max_http_retries": max_http_retries,
+    "results_dir": str(run_dir),
+}
+with open(hyperparams_path, "w", encoding="utf-8") as f:
+    json.dump(hyperparams, f, indent=2)
 
-# Create the pipeline
-n_steps = 15
+log_line("=== Run Started ===")
+log_line(json.dumps(hyperparams, indent=2))
+
 
 # First generation
-result = call_ollama(prompt, SYSTEM_PROMPT,  model=llm_model, temperature=0.2, require_json=True, max_retries=1, use_chat=True)
+result = call_ollama(
+    prompt,
+    SYSTEM_PROMPT,
+    model=llm_model,
+    temperature=init_temperature,
+    require_json=require_json,
+    max_retries=max_retries,
+    use_chat=use_chat,
+    request_timeout=request_timeout,
+    max_http_retries=max_http_retries,
+)
 candidates = result["programs"]
 
-print("\n=== Initial Candidates ===")
+log_line("\n=== Initial Candidates ===")
 for prog in candidates:
-    print(f"Program ID: {prog['id']}, Structure: {prog['structure']}, Hypothesis: {prog['hypothesis']}")
-    print(f"DeGAS code:\n{prog['program']}\n")
+    log_line(f"Program ID: {prog['id']}, Structure: {prog['structure']}, Hypothesis: {prog['hypothesis']}")
+    log_line(f"DeGAS code:\n{prog['program']}\n")
 
 # extract parameters and optimize each program
 for prog in candidates:
-    #print(f"\nExtracting parameters from Program ID: {prog['id']}...")
     try:
-        # add to candidates the dict of parameters with their initial values and the rewritten program with parameters instead of literals
-        rewritten, params_dict = extract_params(prog['program'])
-        prog['params'] = params_dict
-        prog['rewritten'] = rewritten
-        #print(f"Extracted parameters: {params_dict}")
-        compiledFile = compile2SOGA_text(prog['rewritten'])
-        cfg = produce_cfg_text(compiledFile)
-        smooth_cfg(cfg)
-    
-        # Initialize parameters
-        params_dict = initialize_params(prog['params'])
-        #print(f"Initialized parameters: {params_dict}")
-
-        #sample 100 points from the dataset to compute the likelihood
-        #data_sample = data[np.random.choice(len(data), size=100, replace=False)]
-        
-        # Define loss function for optimization
-        loss = lambda output_dist : -compute_likelihood(output_dist, stats['var_names'], data)
-        loss_list, time, number_of_iterations = optimize(cfg, params_dict, loss, n_steps=50, lr=0.01, print_progress=False)
-        print(f"Program ID {prog['id']} optimization completed. Initial loss: {loss_list[0]:.4f}, Final loss: {loss_list[-1]:.4f}")
-        prog['optimized_params'] = params_dict
-        prog['initial_loss'] = loss_list[0]
-        prog['final_loss'] = loss_list[-1]
+        optimize_candidate(prog, data, stats, n_opt_steps=init_opt_steps, lr=learning_rate)
+        log_line(
+            f"Program ID {prog['id']} initial optimization completed. "
+            f"Initial loss: {prog['initial_loss']:.4f}, Final loss: {prog['final_loss']:.4f}"
+        )
     except Exception as e:
-        print(f"Error extracting parameters from program ID {prog['id']}: {e}")
+        log_line(f"Error extracting parameters from program ID {prog['id']}: {e}")
 
 best_fitness = []
-#best_fitness.append(np.min([prog['final_loss'] for prog in candidates]))
 
 for i in range(n_steps):
-    print(f"\n--- Iteration {i+1} ---")
-    new_programs = call_ollama(build_mutation_prompt(candidates, n_mutations=5, iteration=i+1, grammar=DEGAS_GRAMMAR), SYSTEM_PROMPT, model=llm_model, temperature=0.4, require_json=True, max_retries=1, use_chat=True)
+    new_programs = call_ollama(
+        build_mutation_prompt(candidates, n_mutations=n_mutations, iteration=i + 1, grammar=DEGAS_GRAMMAR),
+        SYSTEM_PROMPT,
+        model=llm_model,
+        temperature=mutation_temperature,
+        require_json=require_json,
+        max_retries=max_retries,
+        use_chat=use_chat,
+        request_timeout=request_timeout,
+        max_http_retries=max_http_retries,
+    )
     new_candidates = new_programs['programs']
-    #extract parameters and optimize each new program
 
     if not new_candidates:
-        print(f"No new candidates generated in iteration {i+1}; stopping early.")
+        log_line(f"No new candidates generated in iteration {i + 1}; stopping early.")
         break
 
     for prog in new_candidates:
-        #print(f"\nExtracting parameters from Program ID: {prog['id']}...")
         try:
-            # add to candidates the dict of parameters with their initial values and the rewritten program with parameters instead of literals
-            rewritten, params_dict = extract_params(prog['program'])
-            prog['params'] = params_dict
-            prog['rewritten'] = rewritten
-            #print(f"Extracted parameters: {params_dict}")
-            compiledFile = compile2SOGA_text(prog['rewritten'])
-            cfg = produce_cfg_text(compiledFile)
-            smooth_cfg(cfg)
-        
-            # Initialize parameters
-            params_dict = initialize_params(prog['params'])
-            #print(f"Initialized parameters: {params_dict}")
-            
-            #data_sample = data[np.random.choice(len(data), size=100, replace=False)]
-
-            # Define loss function for optimization
-            loss = lambda output_dist : -compute_likelihood(output_dist, stats['var_names'], data)
-            loss_list, time, number_of_iterations = optimize(cfg, params_dict, loss, n_steps=100, lr=0.01, print_progress=False)
-            print(f"Program ID {prog['id']} optimization completed. Initial loss: {loss_list[0]:.4f}, Final loss: {loss_list[-1]:.4f}")
-            prog['optimized_params'] = params_dict
-            prog['initial_loss'] = loss_list[0]
-            prog['final_loss'] = loss_list[-1]
+            optimize_candidate(prog, data, stats, n_opt_steps=mutation_opt_steps, lr=learning_rate)
+            log_line(
+                f"Program ID {prog['id']} mutation optimization completed. "
+                f"Initial loss: {prog['initial_loss']:.4f}, Final loss: {prog['final_loss']:.4f}"
+            )
 
         except Exception as e:
-            print(f"Error in program ID {prog['id']}: {e}")
+            log_line(f"Error in program ID {prog['id']}: {e}")
             prog['errors'] = str(e)
             prog['final_loss'] = float('inf')
 
-
-    #choose the best 5 programs between new_candidates and candidates based on final_loss and keep them for the next iteration
+    # choose the best 5 programs between new_candidates and candidates based on final_loss
     all_candidates = candidates + new_candidates
     all_candidates = [prog for prog in all_candidates if 'final_loss' in prog]
     all_candidates.sort(key=lambda x: x['final_loss'])
     candidates = all_candidates[:5]
 
-    #Another gradient improvement step on the selected candidates
+    if not candidates:
+        log_line(f"No valid candidates after iteration {i + 1}; stopping early.")
+        break
+
+    # Another gradient improvement step on the selected candidates
     for prog in candidates:
         try:
             prog['params'] = prog['optimized_params']
-            compiledFile = compile2SOGA_text(prog['rewritten'])
-            cfg = produce_cfg_text(compiledFile)
-            smooth_cfg(cfg)
-        
-            # Initialize parameters
-            params_dict = initialize_params(prog['optimized_params'])
-            
-            # Define loss function for optimization
-            loss = lambda output_dist : -compute_likelihood(output_dist, stats['var_names'], data)
-            loss_list, time, number_of_iterations = optimize(cfg, params_dict, loss, n_steps=200, lr=0.01, print_progress=False)
-            print(f"Program ID {prog['id']} additional optimization completed. Initial loss: {loss_list[0]:.4f}, Final loss: {loss_list[-1]:.4f}")
-            prog['optimized_params'] = params_dict
-            prog['initial_loss'] = loss_list[0]
-            prog['final_loss'] = loss_list[-1]
+            optimize_candidate(prog, data, stats, n_opt_steps=extra_opt_steps, lr=learning_rate)
+            log_line(
+                f"Program ID {prog['id']} additional optimization completed. "
+                f"Initial loss: {prog['initial_loss']:.4f}, Final loss: {prog['final_loss']:.4f}"
+            )
 
         except Exception as e:
-            print(f"Error in program ID {prog['id']} during additional optimization: {e}")
+            log_line(f"Error in program ID {prog['id']} during additional optimization: {e}")
             prog['errors'] = str(e)
             prog['final_loss'] = float('inf')
 
     best_candidate = candidates[0]
-    print(f"Best candidate after iteration {i+1}: Program ID {best_candidate['id']}, Final Loss: {best_candidate['final_loss']:.4f}")
+    progress = ((i + 1) / n_steps) * 100.0
+    print(f"Progress: {progress:.1f}% | Iteration {i + 1}/{n_steps} | Best Loss: {best_candidate['final_loss']:.4f}")
+    log_line(
+        f"Best candidate after iteration {i + 1}: Program ID {best_candidate['id']}, "
+        f"Final Loss: {best_candidate['final_loss']:.4f}"
+    )
     best_fitness.append(best_candidate['final_loss'])
-    print(f"Selected candidates for next iteration: {[prog['id'] for prog in candidates]}")
+    log_line(f"Selected candidates for next iteration: {[prog['id'] for prog in candidates]}")
 
-print("\n--- Final Selected Programs ---")
+log_line("\n--- Final Selected Programs ---")
 for prog in candidates:
-    print(f"Program ID: {prog['id']}, Final Loss: {prog['final_loss']:.4f}")
-    print(f"Hypothesis: {prog['hypothesis']}")
-    print(f"Structure: {prog['structure']}")
-    print(f"DeGAS code:\n{prog['program']}\n")  
+    log_line(f"Program ID: {prog['id']}, Final Loss: {prog['final_loss']:.4f}")
+    log_line(f"Hypothesis: {prog['hypothesis']}")
+    log_line(f"Structure: {prog['structure']}")
+    log_line(f"DeGAS code:\n{prog['program']}\n")
+
+# Save final candidates
+with open(final_candidates_path, "w", encoding="utf-8") as f:
+    json.dump(candidates, f, indent=2, default=str)
+
+# Save best fitness CSV
+with open(best_fitness_csv_path, "w", newline="", encoding="utf-8") as f:
+    writer = csv.writer(f)
+    writer.writerow(["iteration", "best_loss"])
+    for idx, loss_val in enumerate(best_fitness, start=1):
+        writer.writerow([idx, loss_val])
 
 if best_fitness:
+    plt.figure(figsize=(8, 4.5))
     plt.plot(best_fitness)
     plt.title("Best Fitness Over Iterations")
     plt.xlabel("Iteration")
     plt.ylabel("Best Loss")
-    plt.show()
+    plt.tight_layout()
+    plt.savefig(plot_path)
+    plt.close()
 else:
-    print("No fitness values to plot.")
+    log_line("No fitness values to plot.")
+
+# Record total elapsed wall-clock time (dataset generation through final save) and
+# re-persist hyperparams.json with it, for cross-method runtime comparison.
+elapsed_seconds = time.time() - run_start_time
+hyperparams["elapsed_seconds"] = elapsed_seconds
+with open(hyperparams_path, "w", encoding="utf-8") as f:
+    json.dump(hyperparams, f, indent=2)
+log_line(f"=== Run finished in {elapsed_seconds:.1f}s ===")
+
+print(f"Run completed. Results saved to: {run_dir}")

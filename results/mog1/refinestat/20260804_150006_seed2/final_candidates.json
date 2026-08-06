@@ -1,0 +1,74 @@
+[
+  {
+    "rewritten": "mu = gm([0.33, 0.34, 0.33], [_mu1, _mu2, _mu3], [_sigma1, _sigma2, _sigma3]) ; sigma = gm([0.33, 0.34, 0.33], [_mu4, _mu5, _mu6], [_sigma4, _sigma5, _sigma6]) ; x = gm([0.33, 0.34, 0.33], [_mu7, _mu8, _mu9], [_sigma7, _sigma8, _sigma9]) ;",
+    "params": {
+      "mu1": 20.0,
+      "mu2": 20.0,
+      "mu3": 20.0,
+      "sigma1": 3.0,
+      "sigma2": 3.0,
+      "sigma3": 3.0,
+      "mu4": 2.0,
+      "mu5": 2.0,
+      "mu6": 2.0,
+      "sigma4": 0.99,
+      "sigma5": 0.99,
+      "sigma6": 0.99,
+      "mu7": 22.0,
+      "mu8": 22.0,
+      "mu9": 22.0,
+      "sigma7": 3.8,
+      "sigma8": 3.8,
+      "sigma9": 3.8
+    },
+    "optimized_params": {
+      "mu1": 20.00677239914144,
+      "mu2": 20.006730908174813,
+      "mu3": 20.00677239914144,
+      "sigma1": 3.0120645224324183,
+      "sigma2": 3.0121011217754177,
+      "sigma3": 3.0120645224324183,
+      "mu4": 1.9606282797742884,
+      "mu5": 1.9601843897825795,
+      "mu6": 1.9606282797742884,
+      "sigma4": 0.9957941732846018,
+      "sigma5": 0.9938043361200948,
+      "sigma6": 0.9957941732846018,
+      "mu7": 21.909407886433556,
+      "mu8": 21.909407835841293,
+      "mu9": 21.909407886433556,
+      "sigma7": 3.8032462125185758,
+      "sigma8": 3.8032461769511445,
+      "sigma9": 3.8032462125185758
+    },
+    "initial_loss": 6.6915121612942094,
+    "final_loss": 6.690378986930419,
+    "train_nll": 6.690378949195417,
+    "held_out_nll": 6.635678840939606,
+    "reliability": {
+      "max_r_hat": 1.0,
+      "min_ess_bulk": 1759.0,
+      "min_ess_tail": 1616.0,
+      "divergence_frac": 0.0,
+      "missing_vars": [],
+      "checks": {
+        "r_hat": true,
+        "ess_bulk": true,
+        "ess_tail": true,
+        "no_divergences": true
+      }
+    },
+    "checks": {
+      "r_hat": true,
+      "ess_bulk": true,
+      "ess_tail": true,
+      "no_divergences": true,
+      "held_out_ok": true
+    },
+    "reliability_score": 5,
+    "opt_time": 7.148,
+    "opt_iterations": 100,
+    "error": null,
+    "program": "mu = gm( [0.33, 0.34, 0.33] , [20.00, 20.00, 20.00] , [3.00, 3.00, 3.00] ) ; sigma = gm( [0.33, 0.34, 0.33] , [2.00, 2.00, 2.00] , [0.99, 0.99, 0.99] ) ; x = gm( [0.33, 0.34, 0.33] , [22.00, 22.00, 22.00] , [3.80, 3.80, 3.80] ) ;"
+  }
+]

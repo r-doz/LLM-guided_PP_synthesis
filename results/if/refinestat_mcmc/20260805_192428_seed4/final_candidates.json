@@ -1,0 +1,34 @@
+[
+  {
+    "rewritten": "a = gm([0.50, 0.50], [_mu1, _mu2], [_sigma1, _sigma2]) ; b = 4.06 + 6.01 * a ;",
+    "params": {
+      "mu1": 0.0,
+      "mu2": 0.91,
+      "sigma1": 2.0,
+      "sigma2": 2.03
+    },
+    "posterior_mean_params": {
+      "mu1": 0.9390678157692889,
+      "mu2": 0.8830961259562796,
+      "sigma1": 1.9851486362103155,
+      "sigma2": 1.9688412519049188
+    },
+    "max_r_hat": 1.01,
+    "min_ess_bulk": 175.0,
+    "min_ess_tail": 369.0,
+    "divergence_frac": 0.0,
+    "elpd_loo": NaN,
+    "pareto_k_high_frac": 0.9975,
+    "held_out_nll": Infinity,
+    "checks": {
+      "r_hat": true,
+      "ess_bulk": true,
+      "ess_tail": true,
+      "no_divergences": true,
+      "pareto_k_ok": false
+    },
+    "reliability_score": 4,
+    "error": null,
+    "program": "a = gm( [0.50, 0.50] , [0.00, 0.91] , [2.00, 2.03] ) ; b = 4.06 + 6.01 * a ;"
+  }
+]
