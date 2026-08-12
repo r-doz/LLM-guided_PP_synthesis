@@ -19,7 +19,7 @@ from helpers.generation_prompt import make_init_prompt, SYSTEM_PROMPT, DEGAS_GRA
 
 # Hyperparameters
 llm_model = "gpt-oss:120b"
-program = "if"  # Options: "if", "mog1", "burglary", "csi", "easytugwar"
+program = "easytugwar"  # Options: "if", "mog1", "burglary", "csi", "easytugwar"
 data_size = 1000
 n_programs = 5
 n_mutations = 5
@@ -53,8 +53,15 @@ def log_line(message: str) -> None:
         f.write(message + "\n")
 
 
-def optimize_candidate(prog: dict, data_array, stats_dict, n_opt_steps: int, lr: float) -> None:
-    """Compile and optimize a single candidate in-place."""
+def optimize_candidate(prog: dict, data_array, stats_dict, n_opt_steps: int, lr: float, warm_start: dict | None = None) -> None:
+    """Compile and optimize a single candidate in-place.
+
+    `warm_start`, if given (typically prog['optimized_params'] from a previous
+    optimization pass on this same candidate), seeds the initial parameter values
+    instead of the literal constants embedded in prog["program"], so a further
+    optimization pass continues from where the previous one left off instead of
+    restarting from the LLM's originally proposed literals every time.
+    """
     rewritten, params_dict = extract_params(prog["program"])
     prog["params"] = params_dict
     prog["rewritten"] = rewritten
@@ -83,7 +90,16 @@ def optimize_candidate(prog: dict, data_array, stats_dict, n_opt_steps: int, lr:
         prog["opt_iterations"] = 0
         return
 
-    params_dict = initialize_params(prog["params"])
+    init_values = prog["params"]
+    if warm_start is not None:
+        init_values = {}
+        for name, literal in prog["params"].items():
+            value = warm_start.get(name, literal)
+            if hasattr(value, "item"):
+                value = value.item()
+            init_values[name] = float(value)
+
+    params_dict = initialize_params(init_values)
     #take a random subset of data_array
     n = len(data_array)
     #idx = np.random.choice(n, size=min(500, n), replace=False)
@@ -224,11 +240,14 @@ for i in range(n_steps):
         log_line(f"No valid candidates after iteration {i + 1}; stopping early.")
         break
 
-    # Another gradient improvement step on the selected candidates
+    # Another gradient improvement step on the selected candidates, continuing from
+    # each candidate's own already-optimized params rather than restarting from scratch
     for prog in candidates:
         try:
-            prog['params'] = prog['optimized_params']
-            optimize_candidate(prog, data, stats, n_opt_steps=extra_opt_steps, lr=learning_rate)
+            optimize_candidate(
+                prog, data, stats, n_opt_steps=extra_opt_steps, lr=learning_rate,
+                warm_start=prog.get('optimized_params'),
+            )
             log_line(
                 f"Program ID {prog['id']} additional optimization completed. "
                 f"Initial loss: {prog['initial_loss']:.4f}, Final loss: {prog['final_loss']:.4f}"
@@ -239,6 +258,10 @@ for i in range(n_steps):
             prog['errors'] = str(e)
             prog['final_loss'] = float('inf')
 
+    # Re-sort: the additional optimization pass above can change the candidates'
+    # relative ranking, so candidates[0] must be recomputed, not reused from the
+    # pre-refinement sort done before this loop.
+    candidates.sort(key=lambda x: x['final_loss'])
     best_candidate = candidates[0]
     progress = ((i + 1) / n_steps) * 100.0
     print(f"Progress: {progress:.1f}% | Iteration {i + 1}/{n_steps} | Best Loss: {best_candidate['final_loss']:.4f}")

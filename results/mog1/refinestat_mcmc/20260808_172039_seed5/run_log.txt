@@ -1,0 +1,7 @@
+=== program=mog1 seed=5 inference=mcmc ===
+[attempt=1 r=0 ell=0] score=5/5 held_out_nll=6.8936 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'pareto_k_ok': True}
+[attempt=2 r=0 ell=0] score=0/5 held_out_nll=inf checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': False, 'pareto_k_ok': False}
+[attempt=2] resample likelihood (ell=1/3)
+[attempt=3 r=0 ell=1] score=5/5 held_out_nll=6.8959 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'pareto_k_ok': True}
+[attempt=4 r=0 ell=1] score=5/5 held_out_nll=6.9380 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'pareto_k_ok': True}
+=== SUCCESS in 1474.1s: /home/rdoz/LLM-guided_PP_synthesis/results/mog1/refinestat_mcmc/20260808_172039_seed5 ===

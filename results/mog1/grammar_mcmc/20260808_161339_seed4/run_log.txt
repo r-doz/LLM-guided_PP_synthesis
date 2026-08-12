@@ -1,0 +1,16 @@
+=== program=mog1 seed=4 (grammar-mcmc) ===
+[mog1 seed=4 step=0] current_train_nll=435.5591 best_held_out_nll=436.6109 accept_rate=0.00 valid_proposal_rate=1.00
+[mog1 seed=4 step=25] current_train_nll=14.0921 best_held_out_nll=13.7972 accept_rate=0.15 valid_proposal_rate=1.00
+[mog1 seed=4 step=50] current_train_nll=13.7597 best_held_out_nll=13.7972 accept_rate=0.10 valid_proposal_rate=1.00
+[mog1 seed=4 step=75] current_train_nll=13.7597 best_held_out_nll=13.7972 accept_rate=0.07 valid_proposal_rate=1.00
+[mog1 seed=4 step=100] current_train_nll=12.8596 best_held_out_nll=12.9218 accept_rate=0.06 valid_proposal_rate=1.00
+[mog1 seed=4 step=125] current_train_nll=12.3941 best_held_out_nll=12.4226 accept_rate=0.06 valid_proposal_rate=1.00
+[mog1 seed=4 step=150] current_train_nll=12.3941 best_held_out_nll=12.4226 accept_rate=0.05 valid_proposal_rate=1.00
+[mog1 seed=4 step=175] current_train_nll=12.3941 best_held_out_nll=12.4226 accept_rate=0.04 valid_proposal_rate=1.00
+[mog1 seed=4 step=200] current_train_nll=12.0427 best_held_out_nll=12.0848 accept_rate=0.04 valid_proposal_rate=1.00
+[mog1 seed=4 step=225] current_train_nll=12.6909 best_held_out_nll=12.0848 accept_rate=0.04 valid_proposal_rate=1.00
+[mog1 seed=4 step=250] current_train_nll=12.6909 best_held_out_nll=12.0848 accept_rate=0.04 valid_proposal_rate=1.00
+[mog1 seed=4 step=275] current_train_nll=11.6351 best_held_out_nll=11.6746 accept_rate=0.04 valid_proposal_rate=1.00
+[mog1 seed=4 step=299] current_train_nll=11.6351 best_held_out_nll=11.6746 accept_rate=0.04 valid_proposal_rate=1.00
+=== [mog1 seed=4] done: 11/300 accepted, best_held_out_nll=11.6746 ===
+=== SUCCESS in 102.1s: /home/rdoz/PhD/LLM-guided_PP_synthesis/results/mog1/grammar_mcmc/20260808_161339_seed4 ===

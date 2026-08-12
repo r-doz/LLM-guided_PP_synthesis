@@ -1,0 +1,18 @@
+[
+  {
+    "ok": true,
+    "rewritten": "burglary = gm([1.00], [_mu1], [_sigma1]);\nearthquake = uniform([1.39,19.75],2.00);\nalarm = uniform([-71.37,26.11],2.00);\njohncalls = gm([0.87,0.13], [_mu2, _mu3], [_sigma2, _sigma3]);\n",
+    "optimized_params": {
+      "mu1": -11.604835769526286,
+      "sigma1": 5.04287958182096,
+      "mu2": 0.05783350334744756,
+      "mu3": 44.47,
+      "sigma2": 0.3861556562203207,
+      "sigma3": 4.32
+    },
+    "train_nll": 14.852251198153759,
+    "held_out_nll": 14.858494718818154,
+    "error": null,
+    "program": "burglary = gm([1.00],[-12.09],[4.57]);\nearthquake = uniform([1.39,19.75],2.00);\nalarm = uniform([-71.37,26.11],2.00);\njohncalls = gm([0.87,0.13],[0.23,44.47],[0.92,4.32]);\n"
+  }
+]

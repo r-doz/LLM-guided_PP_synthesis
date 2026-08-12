@@ -1,0 +1,16 @@
+=== program=csi seed=3 (grammar-mcmc) ===
+[csi seed=3 step=0] current_train_nll=111.9116 best_held_out_nll=112.2171 accept_rate=0.00 valid_proposal_rate=1.00
+[csi seed=3 step=25] current_train_nll=68.9343 best_held_out_nll=68.9547 accept_rate=0.08 valid_proposal_rate=1.00
+[csi seed=3 step=50] current_train_nll=21.8941 best_held_out_nll=21.9072 accept_rate=0.12 valid_proposal_rate=1.00
+[csi seed=3 step=75] current_train_nll=21.8941 best_held_out_nll=21.9072 accept_rate=0.08 valid_proposal_rate=1.00
+[csi seed=3 step=100] current_train_nll=20.5170 best_held_out_nll=20.5357 accept_rate=0.08 valid_proposal_rate=1.00
+[csi seed=3 step=125] current_train_nll=18.4649 best_held_out_nll=18.4748 accept_rate=0.07 valid_proposal_rate=1.00
+[csi seed=3 step=150] current_train_nll=18.4649 best_held_out_nll=18.4748 accept_rate=0.06 valid_proposal_rate=1.00
+[csi seed=3 step=175] current_train_nll=18.2689 best_held_out_nll=18.2757 accept_rate=0.06 valid_proposal_rate=1.00
+[csi seed=3 step=200] current_train_nll=18.2689 best_held_out_nll=18.2757 accept_rate=0.05 valid_proposal_rate=1.00
+[csi seed=3 step=225] current_train_nll=15.0165 best_held_out_nll=15.0237 accept_rate=0.06 valid_proposal_rate=1.00
+[csi seed=3 step=250] current_train_nll=15.0165 best_held_out_nll=15.0237 accept_rate=0.06 valid_proposal_rate=1.00
+[csi seed=3 step=275] current_train_nll=15.0165 best_held_out_nll=15.0237 accept_rate=0.05 valid_proposal_rate=1.00
+[csi seed=3 step=299] current_train_nll=14.7841 best_held_out_nll=14.7751 accept_rate=0.05 valid_proposal_rate=1.00
+=== [csi seed=3] done: 15/300 accepted, best_held_out_nll=14.7751 ===
+=== SUCCESS in 106.9s: /home/rdoz/PhD/LLM-guided_PP_synthesis/results/csi/grammar_mcmc/20260810_055848_seed3 ===

@@ -1,0 +1,16 @@
+=== program=burglary seed=3 (grammar-mcmc) ===
+[burglary seed=3 step=0] current_train_nll=114.7202 best_held_out_nll=114.7225 accept_rate=0.00 valid_proposal_rate=1.00
+[burglary seed=3 step=25] current_train_nll=70.2850 best_held_out_nll=70.2911 accept_rate=0.08 valid_proposal_rate=1.00
+[burglary seed=3 step=50] current_train_nll=21.9645 best_held_out_nll=21.9648 accept_rate=0.12 valid_proposal_rate=1.00
+[burglary seed=3 step=75] current_train_nll=21.9645 best_held_out_nll=21.9648 accept_rate=0.08 valid_proposal_rate=1.00
+[burglary seed=3 step=100] current_train_nll=20.3103 best_held_out_nll=20.3064 accept_rate=0.08 valid_proposal_rate=1.00
+[burglary seed=3 step=125] current_train_nll=18.5564 best_held_out_nll=18.5541 accept_rate=0.07 valid_proposal_rate=1.00
+[burglary seed=3 step=150] current_train_nll=18.5564 best_held_out_nll=18.5541 accept_rate=0.06 valid_proposal_rate=1.00
+[burglary seed=3 step=175] current_train_nll=18.5624 best_held_out_nll=18.5541 accept_rate=0.06 valid_proposal_rate=1.00
+[burglary seed=3 step=200] current_train_nll=18.5624 best_held_out_nll=18.5541 accept_rate=0.05 valid_proposal_rate=1.00
+[burglary seed=3 step=225] current_train_nll=15.0314 best_held_out_nll=15.0278 accept_rate=0.06 valid_proposal_rate=1.00
+[burglary seed=3 step=250] current_train_nll=15.0314 best_held_out_nll=15.0278 accept_rate=0.06 valid_proposal_rate=1.00
+[burglary seed=3 step=275] current_train_nll=15.0314 best_held_out_nll=15.0278 accept_rate=0.05 valid_proposal_rate=1.00
+[burglary seed=3 step=299] current_train_nll=14.7040 best_held_out_nll=14.7005 accept_rate=0.05 valid_proposal_rate=1.00
+=== [burglary seed=3] done: 15/300 accepted, best_held_out_nll=14.7005 ===
+=== SUCCESS in 110.4s: /home/rdoz/PhD/LLM-guided_PP_synthesis/results/burglary/grammar_mcmc/20260807_111558_seed3 ===

@@ -32,6 +32,7 @@ from __future__ import annotations
 import functools
 import math
 import sys
+import time
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
@@ -92,6 +93,10 @@ class RefineConfig:
     n_chains: int = 4
     held_out_nll_margin_floor: float = 1.0
     held_out_nll_margin_frac: float = 0.5
+    max_wall_seconds: float | None = None  # give up on this seed (return best found so far,
+    # possibly None) once the attempt loop has run this long. Checked between attempts, not
+    # during one -- an in-flight fit_fn call (e.g. a slow NUTS chain) is allowed to finish
+    # rather than being interrupted mid-computation.
 
 
 def _stats(data, var_names: list[str]) -> dict:
@@ -287,7 +292,14 @@ def refine_program(
     program_text, checker = generate_candidate(itergen, var_names, messages, cfg.unit_name, cfg.max_units)
 
     attempt = 0
+    loop_start = time.time()
     while r < cfg.Rmax and len(valid) < cfg.beta:
+        if cfg.max_wall_seconds is not None and time.time() - loop_start >= cfg.max_wall_seconds:
+            log(
+                f"[attempt={attempt}] giving up: {time.time() - loop_start:.0f}s >= "
+                f"max_wall_seconds={cfg.max_wall_seconds:.0f}s ({len(valid)}/{cfg.beta} valid so far)"
+            )
+            break
         attempt += 1
         if not checker.finished():
             log(f"[attempt={attempt} r={r}] generation incomplete within budget; restarting")

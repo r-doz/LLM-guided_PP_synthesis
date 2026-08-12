@@ -1,0 +1,38 @@
+[
+  {
+    "rewritten": "mu = gm([1.00], [_mu1], [_sigma1]) ;  sigma = gm([1.00], [_mu2], [_sigma2]) ;  x = gm([1.00], [_mu3], [_sigma3]) ;",
+    "params": {
+      "mu1": 19.89,
+      "sigma1": 2.98,
+      "mu2": 1.98,
+      "sigma2": 0.95,
+      "mu3": 21.97,
+      "sigma3": 3.84
+    },
+    "posterior_mean_params": {
+      "mu1": 19.898893976439954,
+      "mu2": 1.9798973947779153,
+      "mu3": 21.969960135212663,
+      "sigma1": 2.9802292327315634,
+      "sigma2": 0.9566592400151384,
+      "sigma3": 3.848987378848891
+    },
+    "max_r_hat": 1.01,
+    "min_ess_bulk": 2354.0,
+    "min_ess_tail": 1373.0,
+    "divergence_frac": 0.0,
+    "elpd_loo": -5324.625506945693,
+    "pareto_k_high_frac": 0.0,
+    "held_out_nll": 6.655325426381958,
+    "checks": {
+      "r_hat": true,
+      "ess_bulk": true,
+      "ess_tail": true,
+      "no_divergences": true,
+      "pareto_k_ok": true
+    },
+    "reliability_score": 5,
+    "error": null,
+    "program": "mu = gm( [1.00] , [19.89] , [2.98] ) ;  sigma = gm( [1.00] , [1.98] , [0.95] ) ;  x = gm( [1.00] , [21.97] , [3.84] ) ;"
+  }
+]

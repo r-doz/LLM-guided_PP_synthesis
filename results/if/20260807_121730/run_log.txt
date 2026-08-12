@@ -1,0 +1,280 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "program": "if",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 15,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 50,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/if/20260807_121730"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: The data for both variables arise from a single Gaussian-like distribution centered near the observed means.
+DeGAS code:
+a = gm([1.00],[0.98],[2.01]);
+b = gm([1.00],[4.19],[5.88]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Each variable consists of two subpopulations, captured by a two-component mixture model.
+DeGAS code:
+a = gm([0.55,0.45],[-1.00,3.00],[1.50,2.50]);
+b = gm([0.60,0.40],[2.00,7.00],[3.00,4.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: The variables exhibit multiple modes and skewness, modeled with three-component mixtures.
+DeGAS code:
+a = gm([0.30,0.40,0.30],[-2.00,0.50,3.00],[1.20,2.00,2.80]);
+b = gm([0.25,0.50,0.25],[0.00,4.00,9.00],[2.00,3.00,5.00]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Variable b's distribution depends on whether variable a is below or above zero, reflecting conditional regimes.
+DeGAS code:
+a = gm([1.00],[0.98],[2.01]);
+if a < 0.00 {
+    b = gm([1.00],[2.00],[3.00]);
+} else {
+    b = gm([1.00],[6.00],[4.00]);
+}
+end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Variable b is generated hierarchically as the product of two latent Gaussian components, while a follows its own simple distribution.
+DeGAS code:
+a = gm([1.00],[0.98],[2.01]);
+d1 = gm([1.00],[1.00],[1.50]);
+d2 = gm([1.00],[5.00],[3.00]);
+temp = 0.50*d1;
+b = temp*d2;
+
+Program ID 1 initial optimization completed. Initial loss: 5.3101, Final loss: 5.3101
+Program ID 2 initial optimization completed. Initial loss: 5.9036, Final loss: 5.4943
+Program ID 3 initial optimization completed. Initial loss: 6.0064, Final loss: 5.6076
+Program ID 4 initial optimization completed. Initial loss: 5.3777, Final loss: 5.0615
+Program ID 5 initial optimization completed. Initial loss: 5.4454, Final loss: 5.3148
+Program ID 6 mutation optimization completed. Initial loss: 5.5673, Final loss: 4.7193
+Program ID 7 mutation optimization completed. Initial loss: 5.5080, Final loss: 5.1185
+Program ID 8 mutation optimization completed. Initial loss: 5.4563, Final loss: 5.3170
+Program ID 9 mutation optimization completed. Initial loss: 6.2285, Final loss: 5.4658
+Program ID 10 mutation optimization completed. Initial loss: 5.6731, Final loss: 4.9159
+Program ID 6 additional optimization completed. Initial loss: 4.7144, Final loss: 4.1481
+Program ID 10 additional optimization completed. Initial loss: 4.9119, Final loss: 4.3517
+Program ID 4 additional optimization completed. Initial loss: 5.0564, Final loss: 4.2269
+Program ID 7 additional optimization completed. Initial loss: 5.1160, Final loss: 4.7754
+Program ID 1 additional optimization completed. Initial loss: 5.3101, Final loss: 5.3101
+Best candidate after iteration 1: Program ID 6, Final Loss: 4.1481
+Selected candidates for next iteration: [6, 4, 10, 7, 1]
+Program ID 11 mutation optimization completed. Initial loss: 5.2901, Final loss: 4.6293
+Program ID 12 mutation optimization completed. Initial loss: 5.4038, Final loss: 4.7704
+Program ID 13 mutation optimization completed. Initial loss: 5.4993, Final loss: 4.8769
+Error in program ID 14: 'pos'
+Program ID 15 mutation optimization completed. Initial loss: 5.5190, Final loss: 4.9685
+Program ID 6 additional optimization completed. Initial loss: 4.1478, Final loss: 4.1016
+Program ID 4 additional optimization completed. Initial loss: 4.2245, Final loss: 4.1225
+Program ID 10 additional optimization completed. Initial loss: 4.3506, Final loss: 4.2716
+Program ID 11 additional optimization completed. Initial loss: 4.6251, Final loss: 4.1342
+Program ID 12 additional optimization completed. Initial loss: 4.7658, Final loss: 4.1387
+Best candidate after iteration 2: Program ID 6, Final Loss: 4.1016
+Selected candidates for next iteration: [6, 4, 11, 12, 10]
+Program ID 16 mutation optimization completed. Initial loss: 4.8385, Final loss: 4.4210
+Program ID 17 mutation optimization completed. Initial loss: 5.1460, Final loss: 4.6460
+Program ID 18 mutation optimization completed. Initial loss: 5.1324, Final loss: 4.4113
+Program ID 19 mutation optimization completed. Initial loss: 5.1145, Final loss: 4.6561
+Program ID 20 mutation optimization completed. Initial loss: 5.5152, Final loss: 4.6938
+Program ID 6 additional optimization completed. Initial loss: 4.1011, Final loss: 4.0537
+Program ID 4 additional optimization completed. Initial loss: 4.1222, Final loss: 4.0878
+Program ID 11 additional optimization completed. Initial loss: 4.1340, Final loss: 4.0793
+Program ID 12 additional optimization completed. Initial loss: 4.1384, Final loss: 4.0550
+Program ID 10 additional optimization completed. Initial loss: 4.2714, Final loss: 4.2496
+Best candidate after iteration 3: Program ID 6, Final Loss: 4.0537
+Selected candidates for next iteration: [6, 12, 11, 4, 10]
+Program ID 21 mutation optimization completed. Initial loss: 5.8177, Final loss: 4.8087
+Program ID 22 mutation optimization completed. Initial loss: 5.4104, Final loss: 4.7652
+Program ID 23 mutation optimization completed. Initial loss: 5.2425, Final loss: 4.5370
+Program ID 24 mutation optimization completed. Initial loss: 5.4770, Final loss: 4.8980
+Program ID 25 mutation optimization completed. Initial loss: 5.6731, Final loss: 4.9159
+Program ID 6 additional optimization completed. Initial loss: 4.0536, Final loss: 4.0515
+Program ID 12 additional optimization completed. Initial loss: 4.0549, Final loss: 4.0515
+Program ID 11 additional optimization completed. Initial loss: 4.0790, Final loss: 4.0507
+Program ID 4 additional optimization completed. Initial loss: 4.0878, Final loss: 4.0867
+Program ID 10 additional optimization completed. Initial loss: 4.2496, Final loss: 4.2388
+Best candidate after iteration 4: Program ID 11, Final Loss: 4.0507
+Selected candidates for next iteration: [11, 12, 6, 4, 10]
+Program ID 26 mutation optimization completed. Initial loss: 5.3590, Final loss: 4.5400
+Program ID 27 mutation optimization completed. Initial loss: 4.8484, Final loss: 4.5565
+Program ID 28 mutation optimization completed. Initial loss: 5.1076, Final loss: 4.8059
+Program ID 29 mutation optimization completed. Initial loss: 5.2315, Final loss: 4.5582
+Program ID 30 mutation optimization completed. Initial loss: 5.7639, Final loss: 4.9654
+Program ID 11 additional optimization completed. Initial loss: 4.0507, Final loss: 4.0427
+Program ID 12 additional optimization completed. Initial loss: 4.0515, Final loss: 4.0515
+Program ID 6 additional optimization completed. Initial loss: 4.0515, Final loss: 4.0515
+Program ID 4 additional optimization completed. Initial loss: 4.0867, Final loss: 4.0867
+Program ID 10 additional optimization completed. Initial loss: 4.2388, Final loss: 4.2307
+Best candidate after iteration 5: Program ID 11, Final Loss: 4.0427
+Selected candidates for next iteration: [11, 12, 6, 4, 10]
+Program ID 31 mutation optimization completed. Initial loss: 5.2425, Final loss: 4.5370
+Program ID 32 mutation optimization completed. Initial loss: 4.8986, Final loss: 4.5895
+Program ID 33 mutation optimization completed. Initial loss: 5.5417, Final loss: 4.6703
+Program ID 34 mutation optimization completed. Initial loss: 5.0367, Final loss: 4.6963
+Program ID 35 mutation optimization completed. Initial loss: 5.7800, Final loss: 4.9722
+Program ID 11 additional optimization completed. Initial loss: 4.0427, Final loss: 4.0427
+Program ID 12 additional optimization completed. Initial loss: 4.0515, Final loss: 4.0515
+Program ID 6 additional optimization completed. Initial loss: 4.0515, Final loss: 4.0515
+Program ID 4 additional optimization completed. Initial loss: 4.0867, Final loss: 4.0867
+Program ID 10 additional optimization completed. Initial loss: 4.2307, Final loss: 4.2241
+Best candidate after iteration 6: Program ID 11, Final Loss: 4.0427
+Selected candidates for next iteration: [11, 12, 6, 4, 10]
+Program ID 36 mutation optimization completed. Initial loss: 4.7929, Final loss: 4.2894
+Program ID 37 mutation optimization completed. Initial loss: 4.8037, Final loss: 4.5470
+Program ID 38 mutation optimization completed. Initial loss: 4.6487, Final loss: 4.3300
+Program ID 39 mutation optimization completed. Initial loss: 5.0783, Final loss: 4.6012
+Program ID 40 mutation optimization completed. Initial loss: 5.7699, Final loss: 4.8684
+Program ID 11 additional optimization completed. Initial loss: 4.0427, Final loss: 4.0427
+Program ID 12 additional optimization completed. Initial loss: 4.0515, Final loss: 4.0515
+Program ID 6 additional optimization completed. Initial loss: 4.0515, Final loss: 4.0515
+Program ID 4 additional optimization completed. Initial loss: 4.0867, Final loss: 4.0867
+Program ID 10 additional optimization completed. Initial loss: 4.2241, Final loss: 4.2180
+Best candidate after iteration 7: Program ID 11, Final Loss: 4.0427
+Selected candidates for next iteration: [11, 12, 6, 4, 10]
+Program ID 41 mutation optimization completed. Initial loss: 5.3407, Final loss: 4.6772
+Program ID 42 mutation optimization completed. Initial loss: 5.7462, Final loss: 4.9136
+Program ID 43 mutation optimization completed. Initial loss: 4.9586, Final loss: 4.4726
+Program ID 44 mutation optimization completed. Initial loss: 5.1158, Final loss: 4.4391
+Program ID 45 mutation optimization completed. Initial loss: 5.8673, Final loss: 4.8908
+Program ID 11 additional optimization completed. Initial loss: 4.0427, Final loss: 4.0427
+Program ID 12 additional optimization completed. Initial loss: 4.0515, Final loss: 4.0515
+Program ID 6 additional optimization completed. Initial loss: 4.0515, Final loss: 4.0515
+Program ID 4 additional optimization completed. Initial loss: 4.0867, Final loss: 4.0867
+Program ID 10 additional optimization completed. Initial loss: 4.2180, Final loss: 4.2178
+Best candidate after iteration 8: Program ID 11, Final Loss: 4.0427
+Selected candidates for next iteration: [11, 12, 6, 4, 10]
+Program ID 46 mutation optimization completed. Initial loss: 5.2267, Final loss: 4.5235
+Program ID 47 mutation optimization completed. Initial loss: 5.2468, Final loss: 4.7124
+Program ID 48 mutation optimization completed. Initial loss: 4.9676, Final loss: 4.8372
+Program ID 49 mutation optimization completed. Initial loss: 4.5965, Final loss: 4.2924
+Program ID 50 mutation optimization completed. Initial loss: 5.5379, Final loss: 4.7176
+Program ID 11 additional optimization completed. Initial loss: 4.0427, Final loss: 4.0427
+Program ID 12 additional optimization completed. Initial loss: 4.0515, Final loss: 4.0515
+Program ID 6 additional optimization completed. Initial loss: 4.0515, Final loss: 4.0515
+Program ID 4 additional optimization completed. Initial loss: 4.0867, Final loss: 4.0867
+Program ID 10 additional optimization completed. Initial loss: 4.2178, Final loss: 4.2178
+Best candidate after iteration 9: Program ID 11, Final Loss: 4.0427
+Selected candidates for next iteration: [11, 12, 6, 4, 10]
+Program ID 51 mutation optimization completed. Initial loss: 5.3426, Final loss: 4.6887
+Program ID 52 mutation optimization completed. Initial loss: 5.6391, Final loss: 4.8910
+Program ID 53 mutation optimization completed. Initial loss: 5.6046, Final loss: 4.7397
+Program ID 54 mutation optimization completed. Initial loss: 4.9276, Final loss: 4.5212
+Program ID 55 mutation optimization completed. Initial loss: 5.6638, Final loss: 4.9055
+Program ID 11 additional optimization completed. Initial loss: 4.0427, Final loss: 4.0427
+Program ID 12 additional optimization completed. Initial loss: 4.0515, Final loss: 4.0515
+Program ID 6 additional optimization completed. Initial loss: 4.0515, Final loss: 4.0515
+Program ID 4 additional optimization completed. Initial loss: 4.0867, Final loss: 4.0867
+Program ID 10 additional optimization completed. Initial loss: 4.2178, Final loss: 4.2178
+Best candidate after iteration 10: Program ID 11, Final Loss: 4.0427
+Selected candidates for next iteration: [11, 12, 6, 4, 10]
+Program ID 56 mutation optimization completed. Initial loss: 5.2370, Final loss: 4.6041
+Program ID 57 mutation optimization completed. Initial loss: 5.3412, Final loss: 4.6804
+Program ID 58 mutation optimization completed. Initial loss: 5.4550, Final loss: 4.6695
+Program ID 59 mutation optimization completed. Initial loss: 4.9401, Final loss: 4.6084
+Program ID 60 mutation optimization completed. Initial loss: 5.4809, Final loss: 4.7430
+Program ID 11 additional optimization completed. Initial loss: 4.0427, Final loss: 4.0427
+Program ID 12 additional optimization completed. Initial loss: 4.0515, Final loss: 4.0515
+Program ID 6 additional optimization completed. Initial loss: 4.0515, Final loss: 4.0515
+Program ID 4 additional optimization completed. Initial loss: 4.0867, Final loss: 4.0867
+Program ID 10 additional optimization completed. Initial loss: 4.2178, Final loss: 4.2178
+Best candidate after iteration 11: Program ID 11, Final Loss: 4.0427
+Selected candidates for next iteration: [11, 12, 6, 4, 10]
+Program ID 61 mutation optimization completed. Initial loss: 5.3685, Final loss: 4.7096
+Program ID 62 mutation optimization completed. Initial loss: 5.4937, Final loss: 4.8517
+Program ID 63 mutation optimization completed. Initial loss: 5.8134, Final loss: 4.9980
+Program ID 64 mutation optimization completed. Initial loss: 4.9805, Final loss: 4.6726
+Program ID 65 mutation optimization completed. Initial loss: 5.6940, Final loss: 4.7494
+Program ID 11 additional optimization completed. Initial loss: 4.0427, Final loss: 4.0427
+Program ID 12 additional optimization completed. Initial loss: 4.0515, Final loss: 4.0515
+Program ID 6 additional optimization completed. Initial loss: 4.0515, Final loss: 4.0515
+Program ID 4 additional optimization completed. Initial loss: 4.0867, Final loss: 4.0867
+Program ID 10 additional optimization completed. Initial loss: 4.2178, Final loss: 4.2178
+Best candidate after iteration 12: Program ID 11, Final Loss: 4.0427
+Selected candidates for next iteration: [11, 12, 6, 4, 10]
+Program ID 66 mutation optimization completed. Initial loss: 5.2425, Final loss: 4.5370
+Program ID 67 mutation optimization completed. Initial loss: 4.9763, Final loss: 4.6114
+Program ID 68 mutation optimization completed. Initial loss: 5.6966, Final loss: 4.7712
+Program ID 69 mutation optimization completed. Initial loss: 4.8990, Final loss: 4.6158
+Program ID 70 mutation optimization completed. Initial loss: 5.6721, Final loss: 4.9224
+Program ID 11 additional optimization completed. Initial loss: 4.0427, Final loss: 4.0427
+Program ID 12 additional optimization completed. Initial loss: 4.0515, Final loss: 4.0515
+Program ID 6 additional optimization completed. Initial loss: 4.0515, Final loss: 4.0515
+Program ID 4 additional optimization completed. Initial loss: 4.0867, Final loss: 4.0867
+Program ID 10 additional optimization completed. Initial loss: 4.2178, Final loss: 4.2178
+Best candidate after iteration 13: Program ID 11, Final Loss: 4.0427
+Selected candidates for next iteration: [11, 12, 6, 4, 10]
+Program ID 71 mutation optimization completed. Initial loss: 5.3486, Final loss: 4.6827
+Program ID 72 mutation optimization completed. Initial loss: 5.4036, Final loss: 4.7660
+Program ID 73 mutation optimization completed. Initial loss: 5.6088, Final loss: 4.7706
+Program ID 74 mutation optimization completed. Initial loss: 5.4576, Final loss: 4.8303
+Program ID 75 mutation optimization completed. Initial loss: 5.6977, Final loss: 4.9245
+Program ID 11 additional optimization completed. Initial loss: 4.0427, Final loss: 4.0427
+Program ID 12 additional optimization completed. Initial loss: 4.0515, Final loss: 4.0515
+Program ID 6 additional optimization completed. Initial loss: 4.0515, Final loss: 4.0515
+Program ID 4 additional optimization completed. Initial loss: 4.0867, Final loss: 4.0867
+Program ID 10 additional optimization completed. Initial loss: 4.2178, Final loss: 4.2178
+Best candidate after iteration 14: Program ID 11, Final Loss: 4.0427
+Selected candidates for next iteration: [11, 12, 6, 4, 10]
+Program ID 76 mutation optimization completed. Initial loss: 5.3315, Final loss: 4.5925
+Program ID 77 mutation optimization completed. Initial loss: 5.5479, Final loss: 4.8671
+Program ID 78 mutation optimization completed. Initial loss: 5.4102, Final loss: 5.0401
+Program ID 79 mutation optimization completed. Initial loss: 5.1016, Final loss: 4.5246
+Program ID 80 mutation optimization completed. Initial loss: 5.5264, Final loss: 4.6937
+Program ID 11 additional optimization completed. Initial loss: 4.0427, Final loss: 4.0427
+Program ID 12 additional optimization completed. Initial loss: 4.0515, Final loss: 4.0515
+Program ID 6 additional optimization completed. Initial loss: 4.0515, Final loss: 4.0515
+Program ID 4 additional optimization completed. Initial loss: 4.0867, Final loss: 4.0867
+Program ID 10 additional optimization completed. Initial loss: 4.2178, Final loss: 4.2178
+Best candidate after iteration 15: Program ID 11, Final Loss: 4.0427
+Selected candidates for next iteration: [11, 12, 6, 4, 10]
+
+--- Final Selected Programs ---
+Program ID: 11, Final Loss: 4.0427
+Hypothesis: b's distribution is multimodal within the negative a regime, modeled by a three-component mixture, while positive a uses two components.
+Structure: mixture3
+DeGAS code:
+a = gm([1.00],[0.98],[2.01]); if a < 0.00 { b = gm([0.33,0.34,0.33],[-2.00,0.00,4.00],[1.50,2.00,3.00]); } else { b = gm([0.40,0.60],[5.00,8.00],[2.00,3.00]); } end if;
+
+Program ID: 12, Final Loss: 4.0515
+Hypothesis: b depends on sign of a and each regime is itself modeled as a two-component mixture.
+Structure: conditional_mixture
+DeGAS code:
+a = gm([1.00],[0.98],[2.01]); if a < 0.00 { b = gm([0.50,0.50],[-1.00,3.00],[2.00,2.00]); } else { b = gm([0.30,0.70],[5.00,9.00],[3.00,4.00]); } end if;
+
+Program ID: 6, Final Loss: 4.0515
+Hypothesis: b's distribution is modeled as a mixture that depends on whether a is negative or non-negative, capturing subpopulations within each regime.
+Structure: conditional_mixture
+DeGAS code:
+a = gm([1.00],[0.98],[2.01]); if a < 0.00 { b = gm([0.50,0.50],[-1.00,3.00],[1.50,2.50]); } else { b = gm([0.40,0.60],[5.00,8.00],[2.00,3.00]); } end if;
+
+Program ID: 4, Final Loss: 4.0867
+Hypothesis: Variable b's distribution depends on whether variable a is below or above zero, reflecting conditional regimes.
+Structure: conditional
+DeGAS code:
+a = gm([1.00],[0.98],[2.01]);
+if a < 0.00 {
+    b = gm([1.00],[2.00],[3.00]);
+} else {
+    b = gm([1.00],[6.00],[4.00]);
+}
+end if;
+
+Program ID: 10, Final Loss: 4.2178
+Hypothesis: b's distribution switches based on the value of a, using separate mixtures for low and high a values.
+Structure: conditional
+DeGAS code:
+a = gm([0.30,0.40,0.30],[-2.00,0.50,3.00],[1.20,2.00,2.80]); if a < 1.00 { b = gm([0.60,0.40],[-1.00,4.00],[2.00,3.00]); } else { b = gm([0.50,0.5],[5.00,9.00],[3.00,5.00]); } end if;
+
+=== Run finished in 1656.8s ===

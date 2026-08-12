@@ -1,0 +1,5 @@
+=== program=easytugwar seed=3 inference=gradient ===
+[attempt=1 r=0 ell=0] score=5/5 held_out_nll=2.1636 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'held_out_ok': True}
+[attempt=2 r=0 ell=0] score=5/5 held_out_nll=2.1636 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'held_out_ok': True}
+[attempt=3 r=0 ell=0] score=5/5 held_out_nll=2.1636 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'held_out_ok': True}
+=== SUCCESS in 273.0s: /home/rdoz/LLM-guided_PP_synthesis/results/easytugwar/refinestat/20260808_223439_seed3 ===

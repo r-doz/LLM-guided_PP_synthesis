@@ -1,0 +1,9 @@
+=== program=easytugwar seed=5 inference=gradient ===
+[attempt=1 r=0 ell=0] score=5/5 held_out_nll=6.3683 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'held_out_ok': True}
+[attempt=2 r=0 ell=0] score=0/5 held_out_nll=inf checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': False, 'held_out_ok': False}
+[attempt=2] resample likelihood (ell=1/3)
+[attempt=3 r=0 ell=1] score=5/5 held_out_nll=7.2008 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'held_out_ok': True}
+[attempt=4 r=0 ell=1] score=0/5 held_out_nll=inf checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': False, 'held_out_ok': False}
+[attempt=4] resample likelihood (ell=2/3)
+[attempt=5 r=0 ell=2] score=5/5 held_out_nll=7.2008 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'held_out_ok': True}
+=== SUCCESS in 348.2s: /home/rdoz/LLM-guided_PP_synthesis/results/easytugwar/refinestat/20260808_224346_seed5 ===

@@ -131,6 +131,13 @@ def main() -> None:
     parser.add_argument("--K", type=int, default=4)
     parser.add_argument("--n-opt-steps", type=int, default=100)
     parser.add_argument(
+        "--max-wall-hours",
+        type=float,
+        default=None,
+        help="Give up on a seed (move to the next) after this many hours in the attempt "
+        "loop, keeping whatever valid candidate (if any) was found so far. Default: no cap.",
+    )
+    parser.add_argument(
         "--inference",
         choices=["gradient", "mcmc"],
         default="gradient",
@@ -153,6 +160,7 @@ def main() -> None:
         beta=args.beta,
         K=args.K,
         n_opt_steps=args.n_opt_steps,
+        max_wall_seconds=args.max_wall_hours * 3600 if args.max_wall_hours is not None else None,
     )
     mcmc_cfg = (
         MCMCConfig(

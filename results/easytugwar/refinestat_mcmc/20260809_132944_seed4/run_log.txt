@@ -1,0 +1,24 @@
+=== program=easytugwar seed=4 inference=mcmc ===
+[attempt=1 r=0 ell=0] score=0/5 held_out_nll=inf checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': False, 'pareto_k_ok': False}
+[attempt=1] resample likelihood (ell=1/3)
+[attempt=2 r=0 ell=1] score=1/5 held_out_nll=11.6345 checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': True, 'pareto_k_ok': False}
+[attempt=2] resample likelihood (ell=2/3)
+[attempt=3 r=0 ell=2] score=0/5 held_out_nll=inf checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': False, 'pareto_k_ok': False}
+[attempt=3] resample likelihood (ell=3/3)
+[attempt=4 r=0 ell=3] score=0/5 held_out_nll=inf checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': False, 'pareto_k_ok': False}
+[attempt=4] resample prior (r=1/8)
+[attempt=5 r=1 ell=3] score=0/5 held_out_nll=inf checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': False, 'pareto_k_ok': False}
+[attempt=5] resample prior (r=2/8)
+[attempt=6 r=2 ell=3] score=1/5 held_out_nll=0.3176 checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': True, 'pareto_k_ok': False}
+[attempt=6] resample prior (r=3/8)
+[attempt=7 r=3 ell=3] score=0/5 held_out_nll=inf checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': False, 'pareto_k_ok': False}
+[attempt=7] resample prior (r=4/8)
+[attempt=8 r=4 ell=3] score=0/5 held_out_nll=inf checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': False, 'pareto_k_ok': False}
+[attempt=8] resample prior (r=5/8)
+[attempt=9 r=5 ell=3] score=0/5 held_out_nll=inf checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': False, 'pareto_k_ok': False}
+[attempt=9] resample prior (r=6/8)
+[attempt=10 r=6 ell=3] score=0/5 held_out_nll=inf checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': False, 'pareto_k_ok': False}
+[attempt=10] resample prior (r=7/8)
+[attempt=11 r=7 ell=3] score=0/5 held_out_nll=inf checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': False, 'pareto_k_ok': False}
+[attempt=11] resample prior (r=8/8)
+=== NO VALID CANDIDATE FOUND in 22948.6s: /home/rdoz/LLM-guided_PP_synthesis/results/easytugwar/refinestat_mcmc/20260809_132944_seed4 ===
