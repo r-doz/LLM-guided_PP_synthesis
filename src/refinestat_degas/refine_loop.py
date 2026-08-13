@@ -86,7 +86,9 @@ class RefineConfig:
     Rmax: int = 8
     alpha: int = 3
     beta: int = 3
-    K: int = 4  # of 5 diagnostic checks (r_hat, ess_bulk, ess_tail, no_divergences, held_out_ok)
+    K: int = 4  # cutoff; meaning depends on inference backend (see main.py): 4 of 5 checks
+    # (r_hat, ess_bulk, ess_tail, no_divergences, held_out_ok) for --inference gradient, or
+    # RefineStat's own zeta=5 of 7 (mcmc_diagnostics.py's checks) for --inference mcmc
     n_opt_steps: int = 100
     lr: float = 0.01
     n_samples: int = 500
@@ -309,7 +311,8 @@ def refine_program(
 
         result = fit_fn(program_text, train_data, held_out_data, var_names)
         log(
-            f"[attempt={attempt} r={r} ell={ell}] score={result['reliability_score']}/5 "
+            f"[attempt={attempt} r={r} ell={ell}] "
+            f"score={result['reliability_score']}/{len(result['checks'])} (cutoff K={cfg.K}) "
             f"held_out_nll={result['held_out_nll']:.4f} checks={result['checks']}"
         )
         best_fitness_per_attempt.append(result["held_out_nll"])

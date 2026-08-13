@@ -1,0 +1,15 @@
+=== program=mog1 seed=4 inference=mcmc ===
+[attempt=1 r=0 ell=0] score=1/7 (cutoff K=5) held_out_nll=11.4563 checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': False, 'bfmi': False, 'pareto_k_ok': False, 'loo_success': True}
+[attempt=1] resample likelihood (ell=1/2)
+[attempt=2 r=0 ell=1] score=0/7 (cutoff K=5) held_out_nll=26.7695 checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': False, 'bfmi': False, 'pareto_k_ok': False, 'loo_success': False}
+[attempt=2] resample likelihood (ell=2/2)
+[attempt=3 r=0 ell=2] score=6/7 (cutoff K=5) held_out_nll=6.6936 checks={'r_hat': True, 'ess_bulk': False, 'ess_tail': True, 'no_divergences': True, 'bfmi': True, 'pareto_k_ok': True, 'loo_success': True}
+[attempt=4 r=0 ell=2] score=0/7 (cutoff K=5) held_out_nll=12.0804 checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': False, 'bfmi': False, 'pareto_k_ok': False, 'loo_success': False}
+[attempt=4] resample prior (r=1/100)
+[attempt=5 r=1 ell=2] score=4/7 (cutoff K=5) held_out_nll=inf checks={'r_hat': True, 'ess_bulk': False, 'ess_tail': True, 'no_divergences': True, 'bfmi': False, 'pareto_k_ok': False, 'loo_success': True}
+[attempt=5] resample prior (r=2/100)
+[attempt=6 r=2 ell=2] score=7/7 (cutoff K=5) held_out_nll=6.7399 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'bfmi': True, 'pareto_k_ok': True, 'loo_success': True}
+[attempt=7 r=2 ell=2] score=6/7 (cutoff K=5) held_out_nll=6.7024 checks={'r_hat': True, 'ess_bulk': False, 'ess_tail': True, 'no_divergences': True, 'bfmi': True, 'pareto_k_ok': True, 'loo_success': True}
+[attempt=8 r=2] generation incomplete within budget; restarting
+[attempt=9 r=3 ell=2] score=6/7 (cutoff K=5) held_out_nll=6.7064 checks={'r_hat': True, 'ess_bulk': False, 'ess_tail': True, 'no_divergences': True, 'bfmi': True, 'pareto_k_ok': True, 'loo_success': True}
+=== SUCCESS in 672.8s: /home/rdoz/LLM-guided_PP_synthesis/results/mog1/refinestat_mcmc/20260812_185631_seed4 ===

@@ -1,0 +1,53 @@
+[
+  {
+    "rewritten": "mu = gm([0.25, 0.75], [_mu1, _mu2], [_sigma1, _sigma2]) ;  sigma = gm([0.25, 0.75], [_mu3, _mu4], [_sigma3, _sigma4]) ;  x = gm([0.25, 0.75], [_mu5, _mu6], [_sigma5, _sigma6]) ;",
+    "params": {
+      "mu1": 19.0,
+      "mu2": 20.0,
+      "sigma1": 3.0,
+      "sigma2": 3.0,
+      "mu3": 2.0,
+      "mu4": 2.0,
+      "sigma3": 0.5,
+      "sigma4": 0.5,
+      "mu5": 20.0,
+      "mu6": 20.0,
+      "sigma5": 4.0,
+      "sigma6": 4.0
+    },
+    "posterior_mean_params": {
+      "mu1": 19.764556884765625,
+      "mu2": 19.95415496826172,
+      "mu3": 2.2152154445648193,
+      "mu4": 2.059878349304199,
+      "mu5": 22.13393211364746,
+      "mu6": 21.820642471313477,
+      "sigma1": 2.914405345916748,
+      "sigma2": 3.008613109588623,
+      "sigma3": 0.7997092604637146,
+      "sigma4": 0.910460352897644,
+      "sigma5": 3.5211284160614014,
+      "sigma6": 3.7494044303894043
+    },
+    "max_r_hat": 1.02,
+    "min_ess_bulk": 346.0,
+    "min_ess_tail": 1111.0,
+    "divergence_frac": 0.0,
+    "bfmi_min": 1.0487165451049805,
+    "elpd_loo": -5344.425296705475,
+    "pareto_k_high_frac": 0.0,
+    "held_out_nll": 6.693589579981831,
+    "checks": {
+      "r_hat": true,
+      "ess_bulk": false,
+      "ess_tail": true,
+      "no_divergences": true,
+      "bfmi": true,
+      "pareto_k_ok": true,
+      "loo_success": true
+    },
+    "reliability_score": 6,
+    "error": null,
+    "program": "mu = gm( [0.25, 0.75] , [19.00, 20.00] , [3.00, 3.00] ) ;  sigma = gm( [0.25, 0.75] , [2.00, 2.00] , [0.50, 0.50] ) ;  x = gm( [0.25, 0.75] , [20.00, 20.00] , [4.00, 4.00] ) ;"
+  }
+]

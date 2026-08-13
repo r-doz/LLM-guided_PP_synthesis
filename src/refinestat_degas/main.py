@@ -125,10 +125,34 @@ def main() -> None:
     parser.add_argument("--data-size", type=int, default=config.DATA_SIZE)
     parser.add_argument("--train-frac", type=float, default=config.TRAIN_FRAC)
     parser.add_argument("--max-units", type=int, default=20)
-    parser.add_argument("--Rmax", type=int, default=8)
-    parser.add_argument("--alpha", type=int, default=3)
-    parser.add_argument("--beta", type=int, default=3)
-    parser.add_argument("--K", type=int, default=4)
+    parser.add_argument(
+        "--Rmax",
+        type=int,
+        default=None,
+        help="Max prior-resample rounds. Default: 8 for --inference gradient, 100 (RefineStat's "
+        "own paper value, see Appendix E) for --inference mcmc.",
+    )
+    parser.add_argument(
+        "--alpha",
+        type=int,
+        default=None,
+        help="Max likelihood-resamples per round. Default: 3 for gradient, 2 (RefineStat's own "
+        "value) for mcmc.",
+    )
+    parser.add_argument(
+        "--beta",
+        type=int,
+        default=None,
+        help="Target number of valid candidates. Default: 3 for gradient, 4 (RefineStat's own "
+        "value) for mcmc.",
+    )
+    parser.add_argument(
+        "--K",
+        type=int,
+        default=None,
+        help="Reliability-score cutoff. Default: 4 (of 5 checks) for --inference gradient, "
+        "5 (of 7 checks, RefineStat's own zeta) for --inference mcmc.",
+    )
     parser.add_argument("--n-opt-steps", type=int, default=100)
     parser.add_argument(
         "--max-wall-hours",
@@ -142,31 +166,49 @@ def main() -> None:
         choices=["gradient", "mcmc"],
         default="gradient",
         help="gradient: DeGAS's own gradient-optimized point estimate (default). "
-        "mcmc: genuine NUTS/MCMC posterior inference via Pyro -- see mcmc_diagnostics.py.",
+        "mcmc: genuine NUTS/MCMC posterior inference via NumPyro -- see mcmc_diagnostics.py.",
     )
     parser.add_argument("--mcmc-chains", type=int, default=4)
-    parser.add_argument("--mcmc-warmup", type=int, default=500)
-    parser.add_argument("--mcmc-samples", type=int, default=500)
+    parser.add_argument(
+        "--mcmc-warmup",
+        type=int,
+        default=None,
+        help="NUTS warmup/tune steps. Default: 1000, matching RefineStat's own "
+        "pm.sample(1000, tune=1000, chains=4, ...) prompt (commons/data_pymc.py).",
+    )
+    parser.add_argument(
+        "--mcmc-samples",
+        type=int,
+        default=None,
+        help="NUTS post-warmup draws. Default: 1000, matching RefineStat's own pm.sample() call.",
+    )
     parser.add_argument("--mcmc-loo-draws-per-chain", type=int, default=50)
     args = parser.parse_args()
 
     programs = args.programs.split(",")
     seeds = parse_seeds(args.seeds)
 
+    is_mcmc = args.inference == "mcmc"
+    k = args.K if args.K is not None else (5 if is_mcmc else 4)
+    rmax = args.Rmax if args.Rmax is not None else (100 if is_mcmc else 8)
+    alpha = args.alpha if args.alpha is not None else (2 if is_mcmc else 3)
+    beta = args.beta if args.beta is not None else (4 if is_mcmc else 3)
     refine_cfg = RefineConfig(
         max_units=args.max_units,
-        Rmax=args.Rmax,
-        alpha=args.alpha,
-        beta=args.beta,
-        K=args.K,
+        Rmax=rmax,
+        alpha=alpha,
+        beta=beta,
+        K=k,
         n_opt_steps=args.n_opt_steps,
         max_wall_seconds=args.max_wall_hours * 3600 if args.max_wall_hours is not None else None,
     )
+    mcmc_warmup = args.mcmc_warmup if args.mcmc_warmup is not None else 1000
+    mcmc_samples = args.mcmc_samples if args.mcmc_samples is not None else 1000
     mcmc_cfg = (
         MCMCConfig(
             num_chains=args.mcmc_chains,
-            warmup_steps=args.mcmc_warmup,
-            num_samples=args.mcmc_samples,
+            warmup_steps=mcmc_warmup,
+            num_samples=mcmc_samples,
             loo_draws_per_chain=args.mcmc_loo_draws_per_chain,
         )
         if args.inference == "mcmc"

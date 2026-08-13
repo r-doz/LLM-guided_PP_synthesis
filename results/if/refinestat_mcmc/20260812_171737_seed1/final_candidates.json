@@ -1,0 +1,49 @@
+[
+  {
+    "rewritten": "a = gm([0.30, 0.70], [_mu1, _mu2], [_sigma1, _sigma2]) ; b = gm([0.20, 0.30, 0.50], [_mu3, _mu4, _mu5], [_sigma3, _sigma4, _sigma5]) ;",
+    "params": {
+      "mu1": 1.0,
+      "mu2": 1.5,
+      "sigma1": 2.0,
+      "sigma2": 3.0,
+      "mu3": 4.0,
+      "mu4": 4.5,
+      "mu5": 5.0,
+      "sigma3": 5.0,
+      "sigma4": 6.0,
+      "sigma5": 7.0
+    },
+    "posterior_mean_params": {
+      "mu1": 1.2837896347045898,
+      "mu2": 0.9784343838691711,
+      "mu3": 3.1923651695251465,
+      "mu4": -4.406950950622559,
+      "mu5": 8.026313781738281,
+      "sigma1": 1.7358813285827637,
+      "sigma2": 1.882042646408081,
+      "sigma3": 1.2727035284042358,
+      "sigma4": 3.480184316635132,
+      "sigma5": 0.997973620891571
+    },
+    "max_r_hat": 1.74,
+    "min_ess_bulk": 6.0,
+    "min_ess_tail": 127.0,
+    "divergence_frac": 0.0,
+    "bfmi_min": 1.0032421350479126,
+    "elpd_loo": -3668.2695651136064,
+    "pareto_k_high_frac": 0.0,
+    "held_out_nll": 4.923872645456903,
+    "checks": {
+      "r_hat": false,
+      "ess_bulk": false,
+      "ess_tail": true,
+      "no_divergences": true,
+      "bfmi": true,
+      "pareto_k_ok": true,
+      "loo_success": true
+    },
+    "reliability_score": 5,
+    "error": null,
+    "program": "a = gm( [0.30, 0.70] , [1.00, 1.50] , [2.00, 3.00] ) ; b = gm( [0.20, 0.30, 0.50] , [4.00, 4.50, 5.00] , [5.00, 6.00, 7.00] ) ;"
+  }
+]
