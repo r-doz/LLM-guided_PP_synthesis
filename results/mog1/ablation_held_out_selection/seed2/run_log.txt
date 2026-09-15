@@ -1,0 +1,267 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "mog1",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 15,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 50,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/mog1/20260913_152501"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Data is generated from a single Gaussian-like distribution for each variable.
+DeGAS code:
+mu = gm([1.00],[20.05],[2.95]); sigma = gm([1.00],[2.03],[0.98]); x = gm([1.00],[22.00],[3.79]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Data consists of two subpopulations with distinct means for each variable.
+DeGAS code:
+mu = gm([0.60,0.40],[18.00,24.00],[2.00,2.00]); sigma = gm([0.60,0.40],[1.50,3.00],[0.50,0.50]); x = gm([0.60,0.40],[19.00,25.00],[2.00,2.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Data shows three overlapping components reflecting skewness.
+DeGAS code:
+mu = gm([0.30,0.40,0.30],[17.00,20.05,25.00],[1.50,2.95,1.50]); sigma = gm([0.30,0.40,0.30],[1.20,2.03,3.00],[0.40,0.98,0.40]); x = gm([0.30,0.40,0.30],[18.00,22.00,28.00],[1.80,3.79,1.80]);
+
+Program ID: 4, Structure: conditional, Hypothesis: If the observed sigma is high, mu shifts to larger values; otherwise it stays lower.
+DeGAS code:
+if sigma >= 2.50 { mu = gm([1.00],[24.00],[2.00]); x = gm([1.00],[28.00],[3.00]); } else { mu = gm([1.00],[18.00],[2.00]); x = gm([1.00],[16.00],[3.00]); } sigma = gm([1.00],[2.03],[0.98]);
+
+Program ID: 5, Structure: hierarchical, Hypothesis: mu is generated first, then x is a scaled version of mu plus independent noise.
+DeGAS code:
+mu = gm([1.00],[20.05],[2.95]); temp = 0.50*mu; x = temp + gm([1.00],[22.00],[3.79]); sigma = gm([1.00],[2.03],[0.98]);
+
+Program ID 1 initial optimization completed. Initial loss: 6.6484, Final loss: 6.6484
+Program ID 2 initial optimization completed. Initial loss: 6.9991, Final loss: 6.7074
+Program ID 3 initial optimization completed. Initial loss: 7.0950, Final loss: 6.7329
+Error extracting parameters from program ID 4: Expected parameter loc (Tensor of shape (3,)) of distribution MultivariateNormal(loc: torch.Size([3]), covariance_matrix: torch.Size([3, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, 0., nan], grad_fn=<ExpandBackward0>)
+Program ID 5 initial optimization completed. Initial loss: 9.9201, Final loss: 8.0764
+Program ID 6 mutation optimization completed. Initial loss: 6.7794, Final loss: 6.6824
+Program ID 7 mutation optimization completed. Initial loss: 7.1311, Final loss: 6.6756
+Program ID 8 mutation optimization completed. Initial loss: 7.4655, Final loss: 6.8545
+Error in program ID 9: Expected parameter loc (Tensor of shape (3,)) of distribution MultivariateNormal(loc: torch.Size([3]), covariance_matrix: torch.Size([3, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([0., nan, nan], grad_fn=<ExpandBackward0>)
+Program ID 1 additional optimization completed. Initial loss: 6.6484, Final loss: 6.6484
+Program ID 7 additional optimization completed. Initial loss: 6.6751, Final loss: 6.6432
+Program ID 6 additional optimization completed. Initial loss: 6.6819, Final loss: 6.6423
+Program ID 2 additional optimization completed. Initial loss: 6.7059, Final loss: 6.6438
+Program ID 3 additional optimization completed. Initial loss: 6.7313, Final loss: 6.6470
+Best candidate after iteration 1: Program ID 6, Final Loss: 6.6423
+Selected candidates for next iteration: [6, 7, 2, 3, 1]
+Program ID 11 mutation optimization completed. Initial loss: 6.8809, Final loss: 6.7016
+Program ID 12 mutation optimization completed. Initial loss: 7.2077, Final loss: 6.6673
+Program ID 13 mutation optimization completed. Initial loss: 7.0155, Final loss: 6.6678
+Program ID 14 mutation optimization completed. Initial loss: 7.2893, Final loss: 6.6916
+Program ID 15 mutation optimization completed. Initial loss: 7.0417, Final loss: 6.7040
+Program ID 6 additional optimization completed. Initial loss: 6.6423, Final loss: 6.6422
+Program ID 7 additional optimization completed. Initial loss: 6.6432, Final loss: 6.6428
+Program ID 2 additional optimization completed. Initial loss: 6.6438, Final loss: 6.6419
+Program ID 3 additional optimization completed. Initial loss: 6.6469, Final loss: 6.6397
+Program ID 1 additional optimization completed. Initial loss: 6.6484, Final loss: 6.6484
+Best candidate after iteration 2: Program ID 6, Final Loss: 6.6422
+Selected candidates for next iteration: [6, 2, 7, 1, 3]
+Program ID 16 mutation optimization completed. Initial loss: 7.3981, Final loss: 6.7094
+Program ID 17 mutation optimization completed. Initial loss: 7.0628, Final loss: 6.6697
+Error in program ID 18: Expected parameter loc (Tensor of shape (3,)) of distribution MultivariateNormal(loc: torch.Size([3]), covariance_matrix: torch.Size([3, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan], grad_fn=<ExpandBackward0>)
+Program ID 19 mutation optimization completed. Initial loss: 6.9871, Final loss: 6.6754
+Error in program ID 20: Expected parameter loc (Tensor of shape (3,)) of distribution MultivariateNormal(loc: torch.Size([3]), covariance_matrix: torch.Size([3, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan], grad_fn=<ExpandBackward0>)
+Program ID 6 additional optimization completed. Initial loss: 6.6422, Final loss: 6.6422
+Program ID 2 additional optimization completed. Initial loss: 6.6419, Final loss: 6.6419
+Program ID 7 additional optimization completed. Initial loss: 6.6428, Final loss: 6.6428
+Program ID 1 additional optimization completed. Initial loss: 6.6484, Final loss: 6.6484
+Program ID 3 additional optimization completed. Initial loss: 6.6397, Final loss: 6.6388
+Best candidate after iteration 3: Program ID 6, Final Loss: 6.6422
+Selected candidates for next iteration: [6, 2, 7, 3, 1]
+Program ID 21 mutation optimization completed. Initial loss: 7.2883, Final loss: 6.6950
+Program ID 22 mutation optimization completed. Initial loss: 7.0917, Final loss: 6.7273
+Program ID 23 mutation optimization completed. Initial loss: 6.7837, Final loss: 6.6831
+Program ID 24 mutation optimization completed. Initial loss: 6.9366, Final loss: 6.6749
+Program ID 25 mutation optimization completed. Initial loss: 6.9202, Final loss: 6.6478
+Program ID 6 additional optimization completed. Initial loss: 6.6422, Final loss: 6.6422
+Program ID 2 additional optimization completed. Initial loss: 6.6419, Final loss: 6.6419
+Program ID 7 additional optimization completed. Initial loss: 6.6428, Final loss: 6.6428
+Program ID 25 additional optimization completed. Initial loss: 6.6477, Final loss: 6.6423
+Program ID 3 additional optimization completed. Initial loss: 6.6388, Final loss: 6.6388
+Best candidate after iteration 4: Program ID 6, Final Loss: 6.6422
+Selected candidates for next iteration: [6, 25, 2, 7, 3]
+Program ID 26 mutation optimization completed. Initial loss: 6.8509, Final loss: 6.4523
+Program ID 27 mutation optimization completed. Initial loss: 7.4995, Final loss: 6.7171
+Program ID 28 mutation optimization completed. Initial loss: 7.0925, Final loss: 6.7187
+Program ID 29 mutation optimization completed. Initial loss: 6.9723, Final loss: 6.6483
+Program ID 30 mutation optimization completed. Initial loss: 7.6789, Final loss: 7.1306
+Program ID 26 additional optimization completed. Initial loss: 6.4512, Final loss: 6.3828
+Program ID 6 additional optimization completed. Initial loss: 6.6422, Final loss: 6.6422
+Program ID 25 additional optimization completed. Initial loss: 6.6423, Final loss: 6.6422
+Program ID 2 additional optimization completed. Initial loss: 6.6419, Final loss: 6.6419
+Program ID 7 additional optimization completed. Initial loss: 6.6428, Final loss: 6.6428
+Best candidate after iteration 5: Program ID 26, Final Loss: 6.3828
+Selected candidates for next iteration: [26, 25, 6, 2, 7]
+Program ID 31 mutation optimization completed. Initial loss: 6.9342, Final loss: 6.6866
+Program ID 32 mutation optimization completed. Initial loss: 7.0842, Final loss: 6.4431
+Program ID 33 mutation optimization completed. Initial loss: 6.9548, Final loss: 6.6857
+Program ID 34 mutation optimization completed. Initial loss: 6.8372, Final loss: 6.3981
+Program ID 35 mutation optimization completed. Initial loss: 7.0472, Final loss: 6.6749
+Program ID 26 additional optimization completed. Initial loss: 6.3828, Final loss: 6.3817
+Program ID 34 additional optimization completed. Initial loss: 6.3973, Final loss: 6.3819
+Program ID 32 additional optimization completed. Initial loss: 6.4424, Final loss: 6.4056
+Program ID 25 additional optimization completed. Initial loss: 6.6422, Final loss: 6.6422
+Program ID 6 additional optimization completed. Initial loss: 6.6422, Final loss: 6.6422
+Best candidate after iteration 6: Program ID 32, Final Loss: 6.4056
+Selected candidates for next iteration: [32, 26, 34, 25, 6]
+Program ID 36 mutation optimization completed. Initial loss: 6.9953, Final loss: 6.6875
+Program ID 37 mutation optimization completed. Initial loss: 6.7987, Final loss: 6.4096
+Program ID 38 mutation optimization completed. Initial loss: 6.8284, Final loss: 6.6467
+Error in program ID 39: could not convert string to float: 'scale'
+Program ID 40 mutation optimization completed. Initial loss: 7.9786, Final loss: 7.9712
+Program ID 32 additional optimization completed. Initial loss: 6.4056, Final loss: 6.4054
+Program ID 26 additional optimization completed. Initial loss: 6.3817, Final loss: 6.3817
+Program ID 34 additional optimization completed. Initial loss: 6.3819, Final loss: 6.3819
+Program ID 37 additional optimization completed. Initial loss: 6.4086, Final loss: 6.3792
+Program ID 25 additional optimization completed. Initial loss: 6.6422, Final loss: 6.6422
+Best candidate after iteration 7: Program ID 32, Final Loss: 6.4054
+Selected candidates for next iteration: [32, 26, 34, 37, 25]
+Program ID 41 mutation optimization completed. Initial loss: 6.8136, Final loss: 6.3818
+Program ID 42 mutation optimization completed. Initial loss: 7.0244, Final loss: 6.6720
+Program ID 43 mutation optimization completed. Initial loss: 9.9615, Final loss: 7.1558
+Program ID 44 mutation optimization completed. Initial loss: 12.8388, Final loss: 8.9169
+Program ID 45 mutation optimization completed. Initial loss: 7.1048, Final loss: 6.6876
+Program ID 32 additional optimization completed. Initial loss: 6.4054, Final loss: 6.4054
+Program ID 26 additional optimization completed. Initial loss: 6.3817, Final loss: 6.3817
+Program ID 34 additional optimization completed. Initial loss: 6.3819, Final loss: 6.3819
+Program ID 37 additional optimization completed. Initial loss: 6.3792, Final loss: 6.3787
+Program ID 41 additional optimization completed. Initial loss: 6.3806, Final loss: 6.3502
+Best candidate after iteration 8: Program ID 32, Final Loss: 6.4054
+Selected candidates for next iteration: [32, 41, 26, 34, 37]
+Program ID 46 mutation optimization completed. Initial loss: 6.8107, Final loss: 6.3775
+Program ID 47 mutation optimization completed. Initial loss: 6.8136, Final loss: 6.3818
+Program ID 48 mutation optimization completed. Initial loss: 7.0577, Final loss: 6.7009
+Program ID 49 mutation optimization completed. Initial loss: 6.7866, Final loss: 6.4100
+Program ID 50 mutation optimization completed. Initial loss: 7.0428, Final loss: 6.4242
+Program ID 32 additional optimization completed. Initial loss: 6.4054, Final loss: 6.4054
+Program ID 41 additional optimization completed. Initial loss: 6.3502, Final loss: 6.3498
+Program ID 26 additional optimization completed. Initial loss: 6.3817, Final loss: 6.3817
+Program ID 34 additional optimization completed. Initial loss: 6.3819, Final loss: 6.3819
+Program ID 37 additional optimization completed. Initial loss: 6.3787, Final loss: 6.3787
+Best candidate after iteration 9: Program ID 32, Final Loss: 6.4054
+Selected candidates for next iteration: [32, 41, 26, 34, 37]
+Program ID 51 mutation optimization completed. Initial loss: 7.3887, Final loss: 6.8764
+Program ID 52 mutation optimization completed. Initial loss: 6.8195, Final loss: 6.3840
+Program ID 53 mutation optimization completed. Initial loss: 7.1827, Final loss: 6.8189
+Program ID 54 mutation optimization completed. Initial loss: 6.7989, Final loss: 6.4128
+Program ID 55 mutation optimization completed. Initial loss: 7.1488, Final loss: 6.4471
+Program ID 32 additional optimization completed. Initial loss: 6.4054, Final loss: 6.4054
+Program ID 41 additional optimization completed. Initial loss: 6.3498, Final loss: 6.3498
+Program ID 26 additional optimization completed. Initial loss: 6.3817, Final loss: 6.3817
+Program ID 34 additional optimization completed. Initial loss: 6.3819, Final loss: 6.3819
+Program ID 37 additional optimization completed. Initial loss: 6.3787, Final loss: 6.3787
+Best candidate after iteration 10: Program ID 32, Final Loss: 6.4054
+Selected candidates for next iteration: [32, 41, 26, 34, 37]
+Program ID 56 mutation optimization completed. Initial loss: 6.9172, Final loss: 6.6487
+Program ID 57 mutation optimization completed. Initial loss: 6.8382, Final loss: 6.6483
+Program ID 58 mutation optimization completed. Initial loss: 6.9159, Final loss: 6.3632
+Error in program ID 59: Expected parameter loc (Tensor of shape (2,)) of distribution Normal(loc: torch.Size([2]), scale: torch.Size([2])) to satisfy the constraint Real(), but found invalid values:
+tensor([nan, nan], grad_fn=<SelectBackward0>)
+Error in program ID 60: Expected parameter loc (Tensor of shape (3,)) of distribution MultivariateNormal(loc: torch.Size([3]), covariance_matrix: torch.Size([3, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan], grad_fn=<ExpandBackward0>)
+Program ID 32 additional optimization completed. Initial loss: 6.4054, Final loss: 6.4054
+Program ID 41 additional optimization completed. Initial loss: 6.3498, Final loss: 6.3498
+Program ID 26 additional optimization completed. Initial loss: 6.3817, Final loss: 6.3817
+Program ID 34 additional optimization completed. Initial loss: 6.3819, Final loss: 6.3819
+Program ID 58 additional optimization completed. Initial loss: 6.3616, Final loss: 6.3075
+Best candidate after iteration 11: Program ID 58, Final Loss: 6.3075
+Selected candidates for next iteration: [58, 32, 41, 26, 34]
+Program ID 61 mutation optimization completed. Initial loss: 7.0143, Final loss: 6.4326
+Program ID 62 mutation optimization completed. Initial loss: 6.9064, Final loss: 6.6520
+Program ID 63 mutation optimization completed. Initial loss: 6.9599, Final loss: 6.7023
+Program ID 64 mutation optimization completed. Initial loss: 6.8803, Final loss: 6.3723
+Program ID 65 mutation optimization completed. Initial loss: 6.8913, Final loss: 6.4214
+Program ID 58 additional optimization completed. Initial loss: 6.3075, Final loss: 6.3075
+Program ID 32 additional optimization completed. Initial loss: 6.4054, Final loss: 6.4054
+Program ID 41 additional optimization completed. Initial loss: 6.3498, Final loss: 6.3498
+Program ID 26 additional optimization completed. Initial loss: 6.3817, Final loss: 6.3817
+Program ID 34 additional optimization completed. Initial loss: 6.3819, Final loss: 6.3819
+Best candidate after iteration 12: Program ID 58, Final Loss: 6.3075
+Selected candidates for next iteration: [58, 32, 41, 26, 34]
+Program ID 66 mutation optimization completed. Initial loss: 6.7957, Final loss: 6.3086
+Program ID 67 mutation optimization completed. Initial loss: 6.7851, Final loss: 6.6428
+Program ID 68 mutation optimization completed. Initial loss: 7.1393, Final loss: 6.4979
+Program ID 69 mutation optimization completed. Initial loss: 6.6212, Final loss: 6.3870
+Error in program ID 70: 
+Program ID 58 additional optimization completed. Initial loss: 6.3075, Final loss: 6.3075
+Program ID 66 additional optimization completed. Initial loss: 6.3070, Final loss: 6.2228
+Program ID 32 additional optimization completed. Initial loss: 6.4054, Final loss: 6.4054
+Program ID 41 additional optimization completed. Initial loss: 6.3498, Final loss: 6.3498
+Program ID 69 additional optimization completed. Initial loss: 6.3870, Final loss: 6.3866
+Best candidate after iteration 13: Program ID 58, Final Loss: 6.3075
+Selected candidates for next iteration: [58, 66, 32, 41, 69]
+Program ID 71 mutation optimization completed. Initial loss: 6.8143, Final loss: 6.3091
+Program ID 72 mutation optimization completed. Initial loss: 6.6831, Final loss: 6.3603
+Program ID 73 mutation optimization completed. Initial loss: 6.8927, Final loss: 6.4068
+Program ID 74 mutation optimization completed. Initial loss: 7.0603, Final loss: 6.6768
+Program ID 75 mutation optimization completed. Initial loss: 7.1977, Final loss: 6.4593
+Program ID 58 additional optimization completed. Initial loss: 6.3075, Final loss: 6.3075
+Program ID 66 additional optimization completed. Initial loss: 6.2228, Final loss: 6.2191
+Program ID 72 additional optimization completed. Initial loss: 6.3601, Final loss: 6.3554
+Program ID 32 additional optimization completed. Initial loss: 6.4054, Final loss: 6.4054
+Program ID 71 additional optimization completed. Initial loss: 6.3075, Final loss: 6.2166
+Best candidate after iteration 14: Program ID 71, Final Loss: 6.2166
+Selected candidates for next iteration: [71, 58, 66, 72, 32]
+Program ID 76 mutation optimization completed. Initial loss: 6.8360, Final loss: 6.2880
+Program ID 77 mutation optimization completed. Initial loss: 7.0030, Final loss: 6.6295
+Program ID 78 mutation optimization completed. Initial loss: 6.6581, Final loss: 6.3397
+Error in program ID 79: 'base'
+Program ID 80 mutation optimization completed. Initial loss: 7.5823, Final loss: 6.5313
+Program ID 71 additional optimization completed. Initial loss: 6.2165, Final loss: 6.2134
+Program ID 58 additional optimization completed. Initial loss: 6.3075, Final loss: 6.3075
+Program ID 66 additional optimization completed. Initial loss: 6.2191, Final loss: 6.2182
+Program ID 76 additional optimization completed. Initial loss: 6.2864, Final loss: 6.1856
+Program ID 72 additional optimization completed. Initial loss: 6.3554, Final loss: 6.3554
+Best candidate after iteration 15: Program ID 76, Final Loss: 6.1856
+Selected candidates for next iteration: [76, 71, 58, 66, 72]
+
+--- Final Selected Programs ---
+Program ID: 76, Final Loss: 6.1856
+Hypothesis: Introduce finer split of low‑mu regime by adding secondary threshold on mu, allowing distinct sigma and x mixtures.
+Structure: conditional_split
+DeGAS code:
+mu = gm([0.33,0.34,0.33],[16.00,20.00,24.00],[2.00,2.50,3.00]); if mu < 18.00 { if mu < 17.00 { sigma = gm([0.60,0.40],[1.20,1.80],[0.50,0.90]); x = gm([0.70,0.30],[19.00,21.00],[2.00,3.00]); } else { sigma = gm([0.55,0.45],[2.60,2.00],[1.30,0.50]); x = gm([0.80,0.20],[18.50,22.50],[1.80,2.20]); } } else { if mu < 22.00 { sigma = gm([0.55,0.45],[2.00,2.80],[0.90,1.20]); x = gm([0.65,0.35],[23.00,25.00],[3.50,4.50]); } else { sigma = gm([0.70,0.30],[3.20,3.80],[1.10,1.40]); x = gm([0.60,0.40],[27.00,29.00],[4.00,5.00]); } } end if;
+
+Program ID: 71, Final Loss: 6.2134
+Hypothesis: Three mu regimes with an expanded low‑mu sigma mixture and a secondary sigma‑based split for x improve fit.
+Structure: mixture3
+DeGAS code:
+mu = gm([0.33,0.34,0.33],[16.00,20.00,24.00],[2.00,2.50,3.00]); if mu < 18.00 { sigma = gm([0.30,0.40,0.30],[1.20,1.80,2.60],[0.50,0.90,1.30]); if sigma < 2.00 { x = gm([0.70,0.30],[19.00,21.00],[2.00,3.00]); } else { x = gm([0.80,0.20],[18.50,22.50],[1.80,2.20]); } } else { if mu < 22.00 { sigma = gm([0.55,0.45],[2.00,2.80],[0.90,1.20]); x = gm([0.65,0.35],[23.00,25.00],[3.50,4.50]); } else { sigma = gm([0.70,0.30],[3.20,3.80],[1.10,1.40]); x = gm([0.60,0.40],[27.00,29.00],[4.00,5.00]); } } end if;
+
+Program ID: 58, Final Loss: 6.3075
+Hypothesis: Nested conditionals on mu and sigma capture subpopulations with different x distributions.
+Structure: nested conditional
+DeGAS code:
+mu = gm([0.50,0.50],[18.00,22.00],[2.00,3.00]); if mu < 20.00 { sigma = gm([0.70,0.30],[1.80,2.20],[0.60,0.90]); if sigma < 2.00 { x = gm([0.80,0.20],[19.00,20.50],[2.00,0.50]); } else { x = gm([1.00],[21.00],[2.50]); } } else { sigma = gm([0.60,0.40],[3.20,3.50],[1.10,1.30]); if sigma < 2.50 { x = gm([0.70,0.30],[25.00,26.00],[4.00,5.00]); } else { x = gm([1.00],[28.00],[6.00]); } } end if;
+
+Program ID: 66, Final Loss: 6.2182
+Hypothesis: Three mu regimes each with distinct sigma and x mixtures capture multimodal subpopulations.
+Structure: mixture3
+DeGAS code:
+mu = gm([0.33,0.34,0.33],[16.00,20.00,24.00],[2.00,2.50,3.00]); if mu < 18.00 { sigma = gm([0.60,0.40],[1.50,2.30],[0.70,1.10]); x = gm([0.70,0.30],[19.00,21.00],[2.00,3.00]); } else { if mu < 22.00 { sigma = gm([0.55,0.45],[2.00,2.80],[0.90,1.20]); x = gm([0.65,0.35],[23.00,25.00],[3.50,4.50]); } else { sigma = gm([0.70,0.30],[3.20,3.80],[1.10,1.40]); x = gm([0.60,0.40],[27.00,29.00],[4.00,5.00]); } } end if;
+
+Program ID: 72, Final Loss: 6.3554
+Hypothesis: Mu is a two‑component mixture while sigma follows an independent three‑component mixture; x depends on mu via a simple threshold.
+Structure: hierarchical
+DeGAS code:
+mu = gm([0.50,0.50],[18.00,22.00],[2.00,3.00]); sigma = gm([0.33,0.34,0.33],[1.80,2.30,3.20],[0.70,1.10,1.60]); if mu < 20.00 { x = gm([0.75,0.25],[19.00,20.50],[2.00,0.50]); } else { x = gm([0.70,0.30],[25.00,28.00],[4.00,6.00]); } end if;
+
+=== Run finished in 1948.3s ===

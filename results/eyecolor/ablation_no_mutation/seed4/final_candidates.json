@@ -1,0 +1,95 @@
+[
+  {
+    "id": 2,
+    "hypothesis": "Data consists of a dominant zero category and a secondary higher-value subpopulation for each trait.",
+    "structure": "mixture2",
+    "program": "eyecolor = gm([0.70,0.30],[0.00,2.00],[0.00,0.50]); haircolor = gm([0.60,0.40],[0.00,3.00],[0.00,0.80]); hairlenght = gm([0.55,0.45],[0.00,1.50],[0.00,0.30]);",
+    "params": {
+      "mu1": 0.0,
+      "mu2": 2.0,
+      "sigma1": 0.0,
+      "sigma2": 0.5,
+      "mu3": 0.0,
+      "mu4": 3.0,
+      "sigma3": 0.0,
+      "sigma4": 0.8,
+      "mu5": 0.0,
+      "mu6": 1.5,
+      "sigma5": 0.0,
+      "sigma6": 0.3
+    },
+    "rewritten": "eyecolor = gm([0.70,0.30], [_mu1, _mu2], [_sigma1, _sigma2]); haircolor = gm([0.60,0.40], [_mu3, _mu4], [_sigma3, _sigma4]); hairlenght = gm([0.55,0.45], [_mu5, _mu6], [_sigma5, _sigma6]);",
+    "optimized_params": {
+      "mu1": "tensor(0., requires_grad=True)",
+      "mu2": "tensor(1.2000, requires_grad=True)",
+      "sigma1": "tensor(0., requires_grad=True)",
+      "sigma2": "tensor(0.9637, grad_fn=<ExpBackward0>)",
+      "mu3": "tensor(0., requires_grad=True)",
+      "mu4": "tensor(2.3718, requires_grad=True)",
+      "sigma3": "tensor(0., requires_grad=True)",
+      "sigma4": "tensor(1.4541, grad_fn=<ExpBackward0>)",
+      "mu5": "tensor(0., requires_grad=True)",
+      "mu6": "tensor(1.5916, requires_grad=True)",
+      "sigma5": "tensor(0., requires_grad=True)",
+      "sigma6": "tensor(0.4937, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 2.723545102141582,
+    "final_loss": 2.342340139044906,
+    "opt_time": 1.079,
+    "opt_iterations": 100
+  },
+  {
+    "id": 1,
+    "hypothesis": "Data is unimodal and approximately normally distributed around the observed means.",
+    "structure": "unimodal",
+    "program": "eyecolor = gm([1.00],[0.14],[0.48]); haircolor = gm([1.00],[0.55],[1.22]); hairlenght = gm([1.00],[0.62],[0.84]);",
+    "params": {
+      "mu1": 0.14,
+      "sigma1": 0.48,
+      "mu2": 0.55,
+      "sigma2": 1.22,
+      "mu3": 0.62,
+      "sigma3": 0.84
+    },
+    "rewritten": "eyecolor = gm([1.00], [_mu1], [_sigma1]); haircolor = gm([1.00], [_mu2], [_sigma2]); hairlenght = gm([1.00], [_mu3], [_sigma3]);",
+    "optimized_params": {
+      "mu1": "tensor(0.1440)",
+      "sigma1": "tensor(0.4830)",
+      "mu2": "tensor(0.5530)",
+      "sigma2": "tensor(1.2228)",
+      "mu3": "tensor(0.6180)",
+      "sigma3": "tensor(0.8367)"
+    },
+    "initial_loss": 3.551966663677127,
+    "final_loss": 3.5518671830585955,
+    "opt_time": 0.57,
+    "opt_iterations": 100
+  },
+  {
+    "id": 5,
+    "hypothesis": "Hair traits are hierarchically influenced by eye color through scaled mixture components.",
+    "structure": "hierarchical",
+    "program": "temp = 0.60*gm([1.00],[0.14],[0.48]); eyecolor = temp; haircolor = 0.40*gm([1.00],[0.55],[1.22]) + eyecolor; hairlenght = 0.30*gm([1.00],[0.62],[0.84]) + haircolor;",
+    "params": {
+      "mu1": 0.14,
+      "sigma1": 0.48,
+      "mu2": 0.55,
+      "sigma2": 1.22,
+      "mu3": 0.62,
+      "sigma3": 0.84
+    },
+    "rewritten": "temp = 0.60*gm([1.00], [_mu1], [_sigma1]); eyecolor = temp; haircolor = 0.40*gm([1.00], [_mu2], [_sigma2]) + eyecolor; hairlenght = 0.30*gm([1.00], [_mu3], [_sigma3]) + haircolor;",
+    "optimized_params": {
+      "mu1": "tensor(0.2394, requires_grad=True)",
+      "sigma1": "tensor(0.7938, grad_fn=<ExpBackward0>)",
+      "mu2": "tensor(0.9967, requires_grad=True)",
+      "sigma2": "tensor(2.3722, grad_fn=<ExpBackward0>)",
+      "mu3": "tensor(0.2230, requires_grad=True)",
+      "sigma3": "tensor(1.7332, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 21.020721397197942,
+    "final_loss": 6.6534081212733795,
+    "opt_time": 0.782,
+    "opt_iterations": 100
+  }
+]

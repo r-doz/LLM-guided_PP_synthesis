@@ -1,0 +1,74 @@
+[
+  {
+    "rewritten": "eyecolor = gm([0.16, 0.52, 0.32], [_mu1, _mu2, _mu3], [_sigma1, _sigma2, _sigma3]) ; haircolor = gm([0.50, 0.25, 0.25], [_mu4, _mu5, _mu6], [_sigma4, _sigma5, _sigma6]) ; hairlenght = gm([0.20, 0.60, 0.20], [_mu7, _mu8, _mu9], [_sigma7, _sigma8, _sigma9]) ;",
+    "params": {
+      "mu1": 0.0,
+      "mu2": 0.33,
+      "mu3": 0.67,
+      "sigma1": 1.0,
+      "sigma2": 1.0,
+      "sigma3": 1.0,
+      "mu4": 0.0,
+      "mu5": 0.5,
+      "mu6": 1.0,
+      "sigma4": 1.0,
+      "sigma5": 1.0,
+      "sigma6": 1.0,
+      "mu7": 0.0,
+      "mu8": 1.0,
+      "mu9": 2.0,
+      "sigma7": 1.0,
+      "sigma8": 1.0,
+      "sigma9": 1.0
+    },
+    "optimized_params": {
+      "mu1": 0.014250314106463149,
+      "mu2": 0.010126485331663923,
+      "mu3": 0.5810184206683754,
+      "sigma1": 0.3679403155138135,
+      "sigma2": 0.3492695463073076,
+      "sigma3": 0.9310540734278823,
+      "mu4": 0.03354212232998423,
+      "mu5": 0.03261023478691118,
+      "mu6": 1.8157720939517794,
+      "sigma4": 0.36683749224679846,
+      "sigma5": 0.3657111906258439,
+      "sigma6": 1.6505733152436322,
+      "mu7": 0.2015020924588443,
+      "mu8": 0.22684820482128787,
+      "mu9": 1.997947893918513,
+      "sigma7": 0.40659331476076027,
+      "sigma8": 0.41288594724230077,
+      "sigma9": 0.2486958729216376
+    },
+    "initial_loss": 4.132204111999731,
+    "final_loss": 2.1315563578640857,
+    "train_nll": 2.112627555126579,
+    "held_out_nll": 1.9536357772346293,
+    "reliability": {
+      "max_r_hat": 1.0,
+      "min_ess_bulk": 1983.0,
+      "min_ess_tail": 1924.0,
+      "divergence_frac": 0.0,
+      "missing_vars": [],
+      "checks": {
+        "r_hat": true,
+        "ess_bulk": true,
+        "ess_tail": true,
+        "no_divergences": true
+      }
+    },
+    "checks": {
+      "r_hat": true,
+      "ess_bulk": true,
+      "ess_tail": true,
+      "no_divergences": true,
+      "held_out_ok": true
+    },
+    "reliability_score": 5,
+    "opt_time": 9.288,
+    "opt_iterations": 100,
+    "error": null,
+    "program": "eyecolor = gm( [0.16, 0.52, 0.32] , [0.00, 0.33, 0.67] , [1.00, 1.00, 1.00] ) ; haircolor = gm( [0.50, 0.25, 0.25] , [0.00, 0.50, 1.00] , [1.00, 1.00, 1.00] ) ; hairlenght = gm( [0.20, 0.60, 0.20] , [0.00, 1.00, 2.00] , [1.00, 1.00, 1.00] ) ;"
+  }
+]

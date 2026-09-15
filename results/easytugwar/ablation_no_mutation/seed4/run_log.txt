@@ -1,0 +1,115 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "easytugwar",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/easytugwar/20260913_001845"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Data is unimodal with approximately normal skill distributions and a single win probability.
+DeGAS code:
+skill1 = gm([1.00],[19.85],[4.11]);
+skill2 = gm([1.00],[20.08],[4.04]);
+p1wins = gm([1.00],[0.48],[0.50]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Skills arise from two sub‑populations (low and high ability) while win outcomes follow observed frequencies.
+DeGAS code:
+skill1 = gm([0.55,0.45],[12.00,27.00],[3.00,3.00]);
+skill2 = gm([0.55,0.45],[13.00,28.00],[3.50,3.50]);
+p1wins = gm([0.52,0.48],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Three latent ability groups generate the skill scores and win probabilities show moderate skew.
+DeGAS code:
+skill1 = gm([0.30,0.40,0.30],[10.00,20.00,30.00],[2.50,4.00,2.50]);
+skill2 = gm([0.30,0.40,0.30],[11.00,21.00,31.00],[2.80,4.20,2.80]);
+p1wins = gm([0.30,0.40,0.30],[0.00,0.50,1.00],[0.10,0.10,0.10]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Players with higher skill1 tend to have higher skill2 and a greater chance of winning.
+DeGAS code:
+skill1 = gm([1.00],[19.85],[4.11]);
+if skill1 >= 20.00 {
+    skill2 = gm([1.00],[22.00],[3.50]);
+    p1wins = gm([1.00],[0.60],[0.49]);
+} else {
+    skill2 = gm([1.00],[18.00],[4.00]);
+    p1wins = gm([1.00],[0.35],[0.48]);
+} end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Skill2 is generated hierarchically as a scaled version of skill1 plus additional variation.
+DeGAS code:
+skill1 = gm([1.00],[19.85],[4.11]);
+temp = 0.70*skill1;
+skill2 = temp + gm([1.00],[20.08],[4.04]);
+p1wins = gm([1.00],[0.48],[0.50]);
+
+Program ID 1 initial optimization completed. Initial loss: 6.3735, Final loss: 6.3735
+Program ID 2 initial optimization completed. Initial loss: 8.3445, Final loss: 7.3397
+Program ID 3 initial optimization completed. Initial loss: 6.6398, Final loss: 4.8733
+Program ID 4 initial optimization completed. Initial loss: 6.4501, Final loss: 5.3058
+Program ID 5 initial optimization completed. Initial loss: 12.5188, Final loss: 8.0909
+
+--- Final Selected Programs ---
+Program ID: 3, Final Loss: 4.8733
+Hypothesis: Three latent ability groups generate the skill scores and win probabilities show moderate skew.
+Structure: mixture3
+DeGAS code:
+skill1 = gm([0.30,0.40,0.30],[10.00,20.00,30.00],[2.50,4.00,2.50]);
+skill2 = gm([0.30,0.40,0.30],[11.00,21.00,31.00],[2.80,4.20,2.80]);
+p1wins = gm([0.30,0.40,0.30],[0.00,0.50,1.00],[0.10,0.10,0.10]);
+
+Program ID: 4, Final Loss: 5.3058
+Hypothesis: Players with higher skill1 tend to have higher skill2 and a greater chance of winning.
+Structure: conditional
+DeGAS code:
+skill1 = gm([1.00],[19.85],[4.11]);
+if skill1 >= 20.00 {
+    skill2 = gm([1.00],[22.00],[3.50]);
+    p1wins = gm([1.00],[0.60],[0.49]);
+} else {
+    skill2 = gm([1.00],[18.00],[4.00]);
+    p1wins = gm([1.00],[0.35],[0.48]);
+} end if;
+
+Program ID: 1, Final Loss: 6.3735
+Hypothesis: Data is unimodal with approximately normal skill distributions and a single win probability.
+Structure: unimodal
+DeGAS code:
+skill1 = gm([1.00],[19.85],[4.11]);
+skill2 = gm([1.00],[20.08],[4.04]);
+p1wins = gm([1.00],[0.48],[0.50]);
+
+Program ID: 2, Final Loss: 7.3397
+Hypothesis: Skills arise from two sub‑populations (low and high ability) while win outcomes follow observed frequencies.
+Structure: mixture2
+DeGAS code:
+skill1 = gm([0.55,0.45],[12.00,27.00],[3.00,3.00]);
+skill2 = gm([0.55,0.45],[13.00,28.00],[3.50,3.50]);
+p1wins = gm([0.52,0.48],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 5, Final Loss: 8.0909
+Hypothesis: Skill2 is generated hierarchically as a scaled version of skill1 plus additional variation.
+Structure: hierarchical
+DeGAS code:
+skill1 = gm([1.00],[19.85],[4.11]);
+temp = 0.70*skill1;
+skill2 = temp + gm([1.00],[20.08],[4.04]);
+p1wins = gm([1.00],[0.48],[0.50]);
+
+No fitness values to plot.
+=== Run finished in 68.8s ===

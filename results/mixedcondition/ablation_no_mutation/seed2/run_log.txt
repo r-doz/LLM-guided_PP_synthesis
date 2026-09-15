@@ -1,0 +1,78 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "mixedcondition",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/mixedcondition/20260913_002902"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: The data for all variables arise from a single unimodal Gaussian-like distribution.
+DeGAS code:
+u = gm([1.00],[0.32],[0.46]); v = gm([1.00],[10.04],[1.98]); w = gm([1.00],[6.29],[2.36]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Variables consist of two subpopulations, captured by a two-component mixture model.
+DeGAS code:
+u = gm([0.70,0.30],[0.00,0.60],[0.00,0.40]); v = gm([0.55,0.45],[8.50,12.00],[1.20,1.50]); w = gm([0.60,0.40],[5.00,8.00],[1.80,2.20]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Each variable shows skewness best modeled by a three-component mixture.
+DeGAS code:
+u = gm([0.33,0.34,0.33],[0.10,0.40,0.80],[0.15,0.20,0.25]); v = gm([0.33,0.34,0.33],[7.00,10.00,13.00],[1.00,1.50,2.00]); w = gm([0.33,0.34,0.33],[4.00,6.30,9.00],[1.20,2.00,2.80]);
+
+Program ID: 4, Structure: conditional, Hypothesis: The distribution of u and w changes depending on whether v is below or above its median.
+DeGAS code:
+if v < 10.00 { u = gm([0.80,0.20],[0.00,0.70],[0.00,0.30]); w = gm([1.00],[5.50],[2.00]); } else { u = gm([0.40,0.60],[0.20,0.90],[0.10,0.40]); w = gm([1.00],[7.80],[2.50]); } v = gm([1.00],[10.04],[1.98]);
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Variable w is generated as a product of two latent factors, modeled by separate distributions.
+DeGAS code:
+u = gm([1.00],[0.32],[0.46]); v = gm([1.00],[10.04],[1.98]); temp = 1.00*u; w = temp * v;
+
+Program ID 1 initial optimization completed. Initial loss: 5.0322, Final loss: 5.0320
+Program ID 2 initial optimization completed. Initial loss: 5.1281, Final loss: 4.6662
+Program ID 3 initial optimization completed. Initial loss: 5.0717, Final loss: 3.3756
+Error extracting parameters from program ID 4: Expected parameter loc (Tensor of shape (3,)) of distribution MultivariateNormal(loc: torch.Size([3]), covariance_matrix: torch.Size([3, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, 0., nan], grad_fn=<ExpandBackward0>)
+Program ID 5 initial optimization completed. Initial loss: 23.7916, Final loss: 7.2404
+
+--- Final Selected Programs ---
+Program ID: 3, Final Loss: 3.3756
+Hypothesis: Each variable shows skewness best modeled by a three-component mixture.
+Structure: mixture3
+DeGAS code:
+u = gm([0.33,0.34,0.33],[0.10,0.40,0.80],[0.15,0.20,0.25]); v = gm([0.33,0.34,0.33],[7.00,10.00,13.00],[1.00,1.50,2.00]); w = gm([0.33,0.34,0.33],[4.00,6.30,9.00],[1.20,2.00,2.80]);
+
+Program ID: 2, Final Loss: 4.6662
+Hypothesis: Variables consist of two subpopulations, captured by a two-component mixture model.
+Structure: mixture2
+DeGAS code:
+u = gm([0.70,0.30],[0.00,0.60],[0.00,0.40]); v = gm([0.55,0.45],[8.50,12.00],[1.20,1.50]); w = gm([0.60,0.40],[5.00,8.00],[1.80,2.20]);
+
+Program ID: 1, Final Loss: 5.0320
+Hypothesis: The data for all variables arise from a single unimodal Gaussian-like distribution.
+Structure: unimodal
+DeGAS code:
+u = gm([1.00],[0.32],[0.46]); v = gm([1.00],[10.04],[1.98]); w = gm([1.00],[6.29],[2.36]);
+
+Program ID: 5, Final Loss: 7.2404
+Hypothesis: Variable w is generated as a product of two latent factors, modeled by separate distributions.
+Structure: hierarchical
+DeGAS code:
+u = gm([1.00],[0.32],[0.46]); v = gm([1.00],[10.04],[1.98]); temp = 1.00*u; w = temp * v;
+
+No fitness values to plot.
+=== Run finished in 62.3s ===

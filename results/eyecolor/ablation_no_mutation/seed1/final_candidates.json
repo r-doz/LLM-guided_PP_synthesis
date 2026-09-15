@@ -1,0 +1,142 @@
+[
+  {
+    "id": 3,
+    "hypothesis": "Traits exhibit three distinct modes reflecting multiple subgroups.",
+    "structure": "mixture3",
+    "program": "eyecolor = gm([0.80,0.15,0.05],[0.00,1.00,2.00],[0.15,0.15,0.15]);\nhaircolor = gm([0.70,0.20,0.10],[0.00,1.00,3.00],[0.15,0.15,0.15]);\nhairlenght = gm([0.50,0.30,0.20],[0.00,1.00,2.00],[0.15,0.15,0.15]);",
+    "params": {
+      "mu1": 0.0,
+      "mu2": 1.0,
+      "mu3": 2.0,
+      "sigma1": 0.15,
+      "sigma2": 0.15,
+      "sigma3": 0.15,
+      "mu4": 0.0,
+      "mu5": 1.0,
+      "mu6": 3.0,
+      "sigma4": 0.15,
+      "sigma5": 0.15,
+      "sigma6": 0.15,
+      "mu7": 0.0,
+      "mu8": 1.0,
+      "mu9": 2.0,
+      "sigma7": 0.15,
+      "sigma8": 0.15,
+      "sigma9": 0.15
+    },
+    "rewritten": "eyecolor = gm([0.80,0.15,0.05], [_mu1, _mu2, _mu3], [_sigma1, _sigma2, _sigma3]);\nhaircolor = gm([0.70,0.20,0.10], [_mu4, _mu5, _mu6], [_sigma4, _sigma5, _sigma6]);\nhairlenght = gm([0.50,0.30,0.20], [_mu7, _mu8, _mu9], [_sigma7, _sigma8, _sigma9]);",
+    "optimized_params": {
+      "mu1": "tensor(0.0011, requires_grad=True)",
+      "mu2": "tensor(0.9997, requires_grad=True)",
+      "mu3": "tensor(2.2617, requires_grad=True)",
+      "sigma1": "tensor(0.0552, grad_fn=<ExpBackward0>)",
+      "sigma2": "tensor(0.0552, grad_fn=<ExpBackward0>)",
+      "sigma3": "tensor(0.2857, grad_fn=<ExpBackward0>)",
+      "mu4": "tensor(-0.0013, requires_grad=True)",
+      "mu5": "tensor(1.4682, requires_grad=True)",
+      "mu6": "tensor(3.6383, requires_grad=True)",
+      "sigma4": "tensor(0.0552, grad_fn=<ExpBackward0>)",
+      "sigma5": "tensor(0.2762, grad_fn=<ExpBackward0>)",
+      "sigma6": "tensor(0.2460, grad_fn=<ExpBackward0>)",
+      "mu7": "tensor(0.0008, requires_grad=True)",
+      "mu8": "tensor(1.0001, requires_grad=True)",
+      "mu9": "tensor(1.9994, requires_grad=True)",
+      "sigma7": "tensor(0.0552, grad_fn=<ExpBackward0>)",
+      "sigma8": "tensor(0.0552, grad_fn=<ExpBackward0>)",
+      "sigma9": "tensor(0.0552, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 2.9652288998887606,
+    "final_loss": -2.9175773056715326,
+    "opt_time": 2.847,
+    "opt_iterations": 100
+  },
+  {
+    "id": 2,
+    "hypothesis": "Each trait consists of two subpopulations, such as light vs dark variants.",
+    "structure": "mixture2",
+    "program": "eyecolor = gm([0.70,0.30],[0.00,0.50],[0.10,0.60]);\nhaircolor = gm([0.65,0.35],[0.00,1.50],[0.20,0.80]);\nhairlenght = gm([0.60,0.40],[0.30,1.40],[0.30,0.50]);",
+    "params": {
+      "mu1": 0.0,
+      "mu2": 0.5,
+      "sigma1": 0.1,
+      "sigma2": 0.6,
+      "mu3": 0.0,
+      "mu4": 1.5,
+      "sigma3": 0.2,
+      "sigma4": 0.8,
+      "mu5": 0.3,
+      "mu6": 1.4,
+      "sigma5": 0.3,
+      "sigma6": 0.5
+    },
+    "rewritten": "eyecolor = gm([0.70,0.30], [_mu1, _mu2], [_sigma1, _sigma2]);\nhaircolor = gm([0.65,0.35], [_mu3, _mu4], [_sigma3, _sigma4]);\nhairlenght = gm([0.60,0.40], [_mu5, _mu6], [_sigma5, _sigma6]);",
+    "optimized_params": {
+      "mu1": "tensor(0.0005, requires_grad=True)",
+      "mu2": "tensor(1.1636, requires_grad=True)",
+      "sigma1": "tensor(0.0365, grad_fn=<ExpBackward0>)",
+      "sigma2": "tensor(0.8607, grad_fn=<ExpBackward0>)",
+      "mu3": "tensor(-3.3495e-05, requires_grad=True)",
+      "mu4": "tensor(2.1552, requires_grad=True)",
+      "sigma3": "tensor(0.0734, grad_fn=<ExpBackward0>)",
+      "sigma4": "tensor(1.3475, grad_fn=<ExpBackward0>)",
+      "mu5": "tensor(0.0003, requires_grad=True)",
+      "mu6": "tensor(1.6443, requires_grad=True)",
+      "sigma5": "tensor(0.1076, grad_fn=<ExpBackward0>)",
+      "sigma6": "tensor(0.4797, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 1.2578167920307683,
+    "final_loss": -1.683137866153749,
+    "opt_time": 1.233,
+    "opt_iterations": 100
+  },
+  {
+    "id": 1,
+    "hypothesis": "Data arises from a single Gaussian-like distribution for each trait.",
+    "structure": "unimodal",
+    "program": "eyecolor = gm([1.00],[0.17],[0.53]);\nhaircolor = gm([1.00],[0.59],[1.27]);\nhairlenght = gm([1.00],[0.69],[0.87]);",
+    "params": {
+      "mu1": 0.17,
+      "sigma1": 0.53,
+      "mu2": 0.59,
+      "sigma2": 1.27,
+      "mu3": 0.69,
+      "sigma3": 0.87
+    },
+    "rewritten": "eyecolor = gm([1.00], [_mu1], [_sigma1]);\nhaircolor = gm([1.00], [_mu2], [_sigma2]);\nhairlenght = gm([1.00], [_mu3], [_sigma3]);",
+    "optimized_params": {
+      "mu1": "tensor(0.1710)",
+      "sigma1": "tensor(0.5308)",
+      "mu2": "tensor(0.5940)",
+      "sigma2": "tensor(1.2653)",
+      "mu3": "tensor(0.6890)",
+      "sigma3": "tensor(0.8685)"
+    },
+    "initial_loss": 3.7178590031019603,
+    "final_loss": 3.717832965802508,
+    "opt_time": 0.568,
+    "opt_iterations": 100
+  },
+  {
+    "id": 5,
+    "hypothesis": "Hair length is modeled as the product of independent eye color and hair color effects.",
+    "structure": "hierarchical",
+    "program": "eyecolor = gm([1.00],[0.17],[0.53]);\nhaircolor = gm([1.00],[0.59],[1.27]);\ntemp = 1.00*eyecolor;\nhairlenght = temp * haircolor;",
+    "params": {
+      "mu1": 0.17,
+      "sigma1": 0.53,
+      "mu2": 0.59,
+      "sigma2": 1.27
+    },
+    "rewritten": "eyecolor = gm([1.00], [_mu1], [_sigma1]);\nhaircolor = gm([1.00], [_mu2], [_sigma2]);\ntemp = 1.00*eyecolor;\nhairlenght = temp * haircolor;",
+    "optimized_params": {
+      "mu1": "tensor(0.1384)",
+      "sigma1": "tensor(0.6309)",
+      "mu2": "tensor(0.3212)",
+      "sigma2": "tensor(1.5276)"
+    },
+    "initial_loss": 4.384218087291749,
+    "final_loss": 4.038623091781699,
+    "opt_time": 0.599,
+    "opt_iterations": 100
+  }
+]

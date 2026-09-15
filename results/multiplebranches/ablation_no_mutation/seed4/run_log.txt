@@ -1,0 +1,107 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "multiplebranches",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/multiplebranches/20260913_003615"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: The data for both variables follow a single Gaussian-like distribution centered at their empirical means.
+DeGAS code:
+contentDifficulty = gm([1.00],[30.06],[4.87]);
+questionsAfterLectureLength = gm([1.00],[12.30],[6.68]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Each variable arises from two subpopulations, captured by a two-component mixture model.
+DeGAS code:
+contentDifficulty = gm([0.45,0.55],[20.00,40.00],[3.50,4.00]);
+questionsAfterLectureLength = gm([0.60,0.40],[5.00,25.00],[2.00,7.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Both variables exhibit multimodal structure best described by three-component mixtures.
+DeGAS code:
+contentDifficulty = gm([0.30,0.50,0.20],[22.00,32.00,42.00],[2.50,4.00,5.00]);
+questionsAfterLectureLength = gm([0.20,0.50,0.30],[3.00,12.00,30.00],[1.00,5.00,8.00]);
+
+Program ID: 4, Structure: conditional, Hypothesis: A threshold on content difficulty separates distinct regimes, leading to different distributions for each variable.
+DeGAS code:
+if contentDifficulty < 30.00 {
+    contentDifficulty = gm([1.00],[25.00],[3.00]);
+    questionsAfterLectureLength = gm([1.00],[8.00],[2.00]);
+} else {
+    contentDifficulty = gm([1.00],[35.00],[4.00]);
+    questionsAfterLectureLength = gm([1.00],[16.00],[5.00]);
+}
+end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Content difficulty is modeled as a scaled version of question length, with the scaling factor drawn from its own distribution.
+DeGAS code:
+tempScale = gm([1.00],[2.50],[0.30]);
+questionsAfterLectureLength = gm([1.00],[12.30],[6.68]);
+contentDifficulty = tempScale * questionsAfterLectureLength;
+
+Program ID 1 initial optimization completed. Initial loss: 6.3193, Final loss: 6.3193
+Program ID 2 initial optimization completed. Initial loss: 8.7208, Final loss: 7.1323
+Program ID 3 initial optimization completed. Initial loss: 6.7385, Final loss: 6.3151
+Program ID 4 initial optimization completed. Initial loss: 14.2576, Final loss: 7.4281
+Program ID 5 initial optimization completed. Initial loss: 11.5013, Final loss: 7.5573
+
+--- Final Selected Programs ---
+Program ID: 3, Final Loss: 6.3151
+Hypothesis: Both variables exhibit multimodal structure best described by three-component mixtures.
+Structure: mixture3
+DeGAS code:
+contentDifficulty = gm([0.30,0.50,0.20],[22.00,32.00,42.00],[2.50,4.00,5.00]);
+questionsAfterLectureLength = gm([0.20,0.50,0.30],[3.00,12.00,30.00],[1.00,5.00,8.00]);
+
+Program ID: 1, Final Loss: 6.3193
+Hypothesis: The data for both variables follow a single Gaussian-like distribution centered at their empirical means.
+Structure: unimodal
+DeGAS code:
+contentDifficulty = gm([1.00],[30.06],[4.87]);
+questionsAfterLectureLength = gm([1.00],[12.30],[6.68]);
+
+Program ID: 2, Final Loss: 7.1323
+Hypothesis: Each variable arises from two subpopulations, captured by a two-component mixture model.
+Structure: mixture2
+DeGAS code:
+contentDifficulty = gm([0.45,0.55],[20.00,40.00],[3.50,4.00]);
+questionsAfterLectureLength = gm([0.60,0.40],[5.00,25.00],[2.00,7.00]);
+
+Program ID: 4, Final Loss: 7.4281
+Hypothesis: A threshold on content difficulty separates distinct regimes, leading to different distributions for each variable.
+Structure: conditional
+DeGAS code:
+if contentDifficulty < 30.00 {
+    contentDifficulty = gm([1.00],[25.00],[3.00]);
+    questionsAfterLectureLength = gm([1.00],[8.00],[2.00]);
+} else {
+    contentDifficulty = gm([1.00],[35.00],[4.00]);
+    questionsAfterLectureLength = gm([1.00],[16.00],[5.00]);
+}
+end if;
+
+Program ID: 5, Final Loss: 7.5573
+Hypothesis: Content difficulty is modeled as a scaled version of question length, with the scaling factor drawn from its own distribution.
+Structure: hierarchical
+DeGAS code:
+tempScale = gm([1.00],[2.50],[0.30]);
+questionsAfterLectureLength = gm([1.00],[12.30],[6.68]);
+contentDifficulty = tempScale * questionsAfterLectureLength;
+
+No fitness values to plot.
+=== Run finished in 49.2s ===

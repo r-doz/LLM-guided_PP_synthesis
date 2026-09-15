@@ -1,0 +1,16 @@
+=== program=eyecolor seed=3 (grammar-mcmc) ===
+[eyecolor seed=3 step=0] current_train_nll=68.4502 best_held_out_nll=68.3398 accept_rate=0.00 valid_proposal_rate=1.00
+[eyecolor seed=3 step=25] current_train_nll=19.7395 best_held_out_nll=19.5769 accept_rate=0.12 valid_proposal_rate=1.00
+[eyecolor seed=3 step=50] current_train_nll=11.2620 best_held_out_nll=11.3109 accept_rate=0.12 valid_proposal_rate=1.00
+[eyecolor seed=3 step=75] current_train_nll=11.2620 best_held_out_nll=11.3109 accept_rate=0.08 valid_proposal_rate=1.00
+[eyecolor seed=3 step=100] current_train_nll=9.4687 best_held_out_nll=8.8570 accept_rate=0.09 valid_proposal_rate=1.00
+[eyecolor seed=3 step=125] current_train_nll=9.6697 best_held_out_nll=8.8570 accept_rate=0.08 valid_proposal_rate=1.00
+[eyecolor seed=3 step=150] current_train_nll=8.7887 best_held_out_nll=8.8023 accept_rate=0.07 valid_proposal_rate=1.00
+[eyecolor seed=3 step=175] current_train_nll=8.7887 best_held_out_nll=8.8023 accept_rate=0.06 valid_proposal_rate=1.00
+[eyecolor seed=3 step=200] current_train_nll=8.7887 best_held_out_nll=8.8023 accept_rate=0.05 valid_proposal_rate=1.00
+[eyecolor seed=3 step=225] current_train_nll=10.4982 best_held_out_nll=8.8023 accept_rate=0.06 valid_proposal_rate=1.00
+[eyecolor seed=3 step=250] current_train_nll=10.4982 best_held_out_nll=8.8023 accept_rate=0.05 valid_proposal_rate=1.00
+[eyecolor seed=3 step=275] current_train_nll=10.5010 best_held_out_nll=8.8023 accept_rate=0.05 valid_proposal_rate=1.00
+[eyecolor seed=3 step=299] current_train_nll=12.0220 best_held_out_nll=8.8023 accept_rate=0.05 valid_proposal_rate=1.00
+=== [eyecolor seed=3] done: 16/300 accepted, best_held_out_nll=8.8023 ===
+=== SUCCESS in 69.6s: /home/rdoz/PhD/LLM-guided_PP_synthesis/results/eyecolor/grammar_mcmc/20260826_232449_seed3 ===

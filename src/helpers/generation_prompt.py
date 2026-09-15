@@ -59,11 +59,26 @@ DISTRIBUTIONS
 - gm([pi_1,...,pi_n], [mu_1,...,mu_n], [sigma_1,...,sigma_n])
   - All three lists same length, n >= 1
   - pi_i > 0 and sum(pi) = 1.00
-  - sigma_i > 0
+  - sigma_i >= 0
   - mu_i any number in [-100, 100]
 - uniform([start, end], 2)
   - start < end, both in [-100.00, 100.00]
   - the trailing 2 is a fixed literal, never change it
+
+DISCRETE / BINARY VARIABLES
+- If a variable only takes a small number of exact values in the data (e.g. a
+  0/1 indicator), represent each value as its own gm(...) component with
+  sigma_i = 0.00 -- an exact point mass at mu_i, not an approximation.
+  Example: a variable that is 0 about 70% of the time and 1 about 30% of the
+  time -> gm([0.70, 0.30], [0.00, 1.00], [0.00, 0.00])
+- Do NOT use a small positive sigma (like 0.01) to approximate a discrete
+  value -- only sigma_i = 0.00 is treated as an exact point mass; any nonzero
+  sigma is scored as a continuous density, which is undefined behavior here.
+- IMPORTANT: pi_i and mu_i of a sigma_i = 0.00 component are never refined
+  afterward -- there is no gradient for a point mass in DeGAS. Set them as
+  accurately as you can directly from the data summary (e.g. pi_i = the
+  empirical fraction of observations at that exact value); they will not be
+  corrected later.
 
 ASSIGNMENTS (key constraint)
 - var = expr;

@@ -1,0 +1,110 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "mog1",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/mog1/20260913_000227"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Data for mu, sigma, and x appears to follow a single Gaussian-like distribution.
+DeGAS code:
+mu = gm([1.00],[19.93],[3.09]);
+sigma = gm([1.00],[2.01],[1.04]);
+x = gm([1.00],[21.98],[4.00]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Data may consist of two subpopulations with different means.
+DeGAS code:
+mu = gm([0.60,0.40],[15.00,25.00],[2.50,2.50]);
+sigma = gm([0.60,0.40],[1.00,3.00],[0.50,0.70]);
+x = gm([0.60,0.40],[18.00,27.00],[3.00,3.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Data shows three overlapping subgroups causing skewness.
+DeGAS code:
+mu = gm([0.33,0.34,0.33],[12.00,20.00,28.00],[2.00,2.00,2.00]);
+sigma = gm([0.33,0.34,0.33],[0.50,2.00,4.00],[0.30,0.80,1.00]);
+x = gm([0.33,0.34,0.33],[15.00,22.00,30.00],[3.00,3.00,3.00]);
+
+Program ID: 4, Structure: conditional, Hypothesis: If sigma is non‑negative the process follows one regime, otherwise another.
+DeGAS code:
+sigma = gm([1.00],[2.01],[1.04]);
+if sigma >= 0.00 {
+    mu = gm([1.00],[20.00],[3.00]);
+    x = gm([1.00],[22.00],[4.00]);
+} else {
+    mu = gm([1.00],[15.00],[5.00]);
+    x = gm([1.00],[10.00],[6.00]);
+}
+end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: mu influences sigma and together they determine x via a multiplicative hierarchy.
+DeGAS code:
+latent = gm([1.00],[10.00],[2.00]);
+mu = 0.20*latent;
+sigma = 0.30*latent;
+temp = 0.50*latent;
+x = 2.00*temp;
+
+Program ID 1 initial optimization completed. Initial loss: 6.8086, Final loss: 6.8086
+Program ID 2 initial optimization completed. Initial loss: 7.7999, Final loss: 7.1812
+Program ID 3 initial optimization completed. Initial loss: 8.1711, Final loss: 7.3655
+Program ID 4 initial optimization completed. Initial loss: 6.8186, Final loss: 6.8115
+Error extracting parameters from program ID 5: Expected parameter loc (Tensor of shape (3,)) of distribution MultivariateNormal(loc: torch.Size([3]), covariance_matrix: torch.Size([3, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan], grad_fn=<ExpandBackward0>)
+
+--- Final Selected Programs ---
+Program ID: 1, Final Loss: 6.8086
+Hypothesis: Data for mu, sigma, and x appears to follow a single Gaussian-like distribution.
+Structure: unimodal
+DeGAS code:
+mu = gm([1.00],[19.93],[3.09]);
+sigma = gm([1.00],[2.01],[1.04]);
+x = gm([1.00],[21.98],[4.00]);
+
+Program ID: 4, Final Loss: 6.8115
+Hypothesis: If sigma is non‑negative the process follows one regime, otherwise another.
+Structure: conditional
+DeGAS code:
+sigma = gm([1.00],[2.01],[1.04]);
+if sigma >= 0.00 {
+    mu = gm([1.00],[20.00],[3.00]);
+    x = gm([1.00],[22.00],[4.00]);
+} else {
+    mu = gm([1.00],[15.00],[5.00]);
+    x = gm([1.00],[10.00],[6.00]);
+}
+end if;
+
+Program ID: 2, Final Loss: 7.1812
+Hypothesis: Data may consist of two subpopulations with different means.
+Structure: mixture2
+DeGAS code:
+mu = gm([0.60,0.40],[15.00,25.00],[2.50,2.50]);
+sigma = gm([0.60,0.40],[1.00,3.00],[0.50,0.70]);
+x = gm([0.60,0.40],[18.00,27.00],[3.00,3.00]);
+
+Program ID: 3, Final Loss: 7.3655
+Hypothesis: Data shows three overlapping subgroups causing skewness.
+Structure: mixture3
+DeGAS code:
+mu = gm([0.33,0.34,0.33],[12.00,20.00,28.00],[2.00,2.00,2.00]);
+sigma = gm([0.33,0.34,0.33],[0.50,2.00,4.00],[0.30,0.80,1.00]);
+x = gm([0.33,0.34,0.33],[15.00,22.00,30.00],[3.00,3.00,3.00]);
+
+No fitness values to plot.
+=== Run finished in 66.5s ===

@@ -1,0 +1,97 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "mixedcondition",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/mixedcondition/20260913_002741"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: All three variables follow a single Gaussian-like distribution centered at their empirical means.
+DeGAS code:
+u = gm([1.00],[0.31],[0.46]);
+v = gm([1.00],[9.90],[1.97]);
+w = gm([1.00],[6.29],[2.40]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Each variable appears to arise from two subpopulations, modeled with a two-component mixture.
+DeGAS code:
+u = gm([0.55,0.45],[0.00,1.00],[0.10,0.10]);
+v = gm([0.55,0.45],[5.00,14.00],[1.00,1.50]);
+w = gm([0.60,0.40],[-2.00,12.00],[1.20,2.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: The data exhibit multiple modes and skewness, captured by three-component mixtures for each variable.
+DeGAS code:
+u = gm([0.30,0.40,0.30],[0.00,0.50,1.00],[0.00,0.15,0.00]);
+v = gm([0.25,0.50,0.25],[4.00,9.90,14.00],[1.00,1.20,1.00]);
+w = gm([0.20,0.60,0.20],[-1.00,6.29,13.00],[0.80,2.00,0.80]);
+
+Program ID: 4, Structure: conditional, Hypothesis: A threshold on u separates distinct regimes, leading to different distributions for the variables.
+DeGAS code:
+if u < 0.50 { u = gm([1.00],[0.20],[0.10]); v = gm([1.00],[5.00],[1.00]); w = gm([1.00],[-0.50],[0.80]); } else { u = gm([1.00],[0.80],[0.10]); v = gm([1.00],[14.00],[1.00]); w = gm([1.00],[13.00],[0.80]); } end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Variables are generated hierarchically where a latent scale drawn from one distribution modulates another.
+DeGAS code:
+s_u = gm([1.00],[0.31],[0.20]);
+temp_u = 2.00*s_u;
+u = temp_u + gm([1.00],[0.10],[0.05]);
+s_v = gm([1.00],[9.90],[0.50]);
+temp_v = 3.00*s_v;
+v = temp_v + gm([1.00],[0.20],[0.30]);
+s_w = gm([1.00],[6.29],[0.60]);
+temp_w = 1.50*s_w;
+w = temp_w + gm([1.00],[0.15],[0.40]);
+
+Program ID 1 initial optimization completed. Initial loss: 5.0437, Final loss: 5.0437
+Program ID 2 initial optimization completed. Initial loss: 10.8609, Final loss: 4.8131
+Program ID 3 initial optimization completed. Initial loss: 6.4324, Final loss: 4.7509
+Program ID 4 initial optimization completed. Initial loss: 66.0523, Final loss: 15.8399
+Error extracting parameters from program ID 5: 'u'
+
+--- Final Selected Programs ---
+Program ID: 3, Final Loss: 4.7509
+Hypothesis: The data exhibit multiple modes and skewness, captured by three-component mixtures for each variable.
+Structure: mixture3
+DeGAS code:
+u = gm([0.30,0.40,0.30],[0.00,0.50,1.00],[0.00,0.15,0.00]);
+v = gm([0.25,0.50,0.25],[4.00,9.90,14.00],[1.00,1.20,1.00]);
+w = gm([0.20,0.60,0.20],[-1.00,6.29,13.00],[0.80,2.00,0.80]);
+
+Program ID: 2, Final Loss: 4.8131
+Hypothesis: Each variable appears to arise from two subpopulations, modeled with a two-component mixture.
+Structure: mixture2
+DeGAS code:
+u = gm([0.55,0.45],[0.00,1.00],[0.10,0.10]);
+v = gm([0.55,0.45],[5.00,14.00],[1.00,1.50]);
+w = gm([0.60,0.40],[-2.00,12.00],[1.20,2.00]);
+
+Program ID: 1, Final Loss: 5.0437
+Hypothesis: All three variables follow a single Gaussian-like distribution centered at their empirical means.
+Structure: unimodal
+DeGAS code:
+u = gm([1.00],[0.31],[0.46]);
+v = gm([1.00],[9.90],[1.97]);
+w = gm([1.00],[6.29],[2.40]);
+
+Program ID: 4, Final Loss: 15.8399
+Hypothesis: A threshold on u separates distinct regimes, leading to different distributions for the variables.
+Structure: conditional
+DeGAS code:
+if u < 0.50 { u = gm([1.00],[0.20],[0.10]); v = gm([1.00],[5.00],[1.00]); w = gm([1.00],[-0.50],[0.80]); } else { u = gm([1.00],[0.80],[0.10]); v = gm([1.00],[14.00],[1.00]); w = gm([1.00],[13.00],[0.80]); } end if;
+
+No fitness values to plot.
+=== Run finished in 77.4s ===

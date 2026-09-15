@@ -1,0 +1,16 @@
+=== program=hurricane seed=2 (grammar-mcmc) ===
+[hurricane seed=2 step=0] current_train_nll=12.0433 best_held_out_nll=11.9930 accept_rate=0.00 valid_proposal_rate=1.00
+[hurricane seed=2 step=25] current_train_nll=7.7986 best_held_out_nll=7.7526 accept_rate=0.08 valid_proposal_rate=1.00
+[hurricane seed=2 step=50] current_train_nll=7.8338 best_held_out_nll=7.7526 accept_rate=0.06 valid_proposal_rate=1.00
+[hurricane seed=2 step=75] current_train_nll=7.2538 best_held_out_nll=6.0260 accept_rate=0.07 valid_proposal_rate=1.00
+[hurricane seed=2 step=100] current_train_nll=9.1765 best_held_out_nll=6.0260 accept_rate=0.08 valid_proposal_rate=1.00
+[hurricane seed=2 step=125] current_train_nll=8.4685 best_held_out_nll=6.0260 accept_rate=0.09 valid_proposal_rate=1.00
+[hurricane seed=2 step=150] current_train_nll=8.2770 best_held_out_nll=6.0260 accept_rate=0.09 valid_proposal_rate=1.00
+[hurricane seed=2 step=175] current_train_nll=8.2770 best_held_out_nll=6.0260 accept_rate=0.07 valid_proposal_rate=1.00
+[hurricane seed=2 step=200] current_train_nll=8.2621 best_held_out_nll=6.0260 accept_rate=0.07 valid_proposal_rate=1.00
+[hurricane seed=2 step=225] current_train_nll=6.8451 best_held_out_nll=6.0260 accept_rate=0.08 valid_proposal_rate=1.00
+[hurricane seed=2 step=250] current_train_nll=4.8968 best_held_out_nll=5.0412 accept_rate=0.07 valid_proposal_rate=1.00
+[hurricane seed=2 step=275] current_train_nll=4.8968 best_held_out_nll=5.0412 accept_rate=0.07 valid_proposal_rate=1.00
+[hurricane seed=2 step=299] current_train_nll=5.3277 best_held_out_nll=4.7769 accept_rate=0.07 valid_proposal_rate=1.00
+=== [hurricane seed=2] done: 20/300 accepted, best_held_out_nll=4.7769 ===
+=== SUCCESS in 53.1s: /home/rdoz/PhD/LLM-guided_PP_synthesis/results/hurricane/grammar_mcmc/20260821_075219_seed2 ===

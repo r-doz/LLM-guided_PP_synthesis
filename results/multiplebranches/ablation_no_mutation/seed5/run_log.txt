@@ -1,0 +1,88 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "multiplebranches",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/multiplebranches/20260913_003708"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Content difficulty and question length are generated from single normal-like distributions centered at their observed means.
+DeGAS code:
+contentDifficulty = gm([1.00],[30.09],[5.03]);
+questionsAfterLectureLength = gm([1.00],[12.20],[6.57]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Each variable arises from a two-subpopulation mixture reflecting distinct lecture styles.
+DeGAS code:
+contentDifficulty = gm([0.45,0.55],[25.00,35.00],[3.00,3.00]);
+questionsAfterLectureLength = gm([0.70,0.30],[5.00,20.00],[2.00,4.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Three latent groups drive the observed variability in both measures.
+DeGAS code:
+contentDifficulty = gm([0.20,0.50,0.30],[20.00,30.00,40.00],[2.50,2.50,2.50]);
+questionsAfterLectureLength = gm([0.50,0.35,0.15],[4.00,12.00,25.00],[2.00,3.00,5.00]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Question length distribution changes depending on whether content difficulty is below a threshold.
+DeGAS code:
+contentDifficulty = gm([1.00],[30.09],[5.03]);
+if contentDifficulty < 30.00 { questionsAfterLectureLength = gm([1.00],[8.00],[2.00]); } else { questionsAfterLectureLength = gm([1.00],[18.00],[5.00]); } end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Question length is modeled as a scaled random factor influencing the base difficulty distribution.
+DeGAS code:
+scale = uniform([0.00,1.00], 2);
+contentDifficulty = gm([1.00],[30.09],[5.03]);
+questionsAfterLectureLength = 0.70*scale;
+
+Program ID 1 initial optimization completed. Initial loss: 6.3358, Final loss: 6.3358
+Program ID 2 initial optimization completed. Initial loss: 7.3858, Final loss: 6.4350
+Program ID 3 initial optimization completed. Initial loss: 6.7774, Final loss: 6.3967
+Program ID 4 initial optimization completed. Initial loss: 6.3811, Final loss: 6.0842
+Error extracting parameters from program ID 5: Expected parameter loc (Tensor of shape (2,)) of distribution MultivariateNormal(loc: torch.Size([2]), covariance_matrix: torch.Size([2, 2])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan], grad_fn=<ExpandBackward0>)
+
+--- Final Selected Programs ---
+Program ID: 4, Final Loss: 6.0842
+Hypothesis: Question length distribution changes depending on whether content difficulty is below a threshold.
+Structure: conditional
+DeGAS code:
+contentDifficulty = gm([1.00],[30.09],[5.03]);
+if contentDifficulty < 30.00 { questionsAfterLectureLength = gm([1.00],[8.00],[2.00]); } else { questionsAfterLectureLength = gm([1.00],[18.00],[5.00]); } end if;
+
+Program ID: 1, Final Loss: 6.3358
+Hypothesis: Content difficulty and question length are generated from single normal-like distributions centered at their observed means.
+Structure: unimodal
+DeGAS code:
+contentDifficulty = gm([1.00],[30.09],[5.03]);
+questionsAfterLectureLength = gm([1.00],[12.20],[6.57]);
+
+Program ID: 3, Final Loss: 6.3967
+Hypothesis: Three latent groups drive the observed variability in both measures.
+Structure: mixture3
+DeGAS code:
+contentDifficulty = gm([0.20,0.50,0.30],[20.00,30.00,40.00],[2.50,2.50,2.50]);
+questionsAfterLectureLength = gm([0.50,0.35,0.15],[4.00,12.00,25.00],[2.00,3.00,5.00]);
+
+Program ID: 2, Final Loss: 6.4350
+Hypothesis: Each variable arises from a two-subpopulation mixture reflecting distinct lecture styles.
+Structure: mixture2
+DeGAS code:
+contentDifficulty = gm([0.45,0.55],[25.00,35.00],[3.00,3.00]);
+questionsAfterLectureLength = gm([0.70,0.30],[5.00,20.00],[2.00,4.00]);
+
+No fitness values to plot.
+=== Run finished in 62.1s ===

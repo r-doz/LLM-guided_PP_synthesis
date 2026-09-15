@@ -1,0 +1,149 @@
+[
+  {
+    "id": 3,
+    "hypothesis": "Both variables exhibit multimodal structure best described by three-component mixtures.",
+    "structure": "mixture3",
+    "program": "contentDifficulty = gm([0.30,0.50,0.20],[22.00,32.00,42.00],[2.50,4.00,5.00]);\nquestionsAfterLectureLength = gm([0.20,0.50,0.30],[3.00,12.00,30.00],[1.00,5.00,8.00]);",
+    "params": {
+      "mu1": 22.0,
+      "mu2": 32.0,
+      "mu3": 42.0,
+      "sigma1": 2.5,
+      "sigma2": 4.0,
+      "sigma3": 5.0,
+      "mu4": 3.0,
+      "mu5": 12.0,
+      "mu6": 30.0,
+      "sigma4": 1.0,
+      "sigma5": 5.0,
+      "sigma6": 8.0
+    },
+    "rewritten": "contentDifficulty = gm([0.30,0.50,0.20], [_mu1, _mu2, _mu3], [_sigma1, _sigma2, _sigma3]);\nquestionsAfterLectureLength = gm([0.20,0.50,0.30], [_mu4, _mu5, _mu6], [_sigma4, _sigma5, _sigma6]);",
+    "optimized_params": {
+      "mu1": "tensor(22.8973, requires_grad=True)",
+      "mu2": "tensor(31.2552, requires_grad=True)",
+      "mu3": "tensor(41.0576, requires_grad=True)",
+      "sigma1": "tensor(3.6107, grad_fn=<ExpBackward0>)",
+      "sigma2": "tensor(3.1735, grad_fn=<ExpBackward0>)",
+      "sigma3": "tensor(7.1891, grad_fn=<ExpBackward0>)",
+      "mu4": "tensor(4.1462, requires_grad=True)",
+      "mu5": "tensor(11.0295, requires_grad=True)",
+      "mu6": "tensor(28.9736, requires_grad=True)",
+      "sigma4": "tensor(2.6798, grad_fn=<ExpBackward0>)",
+      "sigma5": "tensor(2.5309, grad_fn=<ExpBackward0>)",
+      "sigma6": "tensor(8.5611, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 6.738456702916388,
+    "final_loss": 6.315103173698811,
+    "opt_time": 1.064,
+    "opt_iterations": 100
+  },
+  {
+    "id": 1,
+    "hypothesis": "The data for both variables follow a single Gaussian-like distribution centered at their empirical means.",
+    "structure": "unimodal",
+    "program": "contentDifficulty = gm([1.00],[30.06],[4.87]);\nquestionsAfterLectureLength = gm([1.00],[12.30],[6.68]);",
+    "params": {
+      "mu1": 30.06,
+      "sigma1": 4.87,
+      "mu2": 12.3,
+      "sigma2": 6.68
+    },
+    "rewritten": "contentDifficulty = gm([1.00], [_mu1], [_sigma1]);\nquestionsAfterLectureLength = gm([1.00], [_mu2], [_sigma2]);",
+    "optimized_params": {
+      "mu1": "tensor(30.0620)",
+      "sigma1": "tensor(4.8666)",
+      "mu2": "tensor(12.3008)",
+      "sigma2": "tensor(6.6790)"
+    },
+    "initial_loss": 6.319294533206727,
+    "final_loss": 6.31929397572776,
+    "opt_time": 0.364,
+    "opt_iterations": 100
+  },
+  {
+    "id": 2,
+    "hypothesis": "Each variable arises from two subpopulations, captured by a two-component mixture model.",
+    "structure": "mixture2",
+    "program": "contentDifficulty = gm([0.45,0.55],[20.00,40.00],[3.50,4.00]);\nquestionsAfterLectureLength = gm([0.60,0.40],[5.00,25.00],[2.00,7.00]);",
+    "params": {
+      "mu1": 20.0,
+      "mu2": 40.0,
+      "sigma1": 3.5,
+      "sigma2": 4.0,
+      "mu3": 5.0,
+      "mu4": 25.0,
+      "sigma3": 2.0,
+      "sigma4": 7.0
+    },
+    "rewritten": "contentDifficulty = gm([0.45,0.55], [_mu1, _mu2], [_sigma1, _sigma2]);\nquestionsAfterLectureLength = gm([0.60,0.40], [_mu3, _mu4], [_sigma3, _sigma4]);",
+    "optimized_params": {
+      "mu1": "tensor(20.7751, requires_grad=True)",
+      "mu2": "tensor(39.2316, requires_grad=True)",
+      "sigma1": "tensor(6.5183, grad_fn=<ExpBackward0>)",
+      "sigma2": "tensor(7.1670, grad_fn=<ExpBackward0>)",
+      "mu3": "tensor(5.8397, requires_grad=True)",
+      "mu4": "tensor(24.3138, requires_grad=True)",
+      "sigma3": "tensor(4.0935, grad_fn=<ExpBackward0>)",
+      "sigma4": "tensor(9.9937, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 8.72083790954338,
+    "final_loss": 7.132284802670261,
+    "opt_time": 0.664,
+    "opt_iterations": 100
+  },
+  {
+    "id": 4,
+    "hypothesis": "A threshold on content difficulty separates distinct regimes, leading to different distributions for each variable.",
+    "structure": "conditional",
+    "program": "if contentDifficulty < 30.00 {\n    contentDifficulty = gm([1.00],[25.00],[3.00]);\n    questionsAfterLectureLength = gm([1.00],[8.00],[2.00]);\n} else {\n    contentDifficulty = gm([1.00],[35.00],[4.00]);\n    questionsAfterLectureLength = gm([1.00],[16.00],[5.00]);\n}\nend if;",
+    "params": {
+      "mu1": 25.0,
+      "sigma1": 3.0,
+      "mu2": 8.0,
+      "sigma2": 2.0,
+      "mu3": 35.0,
+      "sigma3": 4.0,
+      "mu4": 16.0,
+      "sigma4": 5.0
+    },
+    "rewritten": "if contentDifficulty < 30.00 {\n    contentDifficulty = gm([1.00], [_mu1], [_sigma1]);\n    questionsAfterLectureLength = gm([1.00], [_mu2], [_sigma2]);\n} else {\n    contentDifficulty = gm([1.00], [_mu3], [_sigma3]);\n    questionsAfterLectureLength = gm([1.00], [_mu4], [_sigma4]);\n}\nend if;",
+    "optimized_params": {
+      "mu1": "tensor(25.7390, requires_grad=True)",
+      "sigma1": "tensor(5.5398, grad_fn=<ExpBackward0>)",
+      "mu2": "tensor(8.7170, requires_grad=True)",
+      "sigma2": "tensor(4.0114, grad_fn=<ExpBackward0>)",
+      "mu3": "tensor(35., requires_grad=True)",
+      "sigma3": "tensor(4., grad_fn=<ExpBackward0>)",
+      "mu4": "tensor(16., requires_grad=True)",
+      "sigma4": "tensor(5.0000, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 14.257608273505568,
+    "final_loss": 7.428126690262631,
+    "opt_time": 0.678,
+    "opt_iterations": 100
+  },
+  {
+    "id": 5,
+    "hypothesis": "Content difficulty is modeled as a scaled version of question length, with the scaling factor drawn from its own distribution.",
+    "structure": "hierarchical",
+    "program": "tempScale = gm([1.00],[2.50],[0.30]);\nquestionsAfterLectureLength = gm([1.00],[12.30],[6.68]);\ncontentDifficulty = tempScale * questionsAfterLectureLength;",
+    "params": {
+      "mu1": 2.5,
+      "sigma1": 0.3,
+      "mu2": 12.3,
+      "sigma2": 6.68
+    },
+    "rewritten": "tempScale = gm([1.00], [_mu1], [_sigma1]);\nquestionsAfterLectureLength = gm([1.00], [_mu2], [_sigma2]);\ncontentDifficulty = tempScale * questionsAfterLectureLength;",
+    "optimized_params": {
+      "mu1": "tensor(2.0430, requires_grad=True)",
+      "sigma1": "tensor(0.5345, grad_fn=<ExpBackward0>)",
+      "mu2": "tensor(12.8235, requires_grad=True)",
+      "sigma2": "tensor(10.2048, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 11.501261094193744,
+    "final_loss": 7.557327410793724,
+    "opt_time": 0.458,
+    "opt_iterations": 100
+  }
+]

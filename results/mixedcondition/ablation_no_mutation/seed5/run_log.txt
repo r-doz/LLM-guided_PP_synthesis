@@ -1,0 +1,78 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "mixedcondition",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/mixedcondition/20260913_003229"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Data is unimodal with moderate variability around the mean for each variable.
+DeGAS code:
+u = gm([1.00],[0.30],[0.46]); v = gm([1.00],[10.08],[2.02]); w = gm([1.00],[6.31],[2.30]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Each variable consists of two subpopulations with different central tendencies.
+DeGAS code:
+u = gm([0.65,0.35],[0.20,0.80],[0.10,0.10]); v = gm([0.60,0.40],[8.00,12.50],[1.50,2.00]); w = gm([0.55,0.45],[2.00,10.00],[1.00,2.50]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: The data are generated from three overlapping components reflecting skewness and multimodality.
+DeGAS code:
+u = gm([0.40,0.35,0.25],[0.15,0.50,0.85],[0.05,0.05,0.05]); v = gm([0.30,0.40,0.30],[7.00,10.00,13.00],[1.20,1.50,1.80]); w = gm([0.25,0.50,0.25],[3.00,7.00,12.00],[1.00,1.50,2.00]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Variable u determines two regimes: low values lead to lower v and w, high values to higher v and w.
+DeGAS code:
+u = uniform([0.00,1.00],2); if u < 0.50 { v = gm([1.00],[8.00],[1.50]); w = gm([1.00],[5.00],[1.20]); } else { v = gm([1.00],[12.00],[2.00]); w = gm([1.00],[8.00],[2.30]); } end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Variable v is a scaled version of u plus its own noise, and w scales v, forming a hierarchical dependence.
+DeGAS code:
+u = gm([1.00],[0.30],[0.46]); temp = 0.50*u; v = temp + gm([1.00],[10.08],[2.02]); w = 0.20*v;
+
+Program ID 1 initial optimization completed. Initial loss: 5.0189, Final loss: 5.0189
+Program ID 2 initial optimization completed. Initial loss: 6.9339, Final loss: 3.4460
+Program ID 3 initial optimization completed. Initial loss: 8.1657, Final loss: 3.1677
+Program ID 4 initial optimization completed. Initial loss: 7.0458, Final loss: 5.7711
+Error extracting parameters from program ID 5: Expected parameter loc (Tensor of shape (3,)) of distribution MultivariateNormal(loc: torch.Size([3]), covariance_matrix: torch.Size([3, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan], grad_fn=<ExpandBackward0>)
+
+--- Final Selected Programs ---
+Program ID: 3, Final Loss: 3.1677
+Hypothesis: The data are generated from three overlapping components reflecting skewness and multimodality.
+Structure: mixture3
+DeGAS code:
+u = gm([0.40,0.35,0.25],[0.15,0.50,0.85],[0.05,0.05,0.05]); v = gm([0.30,0.40,0.30],[7.00,10.00,13.00],[1.20,1.50,1.80]); w = gm([0.25,0.50,0.25],[3.00,7.00,12.00],[1.00,1.50,2.00]);
+
+Program ID: 2, Final Loss: 3.4460
+Hypothesis: Each variable consists of two subpopulations with different central tendencies.
+Structure: mixture2
+DeGAS code:
+u = gm([0.65,0.35],[0.20,0.80],[0.10,0.10]); v = gm([0.60,0.40],[8.00,12.50],[1.50,2.00]); w = gm([0.55,0.45],[2.00,10.00],[1.00,2.50]);
+
+Program ID: 1, Final Loss: 5.0189
+Hypothesis: Data is unimodal with moderate variability around the mean for each variable.
+Structure: unimodal
+DeGAS code:
+u = gm([1.00],[0.30],[0.46]); v = gm([1.00],[10.08],[2.02]); w = gm([1.00],[6.31],[2.30]);
+
+Program ID: 4, Final Loss: 5.7711
+Hypothesis: Variable u determines two regimes: low values lead to lower v and w, high values to higher v and w.
+Structure: conditional
+DeGAS code:
+u = uniform([0.00,1.00],2); if u < 0.50 { v = gm([1.00],[8.00],[1.50]); w = gm([1.00],[5.00],[1.20]); } else { v = gm([1.00],[12.00],[2.00]); w = gm([1.00],[8.00],[2.30]); } end if;
+
+No fitness values to plot.
+=== Run finished in 52.3s ===

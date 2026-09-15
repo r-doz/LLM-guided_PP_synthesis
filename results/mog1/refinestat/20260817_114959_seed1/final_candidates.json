@@ -1,0 +1,62 @@
+[
+  {
+    "rewritten": "mu = gm([0.30, 0.70], [_mu1, _mu2], [_sigma1, _sigma2]) ;  sigma = gm([0.25, 0.75], [_mu3, _mu4], [_sigma3, _sigma4]) ;  x = gm([0.35, 0.65], [_mu5, _mu6], [_sigma5, _sigma6]) ;",
+    "params": {
+      "mu1": 19.97,
+      "mu2": 22.06,
+      "sigma1": 2.99,
+      "sigma2": 3.88,
+      "mu3": 2.05,
+      "mu4": 1.95,
+      "sigma3": 1.01,
+      "sigma4": 1.0,
+      "mu5": 22.07,
+      "mu6": 20.96,
+      "sigma5": 3.88,
+      "sigma6": 2.99
+    },
+    "optimized_params": {
+      "mu1": 19.034776743854344,
+      "mu2": 21.143910354885683,
+      "sigma1": 2.5976119089848484,
+      "sigma2": 3.0813408402827482,
+      "mu3": 2.257889427870523,
+      "mu4": 1.9786169089704877,
+      "sigma3": 0.9247641780858474,
+      "sigma4": 1.0247580855612701,
+      "mu5": 22.711459536328384,
+      "mu6": 21.598701351018754,
+      "sigma5": 4.447315860160449,
+      "sigma6": 3.3970770527153964
+    },
+    "initial_loss": 6.862997825537186,
+    "final_loss": 6.727696048992752,
+    "train_nll": 6.727194787442036,
+    "held_out_nll": 6.6908093645170705,
+    "reliability": {
+      "max_r_hat": 1.0,
+      "min_ess_bulk": 1719.0,
+      "min_ess_tail": 1644.0,
+      "divergence_frac": 0.0,
+      "missing_vars": [],
+      "checks": {
+        "r_hat": true,
+        "ess_bulk": true,
+        "ess_tail": true,
+        "no_divergences": true
+      }
+    },
+    "checks": {
+      "r_hat": true,
+      "ess_bulk": true,
+      "ess_tail": true,
+      "no_divergences": true,
+      "held_out_ok": true
+    },
+    "reliability_score": 5,
+    "opt_time": 2.987,
+    "opt_iterations": 100,
+    "error": null,
+    "program": "mu = gm( [0.30, 0.70] , [19.97, 22.06] , [2.99, 3.88] ) ;  sigma = gm( [0.25, 0.75] , [2.05, 1.95] , [1.01, 1.00] ) ;  x = gm( [0.35, 0.65] , [22.07, 20.96] , [3.88, 2.99] ) ;"
+  }
+]

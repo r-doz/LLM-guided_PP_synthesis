@@ -1,0 +1,8 @@
+=== program=biasedtugwar seed=4 inference=gradient ===
+[attempt=1 r=0 ell=0] score=0/5 (cutoff K=4) held_out_nll=inf checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': False, 'held_out_ok': False}
+[attempt=1] resample likelihood (ell=1/2)
+[attempt=2 r=0 ell=1] score=5/5 (cutoff K=4) held_out_nll=6.7389 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'held_out_ok': True}
+[attempt=3 r=0 ell=1] score=5/5 (cutoff K=4) held_out_nll=3.4324 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'held_out_ok': True}
+[attempt=4 r=0 ell=1] score=5/5 (cutoff K=4) held_out_nll=3.4324 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'held_out_ok': True}
+[attempt=5 r=0 ell=1] score=5/5 (cutoff K=4) held_out_nll=3.4324 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'held_out_ok': True}
+=== SUCCESS in 397.5s: /home/rdoz/LLM-guided_PP_synthesis/results/biasedtugwar/refinestat/20260819_115641_seed4 ===

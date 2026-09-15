@@ -1,0 +1,18 @@
+[
+  {
+    "ok": true,
+    "rewritten": "contentDifficulty = gm([1.00], [_mu1], [_sigma1]);\nquestionsAfterLectureLength = gm([0.06,0.94], [_mu2, _mu3], [_sigma2, _sigma3]);\n",
+    "optimized_params": {
+      "mu1": 25.397653655968085,
+      "sigma1": 3.8473302271023693,
+      "mu2": -27.658355649352227,
+      "mu3": 11.969228141731682,
+      "sigma2": 19.6445251748145,
+      "sigma3": 7.399135432047813
+    },
+    "train_nll": 7.195591798620615,
+    "held_out_nll": 7.120341225778815,
+    "error": null,
+    "program": "contentDifficulty = gm([1.00],[24.96],[2.52]);\nquestionsAfterLectureLength = gm([0.06,0.94],[-28.25,11.46],[10.89,11.46]);\n"
+  }
+]

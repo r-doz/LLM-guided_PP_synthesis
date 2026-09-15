@@ -1,0 +1,71 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "eyecolor",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/eyecolor/20260913_004215"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Data is unimodal and approximately normally distributed around the observed means.
+DeGAS code:
+eyecolor = gm([1.00],[0.14],[0.48]); haircolor = gm([1.00],[0.55],[1.22]); hairlenght = gm([1.00],[0.62],[0.84]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Data consists of a dominant zero category and a secondary higher-value subpopulation for each trait.
+DeGAS code:
+eyecolor = gm([0.70,0.30],[0.00,2.00],[0.00,0.50]); haircolor = gm([0.60,0.40],[0.00,3.00],[0.00,0.80]); hairlenght = gm([0.55,0.45],[0.00,1.50],[0.00,0.30]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Each variable exhibits distinct discrete categories corresponding to multiple modes.
+DeGAS code:
+eyecolor = gm([0.50,0.30,0.20],[0.00,1.00,2.00],[0.00,0.00,0.00]); haircolor = gm([0.40,0.35,0.25],[0.00,2.00,4.00],[0.00,0.00,0.00]); hairlenght = gm([0.45,0.35,0.20],[0.00,1.00,2.00],[0.00,0.00,0.00]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Eye color determines different distributions for hair color and length.
+DeGAS code:
+if eyecolor == 0.00 { haircolor = gm([1.00],[0.30],[0.60]); hairlenght = gm([1.00],[0.20],[0.40]); } else { haircolor = gm([1.00],[0.80],[0.90]); hairlenght = gm([1.00],[1.10],[0.70]); } eyecolor = gm([1.00],[0.14],[0.48]);
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Hair traits are hierarchically influenced by eye color through scaled mixture components.
+DeGAS code:
+temp = 0.60*gm([1.00],[0.14],[0.48]); eyecolor = temp; haircolor = 0.40*gm([1.00],[0.55],[1.22]) + eyecolor; hairlenght = 0.30*gm([1.00],[0.62],[0.84]) + haircolor;
+
+Program ID 1 initial optimization completed. Initial loss: 3.5520, Final loss: 3.5519
+Program ID 2 initial optimization completed. Initial loss: 2.7235, Final loss: 2.3423
+Error extracting parameters from program ID 3: element 0 of tensors does not require grad and does not have a grad_fn
+Error extracting parameters from program ID 4: 
+Program ID 5 initial optimization completed. Initial loss: 21.0207, Final loss: 6.6534
+
+--- Final Selected Programs ---
+Program ID: 2, Final Loss: 2.3423
+Hypothesis: Data consists of a dominant zero category and a secondary higher-value subpopulation for each trait.
+Structure: mixture2
+DeGAS code:
+eyecolor = gm([0.70,0.30],[0.00,2.00],[0.00,0.50]); haircolor = gm([0.60,0.40],[0.00,3.00],[0.00,0.80]); hairlenght = gm([0.55,0.45],[0.00,1.50],[0.00,0.30]);
+
+Program ID: 1, Final Loss: 3.5519
+Hypothesis: Data is unimodal and approximately normally distributed around the observed means.
+Structure: unimodal
+DeGAS code:
+eyecolor = gm([1.00],[0.14],[0.48]); haircolor = gm([1.00],[0.55],[1.22]); hairlenght = gm([1.00],[0.62],[0.84]);
+
+Program ID: 5, Final Loss: 6.6534
+Hypothesis: Hair traits are hierarchically influenced by eye color through scaled mixture components.
+Structure: hierarchical
+DeGAS code:
+temp = 0.60*gm([1.00],[0.14],[0.48]); eyecolor = temp; haircolor = 0.40*gm([1.00],[0.55],[1.22]) + eyecolor; hairlenght = 0.30*gm([1.00],[0.62],[0.84]) + haircolor;
+
+No fitness values to plot.
+=== Run finished in 80.3s ===

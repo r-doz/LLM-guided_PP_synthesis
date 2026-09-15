@@ -1,0 +1,6 @@
+=== program=mixedcondition seed=3 inference=gradient ===
+[attempt=1 r=0 ell=0] score=5/5 (cutoff K=4) held_out_nll=5.1362 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'held_out_ok': True}
+[attempt=2 r=0 ell=0] score=5/5 (cutoff K=4) held_out_nll=5.1362 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'held_out_ok': True}
+[attempt=3 r=0 ell=0] score=5/5 (cutoff K=4) held_out_nll=5.1362 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'held_out_ok': True}
+[attempt=4 r=0 ell=0] score=5/5 (cutoff K=4) held_out_nll=5.1362 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'held_out_ok': True}
+=== SUCCESS in 215.8s: /home/rdoz/LLM-guided_PP_synthesis/results/mixedcondition/refinestat/20260820_115444_seed3 ===

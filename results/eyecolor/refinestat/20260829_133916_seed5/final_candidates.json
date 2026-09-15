@@ -1,0 +1,70 @@
+[
+  {
+    "rewritten": "eyecolor = gm([0.16, 0.16, 0.68], [_mu1, _mu2, _mu3], [_sigma1, _sigma2, _sigma3]) ; haircolor = gm([0.65, 0.15, 0.20], [_mu4, _mu5, _mu6], [_sigma4, _sigma5, _sigma6]) ; hairlenght = gm([0.61, 0.39], [_mu7, _mu8], [_sigma7, _sigma8]) ;",
+    "params": {
+      "mu1": 0.0,
+      "mu2": 1.0,
+      "mu3": 2.0,
+      "sigma1": 0.53,
+      "sigma2": 0.53,
+      "sigma3": 0.83,
+      "mu4": 0.0,
+      "mu5": 2.0,
+      "mu6": 4.0,
+      "sigma4": 1.32,
+      "sigma5": 1.32,
+      "sigma6": 1.32,
+      "mu7": 0.0,
+      "mu8": 2.0,
+      "sigma7": 0.83,
+      "sigma8": 0.83
+    },
+    "optimized_params": {
+      "mu1": 5.2147346387051624e-06,
+      "mu2": 0.24308163428889915,
+      "mu3": 1.1700460444686038,
+      "sigma1": 0.20715914951264053,
+      "sigma2": 0.49953698032344407,
+      "sigma3": 1.2378323866064411,
+      "mu4": 0.05909832059209183,
+      "mu5": 1.2481648856621923,
+      "mu6": 3.944077545660828,
+      "sigma4": 0.4975125853034016,
+      "sigma5": 1.0652800980647592,
+      "sigma6": 0.45323311618412504,
+      "mu7": 0.00890367775934464,
+      "mu8": 1.5787701890476133,
+      "sigma7": 0.3121622994981751,
+      "sigma8": 0.4942193230602093
+    },
+    "initial_loss": 4.805906888489049,
+    "final_loss": 2.4666830269253364,
+    "train_nll": 2.44526079285279,
+    "held_out_nll": 2.2224590167564218,
+    "reliability": {
+      "max_r_hat": 1.0,
+      "min_ess_bulk": 1946.0,
+      "min_ess_tail": 1845.0,
+      "divergence_frac": 0.0,
+      "missing_vars": [],
+      "checks": {
+        "r_hat": true,
+        "ess_bulk": true,
+        "ess_tail": true,
+        "no_divergences": true
+      }
+    },
+    "checks": {
+      "r_hat": true,
+      "ess_bulk": true,
+      "ess_tail": true,
+      "no_divergences": true,
+      "held_out_ok": true
+    },
+    "reliability_score": 5,
+    "opt_time": 6.481,
+    "opt_iterations": 100,
+    "error": null,
+    "program": "eyecolor = gm( [0.16, 0.16, 0.68] , [0.00, 1.00, 2.00] , [0.53, 0.53, 0.83] ) ; haircolor = gm( [0.65, 0.15, 0.20] , [0.00, 2.00, 4.00] , [1.32, 1.32, 1.32] ) ; hairlenght = gm( [0.61, 0.39] , [0.00, 2.00] , [0.83, 0.83] ) ;"
+  }
+]

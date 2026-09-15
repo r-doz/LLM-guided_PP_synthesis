@@ -1,0 +1,101 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "eyecolor",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/eyecolor/20260913_004339"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Data is unimodal and approximately symmetric around the mean.
+DeGAS code:
+eyecolor = gm([1.00],[0.19],[0.57]);
+haircolor = gm([1.00],[0.58],[1.27]);
+hairlenght = gm([1.00],[0.69],[0.87]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Two subpopulations exist, perhaps representing distinct eye color groups.
+DeGAS code:
+eyecolor = gm([0.55,0.45],[0.10,0.30],[0.40,0.70]);
+haircolor = gm([0.60,0.40],[0.20,1.00],[0.80,1.50]);
+hairlenght = gm([0.50,0.50],[0.30,1.20],[0.60,0.90]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Three latent components generate the skewed distributions across variables.
+DeGAS code:
+eyecolor = gm([0.33,0.34,0.33],[0.05,0.20,0.40],[0.30,0.50,0.80]);
+haircolor = gm([0.33,0.34,0.33],[0.10,0.60,1.30],[0.70,1.00,1.40]);
+hairlenght = gm([0.33,0.34,0.33],[0.20,0.70,1.50],[0.40,0.80,1.20]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Eye color determines a branching process influencing hair traits.
+DeGAS code:
+if eyecolor <= 1.00 {
+  haircolor = gm([1.00],[0.30],[0.60]);
+  hairlenght = gm([1.00],[0.50],[0.70]);
+} else {
+  haircolor = gm([1.00],[0.90],[1.20]);
+  hairlenght = gm([1.00],[1.10],[0.80]);
+}
+eyecolor = gm([1.00],[0.19],[0.57]);
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Hair characteristics arise from hierarchical combination of independent factors.
+DeGAS code:
+temp_eye1 = 0.50*gm([1.00],[0.20],[0.40]);
+temp_eye2 = gm([1.00],[0.10],[0.30]);
+eyecolor = temp_eye1 * temp_eye2;
+
+temp_hair1 = 0.60*gm([1.00],[0.50],[0.80]);
+temp_hair2 = gm([1.00],[0.40],[0.70]);
+haircolor = temp_hair1 * temp_hair2;
+
+temp_len1 = 0.70*gm([1.00],[0.30],[0.60]);
+temp_len2 = gm([1.00],[0.20],[0.50]);
+hairlenght = temp_len1 * temp_len2;
+
+Program ID 1 initial optimization completed. Initial loss: 3.7925, Final loss: 3.7925
+Program ID 2 initial optimization completed. Initial loss: 3.2498, Final loss: 1.0602
+Program ID 3 initial optimization completed. Initial loss: 3.1001, Final loss: 0.7485
+Error extracting parameters from program ID 4: Expected parameter loc (Tensor of shape (3,)) of distribution MultivariateNormal(loc: torch.Size([3]), covariance_matrix: torch.Size([3, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([0., nan, nan], grad_fn=<ExpandBackward0>)
+Error extracting parameters from program ID 5: 'eye1'
+
+--- Final Selected Programs ---
+Program ID: 3, Final Loss: 0.7485
+Hypothesis: Three latent components generate the skewed distributions across variables.
+Structure: mixture3
+DeGAS code:
+eyecolor = gm([0.33,0.34,0.33],[0.05,0.20,0.40],[0.30,0.50,0.80]);
+haircolor = gm([0.33,0.34,0.33],[0.10,0.60,1.30],[0.70,1.00,1.40]);
+hairlenght = gm([0.33,0.34,0.33],[0.20,0.70,1.50],[0.40,0.80,1.20]);
+
+Program ID: 2, Final Loss: 1.0602
+Hypothesis: Two subpopulations exist, perhaps representing distinct eye color groups.
+Structure: mixture2
+DeGAS code:
+eyecolor = gm([0.55,0.45],[0.10,0.30],[0.40,0.70]);
+haircolor = gm([0.60,0.40],[0.20,1.00],[0.80,1.50]);
+hairlenght = gm([0.50,0.50],[0.30,1.20],[0.60,0.90]);
+
+Program ID: 1, Final Loss: 3.7925
+Hypothesis: Data is unimodal and approximately symmetric around the mean.
+Structure: unimodal
+DeGAS code:
+eyecolor = gm([1.00],[0.19],[0.57]);
+haircolor = gm([1.00],[0.58],[1.27]);
+hairlenght = gm([1.00],[0.69],[0.87]);
+
+No fitness values to plot.
+=== Run finished in 75.4s ===

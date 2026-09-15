@@ -1,0 +1,16 @@
+=== program=mixedcondition seed=1 (grammar-mcmc) ===
+[mixedcondition seed=1 step=0] current_train_nll=83.7347 best_held_out_nll=82.6862 accept_rate=0.00 valid_proposal_rate=1.00
+[mixedcondition seed=1 step=25] current_train_nll=25.1833 best_held_out_nll=24.8639 accept_rate=0.15 valid_proposal_rate=1.00
+[mixedcondition seed=1 step=50] current_train_nll=21.7240 best_held_out_nll=21.6582 accept_rate=0.10 valid_proposal_rate=1.00
+[mixedcondition seed=1 step=75] current_train_nll=10.9132 best_held_out_nll=10.8472 accept_rate=0.11 valid_proposal_rate=1.00
+[mixedcondition seed=1 step=100] current_train_nll=10.1666 best_held_out_nll=9.9530 accept_rate=0.09 valid_proposal_rate=1.00
+[mixedcondition seed=1 step=125] current_train_nll=10.1666 best_held_out_nll=9.9530 accept_rate=0.07 valid_proposal_rate=1.00
+[mixedcondition seed=1 step=150] current_train_nll=13.4213 best_held_out_nll=9.9530 accept_rate=0.08 valid_proposal_rate=1.00
+[mixedcondition seed=1 step=175] current_train_nll=11.6897 best_held_out_nll=9.9530 accept_rate=0.07 valid_proposal_rate=1.00
+[mixedcondition seed=1 step=200] current_train_nll=11.0309 best_held_out_nll=9.9530 accept_rate=0.08 valid_proposal_rate=1.00
+[mixedcondition seed=1 step=225] current_train_nll=11.0309 best_held_out_nll=9.9530 accept_rate=0.08 valid_proposal_rate=1.00
+[mixedcondition seed=1 step=250] current_train_nll=11.0309 best_held_out_nll=9.9530 accept_rate=0.07 valid_proposal_rate=1.00
+[mixedcondition seed=1 step=275] current_train_nll=11.1868 best_held_out_nll=9.9530 accept_rate=0.07 valid_proposal_rate=1.00
+[mixedcondition seed=1 step=299] current_train_nll=12.5740 best_held_out_nll=9.9530 accept_rate=0.07 valid_proposal_rate=1.00
+=== [mixedcondition seed=1] done: 22/300 accepted, best_held_out_nll=9.9530 ===
+=== SUCCESS in 101.4s: /home/rdoz/PhD/LLM-guided_PP_synthesis/results/mixedcondition/grammar_mcmc/20260820_114305_seed1 ===

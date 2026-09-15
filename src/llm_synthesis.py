@@ -1,5 +1,6 @@
 import json
 import csv
+import os
 import sys
 import time
 import torch
@@ -18,15 +19,27 @@ from helpers.dataset_generation import get_dataset, get_var_names
 from helpers.generation_prompt import make_init_prompt, SYSTEM_PROMPT, DEGAS_GRAMMAR
 
 # Hyperparameters
-llm_model = "gpt-oss:120b"
-program = "easytugwar"  # Options: "if", "mog1", "burglary", "csi", "easytugwar"
+llm_model = os.environ.get("ALPS_LLM_MODEL", "gpt-oss:120b")
+# Ablation: when set, skip the gradient-descent parameter-fitting step entirely -- candidates
+# are scored at the LLM's own proposed literal parameter values, never refined.
+skip_gradient = os.environ.get("ALPS_SKIP_GRADIENT", "0") == "1"
+# Ablation: select/sort candidates by held-out NLL instead of the training NLL they were
+# fit against -- mirrors RefineStat's own held_out_ok check, which ALPS's search otherwise has
+# no equivalent of (every candidate is both fit AND selected on the same fixed data_array).
+held_out_selection = os.environ.get("ALPS_HELD_OUT_SELECTION", "0") == "1"
+train_frac = float(os.environ.get("ALPS_TRAIN_FRAC", "0.8"))
+program = os.environ.get("ALPS_PROGRAM", "if")  # Options: "if", "mog1", "burglary", "csi", "easytugwar",
+                         # "biasedtugwar", "mixedcondition", "multiplebranches", "eyecolor", "hurricane"
 data_size = 1000
-n_programs = 5
+# Ablation: no-mutation variant -- generate n_programs candidates once (init_opt_steps each) and
+# stop, instead of iteratively mutating n_mutations of them for n_steps rounds. Overridable so the
+# ablation doesn't need its own copy of this file; defaults reproduce the standard ALPS config.
+n_programs = int(os.environ.get("ALPS_N_PROGRAMS", "5"))
 n_mutations = 5
-n_steps = 15
+n_steps = int(os.environ.get("ALPS_N_STEPS", "15"))
 init_temperature = 0.2
 mutation_temperature = 0.4
-init_opt_steps = 50
+init_opt_steps = int(os.environ.get("ALPS_INIT_OPT_STEPS", "50"))
 mutation_opt_steps = 100
 extra_opt_steps = 200
 learning_rate = 0.01
@@ -53,7 +66,19 @@ def log_line(message: str) -> None:
         f.write(message + "\n")
 
 
-def optimize_candidate(prog: dict, data_array, stats_dict, n_opt_steps: int, lr: float, warm_start: dict | None = None) -> None:
+def sort_key(prog: dict):
+    """Selection criterion for ranking/culling candidates. Normally the training NLL
+    they were fit against (final_loss); under ALPS_HELD_OUT_SELECTION, the held-out NLL
+    instead (held_out_loss), matching RefineStat's own held_out_ok check."""
+    if held_out_selection:
+        return prog.get("held_out_loss", prog["final_loss"])
+    return prog["final_loss"]
+
+
+def optimize_candidate(
+    prog: dict, data_array, stats_dict, n_opt_steps: int, lr: float,
+    warm_start: dict | None = None, held_out_data=None,
+) -> None:
     """Compile and optimize a single candidate in-place.
 
     `warm_start`, if given (typically prog['optimized_params'] from a previous
@@ -61,6 +86,11 @@ def optimize_candidate(prog: dict, data_array, stats_dict, n_opt_steps: int, lr:
     instead of the literal constants embedded in prog["program"], so a further
     optimization pass continues from where the previous one left off instead of
     restarting from the LLM's originally proposed literals every time.
+
+    `held_out_data`, if given, additionally scores the fitted candidate's NLL against
+    this (never fit against) split and stores it as prog['held_out_loss'] -- used by
+    the ALPS_HELD_OUT_SELECTION ablation to select/sort candidates by held-out NLL
+    instead of the training NLL they were fit against.
     """
     rewritten, params_dict = extract_params(prog["program"])
     prog["params"] = params_dict
@@ -71,6 +101,15 @@ def optimize_candidate(prog: dict, data_array, stats_dict, n_opt_steps: int, lr:
     smooth_cfg(cfg)
 
     loss = lambda output_dist: -compute_likelihood(output_dist, stats_dict["var_names"], data_array)
+
+    def eval_held_out(fitted_params_dict) -> None:
+        if held_out_data is None:
+            return
+        with torch.no_grad():
+            held_out_dist = start_SOGA(cfg, fitted_params_dict)
+            prog["held_out_loss"] = (
+                -compute_likelihood(held_out_dist, stats_dict["var_names"], held_out_data)
+            ).item()
 
     if not prog["params"]:
         # No optimizable parameters were extracted -- e.g. the candidate uses only
@@ -88,6 +127,7 @@ def optimize_candidate(prog: dict, data_array, stats_dict, n_opt_steps: int, lr:
         prog["final_loss"] = fixed_loss
         prog["opt_time"] = 0.0
         prog["opt_iterations"] = 0
+        eval_held_out(params_dict)
         return
 
     init_values = prog["params"]
@@ -100,6 +140,21 @@ def optimize_candidate(prog: dict, data_array, stats_dict, n_opt_steps: int, lr:
             init_values[name] = float(value)
 
     params_dict = initialize_params(init_values)
+
+    if skip_gradient:
+        # Ablation: evaluate the LLM's proposed program at its own literal parameter
+        # values -- no gradient-descent fitting at all.
+        with torch.no_grad():
+            output_dist = start_SOGA(cfg, params_dict)
+            fixed_loss = loss(output_dist).item()
+        prog["optimized_params"] = params_dict
+        prog["initial_loss"] = fixed_loss
+        prog["final_loss"] = fixed_loss
+        prog["opt_time"] = 0.0
+        prog["opt_iterations"] = 0
+        eval_held_out(params_dict)
+        return
+
     #take a random subset of data_array
     n = len(data_array)
     #idx = np.random.choice(n, size=min(500, n), replace=False)
@@ -118,22 +173,37 @@ def optimize_candidate(prog: dict, data_array, stats_dict, n_opt_steps: int, lr:
     prog["final_loss"] = loss_list[-1]
     prog["opt_time"] = elapsed_time
     prog["opt_iterations"] = number_of_iterations
+    eval_held_out(params_dict)
 
+
+# Counts every program the LLM proposes (initial candidates + each iteration's mutations)
+# exactly once, at its first optimize_candidate call -- tracks how often a freshly-generated
+# program fails DeGAS compilation/execution (grammar-adjacent issues: mismatched list
+# lengths, singular covariance, etc.), separate from the "additional optimization" re-fit
+# pass on already-successful candidates later in the loop.
+n_generated_total = 0
+n_grammar_errors = 0
 
 run_start_time = time.time()
 
 data = get_dataset(program, data_size)
 #print(data)
 
+if held_out_selection:
+    n_train = int(len(data) * train_frac)
+    train_data, held_out_data = data[:n_train], data[n_train:]
+else:
+    train_data, held_out_data = data, None
+
 stats = {
     "var_names": get_var_names(program),
-    "n": len(data),
-    "mean": np.mean(data, axis=0).tolist(),
-    "std": np.std(data, axis=0).tolist(),
-    "skewness": (np.mean((data - np.mean(data, axis=0))**3, axis=0) / (np.std(data, axis=0)**3)).tolist(),
-    "kurtosis": (np.mean((data - np.mean(data, axis=0))**4, axis=0) / (np.std(data, axis=0)**4)).tolist(),
-    "min": np.min(data, axis=0).tolist(),
-    "max": np.max(data, axis=0).tolist(),
+    "n": len(train_data),
+    "mean": np.mean(train_data, axis=0).tolist(),
+    "std": np.std(train_data, axis=0).tolist(),
+    "skewness": (np.mean((train_data - np.mean(train_data, axis=0))**3, axis=0) / (np.std(train_data, axis=0)**3)).tolist(),
+    "kurtosis": (np.mean((train_data - np.mean(train_data, axis=0))**4, axis=0) / (np.std(train_data, axis=0)**4)).tolist(),
+    "min": np.min(train_data, axis=0).tolist(),
+    "max": np.max(train_data, axis=0).tolist(),
 }
 print(stats)
 prompt = make_init_prompt(stats, n_programs=n_programs)
@@ -142,6 +212,7 @@ print(prompt)
 # Save hyperparameters and run metadata
 hyperparams = {
     "llm_model": llm_model,
+    "skip_gradient": skip_gradient,
     "program": program,
     "data_size": data_size,
     "n_programs": n_programs,
@@ -188,14 +259,22 @@ for prog in candidates:
 
 # extract parameters and optimize each program
 for prog in candidates:
+    n_generated_total += 1
     try:
-        optimize_candidate(prog, data, stats, n_opt_steps=init_opt_steps, lr=learning_rate)
+        optimize_candidate(prog, train_data, stats, n_opt_steps=init_opt_steps, lr=learning_rate, held_out_data=held_out_data)
         log_line(
             f"Program ID {prog['id']} initial optimization completed. "
             f"Initial loss: {prog['initial_loss']:.4f}, Final loss: {prog['final_loss']:.4f}"
         )
     except Exception as e:
+        n_grammar_errors += 1
         log_line(f"Error extracting parameters from program ID {prog['id']}: {e}")
+
+# Sort by loss now, not just inside the mutation loop below -- with n_steps=0 (the no-mutation
+# ablation) that loop never runs, and candidates[0] (what the evaluation pipeline treats as this
+# run's own best) would otherwise stay in the LLM's raw response order instead of by fit quality.
+candidates = [prog for prog in candidates if 'final_loss' in prog]
+candidates.sort(key=sort_key)
 
 best_fitness = []
 
@@ -218,14 +297,16 @@ for i in range(n_steps):
         break
 
     for prog in new_candidates:
+        n_generated_total += 1
         try:
-            optimize_candidate(prog, data, stats, n_opt_steps=mutation_opt_steps, lr=learning_rate)
+            optimize_candidate(prog, train_data, stats, n_opt_steps=mutation_opt_steps, lr=learning_rate, held_out_data=held_out_data)
             log_line(
                 f"Program ID {prog['id']} mutation optimization completed. "
                 f"Initial loss: {prog['initial_loss']:.4f}, Final loss: {prog['final_loss']:.4f}"
             )
 
         except Exception as e:
+            n_grammar_errors += 1
             log_line(f"Error in program ID {prog['id']}: {e}")
             prog['errors'] = str(e)
             prog['final_loss'] = float('inf')
@@ -233,7 +314,7 @@ for i in range(n_steps):
     # choose the best 5 programs between new_candidates and candidates based on final_loss
     all_candidates = candidates + new_candidates
     all_candidates = [prog for prog in all_candidates if 'final_loss' in prog]
-    all_candidates.sort(key=lambda x: x['final_loss'])
+    all_candidates.sort(key=sort_key)
     candidates = all_candidates[:5]
 
     if not candidates:
@@ -245,8 +326,8 @@ for i in range(n_steps):
     for prog in candidates:
         try:
             optimize_candidate(
-                prog, data, stats, n_opt_steps=extra_opt_steps, lr=learning_rate,
-                warm_start=prog.get('optimized_params'),
+                prog, train_data, stats, n_opt_steps=extra_opt_steps, lr=learning_rate,
+                warm_start=prog.get('optimized_params'), held_out_data=held_out_data,
             )
             log_line(
                 f"Program ID {prog['id']} additional optimization completed. "
@@ -261,7 +342,7 @@ for i in range(n_steps):
     # Re-sort: the additional optimization pass above can change the candidates'
     # relative ranking, so candidates[0] must be recomputed, not reused from the
     # pre-refinement sort done before this loop.
-    candidates.sort(key=lambda x: x['final_loss'])
+    candidates.sort(key=sort_key)
     best_candidate = candidates[0]
     progress = ((i + 1) / n_steps) * 100.0
     print(f"Progress: {progress:.1f}% | Iteration {i + 1}/{n_steps} | Best Loss: {best_candidate['final_loss']:.4f}")
@@ -306,6 +387,11 @@ else:
 # re-persist hyperparams.json with it, for cross-method runtime comparison.
 elapsed_seconds = time.time() - run_start_time
 hyperparams["elapsed_seconds"] = elapsed_seconds
+hyperparams["n_generated_total"] = n_generated_total
+hyperparams["n_grammar_errors"] = n_grammar_errors
+hyperparams["grammar_error_rate"] = (
+    n_grammar_errors / n_generated_total if n_generated_total else None
+)
 with open(hyperparams_path, "w", encoding="utf-8") as f:
     json.dump(hyperparams, f, indent=2)
 log_line(f"=== Run finished in {elapsed_seconds:.1f}s ===")

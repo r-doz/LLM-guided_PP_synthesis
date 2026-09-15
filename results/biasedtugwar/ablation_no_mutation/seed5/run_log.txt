@@ -1,0 +1,102 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "biasedtugwar",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/biasedtugwar/20260913_002632"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Skill levels are generated from a single normal-like distribution and p1wins is a Bernoulli outcome.
+DeGAS code:
+skill1 = gm([1.00],[19.96],[4.12]);
+skill2 = gm([1.00],[19.83],[3.98]);
+p1wins = gm([0.80,0.20],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: There are two subpopulations of players with distinct skill levels.
+DeGAS code:
+skill1 = gm([0.50,0.50],[15.00,24.93],[2.50,2.50]);
+skill2 = gm([0.50,0.50],[14.00,25.66],[2.40,2.40]);
+p1wins = gm([0.80,0.20],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Skill distributions are skewed with three latent groups.
+DeGAS code:
+skill1 = gm([0.30,0.40,0.30],[12.00,20.00,28.00],[2.00,2.50,2.00]);
+skill2 = gm([0.30,0.40,0.30],[11.00,19.50,27.00],[1.80,2.40,1.80]);
+p1wins = gm([0.80,0.20],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Players with skill1 below 20 have lower win probability than those above.
+DeGAS code:
+if skill1 < 20.00 {
+    p1wins = gm([0.90,0.10],[0.00,1.00],[0.00,0.00]);
+} else {
+    p1wins = gm([0.70,0.30],[0.00,1.00],[0.00,0.00]);
+}
+skill1 = gm([1.00],[19.96],[4.12]);
+skill2 = gm([1.00],[19.83],[3.98]);
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Skill1 is modeled as a scaled version of skill2 plus its own variability.
+DeGAS code:
+temp = 0.60*gm([1.00],[19.83],[3.98]);
+skill1 = temp;
+skill2 = gm([1.00],[19.83],[3.98]);
+p1wins = gm([0.80,0.20],[0.00,1.00],[0.00,0.00]);
+
+Program ID 1 initial optimization completed. Initial loss: 6.1340, Final loss: 6.1339
+Program ID 2 initial optimization completed. Initial loss: 7.1223, Final loss: 6.4796
+Program ID 3 initial optimization completed. Initial loss: 6.8646, Final loss: 6.4939
+Error extracting parameters from program ID 4: Expected parameter loc (Tensor of shape (3,)) of distribution MultivariateNormal(loc: torch.Size([3]), covariance_matrix: torch.Size([3, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([0., nan, nan], grad_fn=<ExpandBackward0>)
+Program ID 5 initial optimization completed. Initial loss: 12.2802, Final loss: 7.4365
+
+--- Final Selected Programs ---
+Program ID: 1, Final Loss: 6.1339
+Hypothesis: Skill levels are generated from a single normal-like distribution and p1wins is a Bernoulli outcome.
+Structure: unimodal
+DeGAS code:
+skill1 = gm([1.00],[19.96],[4.12]);
+skill2 = gm([1.00],[19.83],[3.98]);
+p1wins = gm([0.80,0.20],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 2, Final Loss: 6.4796
+Hypothesis: There are two subpopulations of players with distinct skill levels.
+Structure: mixture2
+DeGAS code:
+skill1 = gm([0.50,0.50],[15.00,24.93],[2.50,2.50]);
+skill2 = gm([0.50,0.50],[14.00,25.66],[2.40,2.40]);
+p1wins = gm([0.80,0.20],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 3, Final Loss: 6.4939
+Hypothesis: Skill distributions are skewed with three latent groups.
+Structure: mixture3
+DeGAS code:
+skill1 = gm([0.30,0.40,0.30],[12.00,20.00,28.00],[2.00,2.50,2.00]);
+skill2 = gm([0.30,0.40,0.30],[11.00,19.50,27.00],[1.80,2.40,1.80]);
+p1wins = gm([0.80,0.20],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 5, Final Loss: 7.4365
+Hypothesis: Skill1 is modeled as a scaled version of skill2 plus its own variability.
+Structure: hierarchical
+DeGAS code:
+temp = 0.60*gm([1.00],[19.83],[3.98]);
+skill1 = temp;
+skill2 = gm([1.00],[19.83],[3.98]);
+p1wins = gm([0.80,0.20],[0.00,1.00],[0.00,0.00]);
+
+No fitness values to plot.
+=== Run finished in 65.9s ===

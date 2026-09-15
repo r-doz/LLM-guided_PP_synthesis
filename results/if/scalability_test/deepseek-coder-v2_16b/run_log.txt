@@ -1,0 +1,261 @@
+=== Run Started ===
+{
+  "llm_model": "deepseek-coder-v2:16b",
+  "program": "if",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 15,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 50,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/if/20260825_001003"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Data is unimodal and right-skewed.
+DeGAS code:
+gm([0.95],[1.0989252013862603],[2.0659822096560703]); a = gm([0.05],[-4.741259871515105],[2.0659822096560703]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Data appears to have two distinct subpopulations.
+DeGAS code:
+gm([0.4],[1.0989252013862603],[2.0659822096560703]); a = gm([0.6],[-4.741259871515105],[2.0659822096560703]); gm([0.4],[4.3608131431036075],[5.830487913573358]); b = gm([0.6],[-14.930500846621355],[5.830487913573358]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Data is multi-modal and highly skewed.
+DeGAS code:
+gm([0.2],[1.0989252013862603],[2.0659822096560703]); a = gm([0.3],[-4.741259871515105],[2.0659822096560703]); gm([0.2],[4.3608131431036075],[5.830487913573358]); b = gm([0.3],[-14.930500846621355],[5.830487913573358]); gm([0.3],[-0.5],[1]); c = gm([0.3],[0.5],[1]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Data shows a conditional relationship between variables based on their means.
+DeGAS code:
+if (a < mean[0]) { gm([1.0],[mean[0]],[std[0]]); a = gm([1.0],[-4.741259871515105],[std[0]]); } else { gm([1.0],[mean[0]],[std[0]]); a = gm([1.0],[6.749525582285419],[std[0]]); } end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Data is related through the product of two distributions.
+DeGAS code:
+temp_var = gm([0.4],[mean[0]],[std[0]]); if (a < mean[0]) { a = temp_var; } else { b = temp_var; } end if;
+
+Error extracting parameters from program ID 1: element 0 of tensors does not require grad and does not have a grad_fn
+Error extracting parameters from program ID 2: element 0 of tensors does not require grad and does not have a grad_fn
+Error extracting parameters from program ID 3: element 0 of tensors does not require grad and does not have a grad_fn
+Error extracting parameters from program ID 4: 'NoneType' object has no attribute 'assignment'
+Error extracting parameters from program ID 5: 'var'
+Error in program ID 6: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 7: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 8: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 9: 'NoneType' object has no attribute 'assignment'
+Error in program ID 10: 'var'
+Error in program ID 6 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 7 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 8 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 9 during additional optimization: 'NoneType' object has no attribute 'assignment'
+Error in program ID 10 during additional optimization: 'var'
+Best candidate after iteration 1: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+Program ID 11 mutation optimization completed. Initial loss: inf, Final loss: inf
+Program ID 12 mutation optimization completed. Initial loss: inf, Final loss: inf
+Program ID 13 mutation optimization completed. Initial loss: inf, Final loss: inf
+Program ID 14 mutation optimization completed. Initial loss: inf, Final loss: inf
+Program ID 15 mutation optimization completed. Initial loss: inf, Final loss: inf
+Error in program ID 6 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 7 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 8 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 9 during additional optimization: 'NoneType' object has no attribute 'assignment'
+Error in program ID 10 during additional optimization: 'var'
+Best candidate after iteration 2: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+Program ID 16 mutation optimization completed. Initial loss: inf, Final loss: inf
+Program ID 17 mutation optimization completed. Initial loss: inf, Final loss: inf
+Program ID 18 mutation optimization completed. Initial loss: inf, Final loss: inf
+Error in program ID 19: 'NoneType' object has no attribute 'assignment'
+Error in program ID 20: 'var'
+Error in program ID 6 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 7 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 8 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 9 during additional optimization: 'NoneType' object has no attribute 'assignment'
+Error in program ID 10 during additional optimization: 'var'
+Best candidate after iteration 3: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+Error in program ID 21: could not convert string to float: 'c+5'
+Error in program ID 22: could not convert string to float: 'b+10'
+Error in program ID 23: could not convert string to float: 'b+10'
+Error in program ID 24: 'NoneType' object has no attribute 'assignment'
+Error in program ID 25: 'var'
+Error in program ID 6 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 7 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 8 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 9 during additional optimization: 'NoneType' object has no attribute 'assignment'
+Error in program ID 10 during additional optimization: 'var'
+Best candidate after iteration 4: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+Error in program ID 26: could not convert string to float: 'c'
+Error in program ID 27: could not convert string to float: 'b'
+Error in program ID 28: could not convert string to float: 'b'
+Error in program ID 29: 'var'
+Error in program ID 30: 'var'
+Error in program ID 6 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 7 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 8 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 9 during additional optimization: 'NoneType' object has no attribute 'assignment'
+Error in program ID 10 during additional optimization: 'var'
+Best candidate after iteration 5: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+Error in program ID 31: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 32: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 33: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 34: 'var'
+Error in program ID 35: 'var1'
+Error in program ID 6 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 7 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 8 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 9 during additional optimization: 'NoneType' object has no attribute 'assignment'
+Error in program ID 10 during additional optimization: 'var'
+Best candidate after iteration 6: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+Error in program ID 36: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 37: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 38: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 39 mutation optimization completed. Initial loss: inf, Final loss: inf
+Error in program ID 40: 'var'
+Error in program ID 6 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 7 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 8 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 9 during additional optimization: 'NoneType' object has no attribute 'assignment'
+Error in program ID 10 during additional optimization: 'var'
+Best candidate after iteration 7: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+Program ID 41 mutation optimization completed. Initial loss: inf, Final loss: inf
+Program ID 42 mutation optimization completed. Initial loss: inf, Final loss: inf
+Program ID 43 mutation optimization completed. Initial loss: inf, Final loss: inf
+Error in program ID 44: 'var'
+Error in program ID 45: 'var'
+Error in program ID 6 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 7 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 8 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 9 during additional optimization: 'NoneType' object has no attribute 'assignment'
+Error in program ID 10 during additional optimization: 'var'
+Best candidate after iteration 8: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+Error in program ID 46: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 46: 'var'
+Error in program ID 47: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 48: 'var1'
+Error in program ID 49: 'var'
+Error in program ID 6 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 7 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 8 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 9 during additional optimization: 'NoneType' object has no attribute 'assignment'
+Error in program ID 10 during additional optimization: 'var'
+Best candidate after iteration 9: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+Program ID 51 mutation optimization completed. Initial loss: inf, Final loss: inf
+Program ID 52 mutation optimization completed. Initial loss: inf, Final loss: inf
+Program ID 53 mutation optimization completed. Initial loss: inf, Final loss: inf
+Error in program ID 54: 'var'
+Error in program ID 55: 'var'
+Error in program ID 6 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 7 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 8 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 9 during additional optimization: 'NoneType' object has no attribute 'assignment'
+Error in program ID 10 during additional optimization: 'var'
+Best candidate after iteration 10: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+Error in program ID 56: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 57: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 58: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 59: 'var'
+Error in program ID 60: 'var'
+Error in program ID 6 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 7 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 8 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 9 during additional optimization: 'NoneType' object has no attribute 'assignment'
+Error in program ID 10 during additional optimization: 'var'
+Best candidate after iteration 11: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+Program ID 61 mutation optimization completed. Initial loss: inf, Final loss: inf
+Error in program ID 62: 'var'
+Error in program ID 63: '[' was never closed (<string>, line 1)
+Error in program ID 64: 'var'
+Error in program ID 65: 'var'
+Error in program ID 6 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 7 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 8 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 9 during additional optimization: 'NoneType' object has no attribute 'assignment'
+Error in program ID 10 during additional optimization: 'var'
+Best candidate after iteration 12: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+Error in program ID 66: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 67: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 68: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 69: 'var'
+Error in program ID 70: 'var'
+Error in program ID 6 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 7 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 8 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 9 during additional optimization: 'NoneType' object has no attribute 'assignment'
+Error in program ID 10 during additional optimization: 'var'
+Best candidate after iteration 13: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+Error in program ID 71: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 72: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 73: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 74 mutation optimization completed. Initial loss: inf, Final loss: inf
+Error in program ID 75: 'var'
+Error in program ID 6 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 7 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 8 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 9 during additional optimization: 'NoneType' object has no attribute 'assignment'
+Error in program ID 10 during additional optimization: 'var'
+Best candidate after iteration 14: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+Error in program ID 76: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 77: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 78: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 79: 'var'
+Error in program ID 80: 'var'
+Error in program ID 6 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 7 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 8 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 9 during additional optimization: 'NoneType' object has no attribute 'assignment'
+Error in program ID 10 during additional optimization: 'var'
+Best candidate after iteration 15: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+
+--- Final Selected Programs ---
+Program ID: 6, Final Loss: inf
+Hypothesis: Data is bimodal and right-skewed.
+Structure: mixture3
+DeGAS code:
+gm([0.4],[1.0989252013862603],[2.0659822096560703]); a = gm([0.6],[-4.741259871515105],[2.0659822096560703]); gm([0.4],[mean[a]],[std[a]]); b = gm([0.6],[mean[a]+10], [std[a]]);
+
+Program ID: 7, Final Loss: inf
+Hypothesis: Data has a clear separation into three distinct groups.
+Structure: mixture3
+DeGAS code:
+gm([0.2],[1.0989252013862603],[2.0659822096560703]); a = gm([0.3],[-4.741259871515105],[2.0659822096560703]); b = gm([0.3],[mean[a]+10], [std[a]]); c = gm([0.2],[mean[b]-5],[std[b]]); d = gm([0.3],[mean[b]+5], [std[b]]);
+
+Program ID: 8, Final Loss: inf
+Hypothesis: Data exhibits a complex pattern with multiple modes.
+Structure: mixture4
+DeGAS code:
+gm([0.2],[1.0989252013862603],[2.0659822096560703]); a = gm([0.3],[-4.741259871515105],[2.0659822096560703]); b = gm([0.3],[mean[a]+10], [std[a]]); c = gm([0.2],[mean[b]-5],[std[b]]); d = gm([0.3],[mean[b]+5], [std[b]]); e = gm([0.2],[mean[c]-7],[std[c]]); f = gm([0.3],[mean[c]+7], [std[c]]);
+
+Program ID: 9, Final Loss: inf
+Hypothesis: Data shows a relationship between variable 'a' and its mean.
+Structure: conditional
+DeGAS code:
+if (a < mean[0]) { gm([1.0],[mean[0]],[std[0]]); a = gm([1.0],[-4.741259871515105],[std[0]]); } else { gm([1.0],[mean[0]],[std[0]]); a = gm([1.0],[6.749525582285419],[std[0]]); } end if;
+
+Program ID: 10, Final Loss: inf
+Hypothesis: Data is modeled as the product of two underlying distributions.
+Structure: hierarchical
+DeGAS code:
+temp_var = gm([0.4],[mean[0]],[std[0]]); if (a < mean[0]) { a = temp_var; } else { b = temp_var; } end if;
+
+=== Run finished in 432.9s ===

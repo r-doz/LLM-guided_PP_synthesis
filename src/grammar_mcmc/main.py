@@ -27,7 +27,10 @@ from helpers.dataset_generation import get_dataset, get_var_names  # noqa: E402
 from .mcmc_search import MCMCSearchConfig, run_grammar_mcmc  # noqa: E402
 
 RESULTS_DIR = _REPO_ROOT / "results"
-PROGRAMS = ["if", "mog1", "burglary", "csi", "easytugwar"]
+PROGRAMS = [
+    "if", "mog1", "burglary", "csi", "easytugwar",
+    "biasedtugwar", "mixedcondition", "multiplebranches", "eyecolor", "hurricane",
+]
 DATA_SIZE = 1000
 TRAIN_FRAC = 0.8
 

@@ -1,0 +1,77 @@
+[
+  {
+    "id": 6,
+    "hypothesis": "Data is unimodal and right-skewed with an additional component",
+    "structure": "mixture2",
+    "program": "var_a = gm([0.95, 0.05], [0.9475137509379256, 1.5], [2.079279280500111, 3]); var_b = uniform([-21.344045195108905, 10.594670558510174], 2);",
+    "params": {
+      "mu1": 0.9475137509379256,
+      "mu2": 1.5,
+      "sigma1": 2.079279280500111,
+      "sigma2": 3.0
+    },
+    "rewritten": "var_a = gm([0.95, 0.05], [_mu1, _mu2], [_sigma1, _sigma2]); var_b = uniform([-21.344045195108905, 10.594670558510174], 2);",
+    "errors": "'a'",
+    "final_loss": Infinity
+  },
+  {
+    "id": 7,
+    "hypothesis": "Data is a mixture of two subpopulations with different dependencies",
+    "structure": "conditional",
+    "program": "if var_a > 0.5 { var_b = gm([0.95, 0.05], [4.103573157844281, 1.5], [6.047512189937264, 3]); } else { var_b = uniform([-21.344045195108905, 10.594670558510174], 2); };",
+    "params": {
+      "mu1": 4.103573157844281,
+      "mu2": 1.5,
+      "sigma1": 6.047512189937264,
+      "sigma2": 3.0
+    },
+    "rewritten": "if var_a > 0.5 { var_b = gm([0.95, 0.05], [_mu1, _mu2], [_sigma1, _sigma2]); } else { var_b = uniform([-21.344045195108905, 10.594670558510174], 2); };",
+    "errors": "'NoneType' object is not callable",
+    "final_loss": Infinity
+  },
+  {
+    "id": 8,
+    "hypothesis": "Data is a hierarchical mixture of three distributions",
+    "structure": "hierarchical",
+    "program": "var1 = gm([0.95, 0.05], [0.9475137509379256, 1.5], [2.079279280500111, 3]); var2 = uniform([-21.344045195108905, 10.594670558510174], 2); var_b = var1 * 3 + var2;",
+    "params": {
+      "mu1": 0.9475137509379256,
+      "mu2": 1.5,
+      "sigma1": 2.079279280500111,
+      "sigma2": 3.0
+    },
+    "rewritten": "var1 = gm([0.95, 0.05], [_mu1, _mu2], [_sigma1, _sigma2]); var2 = uniform([-21.344045195108905, 10.594670558510174], 2); var_b = var1 * 3 + var2;",
+    "errors": "'b'",
+    "final_loss": Infinity
+  },
+  {
+    "id": 9,
+    "hypothesis": "Data is conditionally dependent on another variable with an additional component",
+    "structure": "conditional",
+    "program": "if var_a > 0.5 { var_b = gm([0.95, 0.05], [4.103573157844281, 1.5], [6.047512189937264, 3]); } else { var_b = uniform([-21.344045195108905, 10.594670558510174], 2); };",
+    "params": {
+      "mu1": 4.103573157844281,
+      "mu2": 1.5,
+      "sigma1": 6.047512189937264,
+      "sigma2": 3.0
+    },
+    "rewritten": "if var_a > 0.5 { var_b = gm([0.95, 0.05], [_mu1, _mu2], [_sigma1, _sigma2]); } else { var_b = uniform([-21.344045195108905, 10.594670558510174], 2); };",
+    "errors": "'NoneType' object is not callable",
+    "final_loss": Infinity
+  },
+  {
+    "id": 10,
+    "hypothesis": "Data is a hierarchical mixture of two distributions with different dependencies",
+    "structure": "hierarchical",
+    "program": "var1 = gm([0.95, 0.05], [0.9475137509379256, 1.5], [2.079279280500111, 3]); var2 = uniform([-21.344045195108905, 10.594670558510174], 2); if var_a > 0.5 { var_b = var1 * 3 + var2; } else { var_b = uniform([-21.344045195108905, 10.594670558510174], 2); };",
+    "params": {
+      "mu1": 0.9475137509379256,
+      "mu2": 1.5,
+      "sigma1": 2.079279280500111,
+      "sigma2": 3.0
+    },
+    "rewritten": "var1 = gm([0.95, 0.05], [_mu1, _mu2], [_sigma1, _sigma2]); var2 = uniform([-21.344045195108905, 10.594670558510174], 2); if var_a > 0.5 { var_b = var1 * 3 + var2; } else { var_b = uniform([-21.344045195108905, 10.594670558510174], 2); };",
+    "errors": "'NoneType' object is not callable",
+    "final_loss": Infinity
+  }
+]

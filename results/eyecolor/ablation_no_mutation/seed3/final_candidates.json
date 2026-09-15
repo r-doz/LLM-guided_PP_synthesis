@@ -1,0 +1,68 @@
+[
+  {
+    "id": 2,
+    "hypothesis": "Two subpopulations exist for each trait.",
+    "structure": "mixture2",
+    "program": "eyecolor = gm([0.70,0.30],[0.00,2.50],[0.20,0.20]);\nhaircolor = gm([0.70,0.30],[1.00,3.50],[0.30,0.30]);\nhairlenght = gm([0.70,0.30],[0.00,1.80],[0.15,0.15]);",
+    "params": {
+      "mu1": 0.0,
+      "mu2": 2.5,
+      "sigma1": 0.2,
+      "sigma2": 0.2,
+      "mu3": 1.0,
+      "mu4": 3.5,
+      "sigma3": 0.3,
+      "sigma4": 0.3,
+      "mu5": 0.0,
+      "mu6": 1.8,
+      "sigma5": 0.15,
+      "sigma6": 0.15
+    },
+    "rewritten": "eyecolor = gm([0.70,0.30], [_mu1, _mu2], [_sigma1, _sigma2]);\nhaircolor = gm([0.70,0.30], [_mu3, _mu4], [_sigma3, _sigma4]);\nhairlenght = gm([0.70,0.30], [_mu5, _mu6], [_sigma5, _sigma6]);",
+    "optimized_params": {
+      "mu1": "tensor(5.0005e-06, requires_grad=True)",
+      "mu2": "tensor(1.7309, requires_grad=True)",
+      "sigma1": "tensor(0.1156, grad_fn=<ExpBackward0>)",
+      "sigma2": "tensor(0.5241, grad_fn=<ExpBackward0>)",
+      "mu3": "tensor(0.4011, requires_grad=True)",
+      "mu4": "tensor(3.9282, requires_grad=True)",
+      "sigma3": "tensor(0.4961, grad_fn=<ExpBackward0>)",
+      "sigma4": "tensor(0.2716, grad_fn=<ExpBackward0>)",
+      "mu5": "tensor(-3.2732e-05, requires_grad=True)",
+      "mu6": "tensor(1.6274, requires_grad=True)",
+      "sigma5": "tensor(0.0552, grad_fn=<ExpBackward0>)",
+      "sigma6": "tensor(0.2968, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 7.517534361162981,
+    "final_loss": 0.6347211359148791,
+    "opt_time": 1.161,
+    "opt_iterations": 100
+  },
+  {
+    "id": 1,
+    "hypothesis": "Data is generated from a single continuous distribution with right skew.",
+    "structure": "unimodal",
+    "program": "eyecolor = gm([1.00],[0.19],[0.58]);\nhaircolor = gm([1.00],[0.59],[1.26]);\nhairlenght = gm([1.00],[0.62],[0.85]);",
+    "params": {
+      "mu1": 0.19,
+      "sigma1": 0.58,
+      "mu2": 0.59,
+      "sigma2": 1.26,
+      "mu3": 0.62,
+      "sigma3": 0.85
+    },
+    "rewritten": "eyecolor = gm([1.00], [_mu1], [_sigma1]);\nhaircolor = gm([1.00], [_mu2], [_sigma2]);\nhairlenght = gm([1.00], [_mu3], [_sigma3]);",
+    "optimized_params": {
+      "mu1": "tensor(0.1910)",
+      "sigma1": "tensor(0.5766)",
+      "mu2": "tensor(0.5940)",
+      "sigma2": "tensor(1.2583)",
+      "mu3": "tensor(0.6230)",
+      "sigma3": "tensor(0.8455)"
+    },
+    "initial_loss": 3.7682488768256235,
+    "final_loss": 3.7681725670795156,
+    "opt_time": 0.574,
+    "opt_iterations": 100
+  }
+]

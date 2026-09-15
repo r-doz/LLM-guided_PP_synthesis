@@ -1,0 +1,7 @@
+=== program=eyecolor seed=1 inference=gradient ===
+[attempt=1 r=0] generation incomplete within budget; restarting
+[attempt=2 r=1 ell=0] score=5/5 (cutoff K=4) held_out_nll=2.0953 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'held_out_ok': True}
+[attempt=3 r=1 ell=0] score=5/5 (cutoff K=4) held_out_nll=2.3739 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'held_out_ok': True}
+[attempt=4 r=1 ell=0] score=5/5 (cutoff K=4) held_out_nll=2.3739 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'held_out_ok': True}
+[attempt=5 r=1 ell=0] score=5/5 (cutoff K=4) held_out_nll=2.3739 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'held_out_ok': True}
+=== SUCCESS in 331.0s: /home/rdoz/LLM-guided_PP_synthesis/results/eyecolor/refinestat/20260829_132241_seed1 ===

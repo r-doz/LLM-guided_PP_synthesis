@@ -1,0 +1,88 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "eyecolor",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/eyecolor/20260913_004104"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Data is generated from a single continuous distribution with right skew.
+DeGAS code:
+eyecolor = gm([1.00],[0.19],[0.58]);
+haircolor = gm([1.00],[0.59],[1.26]);
+hairlenght = gm([1.00],[0.62],[0.85]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Two subpopulations exist for each trait.
+DeGAS code:
+eyecolor = gm([0.70,0.30],[0.00,2.50],[0.20,0.20]);
+haircolor = gm([0.70,0.30],[1.00,3.50],[0.30,0.30]);
+hairlenght = gm([0.70,0.30],[0.00,1.80],[0.15,0.15]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Three distinct modes reflect categorical levels.
+DeGAS code:
+eyecolor = gm([0.40,0.35,0.25],[0.00,1.00,3.00],[0.00,0.00,0.00]);
+haircolor = gm([0.30,0.50,0.20],[0.00,2.00,4.00],[0.00,0.00,0.00]);
+hairlenght = gm([0.45,0.35,0.20],[0.00,1.00,2.00],[0.00,0.00,0.00]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Eye color determines hair traits via branching.
+DeGAS code:
+eyecolor = gm([1.00],[0.19],[0.58]);
+if eyecolor == 0.00 {
+    haircolor = gm([1.00],[1.00],[0.20]);
+    hairlenght = gm([1.00],[0.50],[0.10]);
+} else {
+    haircolor = gm([1.00],[3.00],[0.30]);
+    hairlenght = gm([1.00],[1.80],[0.15]);
+}
+end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Hair color is a scaled version of eye color plus independent variation.
+DeGAS code:
+eyecolor = gm([1.00],[0.19],[0.58]);
+temp1 = 2.00*eyecolor;
+haircolor = temp1 + gm([1.00],[0.10],[0.20]);
+temp2 = 1.50*haircolor;
+hairlenght = temp2 + gm([1.00],[0.05],[0.10]);
+
+Program ID 1 initial optimization completed. Initial loss: 3.7682, Final loss: 3.7682
+Program ID 2 initial optimization completed. Initial loss: 7.5175, Final loss: 0.6347
+Error extracting parameters from program ID 3: element 0 of tensors does not require grad and does not have a grad_fn
+Error extracting parameters from program ID 4: 
+Error extracting parameters from program ID 5: Expected parameter loc (Tensor of shape (3,)) of distribution MultivariateNormal(loc: torch.Size([3]), covariance_matrix: torch.Size([3, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan], grad_fn=<ExpandBackward0>)
+
+--- Final Selected Programs ---
+Program ID: 2, Final Loss: 0.6347
+Hypothesis: Two subpopulations exist for each trait.
+Structure: mixture2
+DeGAS code:
+eyecolor = gm([0.70,0.30],[0.00,2.50],[0.20,0.20]);
+haircolor = gm([0.70,0.30],[1.00,3.50],[0.30,0.30]);
+hairlenght = gm([0.70,0.30],[0.00,1.80],[0.15,0.15]);
+
+Program ID: 1, Final Loss: 3.7682
+Hypothesis: Data is generated from a single continuous distribution with right skew.
+Structure: unimodal
+DeGAS code:
+eyecolor = gm([1.00],[0.19],[0.58]);
+haircolor = gm([1.00],[0.59],[1.26]);
+hairlenght = gm([1.00],[0.62],[0.85]);
+
+No fitness values to plot.
+=== Run finished in 67.0s ===

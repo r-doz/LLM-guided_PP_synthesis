@@ -95,3 +95,24 @@
 [attempt=48] resample prior (r=44/100)
 [attempt=49 r=44 ell=2] score=1/7 (cutoff K=5) held_out_nll=117.1721 checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': False, 'bfmi': False, 'pareto_k_ok': False, 'loo_success': True}
 [attempt=49] resample prior (r=45/100)
+[attempt=50 r=45 ell=2] score=1/7 (cutoff K=5) held_out_nll=inf checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': False, 'bfmi': False, 'pareto_k_ok': False, 'loo_success': True}
+[attempt=50] resample prior (r=46/100)
+[attempt=51 r=46 ell=2] score=1/7 (cutoff K=5) held_out_nll=197.0792 checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': False, 'bfmi': False, 'pareto_k_ok': False, 'loo_success': True}
+[attempt=51] resample prior (r=47/100)
+[attempt=52 r=47 ell=2] score=1/7 (cutoff K=5) held_out_nll=11.0434 checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': False, 'bfmi': False, 'pareto_k_ok': False, 'loo_success': True}
+[attempt=52] resample prior (r=48/100)
+[attempt=53 r=48 ell=2] score=1/7 (cutoff K=5) held_out_nll=inf checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': False, 'bfmi': False, 'pareto_k_ok': False, 'loo_success': True}
+[attempt=53] resample prior (r=49/100)
+[attempt=54 r=49 ell=2] score=2/7 (cutoff K=5) held_out_nll=5.8813 checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': True, 'bfmi': False, 'pareto_k_ok': False, 'loo_success': True}
+[attempt=54] resample prior (r=50/100)
+[attempt=55 r=50 ell=2] score=1/7 (cutoff K=5) held_out_nll=15.0030 checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': False, 'bfmi': False, 'pareto_k_ok': False, 'loo_success': True}
+[attempt=55] resample prior (r=51/100)
+[attempt=56 r=51 ell=2] score=7/7 (cutoff K=5) held_out_nll=1.6986 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'bfmi': True, 'pareto_k_ok': True, 'loo_success': True}
+[attempt=57 r=51 ell=2] score=0/7 (cutoff K=5) held_out_nll=inf checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': False, 'bfmi': False, 'pareto_k_ok': False, 'loo_success': False}
+[attempt=57] resample prior (r=52/100)
+[attempt=58 r=52 ell=2] score=1/7 (cutoff K=5) held_out_nll=1.9035 checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': False, 'bfmi': False, 'pareto_k_ok': False, 'loo_success': True}
+[attempt=58] resample prior (r=53/100)
+[attempt=59 r=53 ell=2] score=1/7 (cutoff K=5) held_out_nll=5.3063 checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': False, 'bfmi': False, 'pareto_k_ok': False, 'loo_success': True}
+[attempt=59] resample prior (r=54/100)
+[attempt=60 r=54 ell=2] score=7/7 (cutoff K=5) held_out_nll=1.6984 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'bfmi': True, 'pareto_k_ok': True, 'loo_success': True}
+=== SUCCESS in 41203.9s: /home/rdoz/LLM-guided_PP_synthesis/results/csi/refinestat_mcmc/20260813_051444_seed4 ===

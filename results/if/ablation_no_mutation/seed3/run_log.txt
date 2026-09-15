@@ -1,0 +1,105 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "if",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/if/20260912_235829"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Variables a and b are generated from single Gaussian-like distributions.
+DeGAS code:
+a = gm([1.00],[1.00],[2.05]);
+ b = gm([1.00],[4.29],[5.85]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Both variables consist of two subpopulations with distinct means.
+DeGAS code:
+a = gm([0.50,0.50],[-3.00,5.00],[1.00,1.00]);
+ b = gm([0.50,0.50],[0.00,9.00],[2.00,2.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: The data show three latent clusters causing skewness and multimodality.
+DeGAS code:
+a = gm([0.33,0.34,0.33],[-4.00,0.00,6.00],[0.80,0.80,0.80]);
+ b = gm([0.33,0.34,0.33],[-5.00,3.00,10.00],[2.50,2.50,2.50]);
+
+Program ID: 4, Structure: conditional, Hypothesis: The generation process switches regimes depending on whether a is negative.
+DeGAS code:
+if a < 0.00 {
+   a = gm([1.00],[-2.00],[1.50]);
+   b = gm([1.00],[2.00],[3.00]);
+} else {
+   a = gm([1.00],[3.00],[2.00]);
+   b = gm([1.00],[6.00],[4.00]);
+} end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Variable b is influenced by a scaled version of variable a plus its own noise.
+DeGAS code:
+a = gm([1.00],[1.00],[2.05]);
+ temp = 0.40*a;
+ b = temp + 0.60*gm([1.00],[4.29],[5.85]);
+
+Program ID 1 initial optimization completed. Initial loss: 5.3204, Final loss: 5.3204
+Program ID 2 initial optimization completed. Initial loss: 8.6281, Final loss: 5.2217
+Program ID 3 initial optimization completed. Initial loss: 6.9343, Final loss: 5.2779
+Program ID 4 initial optimization completed. Initial loss: 5.6436, Final loss: 4.5324
+Program ID 5 initial optimization completed. Initial loss: 5.4841, Final loss: 5.2198
+
+--- Final Selected Programs ---
+Program ID: 4, Final Loss: 4.5324
+Hypothesis: The generation process switches regimes depending on whether a is negative.
+Structure: conditional
+DeGAS code:
+if a < 0.00 {
+   a = gm([1.00],[-2.00],[1.50]);
+   b = gm([1.00],[2.00],[3.00]);
+} else {
+   a = gm([1.00],[3.00],[2.00]);
+   b = gm([1.00],[6.00],[4.00]);
+} end if;
+
+Program ID: 5, Final Loss: 5.2198
+Hypothesis: Variable b is influenced by a scaled version of variable a plus its own noise.
+Structure: hierarchical
+DeGAS code:
+a = gm([1.00],[1.00],[2.05]);
+ temp = 0.40*a;
+ b = temp + 0.60*gm([1.00],[4.29],[5.85]);
+
+Program ID: 2, Final Loss: 5.2217
+Hypothesis: Both variables consist of two subpopulations with distinct means.
+Structure: mixture2
+DeGAS code:
+a = gm([0.50,0.50],[-3.00,5.00],[1.00,1.00]);
+ b = gm([0.50,0.50],[0.00,9.00],[2.00,2.00]);
+
+Program ID: 3, Final Loss: 5.2779
+Hypothesis: The data show three latent clusters causing skewness and multimodality.
+Structure: mixture3
+DeGAS code:
+a = gm([0.33,0.34,0.33],[-4.00,0.00,6.00],[0.80,0.80,0.80]);
+ b = gm([0.33,0.34,0.33],[-5.00,3.00,10.00],[2.50,2.50,2.50]);
+
+Program ID: 1, Final Loss: 5.3204
+Hypothesis: Variables a and b are generated from single Gaussian-like distributions.
+Structure: unimodal
+DeGAS code:
+a = gm([1.00],[1.00],[2.05]);
+ b = gm([1.00],[4.29],[5.85]);
+
+No fitness values to plot.
+=== Run finished in 54.2s ===

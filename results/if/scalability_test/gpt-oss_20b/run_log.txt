@@ -1,0 +1,106 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:20b",
+  "program": "if",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 15,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 50,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/if/20260825_001719"
+}
+
+=== Initial Candidates ===
+Error in program ID 101: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 102: Expected parameter loc (Tensor of shape (2,)) of distribution MultivariateNormal(loc: torch.Size([2]), covariance_matrix: torch.Size([2, 2])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([    nan, -0.0025], grad_fn=<ExpandBackward0>)
+Error in program ID 103: Expected parameter loc (Tensor of shape (2,)) of distribution MultivariateNormal(loc: torch.Size([2]), covariance_matrix: torch.Size([2, 2])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([   nan, 0.0025], grad_fn=<ExpandBackward0>)
+Error in program ID 104: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 105: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 101 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 102 during additional optimization: Expected parameter loc (Tensor of shape (2,)) of distribution MultivariateNormal(loc: torch.Size([2]), covariance_matrix: torch.Size([2, 2])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([    nan, -0.0025], grad_fn=<ExpandBackward0>)
+Error in program ID 103 during additional optimization: Expected parameter loc (Tensor of shape (2,)) of distribution MultivariateNormal(loc: torch.Size([2]), covariance_matrix: torch.Size([2, 2])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([   nan, 0.0025], grad_fn=<ExpandBackward0>)
+Error in program ID 104 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 105 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Best candidate after iteration 1: Program ID 101, Final Loss: inf
+Selected candidates for next iteration: [101, 102, 103, 104, 105]
+Error in program ID 11: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 12: Expected parameter loc (Tensor of shape (2,)) of distribution MultivariateNormal(loc: torch.Size([2]), covariance_matrix: torch.Size([2, 2])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([    nan, -0.0025], grad_fn=<ExpandBackward0>)
+Error in program ID 13: Expected parameter loc (Tensor of shape (2,)) of distribution MultivariateNormal(loc: torch.Size([2]), covariance_matrix: torch.Size([2, 2])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, 0.], grad_fn=<ExpandBackward0>)
+Error in program ID 14: 
+Error in program ID 15: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 101 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 102 during additional optimization: Expected parameter loc (Tensor of shape (2,)) of distribution MultivariateNormal(loc: torch.Size([2]), covariance_matrix: torch.Size([2, 2])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([    nan, -0.0025], grad_fn=<ExpandBackward0>)
+Error in program ID 103 during additional optimization: Expected parameter loc (Tensor of shape (2,)) of distribution MultivariateNormal(loc: torch.Size([2]), covariance_matrix: torch.Size([2, 2])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([   nan, 0.0025], grad_fn=<ExpandBackward0>)
+Error in program ID 104 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 105 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Best candidate after iteration 2: Program ID 101, Final Loss: inf
+Selected candidates for next iteration: [101, 102, 103, 104, 105]
+Error in program ID 16: Expected parameter loc (Tensor of shape (2,)) of distribution MultivariateNormal(loc: torch.Size([2]), covariance_matrix: torch.Size([2, 2])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([    nan, -0.0025], grad_fn=<ExpandBackward0>)
+Error in program ID 17: Expected parameter loc (Tensor of shape (2,)) of distribution MultivariateNormal(loc: torch.Size([2]), covariance_matrix: torch.Size([2, 2])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([    nan, -0.0025], grad_fn=<ExpandBackward0>)
+Error in program ID 18: Expected parameter loc (Tensor of shape (2,)) of distribution MultivariateNormal(loc: torch.Size([2]), covariance_matrix: torch.Size([2, 2])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([   nan, 0.0025], grad_fn=<ExpandBackward0>)
+Error in program ID 19: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 20: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 101 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 102 during additional optimization: Expected parameter loc (Tensor of shape (2,)) of distribution MultivariateNormal(loc: torch.Size([2]), covariance_matrix: torch.Size([2, 2])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([    nan, -0.0025], grad_fn=<ExpandBackward0>)
+Error in program ID 103 during additional optimization: Expected parameter loc (Tensor of shape (2,)) of distribution MultivariateNormal(loc: torch.Size([2]), covariance_matrix: torch.Size([2, 2])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([   nan, 0.0025], grad_fn=<ExpandBackward0>)
+Error in program ID 104 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 105 during additional optimization: element 0 of tensors does not require grad and does not have a grad_fn
+Best candidate after iteration 3: Program ID 101, Final Loss: inf
+Selected candidates for next iteration: [101, 102, 103, 104, 105]
+No new candidates generated in iteration 4; stopping early.
+
+--- Final Selected Programs ---
+Program ID: 101, Final Loss: inf
+Hypothesis: Model variable a as a bimodal mixture to capture two distinct subpopulations.
+Structure: mixture2
+DeGAS code:
+a = gm([0.50,0.50],[5.00,-5.00],[2.00,2.00]);
+
+Program ID: 102, Final Loss: inf
+Hypothesis: Use the sign of variable b to choose between two different distributions for a.
+Structure: conditional
+DeGAS code:
+if b < 0.00 { a = gm([1.00],[0.00],[3.00]); } else { a = gm([1.00],[10.00],[4.00]); } end if;
+
+Program ID: 103, Final Loss: inf
+Hypothesis: Capture interactions between variables b and c to determine the distribution of a via nested conditionals.
+Structure: hierarchical
+DeGAS code:
+if b < 0.00 { if c < 5.00 { a = gm([1.00],[2.00],[1.50]); } else { a = gm([1.00],[-2.00],[1.50]); } } else { a = gm([1.00],[8.00],[2.00]); } end if;
+
+Program ID: 104, Final Loss: inf
+Hypothesis: Model variable d with three modes to account for a tri-modal pattern in the data.
+Structure: mixture3
+DeGAS code:
+d = gm([0.33,0.34,0.33],[-10.00,0.00,10.00],[5.00,5.00,5.00]);
+
+Program ID: 105, Final Loss: inf
+Hypothesis: Represent discrete variable e as a point mass mixture of 0 and 1.
+Structure: discrete
+DeGAS code:
+e = gm([0.70,0.30],[0.00,1.00],[0.00,0.00]);
+
+=== Run finished in 468.4s ===

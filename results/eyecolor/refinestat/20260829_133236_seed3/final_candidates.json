@@ -1,0 +1,62 @@
+[
+  {
+    "rewritten": "eyecolor = gm([0.20, 0.80], [_mu1, _mu2], [_sigma1, _sigma2]) ; haircolor = gm([0.65, 0.35], [_mu3, _mu4], [_sigma3, _sigma4]) ; hairlenght = gm([0.67, 0.33], [_mu5, _mu6], [_sigma5, _sigma6]) ;",
+    "params": {
+      "mu1": 0.0,
+      "mu2": 0.5,
+      "sigma1": 0.61,
+      "sigma2": 0.61,
+      "mu3": 0.0,
+      "mu4": 1.0,
+      "sigma3": 1.28,
+      "sigma4": 1.28,
+      "mu5": 0.0,
+      "mu6": 0.5,
+      "sigma5": 0.86,
+      "sigma6": 0.86
+    },
+    "optimized_params": {
+      "mu1": -1.1113786277379821e-05,
+      "mu2": 0.3590753698838456,
+      "sigma1": 0.1961231519932333,
+      "sigma2": 0.7812247576702679,
+      "mu3": 0.05095717015786664,
+      "mu4": 1.891432525156599,
+      "sigma3": 0.44226017943756823,
+      "sigma4": 1.6488673331092552,
+      "mu5": -0.017421958210163877,
+      "mu6": 1.4732793601821885,
+      "sigma5": 0.2643461910835643,
+      "sigma6": 0.6064142780609445
+    },
+    "initial_loss": 4.112711901742833,
+    "final_loss": 2.376300483443763,
+    "train_nll": 2.350080865032533,
+    "held_out_nll": 2.1833039421641542,
+    "reliability": {
+      "max_r_hat": 1.0,
+      "min_ess_bulk": 1856.0,
+      "min_ess_tail": 1880.0,
+      "divergence_frac": 0.0,
+      "missing_vars": [],
+      "checks": {
+        "r_hat": true,
+        "ess_bulk": true,
+        "ess_tail": true,
+        "no_divergences": true
+      }
+    },
+    "checks": {
+      "r_hat": true,
+      "ess_bulk": true,
+      "ess_tail": true,
+      "no_divergences": true,
+      "held_out_ok": true
+    },
+    "reliability_score": 5,
+    "opt_time": 3.217,
+    "opt_iterations": 100,
+    "error": null,
+    "program": "eyecolor = gm( [0.20, 0.80] , [0.00, 0.50] , [0.61, 0.61] ) ; haircolor = gm( [0.65, 0.35] , [0.00, 1.00] , [1.28, 1.28] ) ; hairlenght = gm( [0.67, 0.33] , [0.00, 0.50] , [0.86, 0.86] ) ;"
+  }
+]

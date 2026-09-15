@@ -1,0 +1,107 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "hurricane",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/hurricane/20260913_004458"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Data is unimodal and approximately symmetric around the observed means.
+DeGAS code:
+preplevel = gm([1.00],[0.79],[0.86]);
+damage = gm([1.00],[0.62],[0.49]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Both variables arise from two latent subpopulations with distinct levels.
+DeGAS code:
+preplevel = gm([0.55,0.45],[0.30,1.50],[0.40,0.30]);
+damage = gm([0.65,0.35],[0.20,0.90],[0.15,0.08]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: The distributions are skewed and can be captured by three mixture components.
+DeGAS code:
+preplevel = gm([0.30,0.50,0.20],[0.10,0.80,1.70],[0.15,0.30,0.20]);
+damage = gm([0.25,0.55,0.20],[0.05,0.55,0.95],[0.07,0.12,0.04]);
+
+Program ID: 4, Structure: conditional, Hypothesis: The process switches regimes depending on whether damage is low or high.
+DeGAS code:
+if damage < 0.50 {
+   preplevel = gm([1.00],[0.30],[0.20]);
+   damage = gm([1.00],[0.20],[0.10]);
+} else {
+   preplevel = gm([1.00],[1.40],[0.25]);
+   damage = gm([1.00],[0.85],[0.07]);
+}
+end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Impact is generated as the product of two independent latent factors.
+DeGAS code:
+preplevel = gm([1.00],[0.79],[0.86]);
+damage = gm([1.00],[0.62],[0.49]);
+temp = preplevel * damage;
+
+Program ID 1 initial optimization completed. Initial loss: 1.9650, Final loss: 1.9649
+Program ID 2 initial optimization completed. Initial loss: 1.5367, Final loss: -1.0151
+Program ID 3 initial optimization completed. Initial loss: 0.9456, Final loss: -2.2648
+Program ID 4 initial optimization completed. Initial loss: 30.6809, Final loss: 5.0035
+Program ID 5 initial optimization completed. Initial loss: 1.9650, Final loss: 1.9649
+
+--- Final Selected Programs ---
+Program ID: 3, Final Loss: -2.2648
+Hypothesis: The distributions are skewed and can be captured by three mixture components.
+Structure: mixture3
+DeGAS code:
+preplevel = gm([0.30,0.50,0.20],[0.10,0.80,1.70],[0.15,0.30,0.20]);
+damage = gm([0.25,0.55,0.20],[0.05,0.55,0.95],[0.07,0.12,0.04]);
+
+Program ID: 2, Final Loss: -1.0151
+Hypothesis: Both variables arise from two latent subpopulations with distinct levels.
+Structure: mixture2
+DeGAS code:
+preplevel = gm([0.55,0.45],[0.30,1.50],[0.40,0.30]);
+damage = gm([0.65,0.35],[0.20,0.90],[0.15,0.08]);
+
+Program ID: 1, Final Loss: 1.9649
+Hypothesis: Data is unimodal and approximately symmetric around the observed means.
+Structure: unimodal
+DeGAS code:
+preplevel = gm([1.00],[0.79],[0.86]);
+damage = gm([1.00],[0.62],[0.49]);
+
+Program ID: 5, Final Loss: 1.9649
+Hypothesis: Impact is generated as the product of two independent latent factors.
+Structure: hierarchical
+DeGAS code:
+preplevel = gm([1.00],[0.79],[0.86]);
+damage = gm([1.00],[0.62],[0.49]);
+temp = preplevel * damage;
+
+Program ID: 4, Final Loss: 5.0035
+Hypothesis: The process switches regimes depending on whether damage is low or high.
+Structure: conditional
+DeGAS code:
+if damage < 0.50 {
+   preplevel = gm([1.00],[0.30],[0.20]);
+   damage = gm([1.00],[0.20],[0.10]);
+} else {
+   preplevel = gm([1.00],[1.40],[0.25]);
+   damage = gm([1.00],[0.85],[0.07]);
+}
+end if;
+
+No fitness values to plot.
+=== Run finished in 48.7s ===

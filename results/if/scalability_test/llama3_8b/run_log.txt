@@ -1,0 +1,261 @@
+=== Run Started ===
+{
+  "llm_model": "llama3:8b",
+  "program": "if",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 15,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 50,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/if/20260824_231529"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Data is unimodal and right-skewed.
+DeGAS code:
+var_a = gm([0.95], [0.9475137509379256], [2.079279280500111]); var_b = uniform([-21.344045195108905, 10.594670558510174], 2);;
+
+Program ID: 2, Structure: mixture2, Hypothesis: Data is a mixture of two subpopulations.
+DeGAS code:
+var_a = gm([0.6, 0.4], [0.9475137509379256, -1.5], [2.079279280500111, 3]); var_b = gm([0.7, 0.3], [4.103573157844281, 8], [6.047512189937264, 2]);;
+
+Program ID: 3, Structure: mixture3, Hypothesis: Data is a mixture of three subpopulations.
+DeGAS code:
+var_a = gm([0.4, 0.5, 0.1], [0.9475137509379256, -1.5, -2.5], [2.079279280500111, 3, 4]); var_b = gm([0.7, 0.2, 0.1], [4.103573157844281, 8, 10], [6.047512189937264, 2, 3]);;
+
+Program ID: 4, Structure: conditional, Hypothesis: Data is conditionally dependent on another variable.
+DeGAS code:
+if var_a > 0.5 { var_b = gm([0.95], [4.103573157844281], [6.047512189937264]); } else { var_b = uniform([-21.344045195108905, 10.594670558510174], 2); };;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Data is a hierarchical mixture of two distributions.
+DeGAS code:
+var1 = gm([0.95], [0.9475137509379256], [2.079279280500111]); var2 = uniform([-21.344045195108905, 10.594670558510174], 2); var_b = var1 * 3 + var2;
+
+Error extracting parameters from program ID 1: 'a'
+Error extracting parameters from program ID 2: 'a'
+Error extracting parameters from program ID 3: 'a'
+Error extracting parameters from program ID 4: 'NoneType' object is not callable
+Error extracting parameters from program ID 5: 'b'
+Error in program ID 6: 'a'
+Error in program ID 7: 'NoneType' object is not callable
+Error in program ID 8: 'b'
+Error in program ID 9: 'NoneType' object is not callable
+Error in program ID 10: 'NoneType' object is not callable
+Error in program ID 6 during additional optimization: 'a'
+Error in program ID 7 during additional optimization: 'NoneType' object is not callable
+Error in program ID 8 during additional optimization: 'b'
+Error in program ID 9 during additional optimization: 'NoneType' object is not callable
+Error in program ID 10 during additional optimization: 'NoneType' object is not callable
+Best candidate after iteration 1: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+Error in program ID 11: 'a'
+Error in program ID 12: 'NoneType' object is not callable
+Error in program ID 13: 'NoneType' object is not callable
+Error in program ID 14: 'NoneType' object is not callable
+Error in program ID 15: 'NoneType' object is not callable
+Error in program ID 6 during additional optimization: 'a'
+Error in program ID 7 during additional optimization: 'NoneType' object is not callable
+Error in program ID 8 during additional optimization: 'b'
+Error in program ID 9 during additional optimization: 'NoneType' object is not callable
+Error in program ID 10 during additional optimization: 'NoneType' object is not callable
+Best candidate after iteration 2: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+Error in program ID 16: 'a'
+Error in program ID 17: 'a'
+Error in program ID 18: 'b'
+Error in program ID 19: 'a'
+Error in program ID 20: 'b'
+Error in program ID 6 during additional optimization: 'a'
+Error in program ID 7 during additional optimization: 'NoneType' object is not callable
+Error in program ID 8 during additional optimization: 'b'
+Error in program ID 9 during additional optimization: 'NoneType' object is not callable
+Error in program ID 10 during additional optimization: 'NoneType' object is not callable
+Best candidate after iteration 3: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+Error in program ID 21: 'a'
+Error in program ID 22: 'a'
+Error in program ID 23: 'a'
+Error in program ID 24: 'a'
+Error in program ID 25: 'a'
+Error in program ID 6 during additional optimization: 'a'
+Error in program ID 7 during additional optimization: 'NoneType' object is not callable
+Error in program ID 8 during additional optimization: 'b'
+Error in program ID 9 during additional optimization: 'NoneType' object is not callable
+Error in program ID 10 during additional optimization: 'NoneType' object is not callable
+Best candidate after iteration 4: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+Error in program ID 26: 'a'
+Error in program ID 27: 'a'
+Error in program ID 28: 'a'
+Error in program ID 29: 'a'
+Error in program ID 30: 'a'
+Error in program ID 6 during additional optimization: 'a'
+Error in program ID 7 during additional optimization: 'NoneType' object is not callable
+Error in program ID 8 during additional optimization: 'b'
+Error in program ID 9 during additional optimization: 'NoneType' object is not callable
+Error in program ID 10 during additional optimization: 'NoneType' object is not callable
+Best candidate after iteration 5: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+Error in program ID 31: 'a'
+Error in program ID 32: 'NoneType' object is not callable
+Error in program ID 33: 'NoneType' object is not callable
+Error in program ID 34: 'NoneType' object is not callable
+Error in program ID 35: 'a'
+Error in program ID 6 during additional optimization: 'a'
+Error in program ID 7 during additional optimization: 'NoneType' object is not callable
+Error in program ID 8 during additional optimization: 'b'
+Error in program ID 9 during additional optimization: 'NoneType' object is not callable
+Error in program ID 10 during additional optimization: 'NoneType' object is not callable
+Best candidate after iteration 6: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+Error in program ID 36: 'a'
+Error in program ID 37: 'NoneType' object is not callable
+Error in program ID 38: 'NoneType' object is not callable
+Error in program ID 39: 'a'
+Error in program ID 40: 'NoneType' object is not callable
+Error in program ID 6 during additional optimization: 'a'
+Error in program ID 7 during additional optimization: 'NoneType' object is not callable
+Error in program ID 8 during additional optimization: 'b'
+Error in program ID 9 during additional optimization: 'NoneType' object is not callable
+Error in program ID 10 during additional optimization: 'NoneType' object is not callable
+Best candidate after iteration 7: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+Error in program ID 41: 'a'
+Error in program ID 42: 'a'
+Error in program ID 43: 'NoneType' object is not callable
+Error in program ID 44: 'NoneType' object is not callable
+Error in program ID 45: 'NoneType' object is not callable
+Error in program ID 6 during additional optimization: 'a'
+Error in program ID 7 during additional optimization: 'NoneType' object is not callable
+Error in program ID 8 during additional optimization: 'b'
+Error in program ID 9 during additional optimization: 'NoneType' object is not callable
+Error in program ID 10 during additional optimization: 'NoneType' object is not callable
+Best candidate after iteration 8: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+Error in program ID 46: 'a'
+Error in program ID 47: 'a'
+Error in program ID 48: 'a'
+Error in program ID 49: 'a'
+Error in program ID 50: 'a'
+Error in program ID 6 during additional optimization: 'a'
+Error in program ID 7 during additional optimization: 'NoneType' object is not callable
+Error in program ID 8 during additional optimization: 'b'
+Error in program ID 9 during additional optimization: 'NoneType' object is not callable
+Error in program ID 10 during additional optimization: 'NoneType' object is not callable
+Best candidate after iteration 9: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+Error in program ID 51: 'a'
+Error in program ID 52: 'a'
+Error in program ID 53: 'a'
+Error in program ID 54: 'a'
+Error in program ID 55: 'a'
+Error in program ID 6 during additional optimization: 'a'
+Error in program ID 7 during additional optimization: 'NoneType' object is not callable
+Error in program ID 8 during additional optimization: 'b'
+Error in program ID 9 during additional optimization: 'NoneType' object is not callable
+Error in program ID 10 during additional optimization: 'NoneType' object is not callable
+Best candidate after iteration 10: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+Error in program ID 56: 'a'
+Error in program ID 57: 'a'
+Error in program ID 58: 'a'
+Error in program ID 59: 'a'
+Error in program ID 60: 'a'
+Error in program ID 6 during additional optimization: 'a'
+Error in program ID 7 during additional optimization: 'NoneType' object is not callable
+Error in program ID 8 during additional optimization: 'b'
+Error in program ID 9 during additional optimization: 'NoneType' object is not callable
+Error in program ID 10 during additional optimization: 'NoneType' object is not callable
+Best candidate after iteration 11: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+Error in program ID 61: 'a'
+Error in program ID 62: 'a'
+Error in program ID 63: 'a'
+Error in program ID 64: 'a'
+Error in program ID 65: 'a'
+Error in program ID 6 during additional optimization: 'a'
+Error in program ID 7 during additional optimization: 'NoneType' object is not callable
+Error in program ID 8 during additional optimization: 'b'
+Error in program ID 9 during additional optimization: 'NoneType' object is not callable
+Error in program ID 10 during additional optimization: 'NoneType' object is not callable
+Best candidate after iteration 12: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+Error in program ID 66: 'a'
+Error in program ID 67: 'a'
+Error in program ID 68: 'a'
+Error in program ID 69: 'a'
+Error in program ID 70: 'a'
+Error in program ID 6 during additional optimization: 'a'
+Error in program ID 7 during additional optimization: 'NoneType' object is not callable
+Error in program ID 8 during additional optimization: 'b'
+Error in program ID 9 during additional optimization: 'NoneType' object is not callable
+Error in program ID 10 during additional optimization: 'NoneType' object is not callable
+Best candidate after iteration 13: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+Error in program ID 71: 'a'
+Error in program ID 72: 'a'
+Error in program ID 73: 'a'
+Error in program ID 74: 'a'
+Error in program ID 75: 'a'
+Error in program ID 6 during additional optimization: 'a'
+Error in program ID 7 during additional optimization: 'NoneType' object is not callable
+Error in program ID 8 during additional optimization: 'b'
+Error in program ID 9 during additional optimization: 'NoneType' object is not callable
+Error in program ID 10 during additional optimization: 'NoneType' object is not callable
+Best candidate after iteration 14: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+Error in program ID 76: 'a'
+Error in program ID 77: 'a'
+Error in program ID 78: 'a'
+Error in program ID 79: 'a'
+Error in program ID 80: 'a'
+Error in program ID 6 during additional optimization: 'a'
+Error in program ID 7 during additional optimization: 'NoneType' object is not callable
+Error in program ID 8 during additional optimization: 'b'
+Error in program ID 9 during additional optimization: 'NoneType' object is not callable
+Error in program ID 10 during additional optimization: 'NoneType' object is not callable
+Best candidate after iteration 15: Program ID 6, Final Loss: inf
+Selected candidates for next iteration: [6, 7, 8, 9, 10]
+
+--- Final Selected Programs ---
+Program ID: 6, Final Loss: inf
+Hypothesis: Data is unimodal and right-skewed with an additional component
+Structure: mixture2
+DeGAS code:
+var_a = gm([0.95, 0.05], [0.9475137509379256, 1.5], [2.079279280500111, 3]); var_b = uniform([-21.344045195108905, 10.594670558510174], 2);
+
+Program ID: 7, Final Loss: inf
+Hypothesis: Data is a mixture of two subpopulations with different dependencies
+Structure: conditional
+DeGAS code:
+if var_a > 0.5 { var_b = gm([0.95, 0.05], [4.103573157844281, 1.5], [6.047512189937264, 3]); } else { var_b = uniform([-21.344045195108905, 10.594670558510174], 2); };
+
+Program ID: 8, Final Loss: inf
+Hypothesis: Data is a hierarchical mixture of three distributions
+Structure: hierarchical
+DeGAS code:
+var1 = gm([0.95, 0.05], [0.9475137509379256, 1.5], [2.079279280500111, 3]); var2 = uniform([-21.344045195108905, 10.594670558510174], 2); var_b = var1 * 3 + var2;
+
+Program ID: 9, Final Loss: inf
+Hypothesis: Data is conditionally dependent on another variable with an additional component
+Structure: conditional
+DeGAS code:
+if var_a > 0.5 { var_b = gm([0.95, 0.05], [4.103573157844281, 1.5], [6.047512189937264, 3]); } else { var_b = uniform([-21.344045195108905, 10.594670558510174], 2); };
+
+Program ID: 10, Final Loss: inf
+Hypothesis: Data is a hierarchical mixture of two distributions with different dependencies
+Structure: hierarchical
+DeGAS code:
+var1 = gm([0.95, 0.05], [0.9475137509379256, 1.5], [2.079279280500111, 3]); var2 = uniform([-21.344045195108905, 10.594670558510174], 2); if var_a > 0.5 { var_b = var1 * 3 + var2; } else { var_b = uniform([-21.344045195108905, 10.594670558510174], 2); };
+
+=== Run finished in 292.9s ===

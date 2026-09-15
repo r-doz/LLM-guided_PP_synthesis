@@ -1,0 +1,103 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "mog1",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/mog1/20260913_000338"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: All three variables follow a single Gaussian-like distribution centered at their empirical means.
+DeGAS code:
+mu = gm([1.00],[19.92],[2.93]);
+sigma = gm([1.00],[1.94],[1.01]);
+x = gm([1.00],[21.94],[3.81]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Each variable arises from two subpopulations, a lower and higher value group.
+DeGAS code:
+mu = gm([0.60,0.40],[13.00,25.00],[1.00,1.00]);
+sigma = gm([0.60,0.40],[0.50,3.00],[0.30,0.80]);
+x = gm([0.60,0.40],[15.00,30.00],[2.00,2.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: The data exhibit three distinct modes reflecting different regimes.
+DeGAS code:
+mu = gm([0.33,0.34,0.33],[12.00,20.00,27.00],[1.50,2.00,1.50]);
+sigma = gm([0.33,0.34,0.33],[0.70,1.80,3.30],[0.40,0.60,0.40]);
+x = gm([0.33,0.34,0.33],[14.00,22.00,32.00],[2.50,3.00,2.50]);
+
+Program ID: 4, Structure: conditional, Hypothesis: If mu is below its overall mean, sigma tends to be lower and x smaller; otherwise the opposite.
+DeGAS code:
+if mu < 20.00 {
+    sigma = gm([1.00],[0.80],[0.30]);
+    x = gm([1.00],[18.00],[2.50]);
+} else {
+    sigma = gm([1.00],[3.00],[0.70]);
+    x = gm([1.00],[26.00],[4.00]);
+}
+mu = gm([1.00],[19.92],[2.93]);
+
+Program ID: 5, Structure: hierarchical, Hypothesis: x is generated as the product of mu and sigma, each drawn from their own unimodal distributions.
+DeGAS code:
+mu = gm([1.00],[19.92],[2.93]);
+sigma = gm([1.00],[1.94],[1.01]);
+temp = mu*sigma;
+x = temp;
+
+Program ID 1 initial optimization completed. Initial loss: 6.6724, Final loss: 6.6723
+Program ID 2 initial optimization completed. Initial loss: 17.1608, Final loss: 8.6526
+Program ID 3 initial optimization completed. Initial loss: 8.1671, Final loss: 7.3716
+Error extracting parameters from program ID 4: Expected parameter loc (Tensor of shape (3,)) of distribution MultivariateNormal(loc: torch.Size([3]), covariance_matrix: torch.Size([3, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([0., nan, nan], grad_fn=<ExpandBackward0>)
+Program ID 5 initial optimization completed. Initial loss: 43.0450, Final loss: 11.2727
+
+--- Final Selected Programs ---
+Program ID: 1, Final Loss: 6.6723
+Hypothesis: All three variables follow a single Gaussian-like distribution centered at their empirical means.
+Structure: unimodal
+DeGAS code:
+mu = gm([1.00],[19.92],[2.93]);
+sigma = gm([1.00],[1.94],[1.01]);
+x = gm([1.00],[21.94],[3.81]);
+
+Program ID: 3, Final Loss: 7.3716
+Hypothesis: The data exhibit three distinct modes reflecting different regimes.
+Structure: mixture3
+DeGAS code:
+mu = gm([0.33,0.34,0.33],[12.00,20.00,27.00],[1.50,2.00,1.50]);
+sigma = gm([0.33,0.34,0.33],[0.70,1.80,3.30],[0.40,0.60,0.40]);
+x = gm([0.33,0.34,0.33],[14.00,22.00,32.00],[2.50,3.00,2.50]);
+
+Program ID: 2, Final Loss: 8.6526
+Hypothesis: Each variable arises from two subpopulations, a lower and higher value group.
+Structure: mixture2
+DeGAS code:
+mu = gm([0.60,0.40],[13.00,25.00],[1.00,1.00]);
+sigma = gm([0.60,0.40],[0.50,3.00],[0.30,0.80]);
+x = gm([0.60,0.40],[15.00,30.00],[2.00,2.00]);
+
+Program ID: 5, Final Loss: 11.2727
+Hypothesis: x is generated as the product of mu and sigma, each drawn from their own unimodal distributions.
+Structure: hierarchical
+DeGAS code:
+mu = gm([1.00],[19.92],[2.93]);
+sigma = gm([1.00],[1.94],[1.01]);
+temp = mu*sigma;
+x = temp;
+
+No fitness values to plot.
+=== Run finished in 58.8s ===

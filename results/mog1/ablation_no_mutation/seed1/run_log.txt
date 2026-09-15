@@ -1,0 +1,117 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "mog1",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/mog1/20260913_000115"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: The variables follow a single Gaussian-like distribution centered at their empirical means.
+DeGAS code:
+mu = gm([1.00],[19.90],[3.01]);
+sigma = gm([1.00],[2.02],[1.02]);
+x = gm([1.00],[21.84],[3.95]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Data consist of two subpopulations, a lower and higher group.
+DeGAS code:
+mu = gm([0.55,0.45],[13.00,26.00],[2.00,2.50]);
+sigma = gm([0.55,0.45],[0.80,3.80],[0.70,0.90]);
+x = gm([0.55,0.45],[15.00,30.00],[3.00,4.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Three latent groups generate the observed values, capturing skewness.
+DeGAS code:
+mu = gm([0.33,0.34,0.33],[11.00,20.00,28.00],[1.50,2.00,1.80]);
+sigma = gm([0.33,0.34,0.33],[0.50,2.00,4.00],[0.60,0.90,0.70]);
+x = gm([0.33,0.34,0.33],[13.00,22.00,35.00],[3.00,3.50,4.20]);
+
+Program ID: 4, Structure: conditional, Hypothesis: If mu exceeds 20, the process shifts to a higher‑mean regime.
+DeGAS code:
+mu = gm([1.00],[19.90],[3.01]);
+if mu > 20.00 {
+    sigma = gm([1.00],[3.80],[0.90]);
+    x = gm([1.00],[30.00],[4.00]);
+} else {
+    sigma = gm([1.00],[0.80],[0.70]);
+    x = gm([1.00],[15.00],[3.00]);
+}
+end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: x is generated as a product of a mu‑scaled factor and sigma, reflecting multiplicative interaction.
+DeGAS code:
+mu = gm([1.00],[19.90],[3.01]);
+sigma = gm([1.00],[2.02],[1.02]);
+temp = 0.50*mu;
+x = temp*sigma;
+
+Program ID 1 initial optimization completed. Initial loss: 6.7493, Final loss: 6.7493
+Program ID 2 initial optimization completed. Initial loss: 10.0251, Final loss: 7.9832
+Program ID 3 initial optimization completed. Initial loss: 8.5557, Final loss: 7.5872
+Program ID 4 initial optimization completed. Initial loss: 8.6568, Final loss: 7.2459
+Program ID 5 initial optimization completed. Initial loss: 24.8685, Final loss: 8.9292
+
+--- Final Selected Programs ---
+Program ID: 1, Final Loss: 6.7493
+Hypothesis: The variables follow a single Gaussian-like distribution centered at their empirical means.
+Structure: unimodal
+DeGAS code:
+mu = gm([1.00],[19.90],[3.01]);
+sigma = gm([1.00],[2.02],[1.02]);
+x = gm([1.00],[21.84],[3.95]);
+
+Program ID: 4, Final Loss: 7.2459
+Hypothesis: If mu exceeds 20, the process shifts to a higher‑mean regime.
+Structure: conditional
+DeGAS code:
+mu = gm([1.00],[19.90],[3.01]);
+if mu > 20.00 {
+    sigma = gm([1.00],[3.80],[0.90]);
+    x = gm([1.00],[30.00],[4.00]);
+} else {
+    sigma = gm([1.00],[0.80],[0.70]);
+    x = gm([1.00],[15.00],[3.00]);
+}
+end if;
+
+Program ID: 3, Final Loss: 7.5872
+Hypothesis: Three latent groups generate the observed values, capturing skewness.
+Structure: mixture3
+DeGAS code:
+mu = gm([0.33,0.34,0.33],[11.00,20.00,28.00],[1.50,2.00,1.80]);
+sigma = gm([0.33,0.34,0.33],[0.50,2.00,4.00],[0.60,0.90,0.70]);
+x = gm([0.33,0.34,0.33],[13.00,22.00,35.00],[3.00,3.50,4.20]);
+
+Program ID: 2, Final Loss: 7.9832
+Hypothesis: Data consist of two subpopulations, a lower and higher group.
+Structure: mixture2
+DeGAS code:
+mu = gm([0.55,0.45],[13.00,26.00],[2.00,2.50]);
+sigma = gm([0.55,0.45],[0.80,3.80],[0.70,0.90]);
+x = gm([0.55,0.45],[15.00,30.00],[3.00,4.00]);
+
+Program ID: 5, Final Loss: 8.9292
+Hypothesis: x is generated as a product of a mu‑scaled factor and sigma, reflecting multiplicative interaction.
+Structure: hierarchical
+DeGAS code:
+mu = gm([1.00],[19.90],[3.01]);
+sigma = gm([1.00],[2.02],[1.02]);
+temp = 0.50*mu;
+x = temp*sigma;
+
+No fitness values to plot.
+=== Run finished in 69.2s ===

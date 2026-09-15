@@ -1,0 +1,81 @@
+[
+  {
+    "id": 101,
+    "hypothesis": "Model variable a as a bimodal mixture to capture two distinct subpopulations.",
+    "structure": "mixture2",
+    "program": "a = gm([0.50,0.50],[5.00,-5.00],[2.00,2.00]);",
+    "params": {
+      "mu1": 5.0,
+      "mu2": -5.0,
+      "sigma1": 2.0,
+      "sigma2": 2.0
+    },
+    "rewritten": "a = gm([0.50,0.50], [_mu1, _mu2], [_sigma1, _sigma2]);",
+    "errors": "element 0 of tensors does not require grad and does not have a grad_fn",
+    "final_loss": Infinity
+  },
+  {
+    "id": 102,
+    "hypothesis": "Use the sign of variable b to choose between two different distributions for a.",
+    "structure": "conditional",
+    "program": "if b < 0.00 { a = gm([1.00],[0.00],[3.00]); } else { a = gm([1.00],[10.00],[4.00]); } end if;",
+    "params": {
+      "mu1": 0.0,
+      "sigma1": 3.0,
+      "mu2": 10.0,
+      "sigma2": 4.0
+    },
+    "rewritten": "if b < 0.00 { a = gm([1.00], [_mu1], [_sigma1]); } else { a = gm([1.00], [_mu2], [_sigma2]); } end if;",
+    "errors": "Expected parameter loc (Tensor of shape (2,)) of distribution MultivariateNormal(loc: torch.Size([2]), covariance_matrix: torch.Size([2, 2])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:\ntensor([    nan, -0.0025], grad_fn=<ExpandBackward0>)",
+    "final_loss": Infinity
+  },
+  {
+    "id": 103,
+    "hypothesis": "Capture interactions between variables b and c to determine the distribution of a via nested conditionals.",
+    "structure": "hierarchical",
+    "program": "if b < 0.00 { if c < 5.00 { a = gm([1.00],[2.00],[1.50]); } else { a = gm([1.00],[-2.00],[1.50]); } } else { a = gm([1.00],[8.00],[2.00]); } end if;",
+    "params": {
+      "mu1": 2.0,
+      "sigma1": 1.5,
+      "mu2": -2.0,
+      "sigma2": 1.5,
+      "mu3": 8.0,
+      "sigma3": 2.0
+    },
+    "rewritten": "if b < 0.00 { if c < 5.00 { a = gm([1.00], [_mu1], [_sigma1]); } else { a = gm([1.00], [_mu2], [_sigma2]); } } else { a = gm([1.00], [_mu3], [_sigma3]); } end if;",
+    "errors": "Expected parameter loc (Tensor of shape (2,)) of distribution MultivariateNormal(loc: torch.Size([2]), covariance_matrix: torch.Size([2, 2])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:\ntensor([   nan, 0.0025], grad_fn=<ExpandBackward0>)",
+    "final_loss": Infinity
+  },
+  {
+    "id": 104,
+    "hypothesis": "Model variable d with three modes to account for a tri-modal pattern in the data.",
+    "structure": "mixture3",
+    "program": "d = gm([0.33,0.34,0.33],[-10.00,0.00,10.00],[5.00,5.00,5.00]);",
+    "params": {
+      "mu1": -10.0,
+      "mu2": 0.0,
+      "mu3": 10.0,
+      "sigma1": 5.0,
+      "sigma2": 5.0,
+      "sigma3": 5.0
+    },
+    "rewritten": "d = gm([0.33,0.34,0.33], [_mu1, _mu2, _mu3], [_sigma1, _sigma2, _sigma3]);",
+    "errors": "element 0 of tensors does not require grad and does not have a grad_fn",
+    "final_loss": Infinity
+  },
+  {
+    "id": 105,
+    "hypothesis": "Represent discrete variable e as a point mass mixture of 0 and 1.",
+    "structure": "discrete",
+    "program": "e = gm([0.70,0.30],[0.00,1.00],[0.00,0.00]);",
+    "params": {
+      "mu1": 0.0,
+      "mu2": 1.0,
+      "sigma1": 0.0,
+      "sigma2": 0.0
+    },
+    "rewritten": "e = gm([0.70,0.30], [_mu1, _mu2], [_sigma1, _sigma2]);",
+    "errors": "element 0 of tensors does not require grad and does not have a grad_fn",
+    "final_loss": Infinity
+  }
+]

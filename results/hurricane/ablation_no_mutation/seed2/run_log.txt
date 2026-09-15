@@ -1,0 +1,83 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "hurricane",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/hurricane/20260913_004550"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Data for preplevel and damage arise from single Gaussian-like distributions centered at their means.
+DeGAS code:
+preplevel = gm([1.00],[0.84],[0.88]); damage = gm([1.00],[0.59],[0.49]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Preplevel and damage each consist of two subpopulations, low and high.
+DeGAS code:
+preplevel = gm([0.60,0.40],[0.30,1.20],[0.40,0.50]); damage = gm([0.55,0.45],[0.20,0.80],[0.25,0.15]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: The variables show three-mode structure reflecting distinct behavioral groups.
+DeGAS code:
+preplevel = gm([0.30,0.50,0.20],[0.10,0.80,1.60],[0.25,0.35,0.40]); damage = gm([0.25,0.50,0.25],[0.10,0.55,0.90],[0.15,0.30,0.20]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Damage distribution changes depending on whether preplevel is below or above a threshold.
+DeGAS code:
+preplevel = gm([1.00],[0.84],[0.88]); if preplevel < 1.00 { damage = gm([1.00],[0.30],[0.20]); } else { damage = gm([1.00],[0.90],[0.10]); } end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Preplevel and damage interact multiplicatively, influencing a combined risk factor.
+DeGAS code:
+preplevel = gm([1.00],[0.84],[0.88]); damage = gm([1.00],[0.59],[0.49]); tmp = preplevel*damage;
+
+Program ID 1 initial optimization completed. Initial loss: 1.9990, Final loss: 1.9989
+Program ID 2 initial optimization completed. Initial loss: 1.8987, Final loss: -0.4842
+Program ID 3 initial optimization completed. Initial loss: 1.5555, Final loss: -0.6220
+Program ID 4 initial optimization completed. Initial loss: 3.9188, Final loss: 1.5698
+Program ID 5 initial optimization completed. Initial loss: 1.9990, Final loss: 1.9989
+
+--- Final Selected Programs ---
+Program ID: 3, Final Loss: -0.6220
+Hypothesis: The variables show three-mode structure reflecting distinct behavioral groups.
+Structure: mixture3
+DeGAS code:
+preplevel = gm([0.30,0.50,0.20],[0.10,0.80,1.60],[0.25,0.35,0.40]); damage = gm([0.25,0.50,0.25],[0.10,0.55,0.90],[0.15,0.30,0.20]);
+
+Program ID: 2, Final Loss: -0.4842
+Hypothesis: Preplevel and damage each consist of two subpopulations, low and high.
+Structure: mixture2
+DeGAS code:
+preplevel = gm([0.60,0.40],[0.30,1.20],[0.40,0.50]); damage = gm([0.55,0.45],[0.20,0.80],[0.25,0.15]);
+
+Program ID: 4, Final Loss: 1.5698
+Hypothesis: Damage distribution changes depending on whether preplevel is below or above a threshold.
+Structure: conditional
+DeGAS code:
+preplevel = gm([1.00],[0.84],[0.88]); if preplevel < 1.00 { damage = gm([1.00],[0.30],[0.20]); } else { damage = gm([1.00],[0.90],[0.10]); } end if;
+
+Program ID: 1, Final Loss: 1.9989
+Hypothesis: Data for preplevel and damage arise from single Gaussian-like distributions centered at their means.
+Structure: unimodal
+DeGAS code:
+preplevel = gm([1.00],[0.84],[0.88]); damage = gm([1.00],[0.59],[0.49]);
+
+Program ID: 5, Final Loss: 1.9989
+Hypothesis: Preplevel and damage interact multiplicatively, influencing a combined risk factor.
+Structure: hierarchical
+DeGAS code:
+preplevel = gm([1.00],[0.84],[0.88]); damage = gm([1.00],[0.59],[0.49]); tmp = preplevel*damage;
+
+No fitness values to plot.
+=== Run finished in 78.1s ===

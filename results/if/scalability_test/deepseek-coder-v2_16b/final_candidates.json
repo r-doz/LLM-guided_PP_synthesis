@@ -1,0 +1,67 @@
+[
+  {
+    "id": 6,
+    "hypothesis": "Data is bimodal and right-skewed.",
+    "structure": "mixture3",
+    "program": "gm([0.4],[1.0989252013862603],[2.0659822096560703]); a = gm([0.6],[-4.741259871515105],[2.0659822096560703]); gm([0.4],[mean[a]],[std[a]]); b = gm([0.6],[mean[a]+10], [std[a]]);",
+    "params": {
+      "mu1": 1.0989252013862603,
+      "sigma1": 2.0659822096560703,
+      "mu2": -4.741259871515105,
+      "sigma2": 2.0659822096560703
+    },
+    "rewritten": "gm([0.4], [_mu1], [_sigma1]); a = gm([0.6], [_mu2], [_sigma2]); gm([0.4],[mean[a]],[std[a]]); b = gm([0.6],[mean[a]+10], [std[a]]);",
+    "errors": "element 0 of tensors does not require grad and does not have a grad_fn",
+    "final_loss": Infinity
+  },
+  {
+    "id": 7,
+    "hypothesis": "Data has a clear separation into three distinct groups.",
+    "structure": "mixture3",
+    "program": "gm([0.2],[1.0989252013862603],[2.0659822096560703]); a = gm([0.3],[-4.741259871515105],[2.0659822096560703]); b = gm([0.3],[mean[a]+10], [std[a]]); c = gm([0.2],[mean[b]-5],[std[b]]); d = gm([0.3],[mean[b]+5], [std[b]]);",
+    "params": {
+      "mu1": 1.0989252013862603,
+      "sigma1": 2.0659822096560703,
+      "mu2": -4.741259871515105,
+      "sigma2": 2.0659822096560703
+    },
+    "rewritten": "gm([0.2], [_mu1], [_sigma1]); a = gm([0.3], [_mu2], [_sigma2]); b = gm([0.3],[mean[a]+10], [std[a]]); c = gm([0.2],[mean[b]-5],[std[b]]); d = gm([0.3],[mean[b]+5], [std[b]]);",
+    "errors": "element 0 of tensors does not require grad and does not have a grad_fn",
+    "final_loss": Infinity
+  },
+  {
+    "id": 8,
+    "hypothesis": "Data exhibits a complex pattern with multiple modes.",
+    "structure": "mixture4",
+    "program": "gm([0.2],[1.0989252013862603],[2.0659822096560703]); a = gm([0.3],[-4.741259871515105],[2.0659822096560703]); b = gm([0.3],[mean[a]+10], [std[a]]); c = gm([0.2],[mean[b]-5],[std[b]]); d = gm([0.3],[mean[b]+5], [std[b]]); e = gm([0.2],[mean[c]-7],[std[c]]); f = gm([0.3],[mean[c]+7], [std[c]]);",
+    "params": {
+      "mu1": 1.0989252013862603,
+      "sigma1": 2.0659822096560703,
+      "mu2": -4.741259871515105,
+      "sigma2": 2.0659822096560703
+    },
+    "rewritten": "gm([0.2], [_mu1], [_sigma1]); a = gm([0.3], [_mu2], [_sigma2]); b = gm([0.3],[mean[a]+10], [std[a]]); c = gm([0.2],[mean[b]-5],[std[b]]); d = gm([0.3],[mean[b]+5], [std[b]]); e = gm([0.2],[mean[c]-7],[std[c]]); f = gm([0.3],[mean[c]+7], [std[c]]);",
+    "errors": "element 0 of tensors does not require grad and does not have a grad_fn",
+    "final_loss": Infinity
+  },
+  {
+    "id": 9,
+    "hypothesis": "Data shows a relationship between variable 'a' and its mean.",
+    "structure": "conditional",
+    "program": "if (a < mean[0]) { gm([1.0],[mean[0]],[std[0]]); a = gm([1.0],[-4.741259871515105],[std[0]]); } else { gm([1.0],[mean[0]],[std[0]]); a = gm([1.0],[6.749525582285419],[std[0]]); } end if;",
+    "params": {},
+    "rewritten": "if (a < mean[0]) { gm([1.0],[mean[0]],[std[0]]); a = gm([1.0],[-4.741259871515105],[std[0]]); } else { gm([1.0],[mean[0]],[std[0]]); a = gm([1.0],[6.749525582285419],[std[0]]); } end if;",
+    "errors": "'NoneType' object has no attribute 'assignment'",
+    "final_loss": Infinity
+  },
+  {
+    "id": 10,
+    "hypothesis": "Data is modeled as the product of two underlying distributions.",
+    "structure": "hierarchical",
+    "program": "temp_var = gm([0.4],[mean[0]],[std[0]]); if (a < mean[0]) { a = temp_var; } else { b = temp_var; } end if;",
+    "params": {},
+    "rewritten": "temp_var = gm([0.4],[mean[0]],[std[0]]); if (a < mean[0]) { a = temp_var; } else { b = temp_var; } end if;",
+    "errors": "'var'",
+    "final_loss": Infinity
+  }
+]

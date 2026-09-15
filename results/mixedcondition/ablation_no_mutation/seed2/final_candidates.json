@@ -1,0 +1,142 @@
+[
+  {
+    "id": 3,
+    "hypothesis": "Each variable shows skewness best modeled by a three-component mixture.",
+    "structure": "mixture3",
+    "program": "u = gm([0.33,0.34,0.33],[0.10,0.40,0.80],[0.15,0.20,0.25]); v = gm([0.33,0.34,0.33],[7.00,10.00,13.00],[1.00,1.50,2.00]); w = gm([0.33,0.34,0.33],[4.00,6.30,9.00],[1.20,2.00,2.80]);",
+    "params": {
+      "mu1": 0.1,
+      "mu2": 0.4,
+      "mu3": 0.8,
+      "sigma1": 0.15,
+      "sigma2": 0.2,
+      "sigma3": 0.25,
+      "mu4": 7.0,
+      "mu5": 10.0,
+      "mu6": 13.0,
+      "sigma4": 1.0,
+      "sigma5": 1.5,
+      "sigma6": 2.0,
+      "mu7": 4.0,
+      "mu8": 6.3,
+      "mu9": 9.0,
+      "sigma7": 1.2,
+      "sigma8": 2.0,
+      "sigma9": 2.8
+    },
+    "rewritten": "u = gm([0.33,0.34,0.33], [_mu1, _mu2, _mu3], [_sigma1, _sigma2, _sigma3]); v = gm([0.33,0.34,0.33], [_mu4, _mu5, _mu6], [_sigma4, _sigma5, _sigma6]); w = gm([0.33,0.34,0.33], [_mu7, _mu8, _mu9], [_sigma7, _sigma8, _sigma9]);",
+    "optimized_params": {
+      "mu1": "tensor(-0.0003, requires_grad=True)",
+      "mu2": "tensor(-0.0018, requires_grad=True)",
+      "mu3": "tensor(0.9995, requires_grad=True)",
+      "sigma1": "tensor(0.0558, grad_fn=<ExpBackward0>)",
+      "sigma2": "tensor(0.1138, grad_fn=<ExpBackward0>)",
+      "sigma3": "tensor(0.0853, grad_fn=<ExpBackward0>)",
+      "mu4": "tensor(7.8363, requires_grad=True)",
+      "mu5": "tensor(9.9165, requires_grad=True)",
+      "mu6": "tensor(12.1716, requires_grad=True)",
+      "sigma4": "tensor(1.3726, grad_fn=<ExpBackward0>)",
+      "sigma5": "tensor(0.8980, grad_fn=<ExpBackward0>)",
+      "sigma6": "tensor(1.3445, grad_fn=<ExpBackward0>)",
+      "mu7": "tensor(4.4957, requires_grad=True)",
+      "mu8": "tensor(6.2924, requires_grad=True)",
+      "mu9": "tensor(8.2900, requires_grad=True)",
+      "sigma7": "tensor(1.5933, grad_fn=<ExpBackward0>)",
+      "sigma8": "tensor(1.3150, grad_fn=<ExpBackward0>)",
+      "sigma9": "tensor(2.4629, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 5.0716989329858935,
+    "final_loss": 3.3756458947846086,
+    "opt_time": 2.773,
+    "opt_iterations": 100
+  },
+  {
+    "id": 2,
+    "hypothesis": "Variables consist of two subpopulations, captured by a two-component mixture model.",
+    "structure": "mixture2",
+    "program": "u = gm([0.70,0.30],[0.00,0.60],[0.00,0.40]); v = gm([0.55,0.45],[8.50,12.00],[1.20,1.50]); w = gm([0.60,0.40],[5.00,8.00],[1.80,2.20]);",
+    "params": {
+      "mu1": 0.0,
+      "mu2": 0.6,
+      "sigma1": 0.0,
+      "sigma2": 0.4,
+      "mu3": 8.5,
+      "mu4": 12.0,
+      "sigma3": 1.2,
+      "sigma4": 1.5,
+      "mu5": 5.0,
+      "mu6": 8.0,
+      "sigma5": 1.8,
+      "sigma6": 2.2
+    },
+    "rewritten": "u = gm([0.70,0.30], [_mu1, _mu2], [_sigma1, _sigma2]); v = gm([0.55,0.45], [_mu3, _mu4], [_sigma3, _sigma4]); w = gm([0.60,0.40], [_mu5, _mu6], [_sigma5, _sigma6]);",
+    "optimized_params": {
+      "mu1": "tensor(0., requires_grad=True)",
+      "mu2": "tensor(0.9984, requires_grad=True)",
+      "sigma1": "tensor(0., requires_grad=True)",
+      "sigma2": "tensor(0.1450, grad_fn=<ExpBackward0>)",
+      "mu3": "tensor(9.0114, requires_grad=True)",
+      "mu4": "tensor(11.3581, requires_grad=True)",
+      "sigma3": "tensor(1.6134, grad_fn=<ExpBackward0>)",
+      "sigma4": "tensor(1.6540, grad_fn=<ExpBackward0>)",
+      "mu5": "tensor(5.6244, requires_grad=True)",
+      "mu6": "tensor(7.3025, requires_grad=True)",
+      "sigma5": "tensor(1.7015, grad_fn=<ExpBackward0>)",
+      "sigma6": "tensor(2.8163, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 5.1280929613265895,
+    "final_loss": 4.666237173586515,
+    "opt_time": 1.093,
+    "opt_iterations": 100
+  },
+  {
+    "id": 1,
+    "hypothesis": "The data for all variables arise from a single unimodal Gaussian-like distribution.",
+    "structure": "unimodal",
+    "program": "u = gm([1.00],[0.32],[0.46]); v = gm([1.00],[10.04],[1.98]); w = gm([1.00],[6.29],[2.36]);",
+    "params": {
+      "mu1": 0.32,
+      "sigma1": 0.46,
+      "mu2": 10.04,
+      "sigma2": 1.98,
+      "mu3": 6.29,
+      "sigma3": 2.36
+    },
+    "rewritten": "u = gm([1.00], [_mu1], [_sigma1]); v = gm([1.00], [_mu2], [_sigma2]); w = gm([1.00], [_mu3], [_sigma3]);",
+    "optimized_params": {
+      "mu1": "tensor(0.3150, requires_grad=True)",
+      "sigma1": "tensor(0.4645, grad_fn=<ExpBackward0>)",
+      "mu2": "tensor(10.0411, requires_grad=True)",
+      "sigma2": "tensor(1.9833, grad_fn=<ExpBackward0>)",
+      "mu3": "tensor(6.2943, requires_grad=True)",
+      "sigma3": "tensor(2.3565, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 5.032177497542825,
+    "final_loss": 5.032015909090231,
+    "opt_time": 0.508,
+    "opt_iterations": 100
+  },
+  {
+    "id": 5,
+    "hypothesis": "Variable w is generated as a product of two latent factors, modeled by separate distributions.",
+    "structure": "hierarchical",
+    "program": "u = gm([1.00],[0.32],[0.46]); v = gm([1.00],[10.04],[1.98]); temp = 1.00*u; w = temp * v;",
+    "params": {
+      "mu1": 0.32,
+      "sigma1": 0.46,
+      "mu2": 10.04,
+      "sigma2": 1.98
+    },
+    "rewritten": "u = gm([1.00], [_mu1], [_sigma1]); v = gm([1.00], [_mu2], [_sigma2]); temp = 1.00*u; w = temp * v;",
+    "optimized_params": {
+      "mu1": "tensor(0.4459, requires_grad=True)",
+      "sigma1": "tensor(0.7915, grad_fn=<ExpBackward0>)",
+      "mu2": "tensor(9.4453, requires_grad=True)",
+      "sigma2": "tensor(3.4056, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 23.79163077379311,
+    "final_loss": 7.240446547804218,
+    "opt_time": 0.527,
+    "opt_iterations": 100
+  }
+]

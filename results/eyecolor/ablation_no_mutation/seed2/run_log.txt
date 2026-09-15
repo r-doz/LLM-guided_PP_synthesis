@@ -1,0 +1,77 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "eyecolor",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/eyecolor/20260913_003930"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Data appears unimodal with modest skewness around the observed means.
+DeGAS code:
+eyecolor = gm([1.00],[0.19],[0.56]); haircolor = gm([1.00],[0.57],[1.22]); hairlenght = gm([1.00],[0.66],[0.86]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Eyecolor shows a point mass at zero with a secondary higher-value group, while hair traits exhibit similar two-subpopulation patterns.
+DeGAS code:
+eyecolor = gm([0.70,0.30],[0.00,2.00],[0.00,0.50]); haircolor = gm([0.60,0.40],[0.00,1.50],[0.00,0.80]); hairlenght = gm([0.30,0.70],[0.00,1.20],[0.00,0.40]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: All three variables display multiple subpopulations, suggesting a three-component mixture model.
+DeGAS code:
+eyecolor = gm([0.50,0.30,0.20],[0.00,1.00,2.50],[0.00,0.40,0.30]); haircolor = gm([0.45,0.35,0.20],[0.00,1.00,3.00],[0.00,0.60,0.70]); hairlenght = gm([0.40,0.35,0.25],[0.00,0.80,1.60],[0.00,0.30,0.30]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Eyecolor values below or equal to 1.0 are associated with lower hair measurements, otherwise higher ranges.
+DeGAS code:
+eyecolor = gm([1.00],[0.19],[0.56]); if eyecolor <= 1.00 { haircolor = uniform([0.00,2.00], 2); hairlenght = gm([1.00],[0.50],[0.20]); } else { haircolor = uniform([2.00,4.00], 2); hairlenght = gm([1.00],[1.50],[0.30]); } end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Observed traits arise from latent base distributions scaled by individual-specific random factors.
+DeGAS code:
+scale_eye = uniform([0.80,1.20], 2); base_eye = gm([1.00],[0.19],[0.56]); eyecolor = scale_eye*base_eye; scale_hair = uniform([0.90,1.10], 2); base_hair = gm([1.00],[0.57],[1.22]); haircolor = scale_hair*base_hair; scale_len = uniform([0.95,1.05], 2); base_len = gm([1.00],[0.66],[0.86]); hairlenght = scale_len*base_len;
+
+Program ID 1 initial optimization completed. Initial loss: 3.7274, Final loss: 3.7274
+Program ID 2 initial optimization completed. Initial loss: 3.1708, Final loss: 2.5891
+Program ID 3 initial optimization completed. Initial loss: 3.0411, Final loss: 2.0248
+Program ID 4 initial optimization completed. Initial loss: 12.7250, Final loss: 5.6782
+Error extracting parameters from program ID 5: 'eye'
+
+--- Final Selected Programs ---
+Program ID: 3, Final Loss: 2.0248
+Hypothesis: All three variables display multiple subpopulations, suggesting a three-component mixture model.
+Structure: mixture3
+DeGAS code:
+eyecolor = gm([0.50,0.30,0.20],[0.00,1.00,2.50],[0.00,0.40,0.30]); haircolor = gm([0.45,0.35,0.20],[0.00,1.00,3.00],[0.00,0.60,0.70]); hairlenght = gm([0.40,0.35,0.25],[0.00,0.80,1.60],[0.00,0.30,0.30]);
+
+Program ID: 2, Final Loss: 2.5891
+Hypothesis: Eyecolor shows a point mass at zero with a secondary higher-value group, while hair traits exhibit similar two-subpopulation patterns.
+Structure: mixture2
+DeGAS code:
+eyecolor = gm([0.70,0.30],[0.00,2.00],[0.00,0.50]); haircolor = gm([0.60,0.40],[0.00,1.50],[0.00,0.80]); hairlenght = gm([0.30,0.70],[0.00,1.20],[0.00,0.40]);
+
+Program ID: 1, Final Loss: 3.7274
+Hypothesis: Data appears unimodal with modest skewness around the observed means.
+Structure: unimodal
+DeGAS code:
+eyecolor = gm([1.00],[0.19],[0.56]); haircolor = gm([1.00],[0.57],[1.22]); hairlenght = gm([1.00],[0.66],[0.86]);
+
+Program ID: 4, Final Loss: 5.6782
+Hypothesis: Eyecolor values below or equal to 1.0 are associated with lower hair measurements, otherwise higher ranges.
+Structure: conditional
+DeGAS code:
+eyecolor = gm([1.00],[0.19],[0.56]); if eyecolor <= 1.00 { haircolor = uniform([0.00,2.00], 2); hairlenght = gm([1.00],[0.50],[0.20]); } else { haircolor = uniform([2.00,4.00], 2); hairlenght = gm([1.00],[1.50],[0.30]); } end if;
+
+No fitness values to plot.
+=== Run finished in 90.4s ===

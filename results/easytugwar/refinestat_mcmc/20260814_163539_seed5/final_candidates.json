@@ -1,0 +1,41 @@
+[
+  {
+    "rewritten": "skill1 = gm([1.00], [_mu1], [_sigma1]) ; skill2 = gm([1.00], [_mu2], [_sigma2]) ; p1wins = gm([1.00], [_mu3], [_sigma3]) ;",
+    "params": {
+      "mu1": 19.78,
+      "sigma1": 3.93,
+      "mu2": 20.07,
+      "sigma2": 3.84,
+      "mu3": 0.48,
+      "sigma3": 0.5
+    },
+    "posterior_mean_params": {
+      "mu1": 19.784343719482422,
+      "mu2": 20.06938934326172,
+      "mu3": 0.4774296283721924,
+      "sigma1": 3.9408907890319824,
+      "sigma2": 3.8503406047821045,
+      "sigma3": 0.5007030367851257
+    },
+    "max_r_hat": 1.0,
+    "min_ess_bulk": 5011.0,
+    "min_ess_tail": 2767.0,
+    "divergence_frac": 0.0,
+    "bfmi_min": 1.3408223390579224,
+    "elpd_loo": -5028.0048703897055,
+    "pareto_k_high_frac": 0.0,
+    "held_out_nll": 6.197295807797027,
+    "checks": {
+      "r_hat": true,
+      "ess_bulk": true,
+      "ess_tail": true,
+      "no_divergences": true,
+      "bfmi": true,
+      "pareto_k_ok": true,
+      "loo_success": true
+    },
+    "reliability_score": 7,
+    "error": null,
+    "program": "skill1 = gm( [1.00] , [19.78] , [3.93] ) ; skill2 = gm( [1.00] , [20.07] , [3.84] ) ; p1wins = gm( [1.00] , [0.48] , [0.50] ) ;"
+  }
+]

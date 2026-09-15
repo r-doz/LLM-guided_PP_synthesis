@@ -1,0 +1,22 @@
+{
+  "method": "refinestat_degas_gradient",
+  "program": "easytugwar",
+  "seed": 3,
+  "model_id": "Qwen/Qwen2.5-Coder-7B-Instruct",
+  "data_size": 1000,
+  "train_frac": 0.8,
+  "elapsed_seconds": 192.33903574943542,
+  "unit_name": "toplevel",
+  "max_units": 20,
+  "Rmax": 100,
+  "alpha": 2,
+  "beta": 4,
+  "K": 4,
+  "n_opt_steps": 100,
+  "lr": 0.01,
+  "n_samples": 500,
+  "n_chains": 4,
+  "held_out_nll_margin_floor": 1.0,
+  "held_out_nll_margin_frac": 0.5,
+  "max_wall_seconds": null
+}

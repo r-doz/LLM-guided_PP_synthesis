@@ -1,0 +1,286 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "easytugwar",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 15,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 50,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/easytugwar/20260913_193013"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Skill levels and win probability are generated from single Gaussian-like populations.
+DeGAS code:
+skill1 = gm([1.00],[20.03],[3.93]);
+skill2 = gm([1.00],[20.06],[3.89]);
+p1wins = gm([0.52,0.48],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: There are two subgroups of players with different skill means.
+DeGAS code:
+skill1 = gm([0.50,0.50],[16.00,24.00],[2.00,2.00]);
+skill2 = gm([0.50,0.50],[15.00,25.00],[2.00,2.00]);
+p1wins = gm([0.52,0.48],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Player abilities form three overlapping clusters.
+DeGAS code:
+skill1 = gm([0.33,0.34,0.33],[14.00,20.00,26.00],[2.00,2.00,2.00]);
+skill2 = gm([0.33,0.34,0.33],[13.00,21.00,27.00],[2.00,2.00,2.00]);
+p1wins = gm([0.52,0.48],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Players with lower skill1 have different win probabilities than higher skill1.
+DeGAS code:
+skill1 = gm([1.00],[20.03],[3.93]);
+if skill1 < 18.00 {
+   skill2 = gm([1.00],[15.00],[2.50]);
+   p1wins = gm([0.60,0.40],[0.00,1.00],[0.00,0.00]);
+} else {
+   skill2 = gm([1.00],[25.00],[2.50]);
+   p1wins = gm([0.45,0.55],[0.00,1.00],[0.00,0.00]);
+}
+end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Skill2 is proportional to skill1 plus additional variation.
+DeGAS code:
+skill1 = gm([1.00],[20.03],[3.93]);
+temp = 0.70*skill1;
+skill2 = temp + 0.30*gm([1.00],[5.00],[1.50]);
+p1wins = gm([0.52,0.48],[0.00,1.00],[0.00,0.00]);
+
+Program ID 1 initial optimization completed. Initial loss: 6.2620, Final loss: 6.2620
+Program ID 2 initial optimization completed. Initial loss: 7.1245, Final loss: 6.5343
+Program ID 3 initial optimization completed. Initial loss: 6.7952, Final loss: 6.5508
+Program ID 4 initial optimization completed. Initial loss: 7.5578, Final loss: 6.8077
+Error extracting parameters from program ID 5: Expected parameter loc (Tensor of shape (3,)) of distribution MultivariateNormal(loc: torch.Size([3]), covariance_matrix: torch.Size([3, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan], grad_fn=<ExpandBackward0>)
+Program ID 6 mutation optimization completed. Initial loss: 14.3992, Final loss: 8.4635
+Program ID 7 mutation optimization completed. Initial loss: 7.0656, Final loss: 6.4688
+Program ID 8 mutation optimization completed. Initial loss: 6.7321, Final loss: 6.4052
+Program ID 9 mutation optimization completed. Initial loss: 8.5889, Final loss: 6.7283
+Program ID 1 additional optimization completed. Initial loss: 6.2620, Final loss: 6.2620
+Program ID 7 additional optimization completed. Initial loss: 6.4672, Final loss: 6.2799
+Program ID 8 additional optimization completed. Initial loss: 6.4038, Final loss: 6.2233
+Program ID 2 additional optimization completed. Initial loss: 6.5312, Final loss: 6.2879
+Program ID 3 additional optimization completed. Initial loss: 6.5485, Final loss: 6.3051
+Best candidate after iteration 1: Program ID 8, Final Loss: 6.2233
+Selected candidates for next iteration: [8, 7, 1, 2, 3]
+Error in program ID 11: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 12: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 13 mutation optimization completed. Initial loss: 7.6777, Final loss: 6.8078
+Error in program ID 14: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 15 mutation optimization completed. Initial loss: 6.8161, Final loss: 6.4930
+Program ID 8 additional optimization completed. Initial loss: 6.2230, Final loss: 6.1946
+Program ID 7 additional optimization completed. Initial loss: 6.2797, Final loss: 6.2627
+Program ID 1 additional optimization completed. Initial loss: 6.2620, Final loss: 6.2620
+Program ID 2 additional optimization completed. Initial loss: 6.2876, Final loss: 6.2634
+Program ID 3 additional optimization completed. Initial loss: 6.3046, Final loss: 6.2642
+Best candidate after iteration 2: Program ID 8, Final Loss: 6.1946
+Selected candidates for next iteration: [8, 2, 7, 1, 3]
+Program ID 16 mutation optimization completed. Initial loss: 6.7787, Final loss: 6.4612
+Program ID 17 mutation optimization completed. Initial loss: 6.9672, Final loss: 6.6176
+Program ID 18 mutation optimization completed. Initial loss: 6.7237, Final loss: 6.4548
+Error in program ID 19: Expected parameter loc (Tensor of shape (2,)) of distribution Normal(loc: torch.Size([2]), scale: torch.Size([2])) to satisfy the constraint Real(), but found invalid values:
+tensor([nan, nan], grad_fn=<SelectBackward0>)
+Program ID 20 mutation optimization completed. Initial loss: 6.7168, Final loss: 6.3986
+Program ID 8 additional optimization completed. Initial loss: 6.1946, Final loss: 6.1929
+Program ID 2 additional optimization completed. Initial loss: 6.2634, Final loss: 6.2608
+Program ID 7 additional optimization completed. Initial loss: 6.2626, Final loss: 6.2595
+Program ID 1 additional optimization completed. Initial loss: 6.2620, Final loss: 6.2620
+Program ID 3 additional optimization completed. Initial loss: 6.2642, Final loss: 6.2601
+Best candidate after iteration 3: Program ID 8, Final Loss: 6.1929
+Selected candidates for next iteration: [8, 1, 2, 7, 3]
+Program ID 21 mutation optimization completed. Initial loss: 6.7681, Final loss: 6.4569
+Program ID 22 mutation optimization completed. Initial loss: 7.1547, Final loss: 6.5894
+Program ID 23 mutation optimization completed. Initial loss: 6.8517, Final loss: 6.5240
+Error in program ID 24: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 25: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 8 additional optimization completed. Initial loss: 6.1929, Final loss: 6.1927
+Program ID 1 additional optimization completed. Initial loss: 6.2620, Final loss: 6.2620
+Program ID 2 additional optimization completed. Initial loss: 6.2608, Final loss: 6.2606
+Program ID 7 additional optimization completed. Initial loss: 6.2595, Final loss: 6.2594
+Program ID 3 additional optimization completed. Initial loss: 6.2601, Final loss: 6.2594
+Best candidate after iteration 4: Program ID 8, Final Loss: 6.1927
+Selected candidates for next iteration: [8, 1, 2, 7, 3]
+Program ID 26 mutation optimization completed. Initial loss: 6.7635, Final loss: 6.4555
+Program ID 27 mutation optimization completed. Initial loss: 6.8102, Final loss: 6.4970
+Program ID 28 mutation optimization completed. Initial loss: 6.8179, Final loss: 6.4880
+Program ID 29 mutation optimization completed. Initial loss: 7.0944, Final loss: 6.4177
+Program ID 30 mutation optimization completed. Initial loss: 7.8324, Final loss: 7.8324
+Program ID 8 additional optimization completed. Initial loss: 6.1927, Final loss: 6.1926
+Program ID 1 additional optimization completed. Initial loss: 6.2620, Final loss: 6.2620
+Program ID 2 additional optimization completed. Initial loss: 6.2606, Final loss: 6.2604
+Program ID 7 additional optimization completed. Initial loss: 6.2594, Final loss: 6.2594
+Program ID 3 additional optimization completed. Initial loss: 6.2594, Final loss: 6.2594
+Best candidate after iteration 5: Program ID 8, Final Loss: 6.1926
+Selected candidates for next iteration: [8, 1, 2, 7, 3]
+Program ID 31 mutation optimization completed. Initial loss: 6.8285, Final loss: 6.5064
+Program ID 32 mutation optimization completed. Initial loss: 6.6834, Final loss: 6.3606
+Error in program ID 33: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 34 mutation optimization completed. Initial loss: 7.0706, Final loss: 6.3940
+Error in program ID 35: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 8 additional optimization completed. Initial loss: 6.1926, Final loss: 6.1926
+Program ID 1 additional optimization completed. Initial loss: 6.2620, Final loss: 6.2620
+Program ID 2 additional optimization completed. Initial loss: 6.2604, Final loss: 6.2604
+Program ID 7 additional optimization completed. Initial loss: 6.2594, Final loss: 6.2594
+Program ID 3 additional optimization completed. Initial loss: 6.2594, Final loss: 6.2593
+Best candidate after iteration 6: Program ID 8, Final Loss: 6.1926
+Selected candidates for next iteration: [8, 1, 3, 2, 7]
+Program ID 36 mutation optimization completed. Initial loss: 7.0141, Final loss: 6.5968
+Program ID 37 mutation optimization completed. Initial loss: 6.7097, Final loss: 6.3866
+Program ID 38 mutation optimization completed. Initial loss: 7.4761, Final loss: 6.4985
+Program ID 39 mutation optimization completed. Initial loss: 7.1562, Final loss: 6.4495
+Program ID 40 mutation optimization completed. Initial loss: 7.8587, Final loss: 7.8587
+Program ID 8 additional optimization completed. Initial loss: 6.1926, Final loss: 6.1926
+Program ID 1 additional optimization completed. Initial loss: 6.2620, Final loss: 6.2620
+Program ID 3 additional optimization completed. Initial loss: 6.2593, Final loss: 6.2593
+Program ID 2 additional optimization completed. Initial loss: 6.2604, Final loss: 6.2604
+Program ID 7 additional optimization completed. Initial loss: 6.2594, Final loss: 6.2594
+Best candidate after iteration 7: Program ID 8, Final Loss: 6.1926
+Selected candidates for next iteration: [8, 1, 3, 2, 7]
+Program ID 41 mutation optimization completed. Initial loss: 6.7909, Final loss: 6.4611
+Program ID 42 mutation optimization completed. Initial loss: 6.7433, Final loss: 6.4275
+Error in program ID 43: Expected parameter loc (Tensor of shape (3,)) of distribution Normal(loc: torch.Size([3]), scale: torch.Size([3])) to satisfy the constraint Real(), but found invalid values:
+tensor([nan, nan, nan], grad_fn=<SelectBackward0>)
+Error in program ID 44: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 45 mutation optimization completed. Initial loss: 6.9102, Final loss: 6.9102
+Program ID 8 additional optimization completed. Initial loss: 6.1926, Final loss: 6.1926
+Program ID 1 additional optimization completed. Initial loss: 6.2620, Final loss: 6.2620
+Program ID 3 additional optimization completed. Initial loss: 6.2593, Final loss: 6.2593
+Program ID 2 additional optimization completed. Initial loss: 6.2604, Final loss: 6.2604
+Program ID 7 additional optimization completed. Initial loss: 6.2594, Final loss: 6.2594
+Best candidate after iteration 8: Program ID 8, Final Loss: 6.1926
+Selected candidates for next iteration: [8, 1, 3, 2, 7]
+Error in program ID 46: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 47: 'comb'
+Error in program ID 48: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 49: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 50: Expected parameter loc (Tensor of shape (1,)) of distribution Normal(loc: tensor([nan], grad_fn=<SelectBackward0>), scale: tensor([nan], grad_fn=<SqrtBackward0>)) to satisfy the constraint Real(), but found invalid values:
+tensor([nan], grad_fn=<SelectBackward0>)
+Program ID 8 additional optimization completed. Initial loss: 6.1926, Final loss: 6.1926
+Program ID 1 additional optimization completed. Initial loss: 6.2620, Final loss: 6.2620
+Program ID 3 additional optimization completed. Initial loss: 6.2593, Final loss: 6.2593
+Program ID 2 additional optimization completed. Initial loss: 6.2604, Final loss: 6.2604
+Program ID 7 additional optimization completed. Initial loss: 6.2594, Final loss: 6.2594
+Best candidate after iteration 9: Program ID 8, Final Loss: 6.1926
+Selected candidates for next iteration: [8, 1, 3, 2, 7]
+Program ID 51 mutation optimization completed. Initial loss: 7.1420, Final loss: 6.7598
+Error in program ID 52: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 53: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 54 mutation optimization completed. Initial loss: 7.1520, Final loss: 6.4631
+Error in program ID 55: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 8 additional optimization completed. Initial loss: 6.1926, Final loss: 6.1926
+Program ID 1 additional optimization completed. Initial loss: 6.2620, Final loss: 6.2620
+Program ID 3 additional optimization completed. Initial loss: 6.2593, Final loss: 6.2593
+Program ID 2 additional optimization completed. Initial loss: 6.2604, Final loss: 6.2604
+Program ID 7 additional optimization completed. Initial loss: 6.2594, Final loss: 6.2594
+Best candidate after iteration 10: Program ID 8, Final Loss: 6.1926
+Selected candidates for next iteration: [8, 1, 3, 2, 7]
+Program ID 56 mutation optimization completed. Initial loss: 6.7293, Final loss: 6.4187
+Program ID 57 mutation optimization completed. Initial loss: 6.8818, Final loss: 6.5445
+Program ID 58 mutation optimization completed. Initial loss: 6.9051, Final loss: 6.4137
+Program ID 59 mutation optimization completed. Initial loss: 7.1020, Final loss: 6.4252
+Error in program ID 60: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 8 additional optimization completed. Initial loss: 6.1926, Final loss: 6.1926
+Program ID 1 additional optimization completed. Initial loss: 6.2620, Final loss: 6.2620
+Program ID 3 additional optimization completed. Initial loss: 6.2593, Final loss: 6.2593
+Program ID 2 additional optimization completed. Initial loss: 6.2604, Final loss: 6.2604
+Program ID 7 additional optimization completed. Initial loss: 6.2594, Final loss: 6.2594
+Best candidate after iteration 11: Program ID 8, Final Loss: 6.1926
+Selected candidates for next iteration: [8, 1, 3, 2, 7]
+Program ID 61 mutation optimization completed. Initial loss: 6.8334, Final loss: 6.5039
+Program ID 62 mutation optimization completed. Initial loss: 6.7236, Final loss: 6.3967
+Error in program ID 63: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 64 mutation optimization completed. Initial loss: 7.1060, Final loss: 6.4291
+Program ID 65 mutation optimization completed. Initial loss: 6.5676, Final loss: 6.2169
+Program ID 8 additional optimization completed. Initial loss: 6.1926, Final loss: 6.1926
+Program ID 65 additional optimization completed. Initial loss: 6.2169, Final loss: 6.2151
+Program ID 1 additional optimization completed. Initial loss: 6.2620, Final loss: 6.2620
+Program ID 3 additional optimization completed. Initial loss: 6.2593, Final loss: 6.2593
+Program ID 2 additional optimization completed. Initial loss: 6.2604, Final loss: 6.2604
+Best candidate after iteration 12: Program ID 8, Final Loss: 6.1926
+Selected candidates for next iteration: [8, 65, 1, 3, 2]
+Error in program ID 66: 'sum'
+Program ID 67 mutation optimization completed. Initial loss: 6.6624, Final loss: 6.1898
+Program ID 68 mutation optimization completed. Initial loss: 6.7160, Final loss: 6.3931
+Program ID 69 mutation optimization completed. Initial loss: 6.9407, Final loss: 6.4156
+Error in program ID 70: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 67 additional optimization completed. Initial loss: 6.1898, Final loss: 6.1885
+Program ID 8 additional optimization completed. Initial loss: 6.1926, Final loss: 6.1926
+Program ID 65 additional optimization completed. Initial loss: 6.2151, Final loss: 6.2151
+Program ID 1 additional optimization completed. Initial loss: 6.2620, Final loss: 6.2620
+Program ID 3 additional optimization completed. Initial loss: 6.2593, Final loss: 6.2593
+Best candidate after iteration 13: Program ID 67, Final Loss: 6.1885
+Selected candidates for next iteration: [67, 8, 65, 1, 3]
+Error in program ID 71: 'NoneType' object has no attribute 'instr'
+Program ID 72 mutation optimization completed. Initial loss: 6.9476, Final loss: 6.5209
+Program ID 73 mutation optimization completed. Initial loss: 7.0287, Final loss: 6.6286
+Error in program ID 74: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 75: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 67 additional optimization completed. Initial loss: 6.1885, Final loss: 6.1885
+Program ID 8 additional optimization completed. Initial loss: 6.1926, Final loss: 6.1926
+Program ID 65 additional optimization completed. Initial loss: 6.2151, Final loss: 6.2151
+Program ID 1 additional optimization completed. Initial loss: 6.2620, Final loss: 6.2620
+Program ID 3 additional optimization completed. Initial loss: 6.2593, Final loss: 6.2593
+Best candidate after iteration 14: Program ID 67, Final Loss: 6.1885
+Selected candidates for next iteration: [67, 8, 65, 1, 3]
+Error in program ID 76: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 77 mutation optimization completed. Initial loss: 6.7896, Final loss: 6.4694
+Error in program ID 78: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 79 mutation optimization completed. Initial loss: 6.7459, Final loss: 6.4311
+Error in program ID 80: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 67 additional optimization completed. Initial loss: 6.1885, Final loss: 6.1885
+Program ID 8 additional optimization completed. Initial loss: 6.1926, Final loss: 6.1926
+Program ID 65 additional optimization completed. Initial loss: 6.2151, Final loss: 6.2151
+Program ID 1 additional optimization completed. Initial loss: 6.2620, Final loss: 6.2620
+Program ID 3 additional optimization completed. Initial loss: 6.2593, Final loss: 6.2593
+Best candidate after iteration 15: Program ID 67, Final Loss: 6.1885
+Selected candidates for next iteration: [67, 8, 65, 1, 3]
+
+--- Final Selected Programs ---
+Program ID: 67, Final Loss: 6.1885
+Hypothesis: Win probability varies across three skill ranges using nested conditionals.
+Structure: conditional3
+DeGAS code:
+skill1 = gm([0.50,0.50],[18.00,22.00],[2.00,2.00]); skill2 = gm([1.00],[20.06],[3.89]); if skill1 < 19.00 { p1wins = gm([0.70,0.30],[0.00,1.00],[0.00,0.00]); } else { if skill1 < 21.00 { p1wins = gm([0.55,0.45],[0.00,1.00],[0.00,0.00]); } else { p1wins = gm([0.40,0.60],[0.00,1.00],[0.00,0.00]); } end if; } end if;
+
+Program ID: 8, Final Loss: 6.1926
+Hypothesis: Win probability changes when player skill crosses a threshold.
+Structure: conditional
+DeGAS code:
+skill1 = gm([0.33,0.34,0.33],[14.00,20.00,26.00],[2.00,2.00,2.00]); skill2 = gm([0.33,0.34,0.33],[13.00,21.00,27.00],[2.00,2.00,2.00]); if skill1 < 18.00 { p1wins = gm([0.65,0.35],[0.00,1.00],[0.00,0.00]); } else { p1wins = gm([0.45,0.55],[0.00,1.00],[0.00,0.00]); } end if;
+
+Program ID: 65, Final Loss: 6.2151
+Hypothesis: A single skill mixture determines win probability via a thresholded conditional.
+Structure: hierarchical
+DeGAS code:
+skill1 = gm([0.50,0.50],[18.00,22.00],[2.00,2.00]); skill2 = gm([1.00],[20.06],[3.89]); if skill1 < 20.00 { p1wins = gm([0.65,0.35],[0.00,1.00],[0.00,0.00]); } else { p1wins = gm([0.45,0.55],[0.00,1.00],[0.00,0.00]); } end if;
+
+Program ID: 1, Final Loss: 6.2620
+Hypothesis: Skill levels and win probability are generated from single Gaussian-like populations.
+Structure: unimodal
+DeGAS code:
+skill1 = gm([1.00],[20.03],[3.93]);
+skill2 = gm([1.00],[20.06],[3.89]);
+p1wins = gm([0.52,0.48],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 3, Final Loss: 6.2593
+Hypothesis: Player abilities form three overlapping clusters.
+Structure: mixture3
+DeGAS code:
+skill1 = gm([0.33,0.34,0.33],[14.00,20.00,26.00],[2.00,2.00,2.00]);
+skill2 = gm([0.33,0.34,0.33],[13.00,21.00,27.00],[2.00,2.00,2.00]);
+p1wins = gm([0.52,0.48],[0.00,1.00],[0.00,0.00]);
+
+=== Run finished in 2153.6s ===

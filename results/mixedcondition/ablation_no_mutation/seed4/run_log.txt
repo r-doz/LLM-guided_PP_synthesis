@@ -1,0 +1,83 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "mixedcondition",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/mixedcondition/20260913_003111"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: The variables follow a single unimodal Gaussian-like distribution centered at their empirical means.
+DeGAS code:
+u = gm([1.00],[0.32],[0.47]); v = gm([1.00],[9.82],[2.05]); w = gm([1.00],[6.32],[2.44]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Each variable arises from two subpopulations, captured by a two-component mixture model.
+DeGAS code:
+u = gm([0.55,0.45],[0.00,0.90],[0.00,0.05]); v = gm([0.50,0.50],[5.50,13.50],[1.00,1.00]); w = gm([0.10,0.90],[-0.20,7.00],[0.00,2.50]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: The data exhibit multiple modes and skewness, modeled with three-component mixtures for each variable.
+DeGAS code:
+u = gm([0.30,0.40,0.30],[0.00,0.50,1.00],[0.00,0.00,0.00]); v = gm([0.25,0.50,0.25],[4.00,9.80,14.00],[1.00,1.00,1.00]); w = gm([0.20,0.60,0.20],[2.00,6.30,12.00],[1.00,1.50,2.00]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Variable v partitions the dataset into low and high regimes, leading to different distributions for all variables.
+DeGAS code:
+if v < 8.00 { u = gm([1.00],[0.10],[0.05]); v = gm([1.00],[5.50],[1.00]); w = gm([1.00],[3.00],[0.80]); } else { u = gm([1.00],[0.60],[0.10]); v = gm([1.00],[12.50],[1.20]); w = gm([1.00],[9.00],[1.50]); } end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Variables u and v combine multiplicatively to form w, representing a hierarchical product structure.
+DeGAS code:
+u = gm([1.00],[0.32],[0.47]); v = gm([1.00],[9.82],[2.05]); temp = u*v; w = temp;
+
+Program ID 1 initial optimization completed. Initial loss: 5.1040, Final loss: 5.1039
+Program ID 2 initial optimization completed. Initial loss: 8.1357, Final loss: 4.8796
+Program ID 3 initial optimization completed. Initial loss: 6.3409, Final loss: 5.8600
+Program ID 4 initial optimization completed. Initial loss: 77.6204, Final loss: 17.0779
+Program ID 5 initial optimization completed. Initial loss: 20.6572, Final loss: 7.0317
+
+--- Final Selected Programs ---
+Program ID: 2, Final Loss: 4.8796
+Hypothesis: Each variable arises from two subpopulations, captured by a two-component mixture model.
+Structure: mixture2
+DeGAS code:
+u = gm([0.55,0.45],[0.00,0.90],[0.00,0.05]); v = gm([0.50,0.50],[5.50,13.50],[1.00,1.00]); w = gm([0.10,0.90],[-0.20,7.00],[0.00,2.50]);
+
+Program ID: 1, Final Loss: 5.1039
+Hypothesis: The variables follow a single unimodal Gaussian-like distribution centered at their empirical means.
+Structure: unimodal
+DeGAS code:
+u = gm([1.00],[0.32],[0.47]); v = gm([1.00],[9.82],[2.05]); w = gm([1.00],[6.32],[2.44]);
+
+Program ID: 3, Final Loss: 5.8600
+Hypothesis: The data exhibit multiple modes and skewness, modeled with three-component mixtures for each variable.
+Structure: mixture3
+DeGAS code:
+u = gm([0.30,0.40,0.30],[0.00,0.50,1.00],[0.00,0.00,0.00]); v = gm([0.25,0.50,0.25],[4.00,9.80,14.00],[1.00,1.00,1.00]); w = gm([0.20,0.60,0.20],[2.00,6.30,12.00],[1.00,1.50,2.00]);
+
+Program ID: 5, Final Loss: 7.0317
+Hypothesis: Variables u and v combine multiplicatively to form w, representing a hierarchical product structure.
+Structure: hierarchical
+DeGAS code:
+u = gm([1.00],[0.32],[0.47]); v = gm([1.00],[9.82],[2.05]); temp = u*v; w = temp;
+
+Program ID: 4, Final Loss: 17.0779
+Hypothesis: Variable v partitions the dataset into low and high regimes, leading to different distributions for all variables.
+Structure: conditional
+DeGAS code:
+if v < 8.00 { u = gm([1.00],[0.10],[0.05]); v = gm([1.00],[5.50],[1.00]); w = gm([1.00],[3.00],[0.80]); } else { u = gm([1.00],[0.60],[0.10]); v = gm([1.00],[12.50],[1.20]); w = gm([1.00],[9.00],[1.50]); } end if;
+
+No fitness values to plot.
+=== Run finished in 74.3s ===

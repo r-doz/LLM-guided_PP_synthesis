@@ -1,0 +1,111 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "mog1",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/mog1/20260913_000440"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: The data for all three variables arise from a single Gaussian-like population.
+DeGAS code:
+mu = gm([1.00],[20.04],[3.06]);
+sigma = gm([1.00],[1.99],[1.02]);
+x = gm([1.00],[22.05],[3.89]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Each variable consists of two subpopulations, e.g., low and high values.
+DeGAS code:
+mu = gm([0.50,0.50],[15.00,25.00],[2.00,2.00]);
+sigma = gm([0.60,0.40],[0.50,3.00],[0.80,1.20]);
+x = gm([0.55,0.45],[18.00,30.00],[3.00,4.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: The variables exhibit three distinct modes reflecting multiple underlying processes.
+DeGAS code:
+mu = gm([0.33,0.34,0.33],[12.00,20.00,28.00],[1.50,2.00,2.50]);
+sigma = gm([0.30,0.40,0.30],[0.00,2.00,4.00],[0.00,1.00,0.00]);
+x = gm([0.33,0.34,0.33],[15.00,22.00,29.00],[3.00,4.00,5.00]);
+
+Program ID: 4, Structure: conditional, Hypothesis: If mu is above a threshold, the distribution shifts to higher values.
+DeGAS code:
+if mu >= 20.00 {
+    mu = gm([1.00],[24.00],[2.50]);
+    sigma = gm([1.00],[2.50],[0.80]);
+    x = gm([1.00],[28.00],[3.00]);
+} else {
+    mu = gm([1.00],[16.00],[2.00]);
+    sigma = gm([1.00],[1.20],[0.60]);
+    x = gm([1.00],[18.00],[2.50]);
+}
+end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: x is generated as a linear combination of mu and sigma with scaling.
+DeGAS code:
+mu = gm([1.00],[20.04],[3.06]);
+sigma = gm([1.00],[1.99],[1.02]);
+temp = 0.70*mu;
+x = temp + sigma;
+
+Program ID 1 initial optimization completed. Initial loss: 6.7564, Final loss: 6.7564
+Program ID 2 initial optimization completed. Initial loss: 8.4467, Final loss: 7.3135
+Program ID 3 initial optimization completed. Initial loss: 8.6753, Final loss: 8.1892
+Program ID 4 initial optimization completed. Initial loss: 11.9197, Final loss: 7.5026
+Error extracting parameters from program ID 5: Expected parameter loc (Tensor of shape (3,)) of distribution MultivariateNormal(loc: torch.Size([3]), covariance_matrix: torch.Size([3, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan], grad_fn=<ExpandBackward0>)
+
+--- Final Selected Programs ---
+Program ID: 1, Final Loss: 6.7564
+Hypothesis: The data for all three variables arise from a single Gaussian-like population.
+Structure: unimodal
+DeGAS code:
+mu = gm([1.00],[20.04],[3.06]);
+sigma = gm([1.00],[1.99],[1.02]);
+x = gm([1.00],[22.05],[3.89]);
+
+Program ID: 2, Final Loss: 7.3135
+Hypothesis: Each variable consists of two subpopulations, e.g., low and high values.
+Structure: mixture2
+DeGAS code:
+mu = gm([0.50,0.50],[15.00,25.00],[2.00,2.00]);
+sigma = gm([0.60,0.40],[0.50,3.00],[0.80,1.20]);
+x = gm([0.55,0.45],[18.00,30.00],[3.00,4.00]);
+
+Program ID: 4, Final Loss: 7.5026
+Hypothesis: If mu is above a threshold, the distribution shifts to higher values.
+Structure: conditional
+DeGAS code:
+if mu >= 20.00 {
+    mu = gm([1.00],[24.00],[2.50]);
+    sigma = gm([1.00],[2.50],[0.80]);
+    x = gm([1.00],[28.00],[3.00]);
+} else {
+    mu = gm([1.00],[16.00],[2.00]);
+    sigma = gm([1.00],[1.20],[0.60]);
+    x = gm([1.00],[18.00],[2.50]);
+}
+end if;
+
+Program ID: 3, Final Loss: 8.1892
+Hypothesis: The variables exhibit three distinct modes reflecting multiple underlying processes.
+Structure: mixture3
+DeGAS code:
+mu = gm([0.33,0.34,0.33],[12.00,20.00,28.00],[1.50,2.00,2.50]);
+sigma = gm([0.30,0.40,0.30],[0.00,2.00,4.00],[0.00,1.00,0.00]);
+x = gm([0.33,0.34,0.33],[15.00,22.00,29.00],[3.00,4.00,5.00]);
+
+No fitness values to plot.
+=== Run finished in 57.5s ===

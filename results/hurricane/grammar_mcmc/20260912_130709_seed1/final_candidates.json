@@ -1,0 +1,18 @@
+[
+  {
+    "ok": true,
+    "rewritten": "preplevel = gm([0.11,0.89], [_mu1, _mu2], [_sigma1, _sigma2]);\ndamage = gm([1.00], [_mu3], [_sigma3]);\n",
+    "optimized_params": {
+      "mu1": 55.54,
+      "mu2": 1.4189139454713904,
+      "sigma1": 2.57,
+      "sigma2": 1.1066168667500658,
+      "mu3": 0.6337471035043336,
+      "sigma3": 0.6439134964615091
+    },
+    "train_nll": 2.382155320696288,
+    "held_out_nll": 2.3646878663728432,
+    "error": null,
+    "program": "preplevel = gm([0.11,0.89],[55.54,1.93],[2.57,1.58]);\ndamage = gm([1.00],[1.07],[1.05]);\n"
+  }
+]

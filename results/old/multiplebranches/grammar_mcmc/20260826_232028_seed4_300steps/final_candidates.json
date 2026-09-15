@@ -1,0 +1,16 @@
+[
+  {
+    "ok": true,
+    "rewritten": "contentDifficulty = gm([1.00], [_mu1], [_sigma1]);\nquestionsAfterLectureLength = gm([1.00], [_mu2], [_sigma2]);\n",
+    "optimized_params": {
+      "mu1": 29.988708215573794,
+      "sigma1": 2.7052379997370295,
+      "mu2": 8.296544802388391,
+      "sigma2": 4.886534011414201
+    },
+    "train_nll": 7.164874533817024,
+    "held_out_nll": 7.567411154460815,
+    "error": null,
+    "program": "contentDifficulty = gm([1.00],[30.25],[1.76]);\nquestionsAfterLectureLength = gm([1.00],[7.86],[3.22]);\n"
+  }
+]

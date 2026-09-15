@@ -1,0 +1,50 @@
+[
+  {
+    "rewritten": "u = gm([1.00], [_mu1], [_sigma1]) ; v = gm([1.00], [_mu2], [_sigma2]) ; w = gm([1.00], [_mu3], [_sigma3]) ;",
+    "params": {
+      "mu1": 0.3,
+      "sigma1": 0.46,
+      "mu2": 10.06,
+      "sigma2": 1.96,
+      "mu3": 6.13,
+      "sigma3": 2.39
+    },
+    "optimized_params": {
+      "mu1": 0.30121919262761165,
+      "sigma1": 0.4588019286823891,
+      "mu2": 10.06203357606992,
+      "sigma2": 1.9581393061016912,
+      "mu3": 6.129470749976483,
+      "sigma3": 2.390580190476067
+    },
+    "initial_loss": 5.021208637310036,
+    "final_loss": 5.021196694692907,
+    "train_nll": 5.021196694692907,
+    "held_out_nll": 5.08892544836608,
+    "reliability": {
+      "max_r_hat": 1.0,
+      "min_ess_bulk": 1761.0,
+      "min_ess_tail": 1616.0,
+      "divergence_frac": 0.0,
+      "missing_vars": [],
+      "checks": {
+        "r_hat": true,
+        "ess_bulk": true,
+        "ess_tail": true,
+        "no_divergences": true
+      }
+    },
+    "checks": {
+      "r_hat": true,
+      "ess_bulk": true,
+      "ess_tail": true,
+      "no_divergences": true,
+      "held_out_ok": true
+    },
+    "reliability_score": 5,
+    "opt_time": 0.832,
+    "opt_iterations": 100,
+    "error": null,
+    "program": "u = gm( [1.00] , [0.30] , [0.46] ) ; v = gm( [1.00] , [10.06] , [1.96] ) ; w = gm( [1.00] , [6.13] , [2.39] ) ;"
+  }
+]

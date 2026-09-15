@@ -1,0 +1,149 @@
+[
+  {
+    "id": 24,
+    "hypothesis": "Data is a three-component mixture with different means and standard deviations.",
+    "structure": "mixture3",
+    "program": "a = gm([0.33, 0.33, 0.33], [1.975, 4.357, -6.660], [1.979, 5.782, 1.979]); b = gm([0.33, 0.33, 0.33], [1.975, 4.357, -6.660], [1.979, 5.782, 1.979]);",
+    "params": {
+      "mu1": 1.975,
+      "mu2": 4.357,
+      "mu3": -6.66,
+      "sigma1": 1.979,
+      "sigma2": 5.782,
+      "sigma3": 1.979,
+      "mu4": 1.975,
+      "mu5": 4.357,
+      "mu6": -6.66,
+      "sigma4": 1.979,
+      "sigma5": 5.782,
+      "sigma6": 1.979
+    },
+    "rewritten": "a = gm([0.33, 0.33, 0.33], [_mu1, _mu2, _mu3], [_sigma1, _sigma2, _sigma3]); b = gm([0.33, 0.33, 0.33], [_mu4, _mu5, _mu6], [_sigma4, _sigma5, _sigma6]);",
+    "optimized_params": {
+      "mu1": "tensor(1.5591)",
+      "mu2": "tensor(2.0496)",
+      "mu3": "tensor(-0.6813)",
+      "sigma1": "tensor(1.3076)",
+      "sigma2": "tensor(1.8241)",
+      "sigma3": "tensor(1.5706)",
+      "mu4": "tensor(7.4914)",
+      "mu5": "tensor(8.5146)",
+      "mu6": "tensor(-3.6409)",
+      "sigma4": "tensor(0.8075)",
+      "sigma5": "tensor(0.9423)",
+      "sigma6": "tensor(3.3708)"
+    },
+    "initial_loss": 4.521694415370796,
+    "final_loss": 4.521694415370796,
+    "opt_time": 1.201,
+    "opt_iterations": 117
+  },
+  {
+    "id": 21,
+    "hypothesis": "Data is generated from two independent distributions.",
+    "structure": "mixture2",
+    "program": "a = gm([0.4, 0.6], [0.975, 4.357], [1.979, 5.782]); b = gm([0.4, 0.6], [0.975, 4.357], [1.979, 5.782]);",
+    "params": {
+      "mu1": 0.975,
+      "mu2": 4.357,
+      "sigma1": 1.979,
+      "sigma2": 5.782,
+      "mu3": 0.975,
+      "mu4": 4.357,
+      "sigma3": 1.979,
+      "sigma4": 5.782
+    },
+    "rewritten": "a = gm([0.4, 0.6], [_mu1, _mu2], [_sigma1, _sigma2]); b = gm([0.4, 0.6], [_mu3, _mu4], [_sigma3, _sigma4]);",
+    "optimized_params": {
+      "mu1": "tensor(-0.1573)",
+      "mu2": "tensor(1.7296)",
+      "sigma1": "tensor(1.7992)",
+      "sigma2": "tensor(1.7156)",
+      "mu3": "tensor(-3.6350)",
+      "mu4": "tensor(8.0029)",
+      "sigma3": "tensor(3.3808)",
+      "sigma4": "tensor(1.0166)"
+    },
+    "initial_loss": 4.539970866595031,
+    "final_loss": 4.539970866595031,
+    "opt_time": 0.809,
+    "opt_iterations": 118
+  },
+  {
+    "id": 22,
+    "hypothesis": "Data is a two-component mixture with different means and standard deviations.",
+    "structure": "mixture2",
+    "program": "a = gm([0.5, 0.5], [1.975, 4.357], [1.979, 5.782]); b = gm([0.5, 0.5], [1.975, 4.357], [1.979, 5.782]);",
+    "params": {
+      "mu1": 1.975,
+      "mu2": 4.357,
+      "sigma1": 1.979,
+      "sigma2": 5.782,
+      "mu3": 1.975,
+      "mu4": 4.357,
+      "sigma3": 1.979,
+      "sigma4": 5.782
+    },
+    "rewritten": "a = gm([0.5, 0.5], [_mu1, _mu2], [_sigma1, _sigma2]); b = gm([0.5, 0.5], [_mu3, _mu4], [_sigma3, _sigma4]);",
+    "optimized_params": {
+      "mu1": "tensor(0.1217)",
+      "mu2": "tensor(1.8281)",
+      "sigma1": "tensor(1.8625)",
+      "sigma2": "tensor(1.7046)",
+      "mu3": "tensor(-3.5860)",
+      "mu4": "tensor(8.0066)",
+      "sigma3": "tensor(3.4451)",
+      "sigma4": "tensor(1.0134)"
+    },
+    "initial_loss": 4.59503062091216,
+    "final_loss": 4.59503062091216,
+    "opt_time": 0.682,
+    "opt_iterations": 109
+  },
+  {
+    "id": 8,
+    "hypothesis": "Data is generated from two independent distributions.",
+    "structure": "independent",
+    "program": "a = gm([0.5], [0.975], [1.979]); b = gm([0.5], [4.357], [5.782]);",
+    "params": {
+      "mu1": 0.975,
+      "sigma1": 1.979,
+      "mu2": 4.357,
+      "sigma2": 5.782
+    },
+    "rewritten": "a = gm([0.5], [_mu1], [_sigma1]); b = gm([0.5], [_mu2], [_sigma2]);",
+    "optimized_params": {
+      "mu1": "tensor(0.9750)",
+      "sigma1": "tensor(1.9787)",
+      "mu2": "tensor(4.3572)",
+      "sigma2": "tensor(5.7817)"
+    },
+    "initial_loss": 5.274999283681163,
+    "final_loss": 5.274999283681163,
+    "opt_time": 0.43,
+    "opt_iterations": 119
+  },
+  {
+    "id": 30,
+    "hypothesis": "Data is a two-component mixture with different means and standard deviations.",
+    "structure": "hierarchical",
+    "program": "a = gm([0.5], [0.975], [1.979]); b = gm([0.5], [4.357], [5.782]);",
+    "params": {
+      "mu1": 0.975,
+      "sigma1": 1.979,
+      "mu2": 4.357,
+      "sigma2": 5.782
+    },
+    "rewritten": "a = gm([0.5], [_mu1], [_sigma1]); b = gm([0.5], [_mu2], [_sigma2]);",
+    "optimized_params": {
+      "mu1": "tensor(0.9750)",
+      "sigma1": "tensor(1.9787)",
+      "mu2": "tensor(4.3572)",
+      "sigma2": "tensor(5.7817)"
+    },
+    "initial_loss": 5.274999283681163,
+    "final_loss": 5.274999283681163,
+    "opt_time": 0.433,
+    "opt_iterations": 119
+  }
+]

@@ -1,0 +1,16 @@
+=== program=biasedtugwar seed=2 (grammar-mcmc) ===
+[biasedtugwar seed=2 step=0] current_train_nll=117.3866 best_held_out_nll=116.4496 accept_rate=0.00 valid_proposal_rate=1.00
+[biasedtugwar seed=2 step=25] current_train_nll=19.1459 best_held_out_nll=18.9077 accept_rate=0.08 valid_proposal_rate=1.00
+[biasedtugwar seed=2 step=50] current_train_nll=13.6583 best_held_out_nll=13.6076 accept_rate=0.10 valid_proposal_rate=1.00
+[biasedtugwar seed=2 step=75] current_train_nll=12.2554 best_held_out_nll=12.2095 accept_rate=0.11 valid_proposal_rate=1.00
+[biasedtugwar seed=2 step=100] current_train_nll=12.2554 best_held_out_nll=12.2095 accept_rate=0.08 valid_proposal_rate=1.00
+[biasedtugwar seed=2 step=125] current_train_nll=12.1173 best_held_out_nll=12.0707 accept_rate=0.08 valid_proposal_rate=1.00
+[biasedtugwar seed=2 step=150] current_train_nll=12.3041 best_held_out_nll=12.0707 accept_rate=0.07 valid_proposal_rate=1.00
+[biasedtugwar seed=2 step=175] current_train_nll=11.4537 best_held_out_nll=11.4039 accept_rate=0.08 valid_proposal_rate=1.00
+[biasedtugwar seed=2 step=200] current_train_nll=11.7415 best_held_out_nll=11.2596 accept_rate=0.08 valid_proposal_rate=1.00
+[biasedtugwar seed=2 step=225] current_train_nll=11.6879 best_held_out_nll=11.2596 accept_rate=0.08 valid_proposal_rate=1.00
+[biasedtugwar seed=2 step=250] current_train_nll=12.3660 best_held_out_nll=11.2596 accept_rate=0.08 valid_proposal_rate=1.00
+[biasedtugwar seed=2 step=275] current_train_nll=11.6354 best_held_out_nll=11.2596 accept_rate=0.08 valid_proposal_rate=1.00
+[biasedtugwar seed=2 step=299] current_train_nll=12.1621 best_held_out_nll=11.2596 accept_rate=0.08 valid_proposal_rate=1.00
+=== [biasedtugwar seed=2] done: 23/300 accepted, best_held_out_nll=11.2596 ===
+=== SUCCESS in 91.2s: /home/rdoz/PhD/LLM-guided_PP_synthesis/results/biasedtugwar/grammar_mcmc/20260819_100916_seed2 ===

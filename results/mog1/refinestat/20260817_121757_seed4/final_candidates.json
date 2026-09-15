@@ -1,0 +1,42 @@
+[
+  {
+    "rewritten": "mu = uniform( [11.83, 28.79] , 2.00 ) ; sigma = uniform( [0.96, 5.47] , 2.00 ) ; x = gm([1.00], [_mu1], [_sigma1]) ;",
+    "params": {
+      "mu1": 20.03,
+      "sigma1": 3.04
+    },
+    "optimized_params": {
+      "mu1": 20.862745756261106,
+      "sigma1": 3.7569559552046785
+    },
+    "initial_loss": 8.060403441289731,
+    "final_loss": 7.790788484280561,
+    "train_nll": 7.7899249654509095,
+    "held_out_nll": 7.687851212869089,
+    "reliability": {
+      "max_r_hat": 1.0,
+      "min_ess_bulk": 1730.0,
+      "min_ess_tail": 1470.0,
+      "divergence_frac": 0.0,
+      "missing_vars": [],
+      "checks": {
+        "r_hat": true,
+        "ess_bulk": true,
+        "ess_tail": true,
+        "no_divergences": true
+      }
+    },
+    "checks": {
+      "r_hat": true,
+      "ess_bulk": true,
+      "ess_tail": true,
+      "no_divergences": true,
+      "held_out_ok": true
+    },
+    "reliability_score": 5,
+    "opt_time": 1.967,
+    "opt_iterations": 100,
+    "error": null,
+    "program": "mu = uniform( [11.83, 28.79] , 2.00 ) ; sigma = uniform( [0.96, 5.47] , 2.00 ) ; x = gm( [1.00] , [20.03] , [3.04] ) ;"
+  }
+]

@@ -1,0 +1,41 @@
+[
+  {
+    "rewritten": "eyecolor = gm([1.00], [_mu1], [_sigma1]) ; haircolor = gm([1.00], [_mu2], [_sigma2]) ; hairlenght = gm([1.00], [_mu3], [_sigma3]) ;",
+    "params": {
+      "mu1": 0.15,
+      "sigma1": 0.5,
+      "mu2": 0.64,
+      "sigma2": 1.32,
+      "mu3": 0.65,
+      "sigma3": 0.85
+    },
+    "posterior_mean_params": {
+      "mu1": 0.15506523847579956,
+      "mu2": 0.6424334645271301,
+      "mu3": 0.6500519514083862,
+      "sigma1": 0.502178966999054,
+      "sigma2": 1.3198375701904297,
+      "sigma3": 0.8507483005523682
+    },
+    "max_r_hat": 1.0,
+    "min_ess_bulk": 5458.0,
+    "min_ess_tail": 2880.0,
+    "divergence_frac": 0.0,
+    "bfmi_min": 1.3490750789642334,
+    "elpd_loo": -2950.570899341592,
+    "pareto_k_high_frac": 0.0,
+    "held_out_nll": 3.7473341112715435,
+    "checks": {
+      "r_hat": true,
+      "ess_bulk": true,
+      "ess_tail": true,
+      "no_divergences": true,
+      "bfmi": true,
+      "pareto_k_ok": true,
+      "loo_success": true
+    },
+    "reliability_score": 7,
+    "error": null,
+    "program": "eyecolor = gm( [1.00] , [0.15] , [0.50] ) ; haircolor = gm( [1.00] , [0.64] , [1.32] ) ; hairlenght = gm( [1.00] , [0.65] , [0.85] ) ;"
+  }
+]

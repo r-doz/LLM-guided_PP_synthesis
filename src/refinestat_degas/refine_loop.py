@@ -83,9 +83,9 @@ SYSTEM_PROMPT_RAW = (
 class RefineConfig:
     unit_name: str = "toplevel"
     max_units: int = 20
-    Rmax: int = 8
-    alpha: int = 3
-    beta: int = 3
+    Rmax: int = 100  # RefineStat's own paper value (Appendix E), shared across both backends
+    alpha: int = 2   # RefineStat's own value, shared across both backends
+    beta: int = 4    # RefineStat's own value, shared across both backends
     K: int = 4  # cutoff; meaning depends on inference backend (see main.py): 4 of 5 checks
     # (r_hat, ess_bulk, ess_tail, no_divergences, held_out_ok) for --inference gradient, or
     # RefineStat's own zeta=5 of 7 (mcmc_diagnostics.py's checks) for --inference mcmc

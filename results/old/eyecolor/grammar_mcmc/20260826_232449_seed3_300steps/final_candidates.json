@@ -1,0 +1,22 @@
+[
+  {
+    "ok": true,
+    "rewritten": "eyecolor = gm([0.98,0.01,0.01], [_mu1, _mu2, _mu3], [_sigma1, _sigma2, _sigma3]);\nhaircolor = gm([1.00], [_mu4], [_sigma4]);\nhairlenght = gm([1.00], [_mu5], [_sigma5]);\n",
+    "optimized_params": {
+      "mu1": -3.4653506667120597,
+      "mu2": -15.58,
+      "mu3": 78.88,
+      "sigma1": 4.454338058699407,
+      "sigma2": 0.36,
+      "sigma3": 0.61,
+      "mu4": -4.621628565580433,
+      "sigma4": 9.754537893280359,
+      "mu5": 3.135809489773979,
+      "sigma5": 4.981925609448184
+    },
+    "train_nll": 8.788666110256598,
+    "held_out_nll": 8.80232658382903,
+    "error": null,
+    "program": "eyecolor = gm([0.98,0.01,0.01],[-4.01,-15.58,78.88],[7.06,0.36,0.61]);\nhaircolor = gm([1.00],[-5.17],[15.90]);\nhairlenght = gm([1.00],[3.68],[8.13]);\n"
+  }
+]

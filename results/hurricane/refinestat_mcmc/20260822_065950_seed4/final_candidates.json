@@ -1,0 +1,37 @@
+[
+  {
+    "rewritten": "preplevel = gm([1.00], [_mu1], [_sigma1]) ; damage = gm([1.00], [_mu2], [_sigma2]) ;",
+    "params": {
+      "mu1": 0.81,
+      "sigma1": 0.89,
+      "mu2": 0.62,
+      "sigma2": 0.49
+    },
+    "posterior_mean_params": {
+      "mu1": 0.8114057183265686,
+      "mu2": 0.6212656497955322,
+      "sigma1": 0.8879818320274353,
+      "sigma2": 0.4861401915550232
+    },
+    "max_r_hat": 1.0,
+    "min_ess_bulk": 3606.0,
+    "min_ess_tail": 2837.0,
+    "divergence_frac": 0.0,
+    "bfmi_min": 1.18609619140625,
+    "elpd_loo": -1598.1323395200236,
+    "pareto_k_high_frac": 0.0,
+    "held_out_nll": 1.9580949801403784,
+    "checks": {
+      "r_hat": true,
+      "ess_bulk": true,
+      "ess_tail": true,
+      "no_divergences": true,
+      "bfmi": true,
+      "pareto_k_ok": true,
+      "loo_success": true
+    },
+    "reliability_score": 7,
+    "error": null,
+    "program": "preplevel = gm( [1.00] , [0.81] , [0.89] ) ; damage = gm( [1.00] , [0.62] , [0.49] ) ;"
+  }
+]

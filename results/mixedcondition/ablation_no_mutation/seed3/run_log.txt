@@ -1,0 +1,78 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "mixedcondition",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/mixedcondition/20260913_003009"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: The three variables are generated from single Gaussian-like distributions centered at their empirical means.
+DeGAS code:
+u = gm([1.00],[0.29],[0.45]); v = gm([1.00],[10.02],[1.94]); w = gm([1.00],[6.33],[2.34]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Each variable arises from two subpopulations, one low and one high.
+DeGAS code:
+u = gm([0.55,0.45],[0.15,0.85],[0.10,0.08]); v = gm([0.50,0.50],[6.00,13.00],[1.00,1.50]); w = gm([0.50,0.50],[4.00,10.00],[0.90,1.20]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: The data exhibit three latent components reflecting skewness and multimodality.
+DeGAS code:
+u = gm([0.20,0.50,0.30],[0.10,0.40,0.80],[0.05,0.07,0.06]); v = gm([0.30,0.40,0.30],[7.00,10.00,13.00],[1.00,1.20,1.50]); w = gm([0.25,0.50,0.25],[4.00,6.50,9.00],[0.80,1.00,1.20]);
+
+Program ID: 4, Structure: conditional, Hypothesis: If u is low the other variables follow one regime, otherwise a different regime.
+DeGAS code:
+u = gm([1.00],[0.29],[0.45]); if u <= 0.50 { v = gm([1.00],[6.00],[1.00]); w = gm([1.00],[5.00],[0.80]); } else { v = gm([1.00],[13.00],[1.50]); w = gm([1.00],[9.00],[1.20]); }
+
+Program ID: 5, Structure: hierarchical, Hypothesis: A latent standard normal variable is scaled to produce each observed variable.
+DeGAS code:
+latent = gm([1.00],[0.00],[1.00]); u = 0.30*latent; v = 10.02*latent; w = 6.33*latent;
+
+Program ID 1 initial optimization completed. Initial loss: 4.9811, Final loss: 4.9809
+Program ID 2 initial optimization completed. Initial loss: 7.1042, Final loss: 3.2295
+Program ID 3 initial optimization completed. Initial loss: 7.1079, Final loss: 2.7647
+Program ID 4 initial optimization completed. Initial loss: 10.0954, Final loss: 5.7506
+Error extracting parameters from program ID 5: Expected parameter loc (Tensor of shape (3,)) of distribution MultivariateNormal(loc: torch.Size([3]), covariance_matrix: torch.Size([3, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan], grad_fn=<ExpandBackward0>)
+
+--- Final Selected Programs ---
+Program ID: 3, Final Loss: 2.7647
+Hypothesis: The data exhibit three latent components reflecting skewness and multimodality.
+Structure: mixture3
+DeGAS code:
+u = gm([0.20,0.50,0.30],[0.10,0.40,0.80],[0.05,0.07,0.06]); v = gm([0.30,0.40,0.30],[7.00,10.00,13.00],[1.00,1.20,1.50]); w = gm([0.25,0.50,0.25],[4.00,6.50,9.00],[0.80,1.00,1.20]);
+
+Program ID: 2, Final Loss: 3.2295
+Hypothesis: Each variable arises from two subpopulations, one low and one high.
+Structure: mixture2
+DeGAS code:
+u = gm([0.55,0.45],[0.15,0.85],[0.10,0.08]); v = gm([0.50,0.50],[6.00,13.00],[1.00,1.50]); w = gm([0.50,0.50],[4.00,10.00],[0.90,1.20]);
+
+Program ID: 1, Final Loss: 4.9809
+Hypothesis: The three variables are generated from single Gaussian-like distributions centered at their empirical means.
+Structure: unimodal
+DeGAS code:
+u = gm([1.00],[0.29],[0.45]); v = gm([1.00],[10.02],[1.94]); w = gm([1.00],[6.33],[2.34]);
+
+Program ID: 4, Final Loss: 5.7506
+Hypothesis: If u is low the other variables follow one regime, otherwise a different regime.
+Structure: conditional
+DeGAS code:
+u = gm([1.00],[0.29],[0.45]); if u <= 0.50 { v = gm([1.00],[6.00],[1.00]); w = gm([1.00],[5.00],[0.80]); } else { v = gm([1.00],[13.00],[1.50]); w = gm([1.00],[9.00],[1.20]); }
+
+No fitness values to plot.
+=== Run finished in 58.9s ===

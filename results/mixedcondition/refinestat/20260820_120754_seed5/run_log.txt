@@ -1,0 +1,16 @@
+=== program=mixedcondition seed=5 inference=gradient ===
+[attempt=1 r=0 ell=0] score=0/5 (cutoff K=4) held_out_nll=inf checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': False, 'held_out_ok': False}
+[attempt=1] resample likelihood (ell=1/2)
+[attempt=2 r=0 ell=1] score=0/5 (cutoff K=4) held_out_nll=inf checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': False, 'held_out_ok': False}
+[attempt=2] resample likelihood (ell=2/2)
+[attempt=3 r=0 ell=2] score=0/5 (cutoff K=4) held_out_nll=inf checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': False, 'held_out_ok': False}
+[attempt=3] resample prior (r=1/100)
+[attempt=4 r=1 ell=2] score=0/5 (cutoff K=4) held_out_nll=inf checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': False, 'held_out_ok': False}
+[attempt=4] resample prior (r=2/100)
+[attempt=5 r=2 ell=2] score=0/5 (cutoff K=4) held_out_nll=inf checks={'r_hat': False, 'ess_bulk': False, 'ess_tail': False, 'no_divergences': False, 'held_out_ok': False}
+[attempt=5] resample prior (r=3/100)
+[attempt=6 r=3 ell=2] score=5/5 (cutoff K=4) held_out_nll=5.2733 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'held_out_ok': True}
+[attempt=7 r=3 ell=2] score=5/5 (cutoff K=4) held_out_nll=5.1162 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'held_out_ok': True}
+[attempt=8 r=3 ell=2] score=5/5 (cutoff K=4) held_out_nll=5.1162 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'held_out_ok': True}
+[attempt=9 r=3 ell=2] score=5/5 (cutoff K=4) held_out_nll=5.1162 checks={'r_hat': True, 'ess_bulk': True, 'ess_tail': True, 'no_divergences': True, 'held_out_ok': True}
+=== SUCCESS in 593.4s: /home/rdoz/LLM-guided_PP_synthesis/results/mixedcondition/refinestat/20260820_120754_seed5 ===

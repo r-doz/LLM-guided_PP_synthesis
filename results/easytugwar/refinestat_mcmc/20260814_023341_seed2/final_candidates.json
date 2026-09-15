@@ -1,0 +1,45 @@
+[
+  {
+    "rewritten": "skill1 = gm([0.50, 0.50], [_mu1, _mu2], [_sigma1, _sigma2]) ; skill2 = gm([0.50, 0.50], [_mu3, _mu4], [_sigma3, _sigma4]) ; p1wins = skill1 - skill2 ;",
+    "params": {
+      "mu1": 15.0,
+      "mu2": 25.0,
+      "sigma1": 5.0,
+      "sigma2": 5.0,
+      "mu3": 15.0,
+      "mu4": 25.0,
+      "sigma3": 5.0,
+      "sigma4": 5.0
+    },
+    "posterior_mean_params": {
+      "mu1": 20.241933822631836,
+      "mu2": 20.24069595336914,
+      "mu3": 20.05218505859375,
+      "mu4": 20.052268981933594,
+      "sigma1": 3.9629971981048584,
+      "sigma2": 3.958075761795044,
+      "sigma3": 3.76009464263916,
+      "sigma4": 3.669667959213257
+    },
+    "max_r_hat": 1.02,
+    "min_ess_bulk": 668.0,
+    "min_ess_tail": 812.0,
+    "divergence_frac": 0.0025,
+    "bfmi_min": 0.0,
+    "elpd_loo": NaN,
+    "pareto_k_high_frac": 0.99375,
+    "held_out_nll": Infinity,
+    "checks": {
+      "r_hat": true,
+      "ess_bulk": true,
+      "ess_tail": true,
+      "no_divergences": true,
+      "bfmi": false,
+      "pareto_k_ok": false,
+      "loo_success": true
+    },
+    "reliability_score": 5,
+    "error": null,
+    "program": "skill1 = gm( [0.50, 0.50] , [15.00, 25.00] , [5.00, 5.00] ) ; skill2 = gm( [0.50, 0.50] , [15.00, 25.00] , [5.00, 5.00] ) ; p1wins = skill1 - skill2 ;"
+  }
+]

@@ -1,0 +1,142 @@
+[
+  {
+    "id": 1,
+    "hypothesis": "All three variables follow a single Gaussian-like distribution centered at their empirical means.",
+    "structure": "unimodal",
+    "program": "mu = gm([1.00],[19.92],[2.93]);\nsigma = gm([1.00],[1.94],[1.01]);\nx = gm([1.00],[21.94],[3.81]);",
+    "params": {
+      "mu1": 19.92,
+      "sigma1": 2.93,
+      "mu2": 1.94,
+      "sigma2": 1.01,
+      "mu3": 21.94,
+      "sigma3": 3.81
+    },
+    "rewritten": "mu = gm([1.00], [_mu1], [_sigma1]);\nsigma = gm([1.00], [_mu2], [_sigma2]);\nx = gm([1.00], [_mu3], [_sigma3]);",
+    "optimized_params": {
+      "mu1": "tensor(19.9193)",
+      "sigma1": "tensor(2.9255)",
+      "mu2": "tensor(1.9432)",
+      "sigma2": "tensor(1.0054)",
+      "mu3": "tensor(21.9377)",
+      "sigma3": "tensor(3.8066)"
+    },
+    "initial_loss": 6.672353980605979,
+    "final_loss": 6.672324222285267,
+    "opt_time": 0.473,
+    "opt_iterations": 100
+  },
+  {
+    "id": 3,
+    "hypothesis": "The data exhibit three distinct modes reflecting different regimes.",
+    "structure": "mixture3",
+    "program": "mu = gm([0.33,0.34,0.33],[12.00,20.00,27.00],[1.50,2.00,1.50]);\nsigma = gm([0.33,0.34,0.33],[0.70,1.80,3.30],[0.40,0.60,0.40]);\nx = gm([0.33,0.34,0.33],[14.00,22.00,32.00],[2.50,3.00,2.50]);",
+    "params": {
+      "mu1": 12.0,
+      "mu2": 20.0,
+      "mu3": 27.0,
+      "sigma1": 1.5,
+      "sigma2": 2.0,
+      "sigma3": 1.5,
+      "mu4": 0.7,
+      "mu5": 1.8,
+      "mu6": 3.3,
+      "sigma4": 0.4,
+      "sigma5": 0.6,
+      "sigma6": 0.4,
+      "mu7": 14.0,
+      "mu8": 22.0,
+      "mu9": 32.0,
+      "sigma7": 2.5,
+      "sigma8": 3.0,
+      "sigma9": 2.5
+    },
+    "rewritten": "mu = gm([0.33,0.34,0.33], [_mu1, _mu2, _mu3], [_sigma1, _sigma2, _sigma3]);\nsigma = gm([0.33,0.34,0.33], [_mu4, _mu5, _mu6], [_sigma4, _sigma5, _sigma6]);\nx = gm([0.33,0.34,0.33], [_mu7, _mu8, _mu9], [_sigma7, _sigma8, _sigma9]);",
+    "optimized_params": {
+      "mu1": "tensor(12.9565, requires_grad=True)",
+      "mu2": "tensor(19.8047, requires_grad=True)",
+      "mu3": "tensor(26.0392, requires_grad=True)",
+      "sigma1": "tensor(3.6992, grad_fn=<ExpBackward0>)",
+      "sigma2": "tensor(1.8276, grad_fn=<ExpBackward0>)",
+      "sigma3": "tensor(3.4764, grad_fn=<ExpBackward0>)",
+      "mu4": "tensor(0.9717, requires_grad=True)",
+      "mu5": "tensor(1.9217, requires_grad=True)",
+      "mu6": "tensor(2.9436, requires_grad=True)",
+      "sigma4": "tensor(0.6364, grad_fn=<ExpBackward0>)",
+      "sigma5": "tensor(0.4420, grad_fn=<ExpBackward0>)",
+      "sigma6": "tensor(0.6999, grad_fn=<ExpBackward0>)",
+      "mu7": "tensor(14.9023, requires_grad=True)",
+      "mu8": "tensor(21.9555, requires_grad=True)",
+      "mu9": "tensor(31.0645, requires_grad=True)",
+      "sigma7": "tensor(4.6473, grad_fn=<ExpBackward0>)",
+      "sigma8": "tensor(2.3757, grad_fn=<ExpBackward0>)",
+      "sigma9": "tensor(5.6981, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 8.167147837951545,
+    "final_loss": 7.371566643432816,
+    "opt_time": 2.758,
+    "opt_iterations": 100
+  },
+  {
+    "id": 2,
+    "hypothesis": "Each variable arises from two subpopulations, a lower and higher value group.",
+    "structure": "mixture2",
+    "program": "mu = gm([0.60,0.40],[13.00,25.00],[1.00,1.00]);\nsigma = gm([0.60,0.40],[0.50,3.00],[0.30,0.80]);\nx = gm([0.60,0.40],[15.00,30.00],[2.00,2.00]);",
+    "params": {
+      "mu1": 13.0,
+      "mu2": 25.0,
+      "sigma1": 1.0,
+      "sigma2": 1.0,
+      "mu3": 0.5,
+      "mu4": 3.0,
+      "sigma3": 0.3,
+      "sigma4": 0.8,
+      "mu5": 15.0,
+      "mu6": 30.0,
+      "sigma5": 2.0,
+      "sigma6": 2.0
+    },
+    "rewritten": "mu = gm([0.60,0.40], [_mu1, _mu2], [_sigma1, _sigma2]);\nsigma = gm([0.60,0.40], [_mu3, _mu4], [_sigma3, _sigma4]);\nx = gm([0.60,0.40], [_mu5, _mu6], [_sigma5, _sigma6]);",
+    "optimized_params": {
+      "mu1": "tensor(13.7369, requires_grad=True)",
+      "mu2": "tensor(24.2936, requires_grad=True)",
+      "sigma1": "tensor(1.9953, grad_fn=<ExpBackward0>)",
+      "sigma2": "tensor(1.9028, grad_fn=<ExpBackward0>)",
+      "mu3": "tensor(1.2200, requires_grad=True)",
+      "mu4": "tensor(2.6524, requires_grad=True)",
+      "sigma3": "tensor(0.6523, grad_fn=<ExpBackward0>)",
+      "sigma4": "tensor(0.7493, grad_fn=<ExpBackward0>)",
+      "mu5": "tensor(15.7493, requires_grad=True)",
+      "mu6": "tensor(29.2703, requires_grad=True)",
+      "sigma5": "tensor(3.8056, grad_fn=<ExpBackward0>)",
+      "sigma6": "tensor(3.7454, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 17.160802285670535,
+    "final_loss": 8.652551631370375,
+    "opt_time": 1.103,
+    "opt_iterations": 100
+  },
+  {
+    "id": 5,
+    "hypothesis": "x is generated as the product of mu and sigma, each drawn from their own unimodal distributions.",
+    "structure": "hierarchical",
+    "program": "mu = gm([1.00],[19.92],[2.93]);\nsigma = gm([1.00],[1.94],[1.01]);\ntemp = mu*sigma;\nx = temp;",
+    "params": {
+      "mu1": 19.92,
+      "sigma1": 2.93,
+      "mu2": 1.94,
+      "sigma2": 1.01
+    },
+    "rewritten": "mu = gm([1.00], [_mu1], [_sigma1]);\nsigma = gm([1.00], [_mu2], [_sigma2]);\ntemp = mu*sigma;\nx = temp;",
+    "optimized_params": {
+      "mu1": "tensor(19.2820, requires_grad=True)",
+      "sigma1": "tensor(5.1315, grad_fn=<ExpBackward0>)",
+      "mu2": "tensor(1.4732, requires_grad=True)",
+      "sigma2": "tensor(1.7705, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 43.04497545544207,
+    "final_loss": 11.272684498534666,
+    "opt_time": 0.516,
+    "opt_iterations": 100
+  }
+]

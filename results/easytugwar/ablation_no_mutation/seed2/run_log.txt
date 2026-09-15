@@ -1,0 +1,73 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "easytugwar",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/easytugwar/20260913_001629"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Skill levels are drawn from a single normal-like population and match outcomes are random coin flips.
+DeGAS code:
+skill1 = gm([1.00],[20.00],[4.04]); skill2 = gm([1.00],[20.03],[4.11]); p1wins = gm([0.50,0.50],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: There are two subgroups of players with distinct skill means.
+DeGAS code:
+skill1 = gm([0.50,0.50],[15.00,25.00],[2.00,2.00]); skill2 = gm([0.50,0.50],[14.00,26.00],[2.10,2.10]); p1wins = gm([0.60,0.40],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Skill distribution is tri-modal reflecting novice, intermediate, and expert groups.
+DeGAS code:
+skill1 = gm([0.20,0.50,0.30],[12.00,20.00,28.00],[2.00,2.00,2.00]); skill2 = gm([0.25,0.45,0.30],[13.00,21.00,27.00],[2.10,2.10,2.10]); p1wins = gm([0.55,0.35,0.10],[0.00,1.00,1.00],[0.00,0.00,0.00]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Players with skill1 below 18 tend to lose more often.
+DeGAS code:
+if skill1 < 18.00 { p1wins = gm([0.30,0.70],[0.00,1.00],[0.00,0.00]); } else { p1wins = gm([0.70,0.30],[0.00,1.00],[0.00,0.00]); } skill1 = gm([1.00],[20.00],[4.04]); skill2 = gm([1.00],[20.03],[4.11]);
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Overall win probability is a product of skill1 influence and base rate.
+DeGAS code:
+temp = 0.05*skill1; p1wins = temp + gm([0.95],[0.50],[0.01]); skill1 = gm([1.00],[20.00],[4.04]); skill2 = gm([1.00],[20.03],[4.11]);
+
+Program ID 1 initial optimization completed. Initial loss: 6.3406, Final loss: 6.3406
+Program ID 2 initial optimization completed. Initial loss: 7.9436, Final loss: 6.7505
+Program ID 3 initial optimization completed. Initial loss: 6.8241, Final loss: 6.5366
+Error extracting parameters from program ID 4: Expected parameter loc (Tensor of shape (3,)) of distribution MultivariateNormal(loc: torch.Size([3]), covariance_matrix: torch.Size([3, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([0., nan, nan], grad_fn=<ExpandBackward0>)
+Error extracting parameters from program ID 5: Expected parameter loc (Tensor of shape (3,)) of distribution MultivariateNormal(loc: torch.Size([3]), covariance_matrix: torch.Size([3, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan], grad_fn=<ExpandBackward0>)
+
+--- Final Selected Programs ---
+Program ID: 1, Final Loss: 6.3406
+Hypothesis: Skill levels are drawn from a single normal-like population and match outcomes are random coin flips.
+Structure: unimodal
+DeGAS code:
+skill1 = gm([1.00],[20.00],[4.04]); skill2 = gm([1.00],[20.03],[4.11]); p1wins = gm([0.50,0.50],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 3, Final Loss: 6.5366
+Hypothesis: Skill distribution is tri-modal reflecting novice, intermediate, and expert groups.
+Structure: mixture3
+DeGAS code:
+skill1 = gm([0.20,0.50,0.30],[12.00,20.00,28.00],[2.00,2.00,2.00]); skill2 = gm([0.25,0.45,0.30],[13.00,21.00,27.00],[2.10,2.10,2.10]); p1wins = gm([0.55,0.35,0.10],[0.00,1.00,1.00],[0.00,0.00,0.00]);
+
+Program ID: 2, Final Loss: 6.7505
+Hypothesis: There are two subgroups of players with distinct skill means.
+Structure: mixture2
+DeGAS code:
+skill1 = gm([0.50,0.50],[15.00,25.00],[2.00,2.00]); skill2 = gm([0.50,0.50],[14.00,26.00],[2.10,2.10]); p1wins = gm([0.60,0.40],[0.00,1.00],[0.00,0.00]);
+
+No fitness values to plot.
+=== Run finished in 62.8s ===

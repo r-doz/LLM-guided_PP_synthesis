@@ -1,0 +1,103 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "biasedtugwar",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/biasedtugwar/20260913_002240"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Skill levels are unimodal and approximately normal, while the win indicator is binary.
+DeGAS code:
+skill1 = gm([1.00],[20.06],[4.08]);
+skill2 = gm([1.00],[19.68],[3.88]);
+p1wins = gm([0.81,0.19],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: There are two subpopulations of skill levels (low and high) while the win indicator remains binary.
+DeGAS code:
+skill1 = gm([0.55,0.45],[12.00,28.00],[3.00,3.00]);
+skill2 = gm([0.55,0.45],[12.50,27.50],[3.20,3.20]);
+p1wins = gm([0.81,0.19],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Skill distributions are tri‑modal reflecting novice, intermediate, and expert groups; the win indicator is binary.
+DeGAS code:
+skill1 = gm([0.33,0.34,0.33],[10.00,20.00,30.00],[2.50,2.50,2.50]);
+skill2 = gm([0.33,0.34,0.33],[11.00,19.00,29.00],[2.70,2.70,2.70]);
+p1wins = gm([0.81,0.19],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Players with skill1 above average have higher win probability.
+DeGAS code:
+if skill1 >= 20.00 {
+    skill2 = gm([1.00],[22.00],[3.50]);
+    p1wins = gm([0.70,0.30],[0.00,1.00],[0.00,0.00]);
+} else {
+    skill2 = gm([1.00],[17.00],[4.00]);
+    p1wins = gm([0.90,0.10],[0.00,1.00],[0.00,0.00]);
+}
+skill1 = gm([1.00],[20.06],[4.08]);
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Skill1 is modeled as a scaled version of skill2 plus its own variation.
+DeGAS code:
+skill2 = gm([1.00],[19.68],[3.88]);
+temp = 0.50*skill2;
+skill1 = temp + gm([1.00],[10.00],[2.00]);
+p1wins = gm([0.81,0.19],[0.00,1.00],[0.00,0.00]);
+
+Program ID 1 initial optimization completed. Initial loss: 6.0858, Final loss: 6.0858
+Program ID 2 initial optimization completed. Initial loss: 8.5653, Final loss: 7.2150
+Program ID 3 initial optimization completed. Initial loss: 7.2720, Final loss: 6.7651
+Error extracting parameters from program ID 4: Expected parameter loc (Tensor of shape (3,)) of distribution MultivariateNormal(loc: torch.Size([3]), covariance_matrix: torch.Size([3, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([0., nan, nan], grad_fn=<ExpandBackward0>)
+Program ID 5 initial optimization completed. Initial loss: 7.4171, Final loss: 6.2215
+
+--- Final Selected Programs ---
+Program ID: 1, Final Loss: 6.0858
+Hypothesis: Skill levels are unimodal and approximately normal, while the win indicator is binary.
+Structure: unimodal
+DeGAS code:
+skill1 = gm([1.00],[20.06],[4.08]);
+skill2 = gm([1.00],[19.68],[3.88]);
+p1wins = gm([0.81,0.19],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 5, Final Loss: 6.2215
+Hypothesis: Skill1 is modeled as a scaled version of skill2 plus its own variation.
+Structure: hierarchical
+DeGAS code:
+skill2 = gm([1.00],[19.68],[3.88]);
+temp = 0.50*skill2;
+skill1 = temp + gm([1.00],[10.00],[2.00]);
+p1wins = gm([0.81,0.19],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 3, Final Loss: 6.7651
+Hypothesis: Skill distributions are tri‑modal reflecting novice, intermediate, and expert groups; the win indicator is binary.
+Structure: mixture3
+DeGAS code:
+skill1 = gm([0.33,0.34,0.33],[10.00,20.00,30.00],[2.50,2.50,2.50]);
+skill2 = gm([0.33,0.34,0.33],[11.00,19.00,29.00],[2.70,2.70,2.70]);
+p1wins = gm([0.81,0.19],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 2, Final Loss: 7.2150
+Hypothesis: There are two subpopulations of skill levels (low and high) while the win indicator remains binary.
+Structure: mixture2
+DeGAS code:
+skill1 = gm([0.55,0.45],[12.00,28.00],[3.00,3.00]);
+skill2 = gm([0.55,0.45],[12.50,27.50],[3.20,3.20]);
+p1wins = gm([0.81,0.19],[0.00,1.00],[0.00,0.00]);
+
+No fitness values to plot.
+=== Run finished in 64.9s ===

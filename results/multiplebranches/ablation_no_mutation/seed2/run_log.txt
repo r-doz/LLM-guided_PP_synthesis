@@ -1,0 +1,101 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "multiplebranches",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/multiplebranches/20260913_003415"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Content difficulty and question count after lecture are generated from single normal-like distributions.
+DeGAS code:
+contentDifficulty = gm([1.00],[29.83],[4.88]);
+questionsAfterLectureLength = gm([1.00],[11.98],[6.44]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: There are two subpopulations of lectures, low and high difficulty, each with distinct question counts.
+DeGAS code:
+contentDifficulty = gm([0.60,0.40],[25.00,35.00],[3.00,5.00]);
+questionsAfterLectureLength = gm([0.55,0.45],[8.00,18.00],[4.00,7.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: The data arise from three latent lecture types with varying difficulty and question counts.
+DeGAS code:
+contentDifficulty = gm([0.30,0.35,0.35],[22.00,30.00,38.00],[2.50,4.00,5.00]);
+questionsAfterLectureLength = gm([0.30,0.35,0.35],[6.00,12.00,20.00],[3.00,5.00,8.00]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Lectures with difficulty below 30 have fewer post‑lecture questions than harder lectures.
+DeGAS code:
+if contentDifficulty < 30.00 {
+    contentDifficulty = gm([1.00],[25.00],[3.00]);
+    questionsAfterLectureLength = gm([1.00],[8.00],[4.00]);
+} else {
+    contentDifficulty = gm([1.00],[35.00],[5.00]);
+    questionsAfterLectureLength = gm([1.00],[15.00],[6.00]);
+}
+end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Question count after lecture scales proportionally with content difficulty via a latent factor.
+DeGAS code:
+latent = gm([1.00],[20.00],[4.00]);
+contentDifficulty = 1.50*latent;
+questionsAfterLectureLength = 0.60*latent;
+temp = contentDifficulty*questionsAfterLectureLength;
+
+Program ID 1 initial optimization completed. Initial loss: 6.2863, Final loss: 6.2863
+Program ID 2 initial optimization completed. Initial loss: 6.3555, Final loss: 6.1134
+Program ID 3 initial optimization completed. Initial loss: 6.4638, Final loss: 6.1531
+Program ID 4 initial optimization completed. Initial loss: 8.7337, Final loss: 6.6917
+Error extracting parameters from program ID 5: Expected parameter loc (Tensor of shape (2,)) of distribution MultivariateNormal(loc: torch.Size([2]), covariance_matrix: torch.Size([2, 2])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan], grad_fn=<ExpandBackward0>)
+
+--- Final Selected Programs ---
+Program ID: 2, Final Loss: 6.1134
+Hypothesis: There are two subpopulations of lectures, low and high difficulty, each with distinct question counts.
+Structure: mixture2
+DeGAS code:
+contentDifficulty = gm([0.60,0.40],[25.00,35.00],[3.00,5.00]);
+questionsAfterLectureLength = gm([0.55,0.45],[8.00,18.00],[4.00,7.00]);
+
+Program ID: 3, Final Loss: 6.1531
+Hypothesis: The data arise from three latent lecture types with varying difficulty and question counts.
+Structure: mixture3
+DeGAS code:
+contentDifficulty = gm([0.30,0.35,0.35],[22.00,30.00,38.00],[2.50,4.00,5.00]);
+questionsAfterLectureLength = gm([0.30,0.35,0.35],[6.00,12.00,20.00],[3.00,5.00,8.00]);
+
+Program ID: 1, Final Loss: 6.2863
+Hypothesis: Content difficulty and question count after lecture are generated from single normal-like distributions.
+Structure: unimodal
+DeGAS code:
+contentDifficulty = gm([1.00],[29.83],[4.88]);
+questionsAfterLectureLength = gm([1.00],[11.98],[6.44]);
+
+Program ID: 4, Final Loss: 6.6917
+Hypothesis: Lectures with difficulty below 30 have fewer post‑lecture questions than harder lectures.
+Structure: conditional
+DeGAS code:
+if contentDifficulty < 30.00 {
+    contentDifficulty = gm([1.00],[25.00],[3.00]);
+    questionsAfterLectureLength = gm([1.00],[8.00],[4.00]);
+} else {
+    contentDifficulty = gm([1.00],[35.00],[5.00]);
+    questionsAfterLectureLength = gm([1.00],[15.00],[6.00]);
+}
+end if;
+
+No fitness values to plot.
+=== Run finished in 61.7s ===

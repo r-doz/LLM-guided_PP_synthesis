@@ -1,0 +1,85 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "multiplebranches",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/multiplebranches/20260913_003521"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Data is unimodal and approximately symmetric for both variables.
+DeGAS code:
+contentDifficulty = gm([1.00],[29.96],[5.02]);
+questionsAfterLectureLength = gm([1.00],[12.25],[6.69]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Each variable consists of two subpopulations with different means.
+DeGAS code:
+contentDifficulty = gm([0.55,0.45],[20.00,40.00],[4.00,4.00]);
+questionsAfterLectureLength = gm([0.60,0.40],[5.00,20.00],[3.00,7.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Both variables show three latent groups, especially the second variable which is right‑skewed.
+DeGAS code:
+contentDifficulty = gm([0.30,0.50,0.20],[22.00,30.00,38.00],[3.00,4.00,5.00]);
+questionsAfterLectureLength = gm([0.30,0.50,0.20],[2.00,12.00,25.00],[2.00,5.00,8.00]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Questions after lecture length differs for easy versus hard content.
+DeGAS code:
+if contentDifficulty < 30.00 {
+    questionsAfterLectureLength = gm([1.00],[5.00],[3.00]);
+} else {
+    questionsAfterLectureLength = gm([1.00],[20.00],[7.00]);
+}
+contentDifficulty = gm([1.00],[29.96],[5.02]);
+
+Program ID: 5, Structure: hierarchical, Hypothesis: The expected number of questions scales with content difficulty.
+DeGAS code:
+temp = 0.10*contentDifficulty;
+questionsAfterLectureLength = gm([1.00],[temp],[6.69]);
+contentDifficulty = gm([1.00],[29.96],[5.02]);
+
+Program ID 1 initial optimization completed. Initial loss: 6.3508, Final loss: 6.3508
+Program ID 2 initial optimization completed. Initial loss: 7.9392, Final loss: 7.0265
+Program ID 3 initial optimization completed. Initial loss: 6.6169, Final loss: 6.2379
+Error extracting parameters from program ID 4: Expected parameter loc (Tensor of shape (2,)) of distribution MultivariateNormal(loc: torch.Size([2]), covariance_matrix: torch.Size([2, 2])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([0., nan], grad_fn=<ExpandBackward0>)
+Error extracting parameters from program ID 5: could not convert string to float: 'temp'
+
+--- Final Selected Programs ---
+Program ID: 3, Final Loss: 6.2379
+Hypothesis: Both variables show three latent groups, especially the second variable which is right‑skewed.
+Structure: mixture3
+DeGAS code:
+contentDifficulty = gm([0.30,0.50,0.20],[22.00,30.00,38.00],[3.00,4.00,5.00]);
+questionsAfterLectureLength = gm([0.30,0.50,0.20],[2.00,12.00,25.00],[2.00,5.00,8.00]);
+
+Program ID: 1, Final Loss: 6.3508
+Hypothesis: Data is unimodal and approximately symmetric for both variables.
+Structure: unimodal
+DeGAS code:
+contentDifficulty = gm([1.00],[29.96],[5.02]);
+questionsAfterLectureLength = gm([1.00],[12.25],[6.69]);
+
+Program ID: 2, Final Loss: 7.0265
+Hypothesis: Each variable consists of two subpopulations with different means.
+Structure: mixture2
+DeGAS code:
+contentDifficulty = gm([0.55,0.45],[20.00,40.00],[4.00,4.00]);
+questionsAfterLectureLength = gm([0.60,0.40],[5.00,20.00],[3.00,7.00]);
+
+No fitness values to plot.
+=== Run finished in 50.5s ===

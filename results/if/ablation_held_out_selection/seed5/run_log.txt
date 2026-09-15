@@ -1,0 +1,227 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "if",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 15,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 50,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/if/20260913_122239"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Data for both variables follows a single Gaussian-like distribution centered at the observed means.
+DeGAS code:
+a = gm([1.00],[0.89],[1.92]);
+b = gm([1.00],[4.15],[5.85]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Each variable appears to consist of two subpopulations, modeled with a two-component mixture.
+DeGAS code:
+a = gm([0.45,0.55],[-2.00,3.00],[1.50,1.80]);
+b = gm([0.40,0.60],[0.00,8.00],[2.00,4.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: The data exhibit multiple modes and skewness, captured by a three-component mixture for each variable.
+DeGAS code:
+a = gm([0.30,0.40,0.30],[-3.00,0.50,4.00],[1.20,1.00,1.30]);
+b = gm([0.30,0.40,0.30],[-5.00,2.00,9.00],[3.00,2.50,3.50]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Variable a determines which regime b belongs to, leading to two conditional distributions for b.
+DeGAS code:
+a = gm([1.00],[0.89],[1.92]);
+if a < 0.00 {
+  b = gm([1.00],[-2.00],[3.00]);
+} else {
+  b = gm([1.00],[6.00],[4.00]);
+}
+end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Variable b is generated as a scaled version of a's distribution combined with its own independent variation.
+DeGAS code:
+a = gm([1.00],[0.89],[1.92]);
+temp = 0.50*a;
+b = temp * gm([1.00],[4.15],[5.85]);
+
+Program ID 1 initial optimization completed. Initial loss: 5.2556, Final loss: 5.2556
+Program ID 2 initial optimization completed. Initial loss: 5.9638, Final loss: 5.2373
+Program ID 3 initial optimization completed. Initial loss: 5.6118, Final loss: 5.1179
+Program ID 4 initial optimization completed. Initial loss: 4.7646, Final loss: 4.4919
+Program ID 5 initial optimization completed. Initial loss: 5.0367, Final loss: 4.8689
+Program ID 6 mutation optimization completed. Initial loss: 4.5002, Final loss: 4.1071
+Error in program ID 7: Expected parameter loc (Tensor of shape (1,)) of distribution Normal(loc: tensor([nan], grad_fn=<SelectBackward0>), scale: tensor([nan], grad_fn=<SqrtBackward0>)) to satisfy the constraint Real(), but found invalid values:
+tensor([nan], grad_fn=<SelectBackward0>)
+Program ID 8 mutation optimization completed. Initial loss: 5.2432, Final loss: 4.5368
+Program ID 9 mutation optimization completed. Initial loss: 5.9531, Final loss: 4.6070
+Program ID 10 mutation optimization completed. Initial loss: 5.3021, Final loss: 4.7762
+Program ID 6 additional optimization completed. Initial loss: 4.1038, Final loss: 3.9966
+Program ID 4 additional optimization completed. Initial loss: 4.4869, Final loss: 4.0174
+Program ID 8 additional optimization completed. Initial loss: 4.5326, Final loss: 4.2204
+Program ID 9 additional optimization completed. Initial loss: 4.6027, Final loss: 4.3738
+Program ID 10 additional optimization completed. Initial loss: 4.7732, Final loss: 4.6631
+Best candidate after iteration 1: Program ID 6, Final Loss: 3.9966
+Selected candidates for next iteration: [6, 4, 8, 9, 10]
+Program ID 11 mutation optimization completed. Initial loss: 4.5589, Final loss: 4.1057
+Program ID 12 mutation optimization completed. Initial loss: 4.5699, Final loss: 4.0871
+Program ID 13 mutation optimization completed. Initial loss: 5.0639, Final loss: 4.1536
+Program ID 14 mutation optimization completed. Initial loss: 5.7289, Final loss: 4.7446
+Program ID 15 mutation optimization completed. Initial loss: 5.2249, Final loss: 4.5318
+Program ID 6 additional optimization completed. Initial loss: 3.9966, Final loss: 3.9965
+Program ID 4 additional optimization completed. Initial loss: 4.0174, Final loss: 4.0173
+Program ID 11 additional optimization completed. Initial loss: 4.1024, Final loss: 3.9925
+Program ID 12 additional optimization completed. Initial loss: 4.0843, Final loss: 3.9952
+Program ID 13 additional optimization completed. Initial loss: 4.1496, Final loss: 3.8971
+Best candidate after iteration 2: Program ID 13, Final Loss: 3.8971
+Selected candidates for next iteration: [13, 12, 6, 11, 4]
+Program ID 16 mutation optimization completed. Initial loss: 5.1545, Final loss: 4.1420
+Program ID 17 mutation optimization completed. Initial loss: 4.5517, Final loss: 4.0812
+Program ID 18 mutation optimization completed. Initial loss: 4.5721, Final loss: 3.9993
+Program ID 19 mutation optimization completed. Initial loss: 5.0289, Final loss: 4.6495
+Program ID 20 mutation optimization completed. Initial loss: 4.4499, Final loss: 4.1003
+Program ID 13 additional optimization completed. Initial loss: 3.8965, Final loss: 3.8106
+Program ID 12 additional optimization completed. Initial loss: 3.9952, Final loss: 3.9945
+Program ID 6 additional optimization completed. Initial loss: 3.9965, Final loss: 3.9965
+Program ID 11 additional optimization completed. Initial loss: 3.9924, Final loss: 3.9855
+Program ID 18 additional optimization completed. Initial loss: 3.9964, Final loss: 3.8514
+Best candidate after iteration 3: Program ID 13, Final Loss: 3.8106
+Selected candidates for next iteration: [13, 18, 12, 6, 11]
+Program ID 21 mutation optimization completed. Initial loss: 5.0725, Final loss: 4.1599
+Program ID 22 mutation optimization completed. Initial loss: 4.5269, Final loss: 3.9754
+Program ID 23 mutation optimization completed. Initial loss: 4.6431, Final loss: 4.0992
+Program ID 24 mutation optimization completed. Initial loss: 5.6407, Final loss: 5.0394
+Program ID 25 mutation optimization completed. Initial loss: 4.8848, Final loss: 4.5896
+Program ID 13 additional optimization completed. Initial loss: 3.8104, Final loss: 3.7922
+Program ID 18 additional optimization completed. Initial loss: 3.8513, Final loss: 3.8430
+Program ID 12 additional optimization completed. Initial loss: 3.9945, Final loss: 3.9945
+Program ID 6 additional optimization completed. Initial loss: 3.9965, Final loss: 3.9965
+Program ID 22 additional optimization completed. Initial loss: 3.9723, Final loss: 3.8334
+Best candidate after iteration 4: Program ID 13, Final Loss: 3.7922
+Selected candidates for next iteration: [13, 22, 18, 12, 6]
+Program ID 26 mutation optimization completed. Initial loss: 5.0568, Final loss: 4.1867
+Program ID 27 mutation optimization completed. Initial loss: 4.5242, Final loss: 3.9652
+Program ID 28 mutation optimization completed. Initial loss: 4.5590, Final loss: 3.9882
+Program ID 29 mutation optimization completed. Initial loss: 4.5821, Final loss: 4.0022
+Program ID 30 mutation optimization completed. Initial loss: 4.5002, Final loss: 4.1071
+Program ID 13 additional optimization completed. Initial loss: 3.7922, Final loss: 3.7874
+Program ID 22 additional optimization completed. Initial loss: 3.8334, Final loss: 3.8326
+Program ID 18 additional optimization completed. Initial loss: 3.8430, Final loss: 3.8429
+Program ID 27 additional optimization completed. Initial loss: 3.9622, Final loss: 3.8251
+Program ID 12 additional optimization completed. Initial loss: 3.9945, Final loss: 3.9945
+Best candidate after iteration 5: Program ID 13, Final Loss: 3.7874
+Selected candidates for next iteration: [13, 27, 22, 18, 12]
+Program ID 31 mutation optimization completed. Initial loss: 5.0633, Final loss: 4.1580
+Error in program ID 32: 'NoneType' object has no attribute 'instr'
+Program ID 33 mutation optimization completed. Initial loss: 4.5269, Final loss: 3.9754
+Program ID 34 mutation optimization completed. Initial loss: 4.5606, Final loss: 4.0931
+Program ID 35 mutation optimization completed. Initial loss: 4.3038, Final loss: 4.0308
+Program ID 13 additional optimization completed. Initial loss: 3.7874, Final loss: 3.7868
+Program ID 27 additional optimization completed. Initial loss: 3.8250, Final loss: 3.8200
+Program ID 22 additional optimization completed. Initial loss: 3.8326, Final loss: 3.8326
+Program ID 18 additional optimization completed. Initial loss: 3.8429, Final loss: 3.8429
+Program ID 12 additional optimization completed. Initial loss: 3.9945, Final loss: 3.9945
+Best candidate after iteration 6: Program ID 13, Final Loss: 3.7868
+Selected candidates for next iteration: [13, 27, 22, 18, 12]
+Program ID 36 mutation optimization completed. Initial loss: 4.7658, Final loss: 4.0698
+Program ID 37 mutation optimization completed. Initial loss: 4.5402, Final loss: 3.9707
+Program ID 38 mutation optimization completed. Initial loss: 4.4437, Final loss: 3.9813
+Program ID 39 mutation optimization completed. Initial loss: 4.5229, Final loss: 3.9730
+Program ID 40 mutation optimization completed. Initial loss: 4.5367, Final loss: 4.0609
+Program ID 13 additional optimization completed. Initial loss: 3.7868, Final loss: 3.7868
+Program ID 27 additional optimization completed. Initial loss: 3.8199, Final loss: 3.8167
+Program ID 22 additional optimization completed. Initial loss: 3.8326, Final loss: 3.8326
+Program ID 18 additional optimization completed. Initial loss: 3.8429, Final loss: 3.8429
+Program ID 12 additional optimization completed. Initial loss: 3.9945, Final loss: 3.9945
+Best candidate after iteration 7: Program ID 13, Final Loss: 3.7868
+Selected candidates for next iteration: [13, 27, 22, 18, 12]
+Program ID 41 mutation optimization completed. Initial loss: 5.0976, Final loss: 4.1747
+Program ID 42 mutation optimization completed. Initial loss: 4.5242, Final loss: 3.9652
+Program ID 43 mutation optimization completed. Initial loss: 4.4826, Final loss: 4.0476
+Program ID 44 mutation optimization completed. Initial loss: 4.5758, Final loss: 4.0841
+Program ID 45 mutation optimization completed. Initial loss: 4.6084, Final loss: 3.9990
+Program ID 13 additional optimization completed. Initial loss: 3.7868, Final loss: 3.7868
+Program ID 27 additional optimization completed. Initial loss: 3.8167, Final loss: 3.8147
+Program ID 22 additional optimization completed. Initial loss: 3.8326, Final loss: 3.8326
+Program ID 18 additional optimization completed. Initial loss: 3.8429, Final loss: 3.8429
+Program ID 42 additional optimization completed. Initial loss: 3.9622, Final loss: 3.8251
+Best candidate after iteration 8: Program ID 13, Final Loss: 3.7868
+Selected candidates for next iteration: [13, 27, 42, 22, 18]
+Program ID 46 mutation optimization completed. Initial loss: 4.8310, Final loss: 4.0933
+Program ID 47 mutation optimization completed. Initial loss: 5.4058, Final loss: 4.9173
+Program ID 48 mutation optimization completed. Initial loss: 4.5242, Final loss: 3.9652
+Program ID 49 mutation optimization completed. Initial loss: 4.4659, Final loss: 3.9539
+Program ID 50 mutation optimization completed. Initial loss: 4.5551, Final loss: 3.9800
+Program ID 13 additional optimization completed. Initial loss: 3.7868, Final loss: 3.7868
+Program ID 27 additional optimization completed. Initial loss: 3.8147, Final loss: 3.8147
+Program ID 42 additional optimization completed. Initial loss: 3.8250, Final loss: 3.8200
+Program ID 22 additional optimization completed. Initial loss: 3.8326, Final loss: 3.8326
+Program ID 18 additional optimization completed. Initial loss: 3.8429, Final loss: 3.8429
+Best candidate after iteration 9: Program ID 13, Final Loss: 3.7868
+Selected candidates for next iteration: [13, 27, 42, 22, 18]
+Program ID 51 mutation optimization completed. Initial loss: 5.1083, Final loss: 4.1799
+Error in program ID 52: 'NoneType' object has no attribute 'instr'
+Program ID 53 mutation optimization completed. Initial loss: 4.7921, Final loss: 4.1097
+Program ID 54 mutation optimization completed. Initial loss: 4.5235, Final loss: 3.9716
+Program ID 55 mutation optimization completed. Initial loss: 4.5266, Final loss: 3.9770
+Program ID 13 additional optimization completed. Initial loss: 3.7868, Final loss: 3.7868
+Program ID 27 additional optimization completed. Initial loss: 3.8147, Final loss: 3.8147
+Program ID 42 additional optimization completed. Initial loss: 3.8199, Final loss: 3.8167
+Program ID 22 additional optimization completed. Initial loss: 3.8326, Final loss: 3.8326
+Program ID 18 additional optimization completed. Initial loss: 3.8429, Final loss: 3.8429
+Best candidate after iteration 10: Program ID 13, Final Loss: 3.7868
+Selected candidates for next iteration: [13, 27, 42, 22, 18]
+Program ID 56 mutation optimization completed. Initial loss: 5.0219, Final loss: 4.1370
+Error in program ID 57: 'NoneType' object has no attribute 'instr'
+Program ID 58 mutation optimization completed. Initial loss: 4.5242, Final loss: 3.9652
+Program ID 59 mutation optimization completed. Initial loss: 4.5427, Final loss: 4.0783
+Error in program ID 60: could not convert string to float: 'mu1'
+Program ID 13 additional optimization completed. Initial loss: 3.7868, Final loss: 3.7868
+Program ID 27 additional optimization completed. Initial loss: 3.8147, Final loss: 3.8147
+Program ID 42 additional optimization completed. Initial loss: 3.8167, Final loss: 3.8147
+Program ID 22 additional optimization completed. Initial loss: 3.8326, Final loss: 3.8326
+Program ID 18 additional optimization completed. Initial loss: 3.8429, Final loss: 3.8429
+Best candidate after iteration 11: Program ID 13, Final Loss: 3.7868
+Selected candidates for next iteration: [13, 27, 42, 22, 18]
+No new candidates generated in iteration 12; stopping early.
+
+--- Final Selected Programs ---
+Program ID: 13, Final Loss: 3.7868
+Hypothesis: Variable a’s value splits into nested regimes, leading to different mixtures for b based on two thresholds.
+Structure: nested-conditional
+DeGAS code:
+a = gm([0.30,0.40,0.30],[-3.00,0.50,4.00],[1.20,1.00,1.30]); if a < 0.00 { if a < -2.00 { b = gm([0.70,0.30],[-5.00,-1.00],[3.00,2.00]); } else { b = gm([0.50,0.50],[2.00,4.00],[2.50,1.50]); } end if; } else { b = gm([0.60,0.40],[7.00,10.00],[3.00,0.80]); } end if;
+
+Program ID: 27, Final Loss: 3.8147
+Hypothesis: Introduce a deeper conditional for very low values of a to model an additional subpopulation within the negative large‑magnitude regime.
+Structure: conditional
+DeGAS code:
+a = gm([1.00],[0.89],[1.92]); if a < 0.00 { if a < -1.00 { if a < -3.00 { b = gm([0.20,0.30,0.30,0.20],[-3.00,-5.00,-7.00,-9.00],[2.50,2.00,1.80,1.20]); } else { b = gm([0.40,0.30,0.30],[-3.00,-5.00,-7.00],[2.50,2.00,1.80]); } } else { b = gm([0.55,0.45],[-2.00,-5.00],[3.00,1.50]); } } else { b = gm([0.60,0.40],[6.00,9.00],[4.00,2.00]); } end if;
+
+Program ID: 42, Final Loss: 3.8147
+Hypothesis: Very low values of a (< -5) form an additional subpopulation, so a fourth nested conditional adds a separate four‑component mixture for b.
+Structure: nested_conditional
+DeGAS code:
+a = gm([1.00],[0.89],[1.92]); if a < 0.00 { if a < -1.00 { if a < -3.00 { if a < -5.00 { b = gm([0.10,0.30,0.30,0.30],[-9.00,-11.00,-13.00,-15.00],[1.20,1.00,0.80,0.60]); } else { b = gm([0.20,0.30,0.30,0.20],[-3.00,-5.00,-7.00,-9.00],[2.50,2.00,1.80,1.20]); } } else { b = gm([0.40,0.30,0.30],[-3.00,-5.00,-7.00],[2.50,2.00,1.80]); } } else { b = gm([0.55,0.45],[-2.00,-5.00],[3.00,1.50]); } } else { b = gm([0.60,0.40],[6.00,9.00],[4.00,2.00]); } end if;
+
+Program ID: 22, Final Loss: 3.8326
+Hypothesis: When a is negative and large in magnitude, b follows a three‑component mixture; otherwise simpler mixtures apply.
+Structure: mixture_split
+DeGAS code:
+a = gm([1.00],[0.89],[1.92]); if a < 0.00 { if a < -1.00 { b = gm([0.40,0.30,0.30],[-3.00,-5.00,-7.00],[2.50,2.00,1.80]); } else { b = gm([0.55,0.45],[-2.00,-5.00],[3.00,1.50]); } } else { b = gm([0.60,0.40],[6.00,9.00],[4.00,2.00]); } end if;
+
+Program ID: 18, Final Loss: 3.8429
+Hypothesis: Adding a nested condition on a’s magnitude refines the negative regime mixture.
+Structure: nested_conditional
+DeGAS code:
+a = gm([1.00],[0.89],[1.92]); if a < 0.00 { if a < -1.00 { b = gm([0.60,0.40],[-3.00,-6.00],[2.50,1.20]); } else { b = gm([0.55,0.45],[-2.00,-5.00],[3.00,1.50]); } end if; } else { b = gm([0.60,0.40],[6.00,9.00],[4.00,2.00]); } end if;
+
+=== Run finished in 1596.9s ===

@@ -1,0 +1,45 @@
+[
+  {
+    "rewritten": "preplevel = gm([0.50, 0.50], [_mu1, _mu2], [_sigma1, _sigma2]) ; damage = gm([0.50, 0.50], [_mu3, _mu4], [_sigma3, _sigma4]) ;",
+    "params": {
+      "mu1": 0.0,
+      "mu2": 2.0,
+      "sigma1": 1.0,
+      "sigma2": 1.0,
+      "mu3": 0.0,
+      "mu4": 1.0,
+      "sigma3": 1.0,
+      "sigma4": 1.0
+    },
+    "posterior_mean_params": {
+      "mu1": 1.6170281171798706,
+      "mu2": -1.4092583988656315e-08,
+      "mu3": -4.059868530248423e-08,
+      "mu4": 1.0,
+      "sigma1": 0.4885175824165344,
+      "sigma2": 5.0966948037967086e-05,
+      "sigma3": 5.304104706738144e-05,
+      "sigma4": 4.907637048745528e-05
+    },
+    "max_r_hat": 1.02,
+    "min_ess_bulk": 151.0,
+    "min_ess_tail": 182.0,
+    "divergence_frac": 0.0,
+    "bfmi_min": 0.5180388689041138,
+    "elpd_loo": 9043.212324244418,
+    "pareto_k_high_frac": 0.345,
+    "held_out_nll": -11.006167672769344,
+    "checks": {
+      "r_hat": true,
+      "ess_bulk": false,
+      "ess_tail": true,
+      "no_divergences": true,
+      "bfmi": true,
+      "pareto_k_ok": false,
+      "loo_success": true
+    },
+    "reliability_score": 5,
+    "error": null,
+    "program": "preplevel = gm( [0.50, 0.50] , [0.00, 2.00] , [1.00, 1.00] ) ; damage = gm( [0.50, 0.50] , [0.00, 1.00] , [1.00, 1.00] ) ;"
+  }
+]

@@ -1,0 +1,107 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "if",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/if/20260912_235928"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: The variables follow a single Gaussian-like distribution centered at their empirical means.
+DeGAS code:
+a = gm([1.00],[1.08],[2.04]);
+b = gm([1.00],[4.51],[5.83]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Each variable consists of two subpopulations, one near the lower tail and one near the upper tail.
+DeGAS code:
+a = gm([0.40,0.60],[-2.00,4.00],[1.50,2.50]);
+b = gm([0.45,0.55],[-5.00,10.00],[3.00,6.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: The data exhibit three distinct modes reflecting multiple generating mechanisms.
+DeGAS code:
+a = gm([0.30,0.30,0.40],[-4.00,0.00,5.00],[1.20,2.00,1.80]);
+b = gm([0.25,0.35,0.40],[-10.00,0.00,8.00],[3.50,4.00,6.00]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Variable a determines two regimes, each with its own distribution for both variables.
+DeGAS code:
+if a >= 0.00 {
+    a = gm([1.00],[2.50],[1.80]);
+    b = gm([1.00],[6.00],[4.00]);
+} else {
+    a = gm([1.00],[-2.00],[1.20]);
+    b = gm([1.00],[2.00],[3.00]);
+}
+end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Variables a and b are modeled independently then combined multiplicatively to capture interaction effects.
+DeGAS code:
+a = gm([1.00],[1.08],[2.04]);
+b = gm([1.00],[4.51],[5.83]);
+temp = a * b;
+
+Program ID 1 initial optimization completed. Initial loss: 5.3129, Final loss: 5.3129
+Program ID 2 initial optimization completed. Initial loss: 5.9117, Final loss: 4.9940
+Program ID 3 initial optimization completed. Initial loss: 6.1758, Final loss: 5.2439
+Program ID 4 initial optimization completed. Initial loss: 5.5410, Final loss: 4.5579
+Program ID 5 initial optimization completed. Initial loss: 5.3129, Final loss: 5.3129
+
+--- Final Selected Programs ---
+Program ID: 4, Final Loss: 4.5579
+Hypothesis: Variable a determines two regimes, each with its own distribution for both variables.
+Structure: conditional
+DeGAS code:
+if a >= 0.00 {
+    a = gm([1.00],[2.50],[1.80]);
+    b = gm([1.00],[6.00],[4.00]);
+} else {
+    a = gm([1.00],[-2.00],[1.20]);
+    b = gm([1.00],[2.00],[3.00]);
+}
+end if;
+
+Program ID: 2, Final Loss: 4.9940
+Hypothesis: Each variable consists of two subpopulations, one near the lower tail and one near the upper tail.
+Structure: mixture2
+DeGAS code:
+a = gm([0.40,0.60],[-2.00,4.00],[1.50,2.50]);
+b = gm([0.45,0.55],[-5.00,10.00],[3.00,6.00]);
+
+Program ID: 3, Final Loss: 5.2439
+Hypothesis: The data exhibit three distinct modes reflecting multiple generating mechanisms.
+Structure: mixture3
+DeGAS code:
+a = gm([0.30,0.30,0.40],[-4.00,0.00,5.00],[1.20,2.00,1.80]);
+b = gm([0.25,0.35,0.40],[-10.00,0.00,8.00],[3.50,4.00,6.00]);
+
+Program ID: 1, Final Loss: 5.3129
+Hypothesis: The variables follow a single Gaussian-like distribution centered at their empirical means.
+Structure: unimodal
+DeGAS code:
+a = gm([1.00],[1.08],[2.04]);
+b = gm([1.00],[4.51],[5.83]);
+
+Program ID: 5, Final Loss: 5.3129
+Hypothesis: Variables a and b are modeled independently then combined multiplicatively to capture interaction effects.
+Structure: hierarchical
+DeGAS code:
+a = gm([1.00],[1.08],[2.04]);
+b = gm([1.00],[4.51],[5.83]);
+temp = a * b;
+
+No fitness values to plot.
+=== Run finished in 52.6s ===

@@ -1,0 +1,45 @@
+[
+  {
+    "rewritten": "contentDifficulty = gm([0.30, 0.70], [_mu1, _mu2], [_sigma1, _sigma2]) ; questionsAfterLectureLength = gm([0.40, 0.60], [_mu3, _mu4], [_sigma3, _sigma4]) ;",
+    "params": {
+      "mu1": 20.0,
+      "mu2": 40.0,
+      "sigma1": 2.0,
+      "sigma2": 5.0,
+      "mu3": 10.0,
+      "mu4": 15.0,
+      "sigma3": 1.0,
+      "sigma4": 3.0
+    },
+    "posterior_mean_params": {
+      "mu1": 29.92169952392578,
+      "mu2": 30.18463706970215,
+      "mu3": 13.090851783752441,
+      "mu4": 11.964340209960938,
+      "sigma1": 5.285094261169434,
+      "sigma2": 4.790398597717285,
+      "sigma3": 5.556835174560547,
+      "sigma4": 5.511641502380371
+    },
+    "max_r_hat": 1.73,
+    "min_ess_bulk": 6.0,
+    "min_ess_tail": 129.0,
+    "divergence_frac": 0.0,
+    "bfmi_min": 1.0390424728393555,
+    "elpd_loo": -4935.93789868579,
+    "pareto_k_high_frac": 0.0,
+    "held_out_nll": 6.528776263748137,
+    "checks": {
+      "r_hat": false,
+      "ess_bulk": false,
+      "ess_tail": true,
+      "no_divergences": true,
+      "bfmi": true,
+      "pareto_k_ok": true,
+      "loo_success": true
+    },
+    "reliability_score": 5,
+    "error": null,
+    "program": "contentDifficulty = gm( [0.30, 0.70] , [20.00, 40.00] , [2.00, 5.00] ) ; questionsAfterLectureLength = gm( [0.40, 0.60] , [10.00, 15.00] , [1.00, 3.00] ) ;"
+  }
+]

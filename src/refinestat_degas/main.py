@@ -129,22 +129,22 @@ def main() -> None:
         "--Rmax",
         type=int,
         default=None,
-        help="Max prior-resample rounds. Default: 8 for --inference gradient, 100 (RefineStat's "
-        "own paper value, see Appendix E) for --inference mcmc.",
+        help="Max prior-resample rounds. Default: 100, RefineStat's own paper value (Appendix "
+        "E), used for both --inference gradient and mcmc for a like-for-like search budget.",
     )
     parser.add_argument(
         "--alpha",
         type=int,
         default=None,
-        help="Max likelihood-resamples per round. Default: 3 for gradient, 2 (RefineStat's own "
-        "value) for mcmc.",
+        help="Max likelihood-resamples per round. Default: 2, RefineStat's own value, used for "
+        "both inference backends.",
     )
     parser.add_argument(
         "--beta",
         type=int,
         default=None,
-        help="Target number of valid candidates. Default: 3 for gradient, 4 (RefineStat's own "
-        "value) for mcmc.",
+        help="Target number of valid candidates. Default: 4, RefineStat's own value, used for "
+        "both inference backends.",
     )
     parser.add_argument(
         "--K",
@@ -189,10 +189,15 @@ def main() -> None:
     seeds = parse_seeds(args.seeds)
 
     is_mcmc = args.inference == "mcmc"
+    # Rmax/alpha/beta (RefineStat's own paper values) are shared across both inference
+    # backends for a like-for-like search budget. K stays backend-dependent because it's a
+    # cutoff over a different-sized check set (5 checks for gradient vs RefineStat's own 7
+    # for mcmc, see mcmc_diagnostics.py) -- 4/5 and 5/7 are each's proportionally-closest
+    # cutoff to RefineStat's own zeta=5/7 (~71%).
     k = args.K if args.K is not None else (5 if is_mcmc else 4)
-    rmax = args.Rmax if args.Rmax is not None else (100 if is_mcmc else 8)
-    alpha = args.alpha if args.alpha is not None else (2 if is_mcmc else 3)
-    beta = args.beta if args.beta is not None else (4 if is_mcmc else 3)
+    rmax = args.Rmax if args.Rmax is not None else 100
+    alpha = args.alpha if args.alpha is not None else 2
+    beta = args.beta if args.beta is not None else 4
     refine_cfg = RefineConfig(
         max_units=args.max_units,
         Rmax=rmax,

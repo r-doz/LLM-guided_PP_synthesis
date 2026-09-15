@@ -1,0 +1,149 @@
+[
+  {
+    "id": 4,
+    "hypothesis": "The generation process switches regimes depending on whether a is negative.",
+    "structure": "conditional",
+    "program": "if a < 0.00 {\n   a = gm([1.00],[-2.00],[1.50]);\n   b = gm([1.00],[2.00],[3.00]);\n} else {\n   a = gm([1.00],[3.00],[2.00]);\n   b = gm([1.00],[6.00],[4.00]);\n} end if;",
+    "params": {
+      "mu1": -2.0,
+      "sigma1": 1.5,
+      "mu2": 2.0,
+      "sigma2": 3.0,
+      "mu3": 3.0,
+      "sigma3": 2.0,
+      "mu4": 6.0,
+      "sigma4": 4.0
+    },
+    "rewritten": "if a < 0.00 {\n   a = gm([1.00], [_mu1], [_sigma1]);\n   b = gm([1.00], [_mu2], [_sigma2]);\n} else {\n   a = gm([1.00], [_mu3], [_sigma3]);\n   b = gm([1.00], [_mu4], [_sigma4]);\n} end if;",
+    "optimized_params": {
+      "mu1": "tensor(-1.2085, requires_grad=True)",
+      "sigma1": "tensor(1.1707, grad_fn=<ExpBackward0>)",
+      "mu2": "tensor(1.2630, requires_grad=True)",
+      "sigma2": "tensor(5.4858, grad_fn=<ExpBackward0>)",
+      "mu3": "tensor(2.2063, requires_grad=True)",
+      "sigma3": "tensor(1.4264, grad_fn=<ExpBackward0>)",
+      "mu4": "tensor(7.1730, requires_grad=True)",
+      "sigma4": "tensor(1.5992, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 5.643591342938307,
+    "final_loss": 4.532378591074171,
+    "opt_time": 0.966,
+    "opt_iterations": 100
+  },
+  {
+    "id": 5,
+    "hypothesis": "Variable b is influenced by a scaled version of variable a plus its own noise.",
+    "structure": "hierarchical",
+    "program": "a = gm([1.00],[1.00],[2.05]);\n temp = 0.40*a;\n b = temp + 0.60*gm([1.00],[4.29],[5.85]);",
+    "params": {
+      "mu1": 1.0,
+      "sigma1": 2.05,
+      "mu2": 4.29,
+      "sigma2": 5.85
+    },
+    "rewritten": "a = gm([1.00], [_mu1], [_sigma1]);\n temp = 0.40*a;\n b = temp + 0.60*gm([1.00], [_mu2], [_sigma2]);",
+    "optimized_params": {
+      "mu1": "tensor(0.9916, requires_grad=True)",
+      "sigma1": "tensor(2.0478, grad_fn=<ExpBackward0>)",
+      "mu2": "tensor(5.0388, requires_grad=True)",
+      "sigma2": "tensor(8.8610, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 5.484144210372333,
+    "final_loss": 5.219795271301838,
+    "opt_time": 0.447,
+    "opt_iterations": 100
+  },
+  {
+    "id": 2,
+    "hypothesis": "Both variables consist of two subpopulations with distinct means.",
+    "structure": "mixture2",
+    "program": "a = gm([0.50,0.50],[-3.00,5.00],[1.00,1.00]);\n b = gm([0.50,0.50],[0.00,9.00],[2.00,2.00]);",
+    "params": {
+      "mu1": -3.0,
+      "mu2": 5.0,
+      "sigma1": 1.0,
+      "sigma2": 1.0,
+      "mu3": 0.0,
+      "mu4": 9.0,
+      "sigma3": 2.0,
+      "sigma4": 2.0
+    },
+    "rewritten": "a = gm([0.50,0.50], [_mu1, _mu2], [_sigma1, _sigma2]);\n b = gm([0.50,0.50], [_mu3, _mu4], [_sigma3, _sigma4]);",
+    "optimized_params": {
+      "mu1": "tensor(-2.2818, requires_grad=True)",
+      "mu2": "tensor(4.2767, requires_grad=True)",
+      "sigma1": "tensor(1.8231, grad_fn=<ExpBackward0>)",
+      "sigma2": "tensor(1.8305, grad_fn=<ExpBackward0>)",
+      "mu3": "tensor(-0.6808, requires_grad=True)",
+      "mu4": "tensor(8.0777, requires_grad=True)",
+      "sigma3": "tensor(3.8803, grad_fn=<ExpBackward0>)",
+      "sigma4": "tensor(0.9224, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 8.628091383175537,
+    "final_loss": 5.221736822840961,
+    "opt_time": 0.664,
+    "opt_iterations": 100
+  },
+  {
+    "id": 3,
+    "hypothesis": "The data show three latent clusters causing skewness and multimodality.",
+    "structure": "mixture3",
+    "program": "a = gm([0.33,0.34,0.33],[-4.00,0.00,6.00],[0.80,0.80,0.80]);\n b = gm([0.33,0.34,0.33],[-5.00,3.00,10.00],[2.50,2.50,2.50]);",
+    "params": {
+      "mu1": -4.0,
+      "mu2": 0.0,
+      "mu3": 6.0,
+      "sigma1": 0.8,
+      "sigma2": 0.8,
+      "sigma3": 0.8,
+      "mu4": -5.0,
+      "mu5": 3.0,
+      "mu6": 10.0,
+      "sigma4": 2.5,
+      "sigma5": 2.5,
+      "sigma6": 2.5
+    },
+    "rewritten": "a = gm([0.33,0.34,0.33], [_mu1, _mu2, _mu3], [_sigma1, _sigma2, _sigma3]);\n b = gm([0.33,0.34,0.33], [_mu4, _mu5, _mu6], [_sigma4, _sigma5, _sigma6]);",
+    "optimized_params": {
+      "mu1": "tensor(-3.0588, requires_grad=True)",
+      "mu2": "tensor(0.6207, requires_grad=True)",
+      "mu3": "tensor(5.2440, requires_grad=True)",
+      "sigma1": "tensor(1.9406, grad_fn=<ExpBackward0>)",
+      "sigma2": "tensor(1.2314, grad_fn=<ExpBackward0>)",
+      "sigma3": "tensor(1.5188, grad_fn=<ExpBackward0>)",
+      "mu4": "tensor(-4.5560, requires_grad=True)",
+      "mu5": "tensor(3.7535, requires_grad=True)",
+      "mu6": "tensor(8.9156, requires_grad=True)",
+      "sigma4": "tensor(3.5535, grad_fn=<ExpBackward0>)",
+      "sigma5": "tensor(4.3800, grad_fn=<ExpBackward0>)",
+      "sigma6": "tensor(1.2085, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 6.934300631721613,
+    "final_loss": 5.277861645940237,
+    "opt_time": 1.058,
+    "opt_iterations": 100
+  },
+  {
+    "id": 1,
+    "hypothesis": "Variables a and b are generated from single Gaussian-like distributions.",
+    "structure": "unimodal",
+    "program": "a = gm([1.00],[1.00],[2.05]);\n b = gm([1.00],[4.29],[5.85]);",
+    "params": {
+      "mu1": 1.0,
+      "sigma1": 2.05,
+      "mu2": 4.29,
+      "sigma2": 5.85
+    },
+    "rewritten": "a = gm([1.00], [_mu1], [_sigma1]);\n b = gm([1.00], [_mu2], [_sigma2]);",
+    "optimized_params": {
+      "mu1": "tensor(0.9916, requires_grad=True)",
+      "sigma1": "tensor(2.0478, grad_fn=<ExpBackward0>)",
+      "mu2": "tensor(4.2911, requires_grad=True)",
+      "sigma2": "tensor(5.8466, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 5.320440047160037,
+    "final_loss": 5.320430018273408,
+    "opt_time": 0.38,
+    "opt_iterations": 100
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "rewritten": "eyecolor = gm([0.30, 0.70], [_mu1, _mu2], [_sigma1, _sigma2]) + uniform( [0.00, 0.01] , 2.00 ) ; haircolor = gm([0.40, 0.60], [_mu3, _mu4], [_sigma3, _sigma4]) + uniform( [0.00, 0.01] , 2.00 ) ; hairlenght = gm([0.50, 0.50], [_mu5, _mu6], [_sigma5, _sigma6]) + uniform( [0.00, 0.01] , 2.00 ) ;",
+    "params": {
+      "mu1": 1.0,
+      "mu2": 2.0,
+      "sigma1": 1.0,
+      "sigma2": 1.0,
+      "mu3": 1.0,
+      "mu4": 2.0,
+      "sigma3": 1.0,
+      "sigma4": 1.0,
+      "mu5": 1.0,
+      "mu6": 2.0,
+      "sigma5": 1.0,
+      "sigma6": 1.0
+    },
+    "optimized_params": {
+      "mu1": -0.033765933496081875,
+      "mu2": 1.2942697163326058,
+      "sigma1": 0.22385068643704065,
+      "sigma2": 1.3466596555593286,
+      "mu3": -0.019078817146954384,
+      "mu4": 1.529059568978254,
+      "sigma3": 0.2618907301684453,
+      "sigma4": 1.6611868933645493,
+      "mu5": -0.007186042386782804,
+      "mu6": 1.4934666404290848,
+      "sigma5": 0.2930153198718551,
+      "sigma6": 0.6392242450771566
+    },
+    "initial_loss": 5.760432593736518,
+    "final_loss": 2.318371028154882,
+    "train_nll": 2.2817239055739145,
+    "held_out_nll": 2.085583967850247,
+    "reliability": {
+      "max_r_hat": 1.0,
+      "min_ess_bulk": 1915.0,
+      "min_ess_tail": 1840.0,
+      "divergence_frac": 0.0,
+      "missing_vars": [],
+      "checks": {
+        "r_hat": true,
+        "ess_bulk": true,
+        "ess_tail": true,
+        "no_divergences": true
+      }
+    },
+    "checks": {
+      "r_hat": true,
+      "ess_bulk": true,
+      "ess_tail": true,
+      "no_divergences": true,
+      "held_out_ok": true
+    },
+    "reliability_score": 5,
+    "opt_time": 19.151,
+    "opt_iterations": 100,
+    "error": null,
+    "program": "eyecolor = gm( [0.30, 0.70] , [1.00, 2.00] , [1.00, 1.00] ) + uniform( [0.00, 0.01] , 2.00 ) ; haircolor = gm( [0.40, 0.60] , [1.00, 2.00] , [1.00, 1.00] ) + uniform( [0.00, 0.01] , 2.00 ) ; hairlenght = gm( [0.50, 0.50] , [1.00, 2.00] , [1.00, 1.00] ) + uniform( [0.00, 0.01] , 2.00 ) ;"
+  }
+]

@@ -1,0 +1,160 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "mog1",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 15,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 50,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/mog1/20260826_163043"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Data for mu, sigma, and x arise from a single Gaussian-like population.
+DeGAS code:
+mu = gm([1.00],[20.07],[2.98]);
+sigma = gm([1.00],[2.00],[1.01]);
+x = gm([1.00],[21.93],[3.89]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Data consist of two subpopulations with different means.
+DeGAS code:
+mu = gm([0.55,0.45],[15.00,25.00],[2.00,3.00]);
+sigma = gm([0.55,0.45],[1.50,2.80],[0.80,1.20]);
+x = gm([0.55,0.45],[16.00,27.00],[3.00,4.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Data show three latent clusters reflecting skewness.
+DeGAS code:
+mu = gm([0.30,0.40,0.30],[12.00,20.00,28.00],[1.50,2.80,4.10]);
+sigma = gm([0.30,0.40,0.30],[1.00,2.00,3.00],[0.70,1.10,1.50]);
+x = gm([0.30,0.40,0.30],[13.00,22.00,31.00],[2.00,3.50,5.00]);
+
+Program ID: 4, Structure: conditional, Hypothesis: If mu is below 20, sigma follows a narrow distribution; otherwise it is broader.
+DeGAS code:
+mu = gm([1.00],[20.07],[2.98]);
+if mu < 20.00 {
+    sigma = gm([1.00],[1.50],[0.80]);
+    x = gm([1.00],[18.00],[2.00]);
+} else {
+    sigma = gm([1.00],[2.50],[1.20]);
+    x = gm([1.00],[25.00],[4.00]);
+}
+end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: x is generated as the product of mu and sigma, reflecting multiplicative interaction.
+DeGAS code:
+mu = gm([1.00],[20.07],[2.98]);
+sigma = gm([1.00],[2.00],[1.01]);
+temp = mu*sigma;
+x = temp;
+
+Program ID 1 initial optimization completed. Initial loss: 6.7148, Final loss: 6.7148
+Program ID 2 initial optimization completed. Initial loss: 7.9046, Final loss: 7.4418
+Program ID 3 initial optimization completed. Initial loss: 7.8582, Final loss: 7.4658
+Program ID 4 initial optimization completed. Initial loss: 6.6601, Final loss: 6.4502
+Program ID 5 initial optimization completed. Initial loss: 46.0561, Final loss: 15.3663
+Program ID 6 mutation optimization completed. Initial loss: 6.7078, Final loss: 6.4213
+Program ID 7 mutation optimization completed. Initial loss: 6.8024, Final loss: 6.7141
+Program ID 8 mutation optimization completed. Initial loss: 7.7695, Final loss: 7.0836
+Program ID 9 mutation optimization completed. Initial loss: 7.9323, Final loss: 7.1810
+Program ID 10 mutation optimization completed. Initial loss: 46.2484, Final loss: 11.2853
+Program ID 6 additional optimization completed. Initial loss: 6.4210, Final loss: 6.4035
+Program ID 4 additional optimization completed. Initial loss: 6.4500, Final loss: 6.4407
+Program ID 7 additional optimization completed. Initial loss: 6.7140, Final loss: 6.7140
+Program ID 1 additional optimization completed. Initial loss: 6.7148, Final loss: 6.7148
+Program ID 8 additional optimization completed. Initial loss: 7.0814, Final loss: 6.7383
+Best candidate after iteration 1: Program ID 6, Final Loss: 6.4035
+Selected candidates for next iteration: [6, 4, 7, 1, 8]
+Program ID 11 mutation optimization completed. Initial loss: 6.7154, Final loss: 6.4208
+Program ID 12 mutation optimization completed. Initial loss: 7.4680, Final loss: 7.0625
+Program ID 13 mutation optimization completed. Initial loss: 6.8247, Final loss: 6.4176
+Program ID 14 mutation optimization completed. Initial loss: 6.7078, Final loss: 6.4213
+Program ID 15 mutation optimization completed. Initial loss: 7.7520, Final loss: 7.0837
+Program ID 6 additional optimization completed. Initial loss: 6.4035, Final loss: 6.4035
+Program ID 13 additional optimization completed. Initial loss: 6.4172, Final loss: 6.3935
+Program ID 11 additional optimization completed. Initial loss: 6.4205, Final loss: 6.4029
+Program ID 14 additional optimization completed. Initial loss: 6.4210, Final loss: 6.4035
+Program ID 4 additional optimization completed. Initial loss: 6.4407, Final loss: 6.4407
+Best candidate after iteration 2: Program ID 13, Final Loss: 6.3935
+Selected candidates for next iteration: [13, 11, 6, 14, 4]
+Program ID 16 mutation optimization completed. Initial loss: 6.8333, Final loss: 6.4175
+Program ID 17 mutation optimization completed. Initial loss: 6.8900, Final loss: 6.3783
+Program ID 18 mutation optimization completed. Initial loss: 7.3422, Final loss: 6.6594
+Program ID 19 mutation optimization completed. Initial loss: 6.7678, Final loss: 6.4218
+Program ID 20 mutation optimization completed. Initial loss: 6.9626, Final loss: 6.7234
+Program ID 17 additional optimization completed. Initial loss: 6.3777, Final loss: 6.3441
+Program ID 13 additional optimization completed. Initial loss: 6.3935, Final loss: 6.3935
+Program ID 11 additional optimization completed. Initial loss: 6.4029, Final loss: 6.4020
+Program ID 6 additional optimization completed. Initial loss: 6.4035, Final loss: 6.4035
+Program ID 14 additional optimization completed. Initial loss: 6.4035, Final loss: 6.4035
+Best candidate after iteration 3: Program ID 17, Final Loss: 6.3441
+Selected candidates for next iteration: [17, 13, 11, 6, 14]
+Program ID 21 mutation optimization completed. Initial loss: 6.9934, Final loss: 6.3721
+Program ID 22 mutation optimization completed. Initial loss: 7.0679, Final loss: 6.7257
+Program ID 23 mutation optimization completed. Initial loss: 6.8314, Final loss: 6.4000
+Error in program ID 24: 'NoneType' object has no attribute 'instr'
+Program ID 25 mutation optimization completed. Initial loss: 7.3647, Final loss: 6.8912
+Program ID 17 additional optimization completed. Initial loss: 6.3441, Final loss: 6.3434
+Program ID 21 additional optimization completed. Initial loss: 6.3711, Final loss: 6.3259
+Program ID 13 additional optimization completed. Initial loss: 6.3935, Final loss: 6.3935
+Program ID 23 additional optimization completed. Initial loss: 6.3991, Final loss: 6.3717
+Program ID 11 additional optimization completed. Initial loss: 6.4020, Final loss: 6.4020
+Best candidate after iteration 4: Program ID 21, Final Loss: 6.3259
+Selected candidates for next iteration: [21, 17, 23, 13, 11]
+Program ID 26 mutation optimization completed. Initial loss: 6.9190, Final loss: 6.3582
+Program ID 27 mutation optimization completed. Initial loss: 6.8720, Final loss: 6.3586
+Program ID 28 mutation optimization completed. Initial loss: 6.8275, Final loss: 6.3889
+Program ID 29 mutation optimization completed. Initial loss: 6.9399, Final loss: 6.7182
+Program ID 30 mutation optimization completed. Initial loss: 6.8154, Final loss: 6.4314
+Program ID 21 additional optimization completed. Initial loss: 6.3259, Final loss: 6.3244
+Program ID 17 additional optimization completed. Initial loss: 6.3434, Final loss: 6.3434
+Program ID 26 additional optimization completed. Initial loss: 6.3576, Final loss: 6.3240
+Program ID 27 additional optimization completed. Initial loss: 6.3580, Final loss: 6.3261
+Program ID 23 additional optimization completed. Initial loss: 6.3717, Final loss: 6.3686
+Best candidate after iteration 5: Program ID 26, Final Loss: 6.3240
+Selected candidates for next iteration: [26, 21, 27, 17, 23]
+No new candidates generated in iteration 6; stopping early.
+
+--- Final Selected Programs ---
+Program ID: 26, Final Loss: 6.3240
+Hypothesis: Mu distribution has four subpopulations captured by a richer mixture before branching on mu.
+Structure: mixture4
+DeGAS code:
+mu = gm([0.20,0.30,0.25,0.25],[16.00,18.50,21.50,24.00],[2.50,2.80,3.20,4.00]); if mu < 20.00 { sigma = gm([0.60,0.40],[1.30,2.70],[0.80,0.90]); if sigma < 1.00 { x = gm([0.75,0.25],[17.50,19.00],[2.00,2.50]); } else { x = gm([0.65,0.35],[18.00,20.00],[1.50,2.00]); } } else { sigma = gm([0.40,0.60],[2.20,3.10],[1.20,1.80]); if sigma < 1.50 { x = gm([0.70,0.30],[24.00,25.00],[4.00,4.50]); } else { x = gm([0.60,0.40],[26.00,27.00],[5.00,5.50]); } } end if;
+
+Program ID: 21, Final Loss: 6.3244
+Hypothesis: Mu has three subpopulations captured by a three-component mixture before branching on mu.
+Structure: mixture_split
+DeGAS code:
+mu = gm([0.35,0.30,0.35],[16.00,20.00,24.00],[2.50,3.00,4.00]); if mu < 20.00 { sigma = gm([0.60,0.40],[1.30,2.70],[0.80,0.90]); if sigma < 1.00 { x = gm([0.75,0.25],[17.50,19.00],[2.00,2.50]); } else { x = gm([0.65,0.35],[18.00,20.00],[1.50,2.00]); } } else { sigma = gm([0.40,0.60],[2.20,3.10],[1.20,1.80]); if sigma < 1.50 { x = gm([0.70,0.30],[24.00,25.00],[4.00,4.50]); } else { x = gm([0.60,0.40],[26.00,27.00],[5.00,5.50]); } } end if;
+
+Program ID: 27, Final Loss: 6.3261
+Hypothesis: Mu is modeled with three components to capture additional modes while retaining sigma-dependent branches.
+Structure: mixture3
+DeGAS code:
+mu = gm([0.30,0.40,0.30],[17.00,20.00,23.00],[2.50,3.00,4.00]); if mu < 20.00 { sigma = gm([0.60,0.40],[1.30,2.70],[0.80,0.90]); if sigma < 1.00 { x = gm([0.75,0.25],[17.50,19.00],[2.00,2.50]); } else { x = gm([0.65,0.35],[18.00,20.00],[1.50,2.00]); } } else { sigma = gm([0.40,0.60],[2.20,3.10],[1.20,1.80]); if sigma < 1.50 { x = gm([0.70,0.30],[24.00,25.00],[4.00,4.50]); } else { x = gm([0.60,0.40],[26.00,27.00],[5.00,5.50]); } } end if;
+
+Program ID: 17, Final Loss: 6.3434
+Hypothesis: Sigma influences the shape of x differently in sub‑ranges, captured by nested conditionals.
+Structure: hierarchical_conditional
+DeGAS code:
+mu = gm([0.55,0.45],[18.00,22.00],[3.00,4.00]); if mu < 20.00 { sigma = gm([0.60,0.40],[1.30,2.70],[0.80,0.90]); if sigma < 1.00 { x = gm([0.75,0.25],[17.50,19.00],[2.00,2.50]); } else { x = gm([0.65,0.35],[18.00,20.00],[1.50,2.00]); } } else { sigma = gm([0.40,0.60],[2.20,3.10],[1.20,1.80]); if sigma < 1.50 { x = gm([0.70,0.30],[24.00,25.00],[4.00,4.50]); } else { x = gm([0.60,0.40],[26.00,27.00],[5.00,5.50]); } } end if;
+
+Program ID: 23, Final Loss: 6.3686
+Hypothesis: A nested conditional on sigma within the high‑mu regime refines the x distribution.
+Structure: conditional_nested
+DeGAS code:
+mu = gm([1.00],[20.07],[2.98]); if mu < 20.00 { sigma = gm([0.55,0.45],[1.30,2.70],[0.80,0.90]); x = gm([0.70,0.30],[17.50,19.00],[2.00,2.50]); } else { sigma = gm([0.40,0.60],[2.20,3.10],[1.20,1.80]); if sigma < 2.00 { x = gm([0.45,0.35,0.20],[24.00,25.00,26.00],[4.00,4.50,5.00]); } else { x = gm([0.60,0.40],[27.00,28.00],[6.00,6.50]); } } end if;
+
+=== Run finished in 1223.9s ===

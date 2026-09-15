@@ -1,0 +1,54 @@
+[
+  {
+    "rewritten": "var1 = gm([0.50, 0.50], [_mu1, _mu2], [_sigma1, _sigma2]) ; var2 = gm([0.60, 0.40], [_mu3, _mu4], [_sigma3, _sigma4]) ; contentDifficulty = var1 ; questionsAfterLectureLength = var2 ;",
+    "params": {
+      "mu1": 25.0,
+      "mu2": 35.0,
+      "sigma1": 4.0,
+      "sigma2": 4.0,
+      "mu3": 10.0,
+      "mu4": 15.0,
+      "sigma3": 5.0,
+      "sigma4": 5.0
+    },
+    "optimized_params": {
+      "mu1": 25.90549103338994,
+      "mu2": 34.15354822763454,
+      "sigma1": 3.3595633902293556,
+      "sigma2": 3.4190739246243833,
+      "mu3": 9.825790495851912,
+      "mu4": 15.741358268006406,
+      "sigma3": 2.6053313995602787,
+      "sigma4": 8.77123505048212
+    },
+    "initial_loss": 6.52121345357265,
+    "final_loss": 6.136755783686868,
+    "train_nll": 6.13635504875793,
+    "held_out_nll": 6.043445801639052,
+    "reliability": {
+      "max_r_hat": 1.0,
+      "min_ess_bulk": 1908.0,
+      "min_ess_tail": 1928.0,
+      "divergence_frac": 0.0,
+      "missing_vars": [],
+      "checks": {
+        "r_hat": true,
+        "ess_bulk": true,
+        "ess_tail": true,
+        "no_divergences": true
+      }
+    },
+    "checks": {
+      "r_hat": true,
+      "ess_bulk": true,
+      "ess_tail": true,
+      "no_divergences": true,
+      "held_out_ok": true
+    },
+    "reliability_score": 5,
+    "opt_time": 2.342,
+    "opt_iterations": 100,
+    "error": null,
+    "program": "var1 = gm( [0.50, 0.50] , [25.00, 35.00] , [4.00, 4.00] ) ; var2 = gm( [0.60, 0.40] , [10.00, 15.00] , [5.00, 5.00] ) ; contentDifficulty = var1 ; questionsAfterLectureLength = var2 ;"
+  }
+]

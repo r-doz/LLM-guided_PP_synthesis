@@ -1,0 +1,101 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "eyecolor",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/eyecolor/20260913_003814"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Data arises from a single Gaussian-like distribution for each trait.
+DeGAS code:
+eyecolor = gm([1.00],[0.17],[0.53]);
+haircolor = gm([1.00],[0.59],[1.27]);
+hairlenght = gm([1.00],[0.69],[0.87]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Each trait consists of two subpopulations, such as light vs dark variants.
+DeGAS code:
+eyecolor = gm([0.70,0.30],[0.00,0.50],[0.10,0.60]);
+haircolor = gm([0.65,0.35],[0.00,1.50],[0.20,0.80]);
+hairlenght = gm([0.60,0.40],[0.30,1.40],[0.30,0.50]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Traits exhibit three distinct modes reflecting multiple subgroups.
+DeGAS code:
+eyecolor = gm([0.80,0.15,0.05],[0.00,1.00,2.00],[0.15,0.15,0.15]);
+haircolor = gm([0.70,0.20,0.10],[0.00,1.00,3.00],[0.15,0.15,0.15]);
+hairlenght = gm([0.50,0.30,0.20],[0.00,1.00,2.00],[0.15,0.15,0.15]);
+
+Program ID: 4, Structure: conditional, Hypothesis: If eye color is low (<1) hair color follows one distribution; otherwise it follows another.
+DeGAS code:
+eyecolor = gm([1.00],[0.17],[0.53]);
+if eyecolor < 1.00 {
+    haircolor = gm([1.00],[0.30],[0.20]);
+} else {
+    haircolor = gm([1.00],[2.00],[0.80]);
+}
+hairlenght = gm([1.00],[0.69],[0.87]);
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Hair length is modeled as the product of independent eye color and hair color effects.
+DeGAS code:
+eyecolor = gm([1.00],[0.17],[0.53]);
+haircolor = gm([1.00],[0.59],[1.27]);
+temp = 1.00*eyecolor;
+hairlenght = temp * haircolor;
+
+Program ID 1 initial optimization completed. Initial loss: 3.7179, Final loss: 3.7178
+Program ID 2 initial optimization completed. Initial loss: 1.2578, Final loss: -1.6831
+Program ID 3 initial optimization completed. Initial loss: 2.9652, Final loss: -2.9176
+Error extracting parameters from program ID 4: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 5 initial optimization completed. Initial loss: 4.3842, Final loss: 4.0386
+
+--- Final Selected Programs ---
+Program ID: 3, Final Loss: -2.9176
+Hypothesis: Traits exhibit three distinct modes reflecting multiple subgroups.
+Structure: mixture3
+DeGAS code:
+eyecolor = gm([0.80,0.15,0.05],[0.00,1.00,2.00],[0.15,0.15,0.15]);
+haircolor = gm([0.70,0.20,0.10],[0.00,1.00,3.00],[0.15,0.15,0.15]);
+hairlenght = gm([0.50,0.30,0.20],[0.00,1.00,2.00],[0.15,0.15,0.15]);
+
+Program ID: 2, Final Loss: -1.6831
+Hypothesis: Each trait consists of two subpopulations, such as light vs dark variants.
+Structure: mixture2
+DeGAS code:
+eyecolor = gm([0.70,0.30],[0.00,0.50],[0.10,0.60]);
+haircolor = gm([0.65,0.35],[0.00,1.50],[0.20,0.80]);
+hairlenght = gm([0.60,0.40],[0.30,1.40],[0.30,0.50]);
+
+Program ID: 1, Final Loss: 3.7178
+Hypothesis: Data arises from a single Gaussian-like distribution for each trait.
+Structure: unimodal
+DeGAS code:
+eyecolor = gm([1.00],[0.17],[0.53]);
+haircolor = gm([1.00],[0.59],[1.27]);
+hairlenght = gm([1.00],[0.69],[0.87]);
+
+Program ID: 5, Final Loss: 4.0386
+Hypothesis: Hair length is modeled as the product of independent eye color and hair color effects.
+Structure: hierarchical
+DeGAS code:
+eyecolor = gm([1.00],[0.17],[0.53]);
+haircolor = gm([1.00],[0.59],[1.27]);
+temp = 1.00*eyecolor;
+hairlenght = temp * haircolor;
+
+No fitness values to plot.
+=== Run finished in 72.7s ===

@@ -1,0 +1,169 @@
+[
+  {
+    "id": 10,
+    "hypothesis": "A single homogeneous skill distribution with win probability split by a skill threshold.",
+    "structure": "conditional",
+    "program": "skill1 = gm([1.00],[20.07],[4.14]);\nskill2 = gm([1.00],[19.96],[3.98]);\nif skill1 >= 21.00 {\n    p1wins = gm([1.00],[0.30],[0.10]);\n} else {\n    p1wins = gm([1.00],[0.05],[0.20]);\n}",
+    "params": {
+      "mu1": 20.07,
+      "sigma1": 4.14,
+      "mu2": 19.96,
+      "sigma2": 3.98,
+      "mu3": 0.3,
+      "sigma3": 0.1,
+      "mu4": 0.05,
+      "sigma4": 0.2
+    },
+    "rewritten": "skill1 = gm([1.00], [_mu1], [_sigma1]);\nskill2 = gm([1.00], [_mu2], [_sigma2]);\nif skill1 >= 21.00 {\n    p1wins = gm([1.00], [_mu3], [_sigma3]);\n} else {\n    p1wins = gm([1.00], [_mu4], [_sigma4]);\n}",
+    "optimized_params": {
+      "mu1": "tensor(18.9701, requires_grad=True)",
+      "sigma1": "tensor(4.8101, requires_grad=True)",
+      "mu2": "tensor(19.9592, requires_grad=True)",
+      "sigma2": "tensor(3.9848, requires_grad=True)",
+      "mu3": "tensor(1.0002, requires_grad=True)",
+      "sigma3": "tensor(0.0442, requires_grad=True)",
+      "mu4": "tensor(3.6541e-05, requires_grad=True)",
+      "sigma4": "tensor(0.0003, requires_grad=True)"
+    },
+    "initial_loss": 0.14295217099703403,
+    "final_loss": 0.14295217099703403,
+    "opt_time": 6.722,
+    "opt_iterations": 200
+  },
+  {
+    "id": 9,
+    "hypothesis": "Win probability is modeled as a two\u2011component mixture rather than a product of skills.",
+    "structure": "mixture2",
+    "program": "skill1 = gm([1.00],[20.07],[4.14]);\nskill2 = gm([1.00],[19.96],[3.98]);\ntemp1 = 0.50*skill1;\ntemp2 = 0.50*skill2;\ncombined = temp1 + temp2;\np1wins = gm([0.60,0.40],[0.02,0.18],[0.05,0.15]);",
+    "params": {
+      "mu1": 20.07,
+      "sigma1": 4.14,
+      "mu2": 19.96,
+      "sigma2": 3.98,
+      "mu3": 0.02,
+      "mu4": 0.18,
+      "sigma3": 0.05,
+      "sigma4": 0.15
+    },
+    "rewritten": "skill1 = gm([1.00], [_mu1], [_sigma1]);\nskill2 = gm([1.00], [_mu2], [_sigma2]);\ntemp1 = 0.50*skill1;\ntemp2 = 0.50*skill2;\ncombined = temp1 + temp2;\np1wins = gm([0.60,0.40], [_mu3, _mu4], [_sigma3, _sigma4]);",
+    "optimized_params": {
+      "mu1": "tensor(20.0677, requires_grad=True)",
+      "sigma1": "tensor(4.1409, requires_grad=True)",
+      "mu2": "tensor(19.9591, requires_grad=True)",
+      "sigma2": "tensor(3.9849, requires_grad=True)",
+      "mu3": "tensor(3.6096e-05, requires_grad=True)",
+      "mu4": "tensor(0.6155, requires_grad=True)",
+      "sigma3": "tensor(-0.0003, requires_grad=True)",
+      "sigma4": "tensor(0.3894, requires_grad=True)"
+    },
+    "initial_loss": 0.2875711580366771,
+    "final_loss": 0.2875711580366771,
+    "opt_time": 5.213,
+    "opt_iterations": 200
+  },
+  {
+    "id": 69,
+    "hypothesis": "Win probability follows a single three\u2011component mixture over the averaged skill.",
+    "structure": "mixture3_alt",
+    "program": "skill1 = gm([1.00],[20.07],[4.14]); skill2 = gm([1.00],[19.96],[3.98]); temp1 = 0.50*skill1; temp2 = 0.50*skill2; combined = temp1 + temp2; p1wins = gm([0.45,0.35,0.20],[0.02,0.18,0.60],[0.05,0.15,0.20]);",
+    "params": {
+      "mu1": 20.07,
+      "sigma1": 4.14,
+      "mu2": 19.96,
+      "sigma2": 3.98,
+      "mu3": 0.02,
+      "mu4": 0.18,
+      "mu5": 0.6,
+      "sigma3": 0.05,
+      "sigma4": 0.15,
+      "sigma5": 0.2
+    },
+    "rewritten": "skill1 = gm([1.00], [_mu1], [_sigma1]); skill2 = gm([1.00], [_mu2], [_sigma2]); temp1 = 0.50*skill1; temp2 = 0.50*skill2; combined = temp1 + temp2; p1wins = gm([0.45,0.35,0.20], [_mu3, _mu4, _mu5], [_sigma3, _sigma4, _sigma5]);",
+    "optimized_params": {
+      "mu1": "tensor(20.0677, requires_grad=True)",
+      "sigma1": "tensor(4.1408, requires_grad=True)",
+      "mu2": "tensor(19.9592, requires_grad=True)",
+      "sigma2": "tensor(3.9849, requires_grad=True)",
+      "mu3": "tensor(-3.9200e-05, requires_grad=True)",
+      "mu4": "tensor(0.0003, requires_grad=True)",
+      "mu5": "tensor(1.0515, requires_grad=True)",
+      "sigma3": "tensor(0.0003, requires_grad=True)",
+      "sigma4": "tensor(0.0119, requires_grad=True)",
+      "sigma5": "tensor(0.0762, requires_grad=True)"
+    },
+    "initial_loss": 0.39316994930691207,
+    "final_loss": 0.39316994930691207,
+    "opt_time": 5.505,
+    "opt_iterations": 200
+  },
+  {
+    "id": 17,
+    "hypothesis": "Win probability is modeled as a three-component mixture reflecting heterogeneous outcomes.",
+    "structure": "mixture3",
+    "program": "skill1 = gm([1.00],[20.07],[4.14]); skill2 = gm([1.00],[19.96],[3.98]); temp1 = 0.50*skill1; temp2 = 0.50*skill2; combined = temp1 + temp2; p1wins = gm([0.40,0.35,0.25],[0.02,0.18,0.60],[0.05,0.15,0.20]);",
+    "params": {
+      "mu1": 20.07,
+      "sigma1": 4.14,
+      "mu2": 19.96,
+      "sigma2": 3.98,
+      "mu3": 0.02,
+      "mu4": 0.18,
+      "mu5": 0.6,
+      "sigma3": 0.05,
+      "sigma4": 0.15,
+      "sigma5": 0.2
+    },
+    "rewritten": "skill1 = gm([1.00], [_mu1], [_sigma1]); skill2 = gm([1.00], [_mu2], [_sigma2]); temp1 = 0.50*skill1; temp2 = 0.50*skill2; combined = temp1 + temp2; p1wins = gm([0.40,0.35,0.25], [_mu3, _mu4, _mu5], [_sigma3, _sigma4, _sigma5]);",
+    "optimized_params": {
+      "mu1": "tensor(20.0677, requires_grad=True)",
+      "sigma1": "tensor(4.1409, requires_grad=True)",
+      "mu2": "tensor(19.9591, requires_grad=True)",
+      "sigma2": "tensor(3.9848, requires_grad=True)",
+      "mu3": "tensor(-0.0732, requires_grad=True)",
+      "mu4": "tensor(0.0002, requires_grad=True)",
+      "mu5": "tensor(0.9785, requires_grad=True)",
+      "sigma3": "tensor(-0.0787, requires_grad=True)",
+      "sigma4": "tensor(0.0003, requires_grad=True)",
+      "sigma5": "tensor(0.0430, requires_grad=True)"
+    },
+    "initial_loss": 0.4987038526914882,
+    "final_loss": 0.4987038526914882,
+    "opt_time": 5.864,
+    "opt_iterations": 200
+  },
+  {
+    "id": 67,
+    "hypothesis": "Win probability is modeled as a three\u2011component mixture reflecting heterogeneous outcomes.",
+    "structure": "mixture3",
+    "program": "skill1 = gm([1.00],[20.07],[4.14]); skill2 = gm([1.00],[19.96],[3.98]); temp1 = 0.50*skill1; temp2 = 0.50*skill2; combined = temp1 + temp2; p1wins = gm([0.40,0.35,0.25],[0.02,0.18,0.60],[0.05,0.15,0.20]);",
+    "params": {
+      "mu1": 20.07,
+      "sigma1": 4.14,
+      "mu2": 19.96,
+      "sigma2": 3.98,
+      "mu3": 0.02,
+      "mu4": 0.18,
+      "mu5": 0.6,
+      "sigma3": 0.05,
+      "sigma4": 0.15,
+      "sigma5": 0.2
+    },
+    "rewritten": "skill1 = gm([1.00], [_mu1], [_sigma1]); skill2 = gm([1.00], [_mu2], [_sigma2]); temp1 = 0.50*skill1; temp2 = 0.50*skill2; combined = temp1 + temp2; p1wins = gm([0.40,0.35,0.25], [_mu3, _mu4, _mu5], [_sigma3, _sigma4, _sigma5]);",
+    "optimized_params": {
+      "mu1": "tensor(20.0677, requires_grad=True)",
+      "sigma1": "tensor(4.1409, requires_grad=True)",
+      "mu2": "tensor(19.9591, requires_grad=True)",
+      "sigma2": "tensor(3.9848, requires_grad=True)",
+      "mu3": "tensor(-0.0732, requires_grad=True)",
+      "mu4": "tensor(0.0002, requires_grad=True)",
+      "mu5": "tensor(0.9785, requires_grad=True)",
+      "sigma3": "tensor(-0.0787, requires_grad=True)",
+      "sigma4": "tensor(0.0003, requires_grad=True)",
+      "sigma5": "tensor(0.0430, requires_grad=True)"
+    },
+    "initial_loss": 0.4987038526914882,
+    "final_loss": 0.4987038526914882,
+    "opt_time": 5.625,
+    "opt_iterations": 200
+  }
+]
