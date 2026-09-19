@@ -1,0 +1,85 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "mog1",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "simple_prompt": true,
+  "prompt_history": true,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/mog1/20260916_045146"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Data for all variables appears unimodal and roughly symmetric.
+DeGAS code:
+mu = gm([1.00],[20.03],[3.02]); sigma = gm([1.00],[2.00],[1.02]); x = gm([1.00],[22.02],[3.87]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Variable mu shows two subpopulations, low and high values.
+DeGAS code:
+mu = gm([0.45,0.55],[13.00,27.00],[2.00,2.50]); sigma = gm([1.00],[2.00],[1.02]); x = gm([1.00],[22.02],[3.87]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Variable x is tri-modally distributed reflecting three usage regimes.
+DeGAS code:
+mu = gm([1.00],[20.03],[3.02]); sigma = gm([1.00],[2.00],[1.02]); x = gm([0.30,0.40,0.30],[12.00,22.00,32.00],[1.50,1.80,1.60]);
+
+Program ID: 4, Structure: conditional, Hypothesis: If mu is below average it tends to have lower x values; otherwise higher.
+DeGAS code:
+mu = gm([1.00],[20.03],[3.02]); sigma = gm([1.00],[2.00],[1.02]); if mu < 20.00 { x = gm([1.00],[15.00],[2.50]); } else { x = gm([1.00],[27.00],[2.80]); } end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Variable x is generated as the product of mu and sigma, scaling the combined effect.
+DeGAS code:
+mu = gm([1.00],[20.03],[3.02]); sigma = gm([1.00],[2.00],[1.02]); x = mu*sigma;
+
+Program ID 1 initial optimization completed. Initial loss: 6.7375, Final loss: 6.7375
+Program ID 2 initial optimization completed. Initial loss: 8.9651, Final loss: 7.5191
+Program ID 3 initial optimization completed. Initial loss: 7.5698, Final loss: 7.1090
+Program ID 4 initial optimization completed. Initial loss: 7.3021, Final loss: 6.8350
+Program ID 5 initial optimization completed. Initial loss: 44.0859, Final loss: 11.4421
+
+--- Final Selected Programs ---
+Program ID: 1, Final Loss: 6.7375
+Hypothesis: Data for all variables appears unimodal and roughly symmetric.
+Structure: unimodal
+DeGAS code:
+mu = gm([1.00],[20.03],[3.02]); sigma = gm([1.00],[2.00],[1.02]); x = gm([1.00],[22.02],[3.87]);
+
+Program ID: 4, Final Loss: 6.8350
+Hypothesis: If mu is below average it tends to have lower x values; otherwise higher.
+Structure: conditional
+DeGAS code:
+mu = gm([1.00],[20.03],[3.02]); sigma = gm([1.00],[2.00],[1.02]); if mu < 20.00 { x = gm([1.00],[15.00],[2.50]); } else { x = gm([1.00],[27.00],[2.80]); } end if;
+
+Program ID: 3, Final Loss: 7.1090
+Hypothesis: Variable x is tri-modally distributed reflecting three usage regimes.
+Structure: mixture3
+DeGAS code:
+mu = gm([1.00],[20.03],[3.02]); sigma = gm([1.00],[2.00],[1.02]); x = gm([0.30,0.40,0.30],[12.00,22.00,32.00],[1.50,1.80,1.60]);
+
+Program ID: 2, Final Loss: 7.5191
+Hypothesis: Variable mu shows two subpopulations, low and high values.
+Structure: mixture2
+DeGAS code:
+mu = gm([0.45,0.55],[13.00,27.00],[2.00,2.50]); sigma = gm([1.00],[2.00],[1.02]); x = gm([1.00],[22.02],[3.87]);
+
+Program ID: 5, Final Loss: 11.4421
+Hypothesis: Variable x is generated as the product of mu and sigma, scaling the combined effect.
+Structure: hierarchical
+DeGAS code:
+mu = gm([1.00],[20.03],[3.02]); sigma = gm([1.00],[2.00],[1.02]); x = mu*sigma;
+
+No fitness values to plot.
+=== Run finished in 67.8s ===

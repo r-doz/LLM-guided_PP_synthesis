@@ -1,0 +1,149 @@
+[
+  {
+    "id": 1,
+    "hypothesis": "Data for all variables appears unimodal and roughly symmetric.",
+    "structure": "unimodal",
+    "program": "mu = gm([1.00],[20.03],[3.02]); sigma = gm([1.00],[2.00],[1.02]); x = gm([1.00],[22.02],[3.87]);",
+    "params": {
+      "mu1": 20.03,
+      "sigma1": 3.02,
+      "mu2": 2.0,
+      "sigma2": 1.02,
+      "mu3": 22.02,
+      "sigma3": 3.87
+    },
+    "rewritten": "mu = gm([1.00], [_mu1], [_sigma1]); sigma = gm([1.00], [_mu2], [_sigma2]); x = gm([1.00], [_mu3], [_sigma3]);",
+    "optimized_params": {
+      "mu1": "tensor(20.0296)",
+      "sigma1": "tensor(3.0229)",
+      "mu2": "tensor(1.9961)",
+      "sigma2": "tensor(1.0224)",
+      "mu3": "tensor(22.0212)",
+      "sigma3": "tensor(3.8662)"
+    },
+    "initial_loss": 6.737487568305949,
+    "final_loss": 6.737472892292961,
+    "opt_time": 0.482,
+    "opt_iterations": 100
+  },
+  {
+    "id": 4,
+    "hypothesis": "If mu is below average it tends to have lower x values; otherwise higher.",
+    "structure": "conditional",
+    "program": "mu = gm([1.00],[20.03],[3.02]); sigma = gm([1.00],[2.00],[1.02]); if mu < 20.00 { x = gm([1.00],[15.00],[2.50]); } else { x = gm([1.00],[27.00],[2.80]); } end if;",
+    "params": {
+      "mu1": 20.03,
+      "sigma1": 3.02,
+      "mu2": 2.0,
+      "sigma2": 1.02,
+      "mu3": 15.0,
+      "sigma3": 2.5,
+      "mu4": 27.0,
+      "sigma4": 2.8
+    },
+    "rewritten": "mu = gm([1.00], [_mu1], [_sigma1]); sigma = gm([1.00], [_mu2], [_sigma2]); if mu < 20.00 { x = gm([1.00], [_mu3], [_sigma3]); } else { x = gm([1.00], [_mu4], [_sigma4]); } end if;",
+    "optimized_params": {
+      "mu1": "tensor(20.0109, requires_grad=True)",
+      "sigma1": "tensor(3.1285, grad_fn=<ExpBackward0>)",
+      "mu2": "tensor(1.9961, requires_grad=True)",
+      "sigma2": "tensor(1.0224, grad_fn=<ExpBackward0>)",
+      "mu3": "tensor(15.7985, requires_grad=True)",
+      "sigma3": "tensor(4.3390, grad_fn=<ExpBackward0>)",
+      "mu4": "tensor(26.2011, requires_grad=True)",
+      "sigma4": "tensor(3.4155, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 7.302146050588878,
+    "final_loss": 6.835025861181822,
+    "opt_time": 1.244,
+    "opt_iterations": 100
+  },
+  {
+    "id": 3,
+    "hypothesis": "Variable x is tri-modally distributed reflecting three usage regimes.",
+    "structure": "mixture3",
+    "program": "mu = gm([1.00],[20.03],[3.02]); sigma = gm([1.00],[2.00],[1.02]); x = gm([0.30,0.40,0.30],[12.00,22.00,32.00],[1.50,1.80,1.60]);",
+    "params": {
+      "mu1": 20.03,
+      "sigma1": 3.02,
+      "mu2": 2.0,
+      "sigma2": 1.02,
+      "mu3": 12.0,
+      "mu4": 22.0,
+      "mu5": 32.0,
+      "sigma3": 1.5,
+      "sigma4": 1.8,
+      "sigma5": 1.6
+    },
+    "rewritten": "mu = gm([1.00], [_mu1], [_sigma1]); sigma = gm([1.00], [_mu2], [_sigma2]); x = gm([0.30,0.40,0.30], [_mu3, _mu4, _mu5], [_sigma3, _sigma4, _sigma5]);",
+    "optimized_params": {
+      "mu1": "tensor(20.0297, requires_grad=True)",
+      "sigma1": "tensor(3.0229, grad_fn=<ExpBackward0>)",
+      "mu2": "tensor(1.9961, requires_grad=True)",
+      "sigma2": "tensor(1.0224, grad_fn=<ExpBackward0>)",
+      "mu3": "tensor(12.8645, requires_grad=True)",
+      "mu4": "tensor(21.8861, requires_grad=True)",
+      "mu5": "tensor(31.1508, requires_grad=True)",
+      "sigma3": "tensor(3.3725, grad_fn=<ExpBackward0>)",
+      "sigma4": "tensor(2.4054, grad_fn=<ExpBackward0>)",
+      "sigma5": "tensor(3.4637, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 7.569763628192126,
+    "final_loss": 7.109035195213353,
+    "opt_time": 0.695,
+    "opt_iterations": 100
+  },
+  {
+    "id": 2,
+    "hypothesis": "Variable mu shows two subpopulations, low and high values.",
+    "structure": "mixture2",
+    "program": "mu = gm([0.45,0.55],[13.00,27.00],[2.00,2.50]); sigma = gm([1.00],[2.00],[1.02]); x = gm([1.00],[22.02],[3.87]);",
+    "params": {
+      "mu1": 13.0,
+      "mu2": 27.0,
+      "sigma1": 2.0,
+      "sigma2": 2.5,
+      "mu3": 2.0,
+      "sigma3": 1.02,
+      "mu4": 22.02,
+      "sigma4": 3.87
+    },
+    "rewritten": "mu = gm([0.45,0.55], [_mu1, _mu2], [_sigma1, _sigma2]); sigma = gm([1.00], [_mu3], [_sigma3]); x = gm([1.00], [_mu4], [_sigma4]);",
+    "optimized_params": {
+      "mu1": "tensor(13.7702, requires_grad=True)",
+      "mu2": "tensor(26.2597, requires_grad=True)",
+      "sigma1": "tensor(3.8934, grad_fn=<ExpBackward0>)",
+      "sigma2": "tensor(4.5185, grad_fn=<ExpBackward0>)",
+      "mu3": "tensor(1.9961, requires_grad=True)",
+      "sigma3": "tensor(1.0224, grad_fn=<ExpBackward0>)",
+      "mu4": "tensor(22.0213, requires_grad=True)",
+      "sigma4": "tensor(3.8663, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 8.965108131249227,
+    "final_loss": 7.51907758726408,
+    "opt_time": 0.617,
+    "opt_iterations": 100
+  },
+  {
+    "id": 5,
+    "hypothesis": "Variable x is generated as the product of mu and sigma, scaling the combined effect.",
+    "structure": "hierarchical",
+    "program": "mu = gm([1.00],[20.03],[3.02]); sigma = gm([1.00],[2.00],[1.02]); x = mu*sigma;",
+    "params": {
+      "mu1": 20.03,
+      "sigma1": 3.02,
+      "mu2": 2.0,
+      "sigma2": 1.02
+    },
+    "rewritten": "mu = gm([1.00], [_mu1], [_sigma1]); sigma = gm([1.00], [_mu2], [_sigma2]); x = mu*sigma;",
+    "optimized_params": {
+      "mu1": "tensor(19.3890, requires_grad=True)",
+      "sigma1": "tensor(5.2904, grad_fn=<ExpBackward0>)",
+      "mu2": "tensor(1.5030, requires_grad=True)",
+      "sigma2": "tensor(1.7885, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 44.08587351219665,
+    "final_loss": 11.442105126203446,
+    "opt_time": 0.44,
+    "opt_iterations": 100
+  }
+]

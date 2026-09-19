@@ -28,6 +28,20 @@ skip_gradient = os.environ.get("ALPS_SKIP_GRADIENT", "0") == "1"
 # no equivalent of (every candidate is both fit AND selected on the same fixed data_array).
 held_out_selection = os.environ.get("ALPS_HELD_OUT_SELECTION", "0") == "1"
 train_frac = float(os.environ.get("ALPS_TRAIN_FRAC", "0.8"))
+# Ablation: append explicit simplicity guidance (+ a deterministic-assignment shorthand
+# example) to the system prompt, investigating whether asking the LLM directly for simpler
+# structures reduces the complexity/GW2 gap found in the pick_best_tradeoff investigation.
+simple_prompt = os.environ.get("ALPS_SIMPLE_PROMPT", "0") == "1"
+# Ablation: strip the optimization-history fields (loss/param deltas, "suggested mutation
+# focus") from the mutation prompt's per-candidate blocks, showing only each candidate's
+# current state -- tests whether that history is helping or just adding noise/bias.
+prompt_history = os.environ.get("ALPS_PROMPT_HISTORY", "1") == "1"
+# Ablation: narrower than ALPS_PROMPT_HISTORY -- keeps the loss/parameter deltas but drops
+# only the delta-derived "suggested mutation focus" hint, isolating whether the heuristic
+# itself helps beyond the raw numbers it's computed from. No effect if prompt_history=False.
+# (Tried as the default: improved NLL on 7/9 benchmarks and was a wash on GW2, but flipped
+# Hurricane's NLL away from ALPS -- reverted to keep the heuristic on by default.)
+prompt_heuristic = os.environ.get("ALPS_PROMPT_HEURISTIC", "1") == "1"
 program = os.environ.get("ALPS_PROGRAM", "if")  # Options: "if", "mog1", "burglary", "csi", "easytugwar",
                          # "biasedtugwar", "mixedcondition", "multiplebranches", "eyecolor", "hurricane"
 data_size = 1000
@@ -36,7 +50,14 @@ data_size = 1000
 # ablation doesn't need its own copy of this file; defaults reproduce the standard ALPS config.
 n_programs = int(os.environ.get("ALPS_N_PROGRAMS", "5"))
 n_mutations = 5
-n_steps = int(os.environ.get("ALPS_N_STEPS", "15"))
+n_steps = min(int(os.environ.get("ALPS_N_STEPS", "10")), 10)  # hard cap: never more than 10
+# Early stopping: if the best loss hasn't improved by more than min_improvement over the last
+# `patience` iterations, stop before using the full n_steps budget -- investigating whether
+# this avoids the kind of late-iteration complexity creep found on mog1 (a mutation whose own
+# hypothesis was "introduce an additional conditional", adding structure for a marginal NLL
+# gain). min_improvement=0.01 matches mutation_prompt.py's own "near_zero_delta" threshold.
+patience = int(os.environ.get("ALPS_PATIENCE", "3"))
+min_improvement = float(os.environ.get("ALPS_MIN_IMPROVEMENT", "0.01"))
 init_temperature = 0.2
 mutation_temperature = 0.4
 init_opt_steps = int(os.environ.get("ALPS_INIT_OPT_STEPS", "50"))
@@ -48,6 +69,25 @@ max_retries = 1
 use_chat = True
 request_timeout = 600
 max_http_retries = 3
+
+SIMPLICITY_APPENDIX = """
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ PREFER SIMPLE MODELS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- A deterministic value can also be written as a bare assignment, without gm(...):
+    a = 1.00;
+  This is equivalent to gm([1.00], [1.00], [0.00]) and is valid wherever a
+  distribution is expected -- use it as a shorthand for an exact, single value.
+- Prefer the simplest structure that plausibly fits the data:
+  - Avoid deeply nested if/else -- more than 1-2 levels of nesting is rarely
+    justified. A flatter structure that fits almost as well is usually better
+    than a much more complex one that fits only marginally better.
+  - Avoid gm(...) mixtures with many components (more than 3-4) unless the data
+    clearly shows that many separate modes or subpopulations.
+  - A small improvement in fit is not worth a much more complex program.
+"""
+
+effective_system_prompt = SYSTEM_PROMPT + SIMPLICITY_APPENDIX if simple_prompt else SYSTEM_PROMPT
 
 # Results folder: results/<program>/<timestamp>/
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -218,6 +258,8 @@ hyperparams = {
     "n_programs": n_programs,
     "n_mutations": n_mutations,
     "n_steps": n_steps,
+    "patience": patience,
+    "min_improvement": min_improvement,
     "init_temperature": init_temperature,
     "mutation_temperature": mutation_temperature,
     "init_opt_steps": init_opt_steps,
@@ -229,6 +271,9 @@ hyperparams = {
     "use_chat": use_chat,
     "request_timeout": request_timeout,
     "max_http_retries": max_http_retries,
+    "simple_prompt": simple_prompt,
+    "prompt_history": prompt_history,
+    "prompt_heuristic": prompt_heuristic,
     "results_dir": str(run_dir),
 }
 with open(hyperparams_path, "w", encoding="utf-8") as f:
@@ -241,7 +286,7 @@ log_line(json.dumps(hyperparams, indent=2))
 # First generation
 result = call_ollama(
     prompt,
-    SYSTEM_PROMPT,
+    effective_system_prompt,
     model=llm_model,
     temperature=init_temperature,
     require_json=require_json,
@@ -280,8 +325,9 @@ best_fitness = []
 
 for i in range(n_steps):
     new_programs = call_ollama(
-        build_mutation_prompt(candidates, n_mutations=n_mutations, iteration=i + 1, grammar=DEGAS_GRAMMAR),
-        SYSTEM_PROMPT,
+        build_mutation_prompt(candidates, n_mutations=n_mutations, iteration=i + 1, grammar=DEGAS_GRAMMAR,
+                               show_history=prompt_history, show_heuristic=prompt_heuristic),
+        effective_system_prompt,
         model=llm_model,
         temperature=mutation_temperature,
         require_json=require_json,
@@ -352,6 +398,16 @@ for i in range(n_steps):
     )
     best_fitness.append(best_candidate['final_loss'])
     log_line(f"Selected candidates for next iteration: {[prog['id'] for prog in candidates]}")
+
+    if len(best_fitness) > patience:
+        improvement = best_fitness[-(patience + 1)] - best_fitness[-1]
+        if improvement < min_improvement:
+            log_line(
+                f"Early stopping after iteration {i + 1}: best loss improved by only "
+                f"{improvement:.4f} over the last {patience} iterations "
+                f"(< min_improvement={min_improvement})."
+            )
+            break
 
 log_line("\n--- Final Selected Programs ---")
 for prog in candidates:

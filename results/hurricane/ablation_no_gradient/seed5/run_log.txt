@@ -1,0 +1,150 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": true,
+  "program": "hurricane",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 10,
+  "patience": 3,
+  "min_improvement": 0.01,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 50,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "simple_prompt": false,
+  "prompt_history": true,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/hurricane/20260918_133155"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: The data for both variables arise from a single continuous population with modest variability.
+DeGAS code:
+preplevel = gm([1.00],[0.78],[0.86]);
+damage = gm([1.00],[0.61],[0.49]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Preplevel and damage each consist of two subpopulations, low and high values.
+DeGAS code:
+preplevel = gm([0.55,0.45],[0.00,2.00],[0.30,0.30]);
+damage = gm([0.40,0.60],[0.00,1.00],[0.10,0.10]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Both variables show three latent groups reflecting distinct outcome levels.
+DeGAS code:
+preplevel = gm([0.30,0.35,0.35],[0.00,1.00,2.00],[0.20,0.20,0.20]);
+damage = gm([0.25,0.50,0.25],[0.00,0.50,1.00],[0.15,0.15,0.15]);
+
+Program ID: 4, Structure: conditional, Hypothesis: When preplevel is low (<1), damage follows a different distribution than when preplevel is high.
+DeGAS code:
+if preplevel < 1.00 {
+  damage = gm([1.00],[0.30],[0.20]);
+  preplevel = gm([1.00],[0.50],[0.25]);
+} else {
+  damage = gm([1.00],[0.80],[0.15]);
+  preplevel = gm([1.00],[1.50],[0.30]);
+}
+end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Damage intensity scales multiplicatively with preplevel, forming a hierarchical interaction.
+DeGAS code:
+preplevel = gm([1.00],[0.78],[0.86]);
+damage = gm([1.00],[0.61],[0.49]);
+temp = preplevel*damage;
+combined = 0.70*temp;
+
+Program ID 1 initial optimization completed. Initial loss: 1.9752, Final loss: 1.9752
+Program ID 2 initial optimization completed. Initial loss: 0.6728, Final loss: 0.6728
+Program ID 3 initial optimization completed. Initial loss: 0.8377, Final loss: 0.8377
+Program ID 4 initial optimization completed. Initial loss: 9.6361, Final loss: 9.6361
+Program ID 5 initial optimization completed. Initial loss: 1.9752, Final loss: 1.9752
+Program ID 6 mutation optimization completed. Initial loss: 1.0151, Final loss: 1.0151
+Program ID 7 mutation optimization completed. Initial loss: 0.9572, Final loss: 0.9572
+Program ID 8 mutation optimization completed. Initial loss: 5.7408, Final loss: 5.7408
+Program ID 9 mutation optimization completed. Initial loss: 2.9044, Final loss: 2.9044
+Program ID 10 mutation optimization completed. Initial loss: 2.5665, Final loss: 2.5665
+Program ID 2 additional optimization completed. Initial loss: 0.6728, Final loss: 0.6728
+Program ID 3 additional optimization completed. Initial loss: 0.8377, Final loss: 0.8377
+Program ID 7 additional optimization completed. Initial loss: 0.9572, Final loss: 0.9572
+Program ID 6 additional optimization completed. Initial loss: 1.0151, Final loss: 1.0151
+Program ID 1 additional optimization completed. Initial loss: 1.9752, Final loss: 1.9752
+Best candidate after iteration 1: Program ID 2, Final Loss: 0.6728
+Selected candidates for next iteration: [2, 3, 7, 6, 1]
+Program ID 11 mutation optimization completed. Initial loss: 1.2647, Final loss: 1.2647
+Program ID 12 mutation optimization completed. Initial loss: 1.2383, Final loss: 1.2383
+Program ID 13 mutation optimization completed. Initial loss: 2.8099, Final loss: 2.8099
+Program ID 14 mutation optimization completed. Initial loss: 1.1472, Final loss: 1.1472
+Program ID 15 mutation optimization completed. Initial loss: 2.1015, Final loss: 2.1015
+Program ID 2 additional optimization completed. Initial loss: 0.6728, Final loss: 0.6728
+Program ID 3 additional optimization completed. Initial loss: 0.8377, Final loss: 0.8377
+Program ID 7 additional optimization completed. Initial loss: 0.9572, Final loss: 0.9572
+Program ID 6 additional optimization completed. Initial loss: 1.0151, Final loss: 1.0151
+Program ID 14 additional optimization completed. Initial loss: 1.1472, Final loss: 1.1472
+Best candidate after iteration 2: Program ID 2, Final Loss: 0.6728
+Selected candidates for next iteration: [2, 3, 7, 6, 14]
+Program ID 16 mutation optimization completed. Initial loss: 15.1741, Final loss: 15.1741
+Program ID 17 mutation optimization completed. Initial loss: 1.2084, Final loss: 1.2084
+Program ID 18 mutation optimization completed. Initial loss: 1.2759, Final loss: 1.2759
+Program ID 19 mutation optimization completed. Initial loss: 10.1137, Final loss: 10.1137
+Program ID 20 mutation optimization completed. Initial loss: 1.6546, Final loss: 1.6546
+Program ID 2 additional optimization completed. Initial loss: 0.6728, Final loss: 0.6728
+Program ID 3 additional optimization completed. Initial loss: 0.8377, Final loss: 0.8377
+Program ID 7 additional optimization completed. Initial loss: 0.9572, Final loss: 0.9572
+Program ID 6 additional optimization completed. Initial loss: 1.0151, Final loss: 1.0151
+Program ID 14 additional optimization completed. Initial loss: 1.1472, Final loss: 1.1472
+Best candidate after iteration 3: Program ID 2, Final Loss: 0.6728
+Selected candidates for next iteration: [2, 3, 7, 6, 14]
+Program ID 21 mutation optimization completed. Initial loss: 1.0151, Final loss: 1.0151
+Program ID 22 mutation optimization completed. Initial loss: 0.8641, Final loss: 0.8641
+Program ID 23 mutation optimization completed. Initial loss: 0.8549, Final loss: 0.8549
+Program ID 24 mutation optimization completed. Initial loss: 0.7776, Final loss: 0.7776
+Program ID 25 mutation optimization completed. Initial loss: 1.1522, Final loss: 1.1522
+Program ID 2 additional optimization completed. Initial loss: 0.6728, Final loss: 0.6728
+Program ID 24 additional optimization completed. Initial loss: 0.7776, Final loss: 0.7776
+Program ID 3 additional optimization completed. Initial loss: 0.8377, Final loss: 0.8377
+Program ID 23 additional optimization completed. Initial loss: 0.8549, Final loss: 0.8549
+Program ID 22 additional optimization completed. Initial loss: 0.8641, Final loss: 0.8641
+Best candidate after iteration 4: Program ID 2, Final Loss: 0.6728
+Selected candidates for next iteration: [2, 24, 3, 23, 22]
+Early stopping after iteration 4: best loss improved by only 0.0000 over the last 3 iterations (< min_improvement=0.01).
+
+--- Final Selected Programs ---
+Program ID: 2, Final Loss: 0.6728
+Hypothesis: Preplevel and damage each consist of two subpopulations, low and high values.
+Structure: mixture2
+DeGAS code:
+preplevel = gm([0.55,0.45],[0.00,2.00],[0.30,0.30]);
+damage = gm([0.40,0.60],[0.00,1.00],[0.10,0.10]);
+
+Program ID: 24, Final Loss: 0.7776
+Hypothesis: Both preplevel and damage influence each other via thresholds.
+Structure: bidirectional
+DeGAS code:
+preplevel = gm([0.55,0.45],[0.00,2.00],[0.30,0.30]); if preplevel < 1.00 { damage = gm([0.70,0.30],[0.00,1.00],[0.10,0.10]); } else { damage = gm([0.20,0.80],[0.00,1.00],[0.10,0.10]); } end if; if damage < 0.50 { preplevel = gm([0.60,0.40],[0.00,2.00],[0.30,0.30]); } else { preplevel = gm([0.45,0.55],[0.00,2.00],[0.30,0.30]); } end if;
+
+Program ID: 3, Final Loss: 0.8377
+Hypothesis: Both variables show three latent groups reflecting distinct outcome levels.
+Structure: mixture3
+DeGAS code:
+preplevel = gm([0.30,0.35,0.35],[0.00,1.00,2.00],[0.20,0.20,0.20]);
+damage = gm([0.25,0.50,0.25],[0.00,0.50,1.00],[0.15,0.15,0.15]);
+
+Program ID: 23, Final Loss: 0.8549
+Hypothesis: Preplevel consists of three latent groups merging middle modes.
+Structure: merge
+DeGAS code:
+preplevel = gm([0.30,0.40,0.30],[0.00,1.00,2.00],[0.20,0.20,0.20]); damage = gm([0.25,0.50,0.25],[0.00,0.50,1.00],[0.15,0.15,0.15]);
+
+Program ID: 22, Final Loss: 0.8641
+Hypothesis: Damage distribution varies with preplevel using two regimes.
+Structure: conditional
+DeGAS code:
+preplevel = gm([0.30,0.35,0.35],[0.00,1.00,2.00],[0.20,0.20,0.20]); if preplevel < 1.00 { damage = gm([0.25,0.50,0.25],[0.00,0.50,1.00],[0.15,0.15,0.15]); } else { damage = gm([0.40,0.30,0.30],[0.00,0.60,1.20],[0.15,0.15,0.15]); } end if;
+
+=== Run finished in 357.3s ===

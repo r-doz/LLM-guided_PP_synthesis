@@ -1,0 +1,79 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "easytugwar",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "simple_prompt": true,
+  "prompt_history": true,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/easytugwar/20260916_083641"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Data follows a single normal-like distribution for each skill and win probability.
+DeGAS code:
+skill1 = gm([1.00],[19.81],[3.94]); skill2 = gm([1.00],[20.12],[3.96]); p1wins = gm([1.00],[0.47],[0.50]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Skills come from two subpopulations (low and high) while win outcomes are a simple binary mix.
+DeGAS code:
+skill1 = gm([0.60,0.40],[15.00,25.00],[2.00,3.00]); skill2 = gm([0.55,0.45],[14.00,26.00],[2.50,3.50]); p1wins = gm([0.70,0.30],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Skill levels exhibit three distinct clusters and win probabilities show multiple modes.
+DeGAS code:
+skill1 = gm([0.30,0.40,0.30],[12.00,20.00,28.00],[2.00,2.50,3.00]); skill2 = gm([0.33,0.34,0.33],[13.00,21.00,29.00],[2.10,2.60,3.10]); p1wins = gm([0.45,0.35,0.20],[0.00,0.50,1.00],[0.00,0.00,0.00]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Win probability depends on whether skill1 is below or above a threshold.
+DeGAS code:
+skill1 = gm([1.00],[19.81],[3.94]); if skill1 < 20.00 { p1wins = gm([0.80,0.20],[0.00,1.00],[0.00,0.00]); } else { p1wins = gm([0.30,0.70],[0.00,1.00],[0.00,0.00]); } skill2 = gm([1.00],[20.12],[3.96]);
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Skill2 is generated as half of skill1 plus additional noise, forming a hierarchical relationship.
+DeGAS code:
+skill1 = gm([1.00],[19.81],[3.94]); temp = 0.50*skill1; skill2 = temp + gm([1.00],[0.00],[3.96]); p1wins = gm([1.00],[0.47],[0.50]);
+
+Program ID 1 initial optimization completed. Initial loss: 6.3099, Final loss: 6.3099
+Program ID 2 initial optimization completed. Initial loss: 7.3412, Final loss: 6.7377
+Program ID 3 initial optimization completed. Initial loss: 7.4976, Final loss: 7.1907
+Error extracting parameters from program ID 4: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 5 initial optimization completed. Initial loss: 9.7573, Final loss: 7.4071
+
+--- Final Selected Programs ---
+Program ID: 1, Final Loss: 6.3099
+Hypothesis: Data follows a single normal-like distribution for each skill and win probability.
+Structure: unimodal
+DeGAS code:
+skill1 = gm([1.00],[19.81],[3.94]); skill2 = gm([1.00],[20.12],[3.96]); p1wins = gm([1.00],[0.47],[0.50]);
+
+Program ID: 2, Final Loss: 6.7377
+Hypothesis: Skills come from two subpopulations (low and high) while win outcomes are a simple binary mix.
+Structure: mixture2
+DeGAS code:
+skill1 = gm([0.60,0.40],[15.00,25.00],[2.00,3.00]); skill2 = gm([0.55,0.45],[14.00,26.00],[2.50,3.50]); p1wins = gm([0.70,0.30],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 3, Final Loss: 7.1907
+Hypothesis: Skill levels exhibit three distinct clusters and win probabilities show multiple modes.
+Structure: mixture3
+DeGAS code:
+skill1 = gm([0.30,0.40,0.30],[12.00,20.00,28.00],[2.00,2.50,3.00]); skill2 = gm([0.33,0.34,0.33],[13.00,21.00,29.00],[2.10,2.60,3.10]); p1wins = gm([0.45,0.35,0.20],[0.00,0.50,1.00],[0.00,0.00,0.00]);
+
+Program ID: 5, Final Loss: 7.4071
+Hypothesis: Skill2 is generated as half of skill1 plus additional noise, forming a hierarchical relationship.
+Structure: hierarchical
+DeGAS code:
+skill1 = gm([1.00],[19.81],[3.94]); temp = 0.50*skill1; skill2 = temp + gm([1.00],[0.00],[3.96]); p1wins = gm([1.00],[0.47],[0.50]);
+
+No fitness values to plot.
+=== Run finished in 73.9s ===

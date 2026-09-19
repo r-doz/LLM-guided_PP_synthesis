@@ -1,0 +1,180 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "mog1",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 10,
+  "patience": 3,
+  "min_improvement": 0.01,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 50,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "simple_prompt": false,
+  "prompt_history": true,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/mog1/20260916_200437"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Data is unimodal and approximately symmetric around the observed means.
+DeGAS code:
+mu = gm([1.00],[20.06],[3.03]);
+sigma = gm([1.00],[2.01],[1.05]);
+x = gm([1.00],[22.08],[3.98]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: The data arise from two subpopulations with distinct location parameters.
+DeGAS code:
+mu = gm([0.60,0.40],[18.00,24.00],[2.00,2.00]);
+sigma = gm([0.55,0.45],[1.50,3.00],[0.80,1.20]);
+x = gm([0.65,0.35],[20.00,28.00],[3.00,4.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Three latent groups generate the observed skewed and multi‑modal patterns.
+DeGAS code:
+mu = gm([0.30,0.40,0.30],[15.00,22.00,27.00],[2.50,2.50,2.50]);
+sigma = gm([0.30,0.40,0.30],[1.20,2.00,2.80],[0.70,1.10,1.50]);
+x = gm([0.30,0.40,0.30],[18.00,24.00,30.00],[3.00,4.00,5.00]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Observations below a threshold follow one regime, while larger values follow another.
+DeGAS code:
+if x < 20.00 {
+  mu = gm([1.00],[18.00],[2.50]);
+  sigma = gm([1.00],[1.40],[0.80]);
+  x = gm([1.00],[19.00],[1.90]);
+} else {
+  mu = gm([1.00],[24.00],[2.70]);
+  sigma = gm([1.00],[2.60],[1.20]);
+  x = gm([1.00],[28.00],[3.10]);
+}
+end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: The distribution of mu is a hierarchical mixture built from two scaled components.
+DeGAS code:
+temp1 = 0.55*gm([1.00],[20.00],[2.50]);
+temp2 = 0.45*gm([1.00],[25.00],[3.00]);
+mu = temp1 + temp2;
+sigma = gm([1.00],[2.30],[1.10]);
+x = gm([1.00],[22.00],[4.00]);
+
+Program ID 1 initial optimization completed. Initial loss: 6.7957, Final loss: 6.7957
+Program ID 2 initial optimization completed. Initial loss: 7.0044, Final loss: 6.8668
+Program ID 3 initial optimization completed. Initial loss: 7.4132, Final loss: 7.1224
+Program ID 4 initial optimization completed. Initial loss: 9.8252, Final loss: 7.5043
+Program ID 5 initial optimization completed. Initial loss: 7.7579, Final loss: 6.9917
+Program ID 6 mutation optimization completed. Initial loss: 6.8418, Final loss: 6.7951
+Program ID 7 mutation optimization completed. Initial loss: 7.2726, Final loss: 7.0090
+Program ID 8 mutation optimization completed. Initial loss: 7.9619, Final loss: 6.9172
+Error in program ID 9: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 10 mutation optimization completed. Initial loss: 7.1805, Final loss: 6.9419
+Program ID 6 additional optimization completed. Initial loss: 6.7951, Final loss: 6.7942
+Program ID 1 additional optimization completed. Initial loss: 6.7957, Final loss: 6.7957
+Program ID 2 additional optimization completed. Initial loss: 6.8659, Final loss: 6.7951
+Program ID 8 additional optimization completed. Initial loss: 6.9152, Final loss: 6.7967
+Program ID 10 additional optimization completed. Initial loss: 6.9412, Final loss: 6.8169
+Best candidate after iteration 1: Program ID 6, Final Loss: 6.7942
+Selected candidates for next iteration: [6, 2, 1, 8, 10]
+Error in program ID 11: Expected parameter loc (Tensor of shape (3,)) of distribution MultivariateNormal(loc: torch.Size([3]), covariance_matrix: torch.Size([3, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan], grad_fn=<ExpandBackward0>)
+Program ID 12 mutation optimization completed. Initial loss: 7.1400, Final loss: 6.8396
+Error in program ID 13: Expected parameter loc (Tensor of shape (3,)) of distribution MultivariateNormal(loc: torch.Size([3]), covariance_matrix: torch.Size([3, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan], grad_fn=<ExpandBackward0>)
+Error in program ID 14: Expected parameter loc (Tensor of shape (2,)) of distribution Normal(loc: torch.Size([2]), scale: torch.Size([2])) to satisfy the constraint Real(), but found invalid values:
+tensor([nan, nan], grad_fn=<SelectBackward0>)
+Program ID 15 mutation optimization completed. Initial loss: 7.4892, Final loss: 7.1003
+Program ID 6 additional optimization completed. Initial loss: 6.7942, Final loss: 6.7942
+Program ID 2 additional optimization completed. Initial loss: 6.7950, Final loss: 6.7863
+Program ID 1 additional optimization completed. Initial loss: 6.7957, Final loss: 6.7957
+Program ID 8 additional optimization completed. Initial loss: 6.7966, Final loss: 6.7954
+Program ID 10 additional optimization completed. Initial loss: 6.8164, Final loss: 6.7812
+Best candidate after iteration 2: Program ID 10, Final Loss: 6.7812
+Selected candidates for next iteration: [10, 2, 6, 8, 1]
+Program ID 16 mutation optimization completed. Initial loss: 7.1435, Final loss: 6.9250
+Program ID 17 mutation optimization completed. Initial loss: 8.1914, Final loss: 6.9385
+Program ID 18 mutation optimization completed. Initial loss: 6.7960, Final loss: 6.7957
+Program ID 19 mutation optimization completed. Initial loss: 6.8734, Final loss: 6.7957
+Program ID 20 mutation optimization completed. Initial loss: 7.3563, Final loss: 7.0470
+Program ID 10 additional optimization completed. Initial loss: 6.7811, Final loss: 6.7799
+Program ID 2 additional optimization completed. Initial loss: 6.7863, Final loss: 6.7857
+Program ID 6 additional optimization completed. Initial loss: 6.7942, Final loss: 6.7942
+Program ID 8 additional optimization completed. Initial loss: 6.7954, Final loss: 6.7954
+Program ID 1 additional optimization completed. Initial loss: 6.7957, Final loss: 6.7957
+Best candidate after iteration 3: Program ID 10, Final Loss: 6.7799
+Selected candidates for next iteration: [10, 2, 6, 8, 1]
+Program ID 21 mutation optimization completed. Initial loss: 8.9118, Final loss: 6.9263
+Error in program ID 22: not enough values to unpack (expected 3, got 2)
+Error in program ID 23: not enough values to unpack (expected 3, got 2)
+Error in program ID 24: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 25: not enough values to unpack (expected 3, got 2)
+Program ID 10 additional optimization completed. Initial loss: 6.7799, Final loss: 6.7798
+Program ID 2 additional optimization completed. Initial loss: 6.7857, Final loss: 6.7857
+Program ID 6 additional optimization completed. Initial loss: 6.7942, Final loss: 6.7942
+Program ID 8 additional optimization completed. Initial loss: 6.7954, Final loss: 6.7954
+Program ID 1 additional optimization completed. Initial loss: 6.7957, Final loss: 6.7957
+Best candidate after iteration 4: Program ID 10, Final Loss: 6.7798
+Selected candidates for next iteration: [10, 2, 6, 8, 1]
+Error in program ID 26: Expected parameter loc (Tensor of shape (3,)) of distribution MultivariateNormal(loc: torch.Size([3]), covariance_matrix: torch.Size([3, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([0., nan, nan], grad_fn=<ExpandBackward0>)
+Program ID 27 mutation optimization completed. Initial loss: 8.1914, Final loss: 6.9385
+Program ID 28 mutation optimization completed. Initial loss: 6.8624, Final loss: 6.7954
+Error in program ID 29: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 30 mutation optimization completed. Initial loss: 6.9463, Final loss: 6.7879
+Program ID 10 additional optimization completed. Initial loss: 6.7798, Final loss: 6.7798
+Program ID 2 additional optimization completed. Initial loss: 6.7857, Final loss: 6.7857
+Program ID 30 additional optimization completed. Initial loss: 6.7879, Final loss: 6.7858
+Program ID 6 additional optimization completed. Initial loss: 6.7942, Final loss: 6.7942
+Program ID 8 additional optimization completed. Initial loss: 6.7954, Final loss: 6.7954
+Best candidate after iteration 5: Program ID 10, Final Loss: 6.7798
+Selected candidates for next iteration: [10, 2, 30, 6, 8]
+Early stopping after iteration 5: best loss improved by only 0.0014 over the last 3 iterations (< min_improvement=0.01).
+
+--- Final Selected Programs ---
+Program ID: 10, Final Loss: 6.7798
+Hypothesis: Flatten the piecewise model into a single three‑component mixture for all variables.
+Structure: flatten_mixture
+DeGAS code:
+mu = gm([0.45,0.30,0.25],[18.00,24.00,28.00],[2.50,2.70,3.10]);
+sigma = gm([0.45,0.30,0.25],[1.40,2.60,2.60],[0.80,1.20,1.20]);
+x = gm([0.45,0.30,0.25],[19.00,24.00,28.00],[1.90,2.70,3.10]);
+
+Program ID: 2, Final Loss: 6.7857
+Hypothesis: The data arise from two subpopulations with distinct location parameters.
+Structure: mixture2
+DeGAS code:
+mu = gm([0.60,0.40],[18.00,24.00],[2.00,2.00]);
+sigma = gm([0.55,0.45],[1.50,3.00],[0.80,1.20]);
+x = gm([0.65,0.35],[20.00,28.00],[3.00,4.00]);
+
+Program ID: 30, Final Loss: 6.7858
+Hypothesis: All variables are modeled with two‑component mixtures to capture hidden subpopulations.
+Structure: mixture2
+DeGAS code:
+mu = gm([0.60,0.40],[20.00,22.00],[3.00,4.00]); sigma = gm([0.55,0.45],[2.01,1.05],[1.00,1.10]); x = gm([0.50,0.50],[22.08,24.00],[3.98,5.00]);
+
+Program ID: 6, Final Loss: 6.7942
+Hypothesis: Two subpopulations with distinct means for mu while sigma and x remain unimodal.
+Structure: mixture2
+DeGAS code:
+mu = gm([0.55,0.45],[20.00,22.00],[3.00,4.00]);
+sigma = gm([1.00],[2.01],[1.05]);
+x = gm([1.00],[22.08],[3.98]);
+
+Program ID: 8, Final Loss: 6.7954
+Hypothesis: Sigma variable is modeled as a two‑component mixture, splitting its heterogeneity.
+Structure: split_sigma
+DeGAS code:
+temp1 = 0.55*gm([1.00],[20.00],[2.50]);
+temp2 = 0.45*gm([1.00],[25.00],[3.00]);
+mu = temp1 + temp2;
+sigma = gm([0.60,0.40],[2.30,4.00],[1.10,2.00]);
+x = gm([1.00],[22.00],[4.00]);
+
+=== Run finished in 542.3s ===

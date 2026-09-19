@@ -1,0 +1,223 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "easytugwar",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 10,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 50,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "simple_prompt": true,
+  "prompt_history": true,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/easytugwar/20260916_061345"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Skill levels follow a single normal-like distribution and win probability is constant.
+DeGAS code:
+skill1 = gm([1.00],[20.08],[4.03]);
+skill2 = gm([1.00],[19.67],[4.07]);
+p1wins = gm([1.00],[0.53],[0.00]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: There are two subpopulations with distinct skill means leading to different performance groups.
+DeGAS code:
+skill1 = gm([0.50,0.50],[15.00,25.00],[2.00,2.00]);
+skill2 = gm([0.50,0.50],[14.50,24.50],[2.00,2.00]);
+p1wins = gm([0.53,0.47],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Skills exhibit three latent clusters, reflecting low, medium, and high ability groups.
+DeGAS code:
+skill1 = gm([0.30,0.40,0.30],[12.00,20.00,28.00],[2.00,2.00,2.00]);
+skill2 = gm([0.30,0.40,0.30],[11.50,19.50,27.50],[2.00,2.00,2.00]);
+p1wins = gm([0.53,0.47],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Players with lower skill tend to have lower win probabilities, while higher‑skill players have higher win rates.
+DeGAS code:
+skill1 = gm([1.00],[20.08],[4.03]);
+if skill1 < 20.00 {
+   skill2 = gm([1.00],[15.00],[3.00]);
+   p1wins = gm([1.00],[0.40],[0.00]);
+} else {
+   skill2 = gm([1.00],[25.00],[3.00]);
+   p1wins = gm([1.00],[0.70],[0.00]);
+} end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Win probability is hierarchically determined by a scaled skill component plus a baseline effect.
+DeGAS code:
+skill1 = gm([1.00],[20.08],[4.03]);
+temp = 0.50*skill1;
+skill2 = temp + gm([1.00],[10.00],[3.00]);
+p1wins = gm([1.00],[0.53],[0.00]);
+
+Error extracting parameters from program ID 1: Expected parameter loc (Tensor of shape (3,)) of distribution MultivariateNormal(loc: torch.Size([3]), covariance_matrix: torch.Size([3, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan], grad_fn=<ExpandBackward0>)
+Program ID 2 initial optimization completed. Initial loss: 7.5413, Final loss: 6.7179
+Program ID 3 initial optimization completed. Initial loss: 7.0589, Final loss: 6.7725
+Error extracting parameters from program ID 4: Expected parameter loc (Tensor of shape (1,)) of distribution Normal(loc: tensor([nan], grad_fn=<SelectBackward0>), scale: tensor([nan], grad_fn=<SqrtBackward0>)) to satisfy the constraint Real(), but found invalid values:
+tensor([nan], grad_fn=<SelectBackward0>)
+Error extracting parameters from program ID 5: Expected parameter loc (Tensor of shape (3,)) of distribution MultivariateNormal(loc: torch.Size([3]), covariance_matrix: torch.Size([3, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan], grad_fn=<ExpandBackward0>)
+Program ID 6 mutation optimization completed. Initial loss: 7.0767, Final loss: 6.4959
+Program ID 7 mutation optimization completed. Initial loss: 7.0055, Final loss: 6.6364
+Program ID 8 mutation optimization completed. Initial loss: 9.7315, Final loss: 6.9625
+Program ID 9 mutation optimization completed. Initial loss: 7.1585, Final loss: 6.7803
+Program ID 10 mutation optimization completed. Initial loss: 7.5190, Final loss: 7.1087
+Program ID 6 additional optimization completed. Initial loss: 6.4947, Final loss: 6.3474
+Program ID 7 additional optimization completed. Initial loss: 6.6351, Final loss: 6.3651
+Program ID 2 additional optimization completed. Initial loss: 6.7134, Final loss: 6.3726
+Program ID 3 additional optimization completed. Initial loss: 6.7696, Final loss: 6.4491
+Program ID 9 additional optimization completed. Initial loss: 6.7790, Final loss: 6.5032
+Best candidate after iteration 1: Program ID 6, Final Loss: 6.3474
+Selected candidates for next iteration: [6, 7, 2, 3, 9]
+Program ID 11 mutation optimization completed. Initial loss: 6.5523, Final loss: 6.3710
+Program ID 12 mutation optimization completed. Initial loss: 7.0898, Final loss: 6.7327
+Program ID 13 mutation optimization completed. Initial loss: 7.6354, Final loss: 6.6597
+Error in program ID 14: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 15 mutation optimization completed. Initial loss: 7.1440, Final loss: 6.7800
+Program ID 6 additional optimization completed. Initial loss: 6.3473, Final loss: 6.3329
+Program ID 7 additional optimization completed. Initial loss: 6.3644, Final loss: 6.2992
+Program ID 11 additional optimization completed. Initial loss: 6.3705, Final loss: 6.3325
+Program ID 2 additional optimization completed. Initial loss: 6.3722, Final loss: 6.3349
+Program ID 3 additional optimization completed. Initial loss: 6.4479, Final loss: 6.3394
+Best candidate after iteration 2: Program ID 7, Final Loss: 6.2992
+Selected candidates for next iteration: [7, 11, 6, 2, 3]
+Program ID 16 mutation optimization completed. Initial loss: 7.2475, Final loss: 6.8596
+Program ID 17 mutation optimization completed. Initial loss: 6.4590, Final loss: 6.2795
+Program ID 18 mutation optimization completed. Initial loss: 6.5523, Final loss: 6.3710
+Program ID 19 mutation optimization completed. Initial loss: 7.6065, Final loss: 6.6327
+Program ID 20 mutation optimization completed. Initial loss: 7.0971, Final loss: 6.7338
+Program ID 17 additional optimization completed. Initial loss: 6.2790, Final loss: 6.2397
+Program ID 7 additional optimization completed. Initial loss: 6.2991, Final loss: 6.2920
+Program ID 11 additional optimization completed. Initial loss: 6.3325, Final loss: 6.3302
+Program ID 6 additional optimization completed. Initial loss: 6.3329, Final loss: 6.3307
+Program ID 2 additional optimization completed. Initial loss: 6.3349, Final loss: 6.3318
+Best candidate after iteration 3: Program ID 17, Final Loss: 6.2397
+Selected candidates for next iteration: [17, 7, 11, 6, 2]
+Program ID 21 mutation optimization completed. Initial loss: 6.7252, Final loss: 6.4053
+Program ID 22 mutation optimization completed. Initial loss: 7.0786, Final loss: 6.6857
+Program ID 23 mutation optimization completed. Initial loss: 6.6452, Final loss: 6.4555
+Program ID 24 mutation optimization completed. Initial loss: 7.5817, Final loss: 7.0010
+Program ID 25 mutation optimization completed. Initial loss: 6.7871, Final loss: 6.7871
+Program ID 17 additional optimization completed. Initial loss: 6.2397, Final loss: 6.2344
+Program ID 7 additional optimization completed. Initial loss: 6.2919, Final loss: 6.2883
+Program ID 11 additional optimization completed. Initial loss: 6.3302, Final loss: 6.3301
+Program ID 6 additional optimization completed. Initial loss: 6.3307, Final loss: 6.3307
+Program ID 2 additional optimization completed. Initial loss: 6.3318, Final loss: 6.3307
+Best candidate after iteration 4: Program ID 17, Final Loss: 6.2344
+Selected candidates for next iteration: [17, 7, 11, 2, 6]
+Program ID 26 mutation optimization completed. Initial loss: 6.6640, Final loss: 6.4642
+Program ID 27 mutation optimization completed. Initial loss: 7.0584, Final loss: 6.6894
+Program ID 28 mutation optimization completed. Initial loss: 6.4590, Final loss: 6.2795
+Program ID 29 mutation optimization completed. Initial loss: 7.6189, Final loss: 6.6434
+Error in program ID 30: 
+Program ID 17 additional optimization completed. Initial loss: 6.2344, Final loss: 6.2343
+Program ID 28 additional optimization completed. Initial loss: 6.2790, Final loss: 6.2397
+Program ID 7 additional optimization completed. Initial loss: 6.2883, Final loss: 6.2878
+Program ID 11 additional optimization completed. Initial loss: 6.3301, Final loss: 6.3301
+Program ID 2 additional optimization completed. Initial loss: 6.3307, Final loss: 6.3307
+Best candidate after iteration 5: Program ID 17, Final Loss: 6.2343
+Selected candidates for next iteration: [17, 28, 7, 11, 2]
+Program ID 31 mutation optimization completed. Initial loss: 6.5326, Final loss: 6.3478
+Program ID 32 mutation optimization completed. Initial loss: 6.5435, Final loss: 6.3590
+Program ID 33 mutation optimization completed. Initial loss: 7.0681, Final loss: 6.7084
+Program ID 34 mutation optimization completed. Initial loss: 6.4996, Final loss: 6.3208
+Error in program ID 35: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 17 additional optimization completed. Initial loss: 6.2343, Final loss: 6.2343
+Program ID 28 additional optimization completed. Initial loss: 6.2397, Final loss: 6.2344
+Program ID 7 additional optimization completed. Initial loss: 6.2878, Final loss: 6.2878
+Program ID 34 additional optimization completed. Initial loss: 6.3203, Final loss: 6.2810
+Program ID 11 additional optimization completed. Initial loss: 6.3301, Final loss: 6.3301
+Best candidate after iteration 6: Program ID 17, Final Loss: 6.2343
+Selected candidates for next iteration: [17, 28, 34, 7, 11]
+Error in program ID 36: 'avg'
+Program ID 37 mutation optimization completed. Initial loss: 6.5808, Final loss: 6.3888
+Program ID 38 mutation optimization completed. Initial loss: 6.7468, Final loss: 6.4604
+Program ID 39 mutation optimization completed. Initial loss: 7.4071, Final loss: 7.0064
+Program ID 40 mutation optimization completed. Initial loss: 6.6772, Final loss: 6.4865
+Program ID 17 additional optimization completed. Initial loss: 6.2343, Final loss: 6.2343
+Program ID 28 additional optimization completed. Initial loss: 6.2344, Final loss: 6.2343
+Program ID 34 additional optimization completed. Initial loss: 6.2810, Final loss: 6.2755
+Program ID 7 additional optimization completed. Initial loss: 6.2878, Final loss: 6.2878
+Program ID 11 additional optimization completed. Initial loss: 6.3301, Final loss: 6.3301
+Best candidate after iteration 7: Program ID 17, Final Loss: 6.2343
+Selected candidates for next iteration: [17, 28, 34, 7, 11]
+Program ID 41 mutation optimization completed. Initial loss: 6.5126, Final loss: 6.3242
+Error in program ID 42: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 43 mutation optimization completed. Initial loss: 6.6119, Final loss: 6.4268
+Program ID 44 mutation optimization completed. Initial loss: 7.6784, Final loss: 6.5662
+Program ID 45 mutation optimization completed. Initial loss: 6.6772, Final loss: 6.4865
+Program ID 17 additional optimization completed. Initial loss: 6.2343, Final loss: 6.2343
+Program ID 28 additional optimization completed. Initial loss: 6.2343, Final loss: 6.2343
+Program ID 34 additional optimization completed. Initial loss: 6.2755, Final loss: 6.2754
+Program ID 7 additional optimization completed. Initial loss: 6.2878, Final loss: 6.2878
+Program ID 41 additional optimization completed. Initial loss: 6.3237, Final loss: 6.2795
+Best candidate after iteration 8: Program ID 17, Final Loss: 6.2343
+Selected candidates for next iteration: [17, 28, 34, 41, 7]
+Program ID 46 mutation optimization completed. Initial loss: 6.5126, Final loss: 6.3242
+Program ID 47 mutation optimization completed. Initial loss: 6.4541, Final loss: 6.3001
+Program ID 48 mutation optimization completed. Initial loss: 6.5623, Final loss: 6.3776
+Program ID 49 mutation optimization completed. Initial loss: 6.4747, Final loss: 6.2857
+Program ID 50 mutation optimization completed. Initial loss: 6.8439, Final loss: 6.8439
+Program ID 17 additional optimization completed. Initial loss: 6.2343, Final loss: 6.2343
+Program ID 28 additional optimization completed. Initial loss: 6.2343, Final loss: 6.2343
+Program ID 34 additional optimization completed. Initial loss: 6.2754, Final loss: 6.2754
+Program ID 41 additional optimization completed. Initial loss: 6.2794, Final loss: 6.2694
+Program ID 49 additional optimization completed. Initial loss: 6.2852, Final loss: 6.2431
+Best candidate after iteration 9: Program ID 17, Final Loss: 6.2343
+Selected candidates for next iteration: [17, 28, 49, 41, 34]
+Program ID 51 mutation optimization completed. Initial loss: 6.4911, Final loss: 6.3034
+Program ID 52 mutation optimization completed. Initial loss: 6.6133, Final loss: 6.4270
+Program ID 53 mutation optimization completed. Initial loss: 6.5759, Final loss: 6.3611
+Program ID 54 mutation optimization completed. Initial loss: 6.4927, Final loss: 6.3091
+Program ID 55 mutation optimization completed. Initial loss: 7.1382, Final loss: 6.9198
+Program ID 17 additional optimization completed. Initial loss: 6.2343, Final loss: 6.2343
+Program ID 28 additional optimization completed. Initial loss: 6.2343, Final loss: 6.2343
+Program ID 49 additional optimization completed. Initial loss: 6.2431, Final loss: 6.2376
+Program ID 41 additional optimization completed. Initial loss: 6.2694, Final loss: 6.2675
+Program ID 34 additional optimization completed. Initial loss: 6.2754, Final loss: 6.2754
+Best candidate after iteration 10: Program ID 17, Final Loss: 6.2343
+Selected candidates for next iteration: [17, 28, 49, 41, 34]
+
+--- Final Selected Programs ---
+Program ID: 17, Final Loss: 6.2343
+Hypothesis: Win probability changes across low and high player skill levels (skill1).
+Structure: conditional
+DeGAS code:
+skill1 = gm([0.30,0.40,0.30],[14.00,20.00,26.00],[2.00,2.00,2.00]); skill2 = gm([0.33,0.34,0.33],[14.50,20.00,24.50],[2.00,2.00,2.00]); if skill1 < 18.00 { p1wins = gm([0.70,0.30],[0.00,1.00],[0.00,0.00]); } else { p1wins = gm([0.40,0.60],[0.00,1.00],[0.00,0.00]); }
+
+Program ID: 28, Final Loss: 6.2343
+Hypothesis: Win probability changes with player 1's skill level using a single threshold.
+Structure: conditional
+DeGAS code:
+skill1 = gm([0.30,0.40,0.30],[14.00,20.00,26.00],[2.00,2.00,2.00]); skill2 = gm([0.33,0.34,0.33],[14.50,20.00,24.50],[2.00,2.00,2.00]); if skill1 < 18.00 { p1wins = gm([0.70,0.30],[0.00,1.00],[0.00,0.00]); } else { p1wins = gm([0.40,0.60],[0.00,1.00],[0.00,0.00]); } end if;
+
+Program ID: 49, Final Loss: 6.2376
+Hypothesis: Interaction between players' skill difference influences win probability.
+Structure: interaction
+DeGAS code:
+skill1 = gm([0.30,0.40,0.30],[14.00,20.00,26.00],[2.00,2.00,2.00]); skill2 = gm([0.33,0.34,0.33],[14.50,20.00,24.50],[2.00,2.00,2.00]); diff = 1.00*skill1; diff = diff - 1.00*skill2; if skill1 < 18.00 { if diff > 0.00 { p1wins = gm([0.75,0.25],[0.00,1.00],[0.00,0.00]); } else { p1wins = gm([0.55,0.45],[0.00,1.00],[0.00,0.00]); } end if; } else { if diff > 0.00 { p1wins = gm([0.35,0.65],[0.00,1.00],[0.00,0.00]); } else { p1wins = gm([0.50,0.50],[0.00,1.00],[0.00,0.00]); } end if; } end if;
+
+Program ID: 41, Final Loss: 6.2675
+Hypothesis: Player 1 win probability depends on both players' skills via a two‑level conditional.
+Structure: nested-conditional
+DeGAS code:
+skill1 = gm([0.30,0.40,0.30],[14.00,20.00,26.00],[2.00,2.00,2.00]); skill2 = gm([0.33,0.34,0.33],[14.50,20.00,24.50],[2.00,2.00,2.00]); if skill1 < 18.00 { if skill2 < 15.00 { p1wins = gm([0.80,0.20],[0.00,1.00],[0.00,0.00]); } else { p1wins = gm([0.60,0.40],[0.00,1.00],[0.00,0.00]); } end if; } else { if skill2 < 15.00 { p1wins = gm([0.30,0.70],[0.00,1.00],[0.00,0.00]); } else { p1wins = gm([0.45,0.55],[0.00,1.00],[0.00,0.00]); } end if; } end if;
+
+Program ID: 34, Final Loss: 6.2754
+Hypothesis: Win probability changes with player 1 skill via a simple conditional.
+Structure: conditional
+DeGAS code:
+skill1 = gm([0.30,0.40,0.30],[14.00,20.00,26.00],[2.00,2.00,2.00]); skill2 = gm([0.33,0.34,0.33],[14.50,20.00,24.50],[2.00,2.00,2.00]); if skill1 < 18.00 { p1wins = gm([0.60,0.40],[0.00,1.00],[0.00,0.00]); } else { p1wins = gm([0.45,0.55],[0.00,1.00],[0.00,0.00]); } end if;
+
+=== Run finished in 1627.7s ===

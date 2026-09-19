@@ -10,11 +10,24 @@ tweaks — which are the gradient optimizer's job.
 """
 
 
-def _format_program_block(rank: int, entry: dict) -> str:
-    """Format a single program entry for the prompt."""
+def _format_program_block(rank: int, entry: dict, show_history: bool = True, show_heuristic: bool = True) -> str:
+    """Format a single program entry for the prompt.
+
+    `show_history=False` (the ALPS_PROMPT_HISTORY=0 ablation) strips everything that
+    reflects this candidate's optimization trajectory -- the loss/parameter before→after
+    deltas and the delta-derived "suggested mutation focus" hint -- leaving only its
+    current state (hypothesis, current loss, current parameter values, program text).
+
+    `show_heuristic=False` (the ALPS_PROMPT_HEURISTIC=0 ablation) is more targeted: it keeps
+    the loss/parameter deltas (show_history's own effect) but drops only the "suggested
+    mutation focus" line derived from them, isolating whether the heuristic itself adds
+    anything beyond the raw numbers it's computed from. Has no effect when show_history=False,
+    since there is no heuristic line to drop in that case either.
+    """
 
     def _fmt_params(initial: dict, optimized: dict, has_optimization: bool) -> str:
-        """Show initial → final for each parameter, with delta."""
+        """Show initial → final for each parameter, with delta (or just the current
+        value, if show_history is False)."""
         lines = []
         for name, init_val in initial.items():
             opt_tensor = optimized.get(name) if has_optimization else None
@@ -22,6 +35,9 @@ def _format_program_block(rank: int, entry: dict) -> str:
                 lines.append(f"    {name}: {init_val:.4f}")
                 continue
             opt_val = float(opt_tensor)
+            if not show_history:
+                lines.append(f"    {name}: {opt_val:.4f}")
+                continue
             delta = opt_val - float(init_val)
             arrow = f"{init_val:.4f} → {opt_val:.4f}  (Δ {delta:+.4f})"
             lines.append(f"    {name}: {arrow}")
@@ -31,17 +47,17 @@ def _format_program_block(rank: int, entry: dict) -> str:
     final_loss   = entry.get("final_loss", None)
     loss_delta   = (final_loss - initial_loss) if (initial_loss is not None and final_loss is not None) else None
 
-    loss_line = ""
-    if initial_loss is not None and final_loss is not None:
+    if not show_history:
+        loss_line = f"  loss: {final_loss:.4f}" if final_loss is not None else ""
+    elif initial_loss is not None and final_loss is not None:
         loss_line = (
             f"  loss: {initial_loss:.4f} → {final_loss:.4f}"
             f"  (Δ {loss_delta:+.4f})"
         )
     elif final_loss is not None:
         loss_line = f"  loss: {final_loss:.4f}"
-
-    # Deterministic mutation-strategy hint based on Δloss / Δparams
-    strategy_hint = _suggest_strategy(entry, loss_delta)
+    else:
+        loss_line = ""
 
     params_block = _fmt_params(
         entry.get("params", {}),
@@ -49,13 +65,29 @@ def _format_program_block(rank: int, entry: dict) -> str:
         has_optimization=final_loss is not None,
     )
 
+    if show_history:
+        heuristic_line = ""
+        if show_heuristic:
+            # Deterministic mutation-strategy hint based on Δloss / Δparams
+            strategy_hint = _suggest_strategy(entry, loss_delta)
+            heuristic_line = f"  suggested mutation focus: {strategy_hint}\n"
+        return (
+            f"### Program {rank}  [id={entry['id']}]\n"
+            f"  hypothesis: {entry['hypothesis']}\n"
+            f"{loss_line}\n"
+            f"  parameters (initial → after gradient):\n"
+            f"{params_block}\n"
+            f"{heuristic_line}"
+            f"  program:\n"
+            f"    {entry['program']}\n"
+        )
+
     return (
         f"### Program {rank}  [id={entry['id']}]\n"
         f"  hypothesis: {entry['hypothesis']}\n"
         f"{loss_line}\n"
-        f"  parameters (initial → after gradient):\n"
+        f"  parameters (current, after gradient):\n"
         f"{params_block}\n"
-        f"  suggested mutation focus: {strategy_hint}\n"
         f"  program:\n"
         f"    {entry['program']}\n"
     )
@@ -147,6 +179,8 @@ def build_mutation_prompt(
     iteration: int = 1,
     grammar: str = "DeGAS grammar as specified in the system prompt",
     rejected_history: list[dict] | None = None,
+    show_history: bool = True,
+    show_heuristic: bool = True,
 ) -> str:
     """
     Build the user-turn mutation prompt.
@@ -167,6 +201,16 @@ def build_mutation_prompt(
         Previously proposed mutations that did not improve on their parent
         (or failed validation). Used to steer the LLM away from repeating
         unsuccessful structural changes. See `_format_failure_history`.
+    show_history : bool
+        When False (the ALPS_PROMPT_HISTORY=0 ablation), strips each candidate's
+        optimization trajectory (loss/parameter before→after deltas, the delta-derived
+        "suggested mutation focus" hint, and the "What the numbers mean" section that
+        explains them) from the prompt, leaving only each candidate's current state.
+    show_heuristic : bool
+        When False (the ALPS_PROMPT_HEURISTIC=0 ablation), keeps the loss/parameter deltas
+        but drops only the "suggested mutation focus" hint derived from them -- a narrower
+        ablation than show_history, isolating whether the heuristic itself helps beyond the
+        raw numbers. No effect when show_history is already False.
 
     Returns
     -------
@@ -176,11 +220,33 @@ def build_mutation_prompt(
     pool_sorted = sorted(pool, key=lambda e: e.get("final_loss") or e.get("initial_loss") or float("inf"))
 
     program_blocks = "\n".join(
-        _format_program_block(rank + 1, entry)
+        _format_program_block(rank + 1, entry, show_history=show_history, show_heuristic=show_heuristic)
         for rank, entry in enumerate(pool_sorted)
     )
 
     failure_block = _format_failure_history(rejected_history)
+
+    numbers_block = ""
+    if show_history:
+        numbers_block = """\
+## What the numbers mean
+
+- **loss**: negative log-likelihood per datapoint (lower = better fit).
+- **Δ loss**: how much gradient optimization improved the program. \
+A large negative Δ means the structure was promising but parameters needed tuning. \
+A near-zero Δ means the structure may be a poor fit regardless of parameter values.
+- **parameter Δ**: how much each parameter moved during gradient optimization. \
+Large moves mean the LLM's initial value was far from the optimum — the structure \
+is acceptable but the initialisation was poor. \
+Small moves mean the parameter is either well-initialised or insensitive.
+"""
+        if show_heuristic:
+            numbers_block += """\
+- **suggested mutation focus**: a hint derived directly from this program's own \
+loss and parameter deltas — use it to ground your mutation in this program's \
+specific diagnostics rather than a generic strategy.
+"""
+        numbers_block += "\n"
 
     # Deterministic id assignment: ids for this iteration are
     # [iteration * n_mutations + 1, ..., iteration * n_mutations + n_mutations].
@@ -205,21 +271,7 @@ optimize some of their parameters with gradient descent and report back the fina
 
 {program_blocks}
 
-## What the numbers mean
-
-- **loss**: negative log-likelihood per datapoint (lower = better fit).
-- **Δ loss**: how much gradient optimization improved the program. \
-A large negative Δ means the structure was promising but parameters needed tuning. \
-A near-zero Δ means the structure may be a poor fit regardless of parameter values.
-- **parameter Δ**: how much each parameter moved during gradient optimization. \
-Large moves mean the LLM's initial value was far from the optimum — the structure \
-is acceptable but the initialisation was poor. \
-Small moves mean the parameter is either well-initialised or insensitive.
-- **suggested mutation focus**: a hint derived directly from this program's own \
-loss and parameter deltas — use it to ground your mutation in this program's \
-specific diagnostics rather than a generic strategy.
-
-## Previously rejected mutations (do not repeat these)
+{numbers_block}## Previously rejected mutations (do not repeat these)
 
 The following structural mutations were already tried and did NOT improve on \
 their parent program (or were invalid). Avoid proposing the same structure + \
@@ -238,8 +290,7 @@ likely to achieve a **lower loss** than that program. You must produce \
 Focus on **structural mutations** — the gradient optimizer will handle numeric \
 fine-tuning after you. Avoid simply changing numbers.
 
-Useful structural mutations to consider (use the "suggested mutation focus" for \
-each program to pick the most relevant ones):
+Useful structural mutations to consider{" (use the \"suggested mutation focus\" for each program to pick the most relevant ones)" if (show_history and show_heuristic) else ""}:
 - **Split a component**: replace a single-component `gm` with a 2- or 3-component mixture \
 if the gradient moved its mean or sigma a lot (the data may be multimodal there).
 - **Merge components**: if two components of a mixture have similar optimized means, \
@@ -249,7 +300,7 @@ capture subpopulations with different behaviour.
 - **Remove a conditional**: if both branches of an existing `if/else` converged to \
 similar parameter values, flatten them into a single distribution.
 - **Change dependency structure**: introduce or remove intermediate variables \
-(scaled sums, products) to capture correlations between `a` and `b`.
+(scaled sums, products) to capture correlations between the variables.
 - **Re-initialise a poor program**: if a program has near-zero Δ loss and high loss, \
 replace it with a structurally different hypothesis.
 

@@ -1,0 +1,158 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "csi",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 10,
+  "patience": 3,
+  "min_improvement": 0.01,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 50,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "simple_prompt": false,
+  "prompt_history": true,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/csi/20260916_235136"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: All variables follow a single approximately normal distribution constrained to [0,1].
+DeGAS code:
+u = gm([1.00],[0.30],[0.46]);
+v = gm([1.00],[0.90],[0.31]);
+w = gm([1.00],[0.11],[0.31]);
+x = gm([1.00],[0.58],[0.49]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Each variable arises from two subpopulations with different means.
+DeGAS code:
+u = gm([0.55,0.45],[0.10,0.60],[0.15,0.20]);
+v = gm([0.55,0.45],[0.70,0.95],[0.12,0.10]);
+w = gm([0.55,0.45],[0.02,0.30],[0.05,0.15]);
+x = gm([0.55,0.45],[0.40,0.80],[0.18,0.12]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Variables exhibit three distinct modes reflecting heterogeneous processes.
+DeGAS code:
+u = gm([0.30,0.40,0.30],[0.05,0.35,0.80],[0.10,0.12,0.08]);
+v = gm([0.30,0.40,0.30],[0.60,0.85,0.98],[0.09,0.07,0.06]);
+w = gm([0.30,0.40,0.30],[0.00,0.15,0.50],[0.05,0.10,0.07]);
+x = gm([0.30,0.40,0.30],[0.30,0.55,0.90],[0.12,0.10,0.09]);
+
+Program ID: 4, Structure: conditional, Hypothesis: If variable u is low (<0.5) the other variables follow one distribution; otherwise they follow another.
+DeGAS code:
+u = gm([1.00],[0.30],[0.46]);
+if u < 0.50 {
+    v = gm([1.00],[0.70],[0.15]);
+    w = gm([1.00],[0.10],[0.05]);
+    x = gm([1.00],[0.40],[0.12]);
+} else {
+    v = gm([1.00],[0.95],[0.08]);
+    w = gm([1.00],[0.30],[0.10]);
+    x = gm([1.00],[0.80],[0.09]);
+} end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Each variable is modeled as the product of two independent latent factors.
+DeGAS code:
+a_u = gm([1.00],[0.20],[0.10]);
+b_u = gm([1.00],[0.15],[0.08]);
+u = a_u * b_u;
+a_v = gm([1.00],[0.70],[0.12]);
+b_v = gm([1.00],[0.25],[0.07]);
+v = a_v * b_v;
+a_w = gm([1.00],[0.05],[0.04]);
+b_w = gm([1.00],[0.10],[0.06]);
+w = a_w * b_w;
+a_x = gm([1.00],[0.45],[0.15]);
+b_x = gm([1.00],[0.20],[0.09]);
+x = a_x * b_x;
+
+Program ID 1 initial optimization completed. Initial loss: 1.8258, Final loss: 1.8252
+Program ID 2 initial optimization completed. Initial loss: 3.1412, Final loss: -3.4012
+Program ID 3 initial optimization completed. Initial loss: 5.5759, Final loss: -4.5297
+Program ID 4 initial optimization completed. Initial loss: 13.3930, Final loss: 3.9332
+Error extracting parameters from program ID 5: 'u'
+Program ID 6 mutation optimization completed. Initial loss: 2.6442, Final loss: -6.7637
+Program ID 7 mutation optimization completed. Initial loss: 3.2999, Final loss: -5.2932
+Program ID 8 mutation optimization completed. Initial loss: 3.6602, Final loss: -1.2571
+Program ID 9 mutation optimization completed. Initial loss: 11.7023, Final loss: -3.8060
+Program ID 10 mutation optimization completed. Initial loss: 31.0431, Final loss: 5.3068
+Program ID 6 additional optimization completed. Initial loss: -6.8019, Final loss: -14.6628
+Program ID 7 additional optimization completed. Initial loss: -5.3314, Final loss: -13.2382
+Program ID 3 additional optimization completed. Initial loss: -4.5782, Final loss: -12.7318
+Program ID 9 additional optimization completed. Initial loss: -3.8350, Final loss: -9.8312
+Program ID 2 additional optimization completed. Initial loss: -3.4510, Final loss: -11.6074
+Best candidate after iteration 1: Program ID 6, Final Loss: -14.6628
+Selected candidates for next iteration: [6, 7, 3, 2, 9]
+Error in program ID 11: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 12 mutation optimization completed. Initial loss: 3.4478, Final loss: -5.1408
+Program ID 13 mutation optimization completed. Initial loss: 4.1577, Final loss: -6.3541
+Program ID 14 mutation optimization completed. Initial loss: 15.8756, Final loss: 3.1004
+Program ID 15 mutation optimization completed. Initial loss: 12.2758, Final loss: -4.7994
+Program ID 6 additional optimization completed. Initial loss: -14.7209, Final loss: -19.3272
+Program ID 7 additional optimization completed. Initial loss: -13.2382, Final loss: -19.4825
+Program ID 3 additional optimization completed. Initial loss: -12.7678, Final loss: -18.8198
+Program ID 2 additional optimization completed. Initial loss: -11.6359, Final loss: -18.7623
+Program ID 9 additional optimization completed. Initial loss: -9.8900, Final loss: -14.3995
+Best candidate after iteration 2: Program ID 7, Final Loss: -19.4825
+Selected candidates for next iteration: [7, 6, 3, 2, 9]
+Program ID 16 mutation optimization completed. Initial loss: 3.3449, Final loss: -5.5395
+Program ID 17 mutation optimization completed. Initial loss: 16.9805, Final loss: -5.3546
+Error in program ID 18: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 19 mutation optimization completed. Initial loss: 3.3813, Final loss: -5.2032
+Program ID 20 mutation optimization completed. Initial loss: 15.7946, Final loss: -3.8563
+Program ID 7 additional optimization completed. Initial loss: -19.5923, Final loss: -20.6435
+Program ID 6 additional optimization completed. Initial loss: -19.3272, Final loss: -19.3272
+Program ID 3 additional optimization completed. Initial loss: -18.8999, Final loss: -19.3213
+Program ID 2 additional optimization completed. Initial loss: -18.7623, Final loss: -20.6731
+Program ID 9 additional optimization completed. Initial loss: -14.3995, Final loss: -14.9954
+Best candidate after iteration 3: Program ID 2, Final Loss: -20.6731
+Selected candidates for next iteration: [2, 7, 6, 3, 9]
+No new candidates generated in iteration 4; stopping early.
+
+--- Final Selected Programs ---
+Program ID: 2, Final Loss: -20.6731
+Hypothesis: Each variable arises from two subpopulations with different means.
+Structure: mixture2
+DeGAS code:
+u = gm([0.55,0.45],[0.10,0.60],[0.15,0.20]);
+v = gm([0.55,0.45],[0.70,0.95],[0.12,0.10]);
+w = gm([0.55,0.45],[0.02,0.30],[0.05,0.15]);
+x = gm([0.55,0.45],[0.40,0.80],[0.18,0.12]);
+
+Program ID: 7, Final Loss: -20.6435
+Hypothesis: Variable u determines subpopulation; other variables have distinct distributions conditioned on low or high u.
+Structure: conditional
+DeGAS code:
+u = gm([0.55,0.45],[0.10,0.60],[0.15,0.20]); if u < 0.50 { v = gm([0.60,0.40],[0.70,0.95],[0.12,0.10]); w = gm([0.60,0.40],[0.02,0.30],[0.05,0.15]); x = gm([0.60,0.40],[0.40,0.80],[0.18,0.12]); } else { v = gm([0.55,0.45],[0.72,0.97],[0.13,0.11]); w = gm([0.55,0.45],[0.03,0.32],[0.06,0.14]); x = gm([0.55,0.45],[0.42,0.82],[0.19,0.13]); } end if;
+
+Program ID: 6, Final Loss: -19.3272
+Hypothesis: Variables arise from a richer multimodal distribution with an extra subpopulation captured by splitting the dominant component.
+Structure: mixture4
+DeGAS code:
+u = gm([0.25,0.30,0.20,0.25],[0.02,0.35,0.78,1.05],[0.08,0.12,0.07,0.09]); v = gm([0.25,0.30,0.20,0.25],[0.58,0.86,0.99,1.10],[0.09,0.06,0.08,0.07]); w = gm([0.25,0.30,0.20,0.25],[0.00,0.12,0.48,0.70],[0.05,0.10,0.07,0.09]); x = gm([0.25,0.30,0.20,0.25],[0.32,0.56,0.88,1.02],[0.12,0.10,0.09,0.08]);
+
+Program ID: 3, Final Loss: -19.3213
+Hypothesis: Variables exhibit three distinct modes reflecting heterogeneous processes.
+Structure: mixture3
+DeGAS code:
+u = gm([0.30,0.40,0.30],[0.05,0.35,0.80],[0.10,0.12,0.08]);
+v = gm([0.30,0.40,0.30],[0.60,0.85,0.98],[0.09,0.07,0.06]);
+w = gm([0.30,0.40,0.30],[0.00,0.15,0.50],[0.05,0.10,0.07]);
+x = gm([0.30,0.40,0.30],[0.30,0.55,0.90],[0.12,0.10,0.09]);
+
+Program ID: 9, Final Loss: -14.9954
+Hypothesis: Removing the conditional and merging regimes into unified mixtures for v, w, x improves fit.
+Structure: merge_conditional
+DeGAS code:
+u = gm([1.00],[0.30],[0.46]); v = gm([0.50,0.50],[0.70,0.95],[0.15,0.08]); w = gm([0.50,0.50],[0.10,0.30],[0.05,0.06]); x = gm([0.50,0.50],[0.40,0.80],[0.12,0.09]);
+
+=== Run finished in 992.8s ===

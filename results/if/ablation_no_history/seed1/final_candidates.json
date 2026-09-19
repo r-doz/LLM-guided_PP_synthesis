@@ -1,0 +1,161 @@
+[
+  {
+    "id": 19,
+    "hypothesis": "b changes across three ranges of a using multi\u2011conditional branching",
+    "structure": "multi_conditional",
+    "program": "a = gm([1.00],[1.05],[1.97]);\nif a < -1.00 {\n    b = gm([1.00],[-3.00],[2.50]);\n} else {\n    if a < 0.00 {\n        b = gm([1.00],[-2.00],[3.00]);\n    } else {\n        b = gm([1.00],[6.00],[4.00]);\n    }\n}\nend if;",
+    "params": {
+      "mu1": 1.05,
+      "sigma1": 1.97,
+      "mu2": -3.0,
+      "sigma2": 2.5,
+      "mu3": -2.0,
+      "sigma3": 3.0,
+      "mu4": 6.0,
+      "sigma4": 4.0
+    },
+    "rewritten": "a = gm([1.00], [_mu1], [_sigma1]);\nif a < -1.00 {\n    b = gm([1.00], [_mu2], [_sigma2]);\n} else {\n    if a < 0.00 {\n        b = gm([1.00], [_mu3], [_sigma3]);\n    } else {\n        b = gm([1.00], [_mu4], [_sigma4]);\n    }\n}\nend if;",
+    "optimized_params": {
+      "mu1": "tensor(1.0690)",
+      "sigma1": "tensor(1.9718)",
+      "mu2": "tensor(-6.8565)",
+      "sigma2": "tensor(3.0872)",
+      "mu3": "tensor(-1.8563)",
+      "sigma3": "tensor(1.4713)",
+      "mu4": "tensor(7.9696)",
+      "sigma4": "tensor(0.9873)"
+    },
+    "initial_loss": 3.8852500566120916,
+    "final_loss": 3.885250056581666,
+    "opt_time": 1.982,
+    "opt_iterations": 123
+  },
+  {
+    "id": 9,
+    "hypothesis": "b has different subpopulations depending on the sign of a.",
+    "structure": "conditional",
+    "program": "a = gm([0.20,0.30,0.50],[-4.00,0.00,5.00],[0.80,1.00,2.00]);\nif a < 0.00 {\n    b = gm([0.60,0.40],[-10.00,2.00],[4.00,3.00]);\n} else {\n    b = gm([1.00],[12.00],[7.00]);\n}\nend if;",
+    "params": {
+      "mu1": -4.0,
+      "mu2": 0.0,
+      "mu3": 5.0,
+      "sigma1": 0.8,
+      "sigma2": 1.0,
+      "sigma3": 2.0,
+      "mu4": -10.0,
+      "mu5": 2.0,
+      "sigma4": 4.0,
+      "sigma5": 3.0,
+      "mu6": 12.0,
+      "sigma6": 7.0
+    },
+    "rewritten": "a = gm([0.20,0.30,0.50], [_mu1, _mu2, _mu3], [_sigma1, _sigma2, _sigma3]);\nif a < 0.00 {\n    b = gm([0.60,0.40], [_mu4, _mu5], [_sigma4, _sigma5]);\n} else {\n    b = gm([1.00], [_mu6], [_sigma6]);\n}\nend if;",
+    "optimized_params": {
+      "mu1": "tensor(-1.4734)",
+      "mu2": "tensor(0.3822)",
+      "mu3": "tensor(2.4549)",
+      "sigma1": "tensor(1.3694)",
+      "sigma2": "tensor(0.8162)",
+      "sigma3": "tensor(1.3720)",
+      "mu4": "tensor(-5.4121)",
+      "mu5": "tensor(-1.9042)",
+      "sigma4": "tensor(3.5767)",
+      "sigma5": "tensor(1.4655)",
+      "mu6": "tensor(7.9696)",
+      "sigma6": "tensor(0.9872)"
+    },
+    "initial_loss": 3.9033146071623515,
+    "final_loss": 3.9033146071623515,
+    "opt_time": 2.066,
+    "opt_iterations": 123
+  },
+  {
+    "id": 7,
+    "hypothesis": "The distribution of b depends on whether a is negative or non\u2011negative.",
+    "structure": "conditional",
+    "program": "a = gm([0.45,0.55],[-2.00,3.50],[1.20,2.10]);\nif a < 0.00 {\n    b = gm([1.00],[-5.00],[3.00]);\n} else {\n    b = gm([1.00],[8.00],[6.00]);\n}\nend if;",
+    "params": {
+      "mu1": -2.0,
+      "mu2": 3.5,
+      "sigma1": 1.2,
+      "sigma2": 2.1,
+      "mu3": -5.0,
+      "sigma3": 3.0,
+      "mu4": 8.0,
+      "sigma4": 6.0
+    },
+    "rewritten": "a = gm([0.45,0.55], [_mu1, _mu2], [_sigma1, _sigma2]);\nif a < 0.00 {\n    b = gm([1.00], [_mu3], [_sigma3]);\n} else {\n    b = gm([1.00], [_mu4], [_sigma4]);\n}\nend if;",
+    "optimized_params": {
+      "mu1": "tensor(-0.4101)",
+      "mu2": "tensor(2.1598)",
+      "sigma1": "tensor(1.5419)",
+      "sigma2": "tensor(1.5121)",
+      "mu3": "tensor(-3.9307)",
+      "sigma3": "tensor(3.3718)",
+      "mu4": "tensor(7.9701)",
+      "sigma4": "tensor(0.9868)"
+    },
+    "initial_loss": 3.978340733875473,
+    "final_loss": 3.978340733875473,
+    "opt_time": 1.51,
+    "opt_iterations": 118
+  },
+  {
+    "id": 12,
+    "hypothesis": "a is bimodal and influences b via a sign-dependent rule.",
+    "structure": "conditional",
+    "program": "a = gm([0.50,0.50],[-2.00,4.00],[1.00,1.00]);\nif a < 0.00 {\n    b = gm([1.00],[-2.00],[3.00]);\n} else {\n    b = gm([1.00],[6.00],[4.00]);\n}\nend if;",
+    "params": {
+      "mu1": -2.0,
+      "mu2": 4.0,
+      "sigma1": 1.0,
+      "sigma2": 1.0,
+      "mu3": -2.0,
+      "sigma3": 3.0,
+      "mu4": 6.0,
+      "sigma4": 4.0
+    },
+    "rewritten": "a = gm([0.50,0.50], [_mu1, _mu2], [_sigma1, _sigma2]);\nif a < 0.00 {\n    b = gm([1.00], [_mu3], [_sigma3]);\n} else {\n    b = gm([1.00], [_mu4], [_sigma4]);\n}\nend if;",
+    "optimized_params": {
+      "mu1": "tensor(-0.2900)",
+      "mu2": "tensor(2.2645)",
+      "sigma1": "tensor(1.5600)",
+      "sigma2": "tensor(1.4999)",
+      "mu3": "tensor(-3.9305)",
+      "sigma3": "tensor(3.3721)",
+      "mu4": "tensor(7.9701)",
+      "sigma4": "tensor(0.9867)"
+    },
+    "initial_loss": 3.9797391848136496,
+    "final_loss": 3.9797391848136496,
+    "opt_time": 1.673,
+    "opt_iterations": 122
+  },
+  {
+    "id": 4,
+    "hypothesis": "The distribution of b changes depending on whether a is negative or non\u2011negative.",
+    "structure": "conditional",
+    "program": "a = gm([1.00],[1.05],[1.97]);\nif a < 0.00 {\n    b = gm([1.00],[-2.00],[3.00]);\n} else {\n    b = gm([1.00],[6.00],[4.00]);\n}\nend if;",
+    "params": {
+      "mu1": 1.05,
+      "sigma1": 1.97,
+      "mu2": -2.0,
+      "sigma2": 3.0,
+      "mu3": 6.0,
+      "sigma3": 4.0
+    },
+    "rewritten": "a = gm([1.00], [_mu1], [_sigma1]);\nif a < 0.00 {\n    b = gm([1.00], [_mu2], [_sigma2]);\n} else {\n    b = gm([1.00], [_mu3], [_sigma3]);\n}\nend if;",
+    "optimized_params": {
+      "mu1": "tensor(1.0122)",
+      "sigma1": "tensor(1.9809)",
+      "mu2": "tensor(-3.9288)",
+      "sigma2": "tensor(3.3742)",
+      "mu3": "tensor(7.9703)",
+      "sigma3": "tensor(0.9866)"
+    },
+    "initial_loss": 4.010188053198921,
+    "final_loss": 4.010188053198921,
+    "opt_time": 1.376,
+    "opt_iterations": 122
+  }
+]

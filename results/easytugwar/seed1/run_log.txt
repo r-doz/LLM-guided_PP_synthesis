@@ -1,0 +1,135 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "easytugwar",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 10,
+  "patience": 3,
+  "min_improvement": 0.01,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 50,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "simple_prompt": false,
+  "prompt_history": true,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/easytugwar/20260916_204031"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Skill levels follow a single normal-like distribution and win probability is roughly balanced.
+DeGAS code:
+skill1 = gm([1.00],[20.05],[3.99]); skill2 = gm([1.00],[20.18],[3.97]); p1wins = gm([1.00],[0.50],[0.50]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: The population consists of two distinct skill subgroups, while wins remain evenly split.
+DeGAS code:
+skill1 = gm([0.60,0.40],[12.00,28.00],[2.50,2.50]); skill2 = gm([0.60,0.40],[11.50,27.50],[2.50,2.50]); p1wins = gm([0.50,0.50],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Skills exhibit three modes representing low, medium, and high ability groups with balanced win outcomes.
+DeGAS code:
+skill1 = gm([0.30,0.50,0.20],[10.00,20.00,30.00],[2.00,2.00,2.00]); skill2 = gm([0.30,0.50,0.20],[9.50,20.50,31.00],[2.00,2.00,2.00]); p1wins = gm([0.50,0.50],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Players with high skill1 have a higher chance of winning compared to those below the threshold.
+DeGAS code:
+skill1 = gm([1.00],[20.05],[3.99]); skill2 = gm([1.00],[20.18],[3.97]); if skill1 > 25.00 { p1wins = gm([0.70,0.30],[0.00,1.00],[0.00,0.00]); } else { p1wins = gm([0.40,0.60],[0.00,1.00],[0.00,0.00]); } end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Overall skill is modeled as the product of a latent ability factor and an observed scaling, with wins balanced.
+DeGAS code:
+latent = gm([1.00],[10.00],[2.00]); scale = gm([1.00],[2.00],[0.50]); skill1 = latent * scale; skill2 = gm([1.00],[20.18],[3.97]); p1wins = gm([0.50,0.50],[0.00,1.00],[0.00,0.00]);
+
+Program ID 1 initial optimization completed. Initial loss: 6.3258, Final loss: 6.3258
+Program ID 2 initial optimization completed. Initial loss: 10.2838, Final loss: 8.0828
+Program ID 3 initial optimization completed. Initial loss: 7.5740, Final loss: 7.0036
+Program ID 4 initial optimization completed. Initial loss: 6.3895, Final loss: 6.3889
+Program ID 5 initial optimization completed. Initial loss: 6.4685, Final loss: 6.2965
+Program ID 6 mutation optimization completed. Initial loss: 6.8789, Final loss: 6.5899
+Program ID 7 mutation optimization completed. Initial loss: 6.3895, Final loss: 6.3889
+Program ID 8 mutation optimization completed. Initial loss: 7.2305, Final loss: 6.8165
+Error in program ID 9: 'group'
+Program ID 10 mutation optimization completed. Initial loss: 7.0968, Final loss: 6.7576
+Program ID 5 additional optimization completed. Initial loss: 6.2960, Final loss: 6.2932
+Program ID 1 additional optimization completed. Initial loss: 6.3258, Final loss: 6.3258
+Program ID 7 additional optimization completed. Initial loss: 6.3889, Final loss: 6.3889
+Program ID 4 additional optimization completed. Initial loss: 6.3889, Final loss: 6.3889
+Program ID 6 additional optimization completed. Initial loss: 6.5891, Final loss: 6.2997
+Best candidate after iteration 1: Program ID 5, Final Loss: 6.2932
+Selected candidates for next iteration: [5, 6, 1, 4, 7]
+Error in program ID 11: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 12: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 13 mutation optimization completed. Initial loss: 6.4267, Final loss: 6.4245
+Program ID 14 mutation optimization completed. Initial loss: 6.2976, Final loss: 6.2976
+Program ID 15 mutation optimization completed. Initial loss: 6.3688, Final loss: 6.3673
+Program ID 5 additional optimization completed. Initial loss: 6.2932, Final loss: 6.2932
+Program ID 14 additional optimization completed. Initial loss: 6.2976, Final loss: 6.2976
+Program ID 6 additional optimization completed. Initial loss: 6.2995, Final loss: 6.2924
+Program ID 1 additional optimization completed. Initial loss: 6.3258, Final loss: 6.3258
+Program ID 15 additional optimization completed. Initial loss: 6.3673, Final loss: 6.3673
+Best candidate after iteration 2: Program ID 6, Final Loss: 6.2924
+Selected candidates for next iteration: [6, 5, 14, 1, 15]
+Error in program ID 16: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 17: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 18: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 19: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 20 mutation optimization completed. Initial loss: 34.1111, Final loss: 10.3940
+Program ID 6 additional optimization completed. Initial loss: 6.2924, Final loss: 6.2924
+Program ID 5 additional optimization completed. Initial loss: 6.2932, Final loss: 6.2932
+Program ID 14 additional optimization completed. Initial loss: 6.2976, Final loss: 6.2976
+Program ID 1 additional optimization completed. Initial loss: 6.3258, Final loss: 6.3258
+Program ID 15 additional optimization completed. Initial loss: 6.3673, Final loss: 6.3673
+Best candidate after iteration 3: Program ID 6, Final Loss: 6.2924
+Selected candidates for next iteration: [6, 5, 14, 1, 15]
+Error in program ID 21: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 22: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 23 mutation optimization completed. Initial loss: 6.3451, Final loss: 6.3441
+Error in program ID 24: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 25 mutation optimization completed. Initial loss: 6.3830, Final loss: 6.3789
+Program ID 6 additional optimization completed. Initial loss: 6.2924, Final loss: 6.2924
+Program ID 5 additional optimization completed. Initial loss: 6.2932, Final loss: 6.2932
+Program ID 14 additional optimization completed. Initial loss: 6.2976, Final loss: 6.2976
+Program ID 1 additional optimization completed. Initial loss: 6.3258, Final loss: 6.3258
+Program ID 23 additional optimization completed. Initial loss: 6.3441, Final loss: 6.3441
+Best candidate after iteration 4: Program ID 6, Final Loss: 6.2924
+Selected candidates for next iteration: [6, 5, 14, 1, 23]
+Early stopping after iteration 4: best loss improved by only 0.0008 over the last 3 iterations (< min_improvement=0.01).
+
+--- Final Selected Programs ---
+Program ID: 6, Final Loss: 6.2924
+Hypothesis: Overall skill is generated by a two‑component latent ability mixture multiplied by an observed scaling factor.
+Structure: mixture2
+DeGAS code:
+latent = gm([0.60,0.40],[10.00,20.00],[2.00,2.00]); scale = gm([1.00],[2.00],[0.50]); skill1 = latent * scale; skill2 = gm([1.00],[20.18],[3.97]); p1wins = gm([0.50,0.50],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 5, Final Loss: 6.2932
+Hypothesis: Overall skill is modeled as the product of a latent ability factor and an observed scaling, with wins balanced.
+Structure: hierarchical
+DeGAS code:
+latent = gm([1.00],[10.00],[2.00]); scale = gm([1.00],[2.00],[0.50]); skill1 = latent * scale; skill2 = gm([1.00],[20.18],[3.97]); p1wins = gm([0.50,0.50],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 14, Final Loss: 6.2976
+Hypothesis: Win probability is modeled as a single balanced binary mixture independent of skill thresholds.
+Structure: flatten
+DeGAS code:
+skill1 = gm([1.00],[20.05],[3.99]); skill2 = gm([1.00],[20.18],[3.97]); p1wins = gm([0.55,0.45],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 1, Final Loss: 6.3258
+Hypothesis: Skill levels follow a single normal-like distribution and win probability is roughly balanced.
+Structure: unimodal
+DeGAS code:
+skill1 = gm([1.00],[20.05],[3.99]); skill2 = gm([1.00],[20.18],[3.97]); p1wins = gm([1.00],[0.50],[0.50]);
+
+Program ID: 23, Final Loss: 6.3441
+Hypothesis: Win probability depends on combined sum of two skill components with conditional regimes.
+Structure: conditional_sum
+DeGAS code:
+skill1 = gm([1.00],[20.05],[3.99]); skill2 = gm([1.00],[20.18],[3.97]); temp = skill1 + skill2; if temp > 40.00 { p1wins = gm([0.60,0.40],[0.00,1.00],[0.00,0.00]); } else { p1wins = gm([0.50,0.50],[0.00,1.00],[0.00,0.00]); }
+
+=== Run finished in 426.0s ===

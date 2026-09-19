@@ -1,0 +1,118 @@
+[
+  {
+    "id": 2,
+    "hypothesis": "Variable a consists of two subpopulations: low and high values, while b is similarly bimodal.",
+    "structure": "mixture2",
+    "program": "a = gm([0.40,0.60],[-3.00,4.00],[1.00,1.50]);\nb = gm([0.45,0.55],[-5.00,9.00],[2.00,3.00]);",
+    "params": {
+      "mu1": -3.0,
+      "mu2": 4.0,
+      "sigma1": 1.0,
+      "sigma2": 1.5,
+      "mu3": -5.0,
+      "mu4": 9.0,
+      "sigma3": 2.0,
+      "sigma4": 3.0
+    },
+    "rewritten": "a = gm([0.40,0.60], [_mu1, _mu2], [_sigma1, _sigma2]);\nb = gm([0.45,0.55], [_mu3, _mu4], [_sigma3, _sigma4]);",
+    "optimized_params": {
+      "mu1": "tensor(-2.2119, requires_grad=True)",
+      "mu2": "tensor(3.2646, requires_grad=True)",
+      "sigma1": "tensor(1.8564, grad_fn=<ExpBackward0>)",
+      "sigma2": "tensor(2.1654, grad_fn=<ExpBackward0>)",
+      "mu3": "tensor(-4.3239, requires_grad=True)",
+      "mu4": "tensor(8.0964, requires_grad=True)",
+      "sigma3": "tensor(3.1698, grad_fn=<ExpBackward0>)",
+      "sigma4": "tensor(1.1905, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 6.298605914840095,
+    "final_loss": 4.864265475560053,
+    "opt_time": 0.638,
+    "opt_iterations": 100
+  },
+  {
+    "id": 3,
+    "hypothesis": "Variable b shows strong left skew, modeled with three Gaussian components.",
+    "structure": "mixture3",
+    "program": "a = gm([0.20,0.30,0.50],[-2.00,0.00,5.00],[1.00,1.00,1.00]);\nb = gm([0.10,0.40,0.50],[-8.00,-2.00,6.00],[2.00,1.50,2.50]);",
+    "params": {
+      "mu1": -2.0,
+      "mu2": 0.0,
+      "mu3": 5.0,
+      "sigma1": 1.0,
+      "sigma2": 1.0,
+      "sigma3": 1.0,
+      "mu4": -8.0,
+      "mu5": -2.0,
+      "mu6": 6.0,
+      "sigma4": 2.0,
+      "sigma5": 1.5,
+      "sigma6": 2.5
+    },
+    "rewritten": "a = gm([0.20,0.30,0.50], [_mu1, _mu2, _mu3], [_sigma1, _sigma2, _sigma3]);\nb = gm([0.10,0.40,0.50], [_mu4, _mu5, _mu6], [_sigma4, _sigma5, _sigma6]);",
+    "optimized_params": {
+      "mu1": "tensor(-1.1161, requires_grad=True)",
+      "mu2": "tensor(0.5410, requires_grad=True)",
+      "mu3": "tensor(4.1783, requires_grad=True)",
+      "sigma1": "tensor(1.4890, grad_fn=<ExpBackward0>)",
+      "sigma2": "tensor(1.1149, grad_fn=<ExpBackward0>)",
+      "sigma3": "tensor(1.8710, grad_fn=<ExpBackward0>)",
+      "mu4": "tensor(-8.1604, requires_grad=True)",
+      "mu5": "tensor(-2.6336, requires_grad=True)",
+      "mu6": "tensor(7.0692, requires_grad=True)",
+      "sigma4": "tensor(2.3612, grad_fn=<ExpBackward0>)",
+      "sigma5": "tensor(1.9899, grad_fn=<ExpBackward0>)",
+      "sigma6": "tensor(1.4100, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 5.8020426659742,
+    "final_loss": 4.964315181552787,
+    "opt_time": 1.069,
+    "opt_iterations": 100
+  },
+  {
+    "id": 5,
+    "hypothesis": "b is generated as a scaled version of a plus independent noise.",
+    "structure": "hierarchical",
+    "program": "temp = 0.30*a;\nb = temp + gm([1.00],[4.34],[5.89]);\na = gm([1.00],[0.95],[2.00]);",
+    "params": {
+      "mu1": 4.34,
+      "sigma1": 5.89,
+      "mu2": 0.95,
+      "sigma2": 2.0
+    },
+    "rewritten": "temp = 0.30*a;\nb = temp + gm([1.00], [_mu1], [_sigma1]);\na = gm([1.00], [_mu2], [_sigma2]);",
+    "optimized_params": {
+      "mu1": "tensor(4.3361)",
+      "sigma1": "tensor(5.8929)",
+      "mu2": "tensor(0.9488)",
+      "sigma2": "tensor(1.9964)"
+    },
+    "initial_loss": 5.302917098092699,
+    "final_loss": 5.3029131142498045,
+    "opt_time": 0.619,
+    "opt_iterations": 100
+  },
+  {
+    "id": 1,
+    "hypothesis": "The data for both variables arise from a single Gaussian-like population.",
+    "structure": "unimodal",
+    "program": "a = gm([1.00],[0.95],[2.00]);\nb = gm([1.00],[4.34],[5.89]);",
+    "params": {
+      "mu1": 0.95,
+      "sigma1": 2.0,
+      "mu2": 4.34,
+      "sigma2": 5.89
+    },
+    "rewritten": "a = gm([1.00], [_mu1], [_sigma1]);\nb = gm([1.00], [_mu2], [_sigma2]);",
+    "optimized_params": {
+      "mu1": "tensor(0.9488)",
+      "sigma1": "tensor(1.9964)",
+      "mu2": "tensor(4.3361)",
+      "sigma2": "tensor(5.8929)"
+    },
+    "initial_loss": 5.302917098118147,
+    "final_loss": 5.302913114250186,
+    "opt_time": 0.362,
+    "opt_iterations": 100
+  }
+]

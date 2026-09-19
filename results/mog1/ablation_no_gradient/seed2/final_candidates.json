@@ -1,0 +1,157 @@
+[
+  {
+    "id": 17,
+    "hypothesis": "x depends on a latent bimodal factor whose influence changes with the magnitude of sigma.",
+    "structure": "conditional_mixture",
+    "program": "mu = gm([1.00],[20.13],[2.96]);\nsigma = gm([1.00],[1.97],[0.98]);\nlatent = gm([0.50,0.50],[-1.00,1.00],[1.00,1.00]);\nif sigma > 2.00 {\n    temp = 2.00*latent;\n    x = temp + mu;\n} else {\n    temp = 1.00*latent;\n    x = temp + mu;\n}\nend if;",
+    "params": {
+      "mu1": 20.13,
+      "sigma1": 2.96,
+      "mu2": 1.97,
+      "sigma2": 0.98,
+      "mu3": -1.0,
+      "mu4": 1.0,
+      "sigma3": 1.0,
+      "sigma4": 1.0
+    },
+    "rewritten": "mu = gm([1.00], [_mu1], [_sigma1]);\nsigma = gm([1.00], [_mu2], [_sigma2]);\nlatent = gm([0.50,0.50], [_mu3, _mu4], [_sigma3, _sigma4]);\nif sigma > 2.00 {\n    temp = 2.00*latent;\n    x = temp + mu;\n} else {\n    temp = 1.00*latent;\n    x = temp + mu;\n}\nend if;",
+    "optimized_params": {
+      "mu1": "tensor(20.1300, requires_grad=True)",
+      "sigma1": "tensor(2.9600, requires_grad=True)",
+      "mu2": "tensor(1.9700, requires_grad=True)",
+      "sigma2": "tensor(0.9800, requires_grad=True)",
+      "mu3": "tensor(-1., requires_grad=True)",
+      "mu4": "tensor(1., requires_grad=True)",
+      "sigma3": "tensor(1., requires_grad=True)",
+      "sigma4": "tensor(1., requires_grad=True)"
+    },
+    "initial_loss": 6.470024882056468,
+    "final_loss": 6.470024882056468,
+    "opt_time": 0.0,
+    "opt_iterations": 0
+  },
+  {
+    "id": 4,
+    "hypothesis": "If mu exceeds its overall mean, x follows a different distribution than otherwise.",
+    "structure": "conditional",
+    "program": "mu = gm([1.00],[20.13],[2.96]);\nsigma = gm([1.00],[1.97],[0.98]);\nif mu > 20.00 {\n    x = gm([1.00],[25.00],[3.00]);\n} else {\n    x = gm([1.00],[18.00],[2.50]);\n}\nend if;",
+    "params": {
+      "mu1": 20.13,
+      "sigma1": 2.96,
+      "mu2": 1.97,
+      "sigma2": 0.98,
+      "mu3": 25.0,
+      "sigma3": 3.0,
+      "mu4": 18.0,
+      "sigma4": 2.5
+    },
+    "rewritten": "mu = gm([1.00], [_mu1], [_sigma1]);\nsigma = gm([1.00], [_mu2], [_sigma2]);\nif mu > 20.00 {\n    x = gm([1.00], [_mu3], [_sigma3]);\n} else {\n    x = gm([1.00], [_mu4], [_sigma4]);\n}\nend if;",
+    "optimized_params": {
+      "mu1": "tensor(20.1300, requires_grad=True)",
+      "sigma1": "tensor(2.9600, requires_grad=True)",
+      "mu2": "tensor(1.9700, requires_grad=True)",
+      "sigma2": "tensor(0.9800, requires_grad=True)",
+      "mu3": "tensor(25., requires_grad=True)",
+      "sigma3": "tensor(3., requires_grad=True)",
+      "mu4": "tensor(18., requires_grad=True)",
+      "sigma4": "tensor(2.5000, requires_grad=True)"
+    },
+    "initial_loss": 6.508495840466722,
+    "final_loss": 6.508495840466722,
+    "opt_time": 0.0,
+    "opt_iterations": 0
+  },
+  {
+    "id": 13,
+    "hypothesis": "x is a scaled bimodal latent factor added to mu",
+    "structure": "mixture2",
+    "program": "mu = gm([1.00],[20.13],[2.96]); sigma = gm([1.00],[1.97],[0.98]); latent = gm([0.50,0.50],[-1.00,1.00],[1.00,1.00]); temp = 2.00*latent; x = temp + mu;",
+    "params": {
+      "mu1": 20.13,
+      "sigma1": 2.96,
+      "mu2": 1.97,
+      "sigma2": 0.98,
+      "mu3": -1.0,
+      "mu4": 1.0,
+      "sigma3": 1.0,
+      "sigma4": 1.0
+    },
+    "rewritten": "mu = gm([1.00], [_mu1], [_sigma1]); sigma = gm([1.00], [_mu2], [_sigma2]); latent = gm([0.50,0.50], [_mu3, _mu4], [_sigma3, _sigma4]); temp = 2.00*latent; x = temp + mu;",
+    "optimized_params": {
+      "mu1": "tensor(20.1300, requires_grad=True)",
+      "sigma1": "tensor(2.9600, requires_grad=True)",
+      "mu2": "tensor(1.9700, requires_grad=True)",
+      "sigma2": "tensor(0.9800, requires_grad=True)",
+      "mu3": "tensor(-1., requires_grad=True)",
+      "mu4": "tensor(1., requires_grad=True)",
+      "sigma3": "tensor(1., requires_grad=True)",
+      "sigma4": "tensor(1., requires_grad=True)"
+    },
+    "initial_loss": 6.509161726215949,
+    "final_loss": 6.509161726215949,
+    "opt_time": 0.0,
+    "opt_iterations": 0
+  },
+  {
+    "id": 30,
+    "hypothesis": "x combines a three\u2011component latent mixture with a base mean.",
+    "structure": "mixture3",
+    "program": "mu = gm([1.00],[20.13],[2.96]);\nsigma = gm([1.00],[1.97],[0.98]);\nlatent = gm([0.33,0.34,0.33],[-2.00,0.00,2.00],[1.00,1.00,1.00]);\ntemp = 2.00*latent;\nx = temp + mu;",
+    "params": {
+      "mu1": 20.13,
+      "sigma1": 2.96,
+      "mu2": 1.97,
+      "sigma2": 0.98,
+      "mu3": -2.0,
+      "mu4": 0.0,
+      "mu5": 2.0,
+      "sigma3": 1.0,
+      "sigma4": 1.0,
+      "sigma5": 1.0
+    },
+    "rewritten": "mu = gm([1.00], [_mu1], [_sigma1]);\nsigma = gm([1.00], [_mu2], [_sigma2]);\nlatent = gm([0.33,0.34,0.33], [_mu3, _mu4, _mu5], [_sigma3, _sigma4, _sigma5]);\ntemp = 2.00*latent;\nx = temp + mu;",
+    "optimized_params": {
+      "mu1": "tensor(20.1300, requires_grad=True)",
+      "sigma1": "tensor(2.9600, requires_grad=True)",
+      "mu2": "tensor(1.9700, requires_grad=True)",
+      "sigma2": "tensor(0.9800, requires_grad=True)",
+      "mu3": "tensor(-2., requires_grad=True)",
+      "mu4": "tensor(0., requires_grad=True)",
+      "mu5": "tensor(2., requires_grad=True)",
+      "sigma3": "tensor(1., requires_grad=True)",
+      "sigma4": "tensor(1., requires_grad=True)",
+      "sigma5": "tensor(1., requires_grad=True)"
+    },
+    "initial_loss": 6.566725039593004,
+    "final_loss": 6.566725039593004,
+    "opt_time": 0.0,
+    "opt_iterations": 0
+  },
+  {
+    "id": 1,
+    "hypothesis": "The data for all variables arise from a single Gaussian-like population.",
+    "structure": "unimodal",
+    "program": "mu = gm([1.00],[20.13],[2.96]);\nsigma = gm([1.00],[1.97],[0.98]);\nx = gm([1.00],[22.14],[3.71]);",
+    "params": {
+      "mu1": 20.13,
+      "sigma1": 2.96,
+      "mu2": 1.97,
+      "sigma2": 0.98,
+      "mu3": 22.14,
+      "sigma3": 3.71
+    },
+    "rewritten": "mu = gm([1.00], [_mu1], [_sigma1]);\nsigma = gm([1.00], [_mu2], [_sigma2]);\nx = gm([1.00], [_mu3], [_sigma3]);",
+    "optimized_params": {
+      "mu1": "tensor(20.1300, requires_grad=True)",
+      "sigma1": "tensor(2.9600, requires_grad=True)",
+      "mu2": "tensor(1.9700, requires_grad=True)",
+      "sigma2": "tensor(0.9800, requires_grad=True)",
+      "mu3": "tensor(22.1400, requires_grad=True)",
+      "sigma3": "tensor(3.7100, requires_grad=True)"
+    },
+    "initial_loss": 6.633456522007575,
+    "final_loss": 6.633456522007575,
+    "opt_time": 0.0,
+    "opt_iterations": 0
+  }
+]

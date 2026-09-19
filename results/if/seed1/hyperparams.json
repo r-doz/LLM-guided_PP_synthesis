@@ -5,7 +5,9 @@
   "data_size": 1000,
   "n_programs": 5,
   "n_mutations": 5,
-  "n_steps": 15,
+  "n_steps": 10,
+  "patience": 3,
+  "min_improvement": 0.01,
   "init_temperature": 0.2,
   "mutation_temperature": 0.4,
   "init_opt_steps": 50,
@@ -17,9 +19,11 @@
   "use_chat": true,
   "request_timeout": 600,
   "max_http_retries": 3,
-  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/if/20260825_131521",
-  "elapsed_seconds": 4178.649980306625,
-  "n_generated_total": 78,
-  "n_grammar_errors": 2,
-  "grammar_error_rate": 0.02564102564102564
+  "simple_prompt": false,
+  "prompt_history": true,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/if/20260916_184655",
+  "elapsed_seconds": 1246.5369100570679,
+  "n_generated_total": 45,
+  "n_grammar_errors": 0,
+  "grammar_error_rate": 0.0
 }

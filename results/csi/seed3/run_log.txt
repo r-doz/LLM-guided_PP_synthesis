@@ -1,0 +1,148 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "csi",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 10,
+  "patience": 3,
+  "min_improvement": 0.01,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 50,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "simple_prompt": false,
+  "prompt_history": true,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/csi/20260916_233019"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: All variables follow a single Gaussian-like distribution within [0,1].
+DeGAS code:
+u = gm([1.00],[0.30],[0.46]); v = gm([1.00],[0.92],[0.27]); w = gm([1.00],[0.10],[0.30]); x = gm([1.00],[0.60],[0.49]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Each variable consists of two subpopulations, one near 0 and another near 1.
+DeGAS code:
+u = gm([0.55,0.45],[0.10,0.80],[0.15,0.15]); v = gm([0.55,0.45],[0.70,0.98],[0.10,0.10]); w = gm([0.55,0.45],[0.02,0.60],[0.08,0.08]); x = gm([0.55,0.45],[0.30,0.90],[0.12,0.12]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Variables exhibit three distinct modes reflecting complex generation.
+DeGAS code:
+u = gm([0.30,0.40,0.30],[0.05,0.35,0.85],[0.10,0.10,0.10]); v = gm([0.30,0.40,0.30],[0.60,0.90,0.95],[0.08,0.08,0.08]); w = gm([0.30,0.40,0.30],[0.01,0.20,0.70],[0.07,0.07,0.07]); x = gm([0.30,0.40,0.30],[0.25,0.55,0.85],[0.09,0.09,0.09]);
+
+Program ID: 4, Structure: conditional, Hypothesis: If u is low (<0.5) the other variables follow one regime; otherwise another.
+DeGAS code:
+if u < 0.50 { v = gm([1.00],[0.80],[0.20]); w = gm([1.00],[0.05],[0.10]); x = gm([1.00],[0.70],[0.15]); } else { v = gm([1.00],[0.95],[0.10]); w = gm([1.00],[0.15],[0.20]); x = gm([1.00],[0.55],[0.25]); } u = gm([1.00],[0.30],[0.46]);
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Each variable's distribution is scaled by a latent factor, forming a hierarchy.
+DeGAS code:
+base_u = gm([1.00],[0.30],[0.46]); temp_u = 0.70*base_u; u = temp_u; base_v = gm([1.00],[0.92],[0.27]); temp_v = 0.80*base_v; v = temp_v; base_w = gm([1.00],[0.10],[0.30]); temp_w = 0.60*base_w; w = temp_w; base_x = gm([1.00],[0.60],[0.49]); temp_x = 0.75*base_x; x = temp_x;
+
+Program ID 1 initial optimization completed. Initial loss: 1.6649, Final loss: 1.6647
+Program ID 2 initial optimization completed. Initial loss: 2.7081, Final loss: -3.7608
+Program ID 3 initial optimization completed. Initial loss: 4.2020, Final loss: -4.6224
+Error extracting parameters from program ID 4: Expected parameter loc (Tensor of shape (4,)) of distribution MultivariateNormal(loc: torch.Size([4]), covariance_matrix: torch.Size([4, 4])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([0., nan, nan, nan], grad_fn=<ExpandBackward0>)
+Error extracting parameters from program ID 5: 'u'
+Program ID 6 mutation optimization completed. Initial loss: 4.9685, Final loss: -6.2783
+Program ID 7 mutation optimization completed. Initial loss: 2.1619, Final loss: -4.4011
+Program ID 8 mutation optimization completed. Initial loss: 2.3040, Final loss: -1.7696
+Program ID 9 mutation optimization completed. Initial loss: 4.2020, Final loss: -6.6613
+Program ID 10 mutation optimization completed. Initial loss: 2.3836, Final loss: -5.6593
+Program ID 9 additional optimization completed. Initial loss: -6.6997, Final loss: -14.6127
+Program ID 6 additional optimization completed. Initial loss: -6.3165, Final loss: -14.2672
+Program ID 10 additional optimization completed. Initial loss: -5.6990, Final loss: -13.6512
+Program ID 3 additional optimization completed. Initial loss: -4.6684, Final loss: -12.7695
+Program ID 7 additional optimization completed. Initial loss: -4.4328, Final loss: -10.9087
+Best candidate after iteration 1: Program ID 9, Final Loss: -14.6127
+Selected candidates for next iteration: [9, 6, 10, 3, 7]
+Program ID 11 mutation optimization completed. Initial loss: 4.1625, Final loss: -6.6705
+Program ID 12 mutation optimization completed. Initial loss: 5.4923, Final loss: -6.1248
+Program ID 13 mutation optimization completed. Initial loss: 2.3834, Final loss: -5.6598
+Program ID 14 mutation optimization completed. Initial loss: 3.5208, Final loss: -6.8810
+Program ID 15 mutation optimization completed. Initial loss: 2.2283, Final loss: -4.3246
+Program ID 9 additional optimization completed. Initial loss: -14.6571, Final loss: -19.4599
+Program ID 6 additional optimization completed. Initial loss: -14.2927, Final loss: -18.8602
+Program ID 10 additional optimization completed. Initial loss: -13.6821, Final loss: -20.2762
+Program ID 3 additional optimization completed. Initial loss: -12.7998, Final loss: -20.0798
+Program ID 7 additional optimization completed. Initial loss: -10.9497, Final loss: -16.1423
+Best candidate after iteration 2: Program ID 10, Final Loss: -20.2762
+Selected candidates for next iteration: [10, 3, 9, 6, 7]
+Program ID 16 mutation optimization completed. Initial loss: 2.8543, Final loss: -5.1472
+Program ID 17 mutation optimization completed. Initial loss: 4.1202, Final loss: -6.7235
+Program ID 18 mutation optimization completed. Initial loss: 4.0614, Final loss: -6.6780
+Program ID 19 mutation optimization completed. Initial loss: 4.9685, Final loss: -6.2783
+Program ID 20 mutation optimization completed. Initial loss: 1.2760, Final loss: -5.9605
+Program ID 10 additional optimization completed. Initial loss: -20.2762, Final loss: -20.2762
+Program ID 3 additional optimization completed. Initial loss: -20.0798, Final loss: -20.0798
+Program ID 9 additional optimization completed. Initial loss: -19.4599, Final loss: -19.4599
+Program ID 6 additional optimization completed. Initial loss: -18.8602, Final loss: -18.8602
+Program ID 7 additional optimization completed. Initial loss: -16.1423, Final loss: -16.6172
+Best candidate after iteration 3: Program ID 10, Final Loss: -20.2762
+Selected candidates for next iteration: [10, 3, 9, 6, 7]
+Program ID 21 mutation optimization completed. Initial loss: 2.4786, Final loss: -5.2605
+Program ID 22 mutation optimization completed. Initial loss: 3.9717, Final loss: -6.7303
+Program ID 23 mutation optimization completed. Initial loss: 4.2020, Final loss: -6.6613
+Program ID 24 mutation optimization completed. Initial loss: 6.3995, Final loss: -5.1644
+Program ID 25 mutation optimization completed. Initial loss: 1.2060, Final loss: -5.9939
+Program ID 10 additional optimization completed. Initial loss: -20.2762, Final loss: -20.2762
+Program ID 3 additional optimization completed. Initial loss: -20.0798, Final loss: -20.0798
+Program ID 9 additional optimization completed. Initial loss: -19.4599, Final loss: -19.4599
+Program ID 6 additional optimization completed. Initial loss: -18.8602, Final loss: -18.8602
+Program ID 7 additional optimization completed. Initial loss: -16.6243, Final loss: -16.6243
+Best candidate after iteration 4: Program ID 10, Final Loss: -20.2762
+Selected candidates for next iteration: [10, 3, 9, 6, 7]
+Program ID 26 mutation optimization completed. Initial loss: 2.4901, Final loss: -5.2967
+Error in program ID 27: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 28 mutation optimization completed. Initial loss: 4.6726, Final loss: -6.6119
+Error in program ID 29: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 30 mutation optimization completed. Initial loss: 1.3666, Final loss: -5.9540
+Program ID 10 additional optimization completed. Initial loss: -20.2762, Final loss: -20.2762
+Program ID 3 additional optimization completed. Initial loss: -20.0798, Final loss: -20.0798
+Program ID 9 additional optimization completed. Initial loss: -19.4599, Final loss: -19.4599
+Program ID 6 additional optimization completed. Initial loss: -18.8602, Final loss: -18.8602
+Program ID 7 additional optimization completed. Initial loss: -16.6243, Final loss: -16.6243
+Best candidate after iteration 5: Program ID 10, Final Loss: -20.2762
+Selected candidates for next iteration: [10, 3, 9, 6, 7]
+Early stopping after iteration 5: best loss improved by only 0.0000 over the last 3 iterations (< min_improvement=0.01).
+
+--- Final Selected Programs ---
+Program ID: 10, Final Loss: -20.2762
+Hypothesis: Split the second component of the third variable into multiple sub‑components for richer shape.
+Structure: mixture_split
+DeGAS code:
+u = gm([0.55,0.45],[0.10,0.80],[0.15,0.15]); v = gm([0.55,0.45],[0.70,0.98],[0.10,0.10]); w = gm([0.30,0.25,0.20,0.25],[0.02,0.30,0.60,0.80],[0.08,0.08,0.08,0.08]); x = gm([0.55,0.45],[0.30,0.90],[0.12,0.12]);
+
+Program ID: 3, Final Loss: -20.0798
+Hypothesis: Variables exhibit three distinct modes reflecting complex generation.
+Structure: mixture3
+DeGAS code:
+u = gm([0.30,0.40,0.30],[0.05,0.35,0.85],[0.10,0.10,0.10]); v = gm([0.30,0.40,0.30],[0.60,0.90,0.95],[0.08,0.08,0.08]); w = gm([0.30,0.40,0.30],[0.01,0.20,0.70],[0.07,0.07,0.07]); x = gm([0.30,0.40,0.30],[0.25,0.55,0.85],[0.09,0.09,0.09]);
+
+Program ID: 9, Final Loss: -19.4599
+Hypothesis: Add a hierarchical scaling variable to capture dependence between variables.
+Structure: hierarchical
+DeGAS code:
+u = gm([0.30,0.40,0.30],[0.05,0.35,0.85],[0.10,0.10,0.10]); temp = 0.50*u; v = gm([0.30,0.40,0.30],[0.60,0.90,0.95],[0.08,0.08,0.08]); w = gm([0.30,0.40,0.30],[0.01,0.20,0.70],[0.07,0.07,0.07]); x = gm([0.30,0.40,0.30],[0.25,0.55,0.85],[0.09,0.09,0.09]);
+
+Program ID: 6, Final Loss: -18.8602
+Hypothesis: Split the central mode into two sub‑modes to capture finer multimodality.
+Structure: mixture_split
+DeGAS code:
+u = gm([0.15,0.20,0.20,0.45],[0.05,0.35,0.36,0.85],[0.10,0.10,0.10,0.10]); v = gm([0.15,0.20,0.20,0.45],[0.60,0.90,0.91,0.95],[0.08,0.08,0.08,0.08]); w = gm([0.15,0.20,0.20,0.45],[0.01,0.20,0.21,0.70],[0.07,0.07,0.07,0.07]); x = gm([0.15,0.20,0.20,0.45],[0.25,0.55,0.56,0.85],[0.09,0.09,0.09,0.09]);
+
+Program ID: 7, Final Loss: -16.6243
+Hypothesis: Introduce a conditional on the first variable to allow two distinct sub‑populations for the second variable.
+Structure: conditional
+DeGAS code:
+u = gm([0.55,0.45],[0.10,0.80],[0.15,0.15]); if u < 0.50 { v = gm([0.60,0.40],[0.10,0.80],[0.15,0.15]); } else { v = gm([0.60,0.40],[0.70,0.98],[0.10,0.10]); } end if; w = gm([0.55,0.45],[0.02,0.60],[0.08,0.08]); x = gm([0.55,0.45],[0.30,0.90],[0.12,0.12]);
+
+=== Run finished in 1273.3s ===

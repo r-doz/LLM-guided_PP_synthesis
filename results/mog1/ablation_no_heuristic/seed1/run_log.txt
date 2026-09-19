@@ -1,0 +1,172 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "mog1",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 10,
+  "patience": 3,
+  "min_improvement": 0.01,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 50,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "simple_prompt": false,
+  "prompt_history": true,
+  "prompt_heuristic": false,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/mog1/20260918_155628"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: The data for all three measurements follow a single Gaussian-like distribution centered at their empirical means.
+DeGAS code:
+mu = gm([1.00],[20.13],[3.03]); sigma = gm([1.00],[2.03],[1.01]); x = gm([1.00],[22.16],[3.88]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Each variable appears to arise from two subpopulations, modeled as a two-component mixture.
+DeGAS code:
+mu = gm([0.60,0.40],[18.00,24.00],[2.50,2.50]); sigma = gm([0.60,0.40],[1.50,2.80],[0.80,0.80]); x = gm([0.60,0.40],[19.00,25.00],[3.00,4.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: The variables exhibit multi-modality and are best captured by a three-component mixture model.
+DeGAS code:
+mu = gm([0.30,0.35,0.35],[17.00,21.00,25.00],[2.00,2.50,2.00]); sigma = gm([0.30,0.35,0.35],[1.20,2.00,3.00],[0.70,1.10,1.40]); x = gm([0.30,0.35,0.35],[18.00,22.50,27.00],[3.20,4.00,3.60]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Measurements of x depend on whether sigma exceeds 2.00, indicating regime-specific behavior.
+DeGAS code:
+mu = gm([1.00],[20.13],[3.03]); sigma = gm([1.00],[2.03],[1.01]); if sigma > 2.00 { x = gm([1.00],[25.00],[2.50]); } else { x = gm([1.00],[19.00],[4.00]); } end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: x is generated hierarchically as the product of mu and sigma, each drawn from their own distributions.
+DeGAS code:
+temp = gm([1.00],[20.13],[3.03]); mu = 1.00*temp; sigma = gm([1.00],[2.03],[1.01]); x = mu * sigma;
+
+Program ID 1 initial optimization completed. Initial loss: 6.7256, Final loss: 6.7256
+Program ID 2 initial optimization completed. Initial loss: 6.8699, Final loss: 6.7725
+Program ID 3 initial optimization completed. Initial loss: 7.0386, Final loss: 6.8044
+Program ID 4 initial optimization completed. Initial loss: 6.9877, Final loss: 6.8060
+Program ID 5 initial optimization completed. Initial loss: 44.6566, Final loss: 15.1396
+Program ID 6 mutation optimization completed. Initial loss: 6.7386, Final loss: 6.7242
+Program ID 7 mutation optimization completed. Initial loss: 6.9889, Final loss: 6.7895
+Program ID 8 mutation optimization completed. Initial loss: 7.6355, Final loss: 6.8070
+Program ID 9 mutation optimization completed. Initial loss: 6.8964, Final loss: 6.7545
+Program ID 10 mutation optimization completed. Initial loss: 6.9387, Final loss: 6.7259
+Program ID 6 additional optimization completed. Initial loss: 6.7242, Final loss: 6.7240
+Program ID 1 additional optimization completed. Initial loss: 6.7256, Final loss: 6.7256
+Program ID 10 additional optimization completed. Initial loss: 6.7259, Final loss: 6.7240
+Program ID 9 additional optimization completed. Initial loss: 6.7540, Final loss: 6.7253
+Program ID 2 additional optimization completed. Initial loss: 6.7717, Final loss: 6.7261
+Best candidate after iteration 1: Program ID 10, Final Loss: 6.7240
+Selected candidates for next iteration: [10, 6, 9, 1, 2]
+Program ID 11 mutation optimization completed. Initial loss: 6.8998, Final loss: 6.5782
+Program ID 12 mutation optimization completed. Initial loss: 6.7739, Final loss: 6.7242
+Program ID 13 mutation optimization completed. Initial loss: 6.8418, Final loss: 6.6431
+Program ID 14 mutation optimization completed. Initial loss: 6.7708, Final loss: 6.7271
+Program ID 15 mutation optimization completed. Initial loss: 6.8652, Final loss: 6.7288
+Program ID 11 additional optimization completed. Initial loss: 6.5774, Final loss: 6.4690
+Program ID 13 additional optimization completed. Initial loss: 6.6420, Final loss: 6.4987
+Program ID 10 additional optimization completed. Initial loss: 6.7240, Final loss: 6.7239
+Program ID 6 additional optimization completed. Initial loss: 6.7240, Final loss: 6.7240
+Program ID 12 additional optimization completed. Initial loss: 6.7242, Final loss: 6.7240
+Best candidate after iteration 2: Program ID 11, Final Loss: 6.4690
+Selected candidates for next iteration: [11, 13, 10, 12, 6]
+Program ID 16 mutation optimization completed. Initial loss: 6.9014, Final loss: 6.4975
+Program ID 17 mutation optimization completed. Initial loss: 7.1146, Final loss: 6.7620
+Program ID 18 mutation optimization completed. Initial loss: 6.8998, Final loss: 6.5782
+Program ID 19 mutation optimization completed. Initial loss: 6.8374, Final loss: 6.6959
+Program ID 20 mutation optimization completed. Initial loss: 6.8016, Final loss: 6.6642
+Program ID 11 additional optimization completed. Initial loss: 6.4687, Final loss: 6.4570
+Program ID 16 additional optimization completed. Initial loss: 6.4965, Final loss: 6.4270
+Program ID 13 additional optimization completed. Initial loss: 6.4985, Final loss: 6.4764
+Program ID 18 additional optimization completed. Initial loss: 6.5774, Final loss: 6.4690
+Program ID 20 additional optimization completed. Initial loss: 6.6634, Final loss: 6.5577
+Best candidate after iteration 3: Program ID 16, Final Loss: 6.4270
+Selected candidates for next iteration: [16, 11, 18, 13, 20]
+Program ID 21 mutation optimization completed. Initial loss: 6.8859, Final loss: 6.5515
+Program ID 22 mutation optimization completed. Initial loss: 6.9014, Final loss: 6.4975
+Program ID 23 mutation optimization completed. Initial loss: 7.0550, Final loss: 6.7617
+Program ID 24 mutation optimization completed. Initial loss: 7.0990, Final loss: 6.7921
+Program ID 25 mutation optimization completed. Initial loss: 6.9073, Final loss: 6.6472
+Program ID 16 additional optimization completed. Initial loss: 6.4268, Final loss: 6.3994
+Program ID 11 additional optimization completed. Initial loss: 6.4570, Final loss: 6.4570
+Program ID 18 additional optimization completed. Initial loss: 6.4687, Final loss: 6.4570
+Program ID 13 additional optimization completed. Initial loss: 6.4764, Final loss: 6.4764
+Program ID 22 additional optimization completed. Initial loss: 6.4965, Final loss: 6.4270
+Best candidate after iteration 4: Program ID 16, Final Loss: 6.3994
+Selected candidates for next iteration: [16, 22, 11, 18, 13]
+Error in program ID 26: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 27 mutation optimization completed. Initial loss: 7.1214, Final loss: 6.7383
+Program ID 28 mutation optimization completed. Initial loss: 6.9014, Final loss: 6.4975
+Error in program ID 29: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 30 mutation optimization completed. Initial loss: 6.8107, Final loss: 6.5615
+Program ID 16 additional optimization completed. Initial loss: 6.3994, Final loss: 6.3967
+Program ID 22 additional optimization completed. Initial loss: 6.4268, Final loss: 6.3994
+Program ID 11 additional optimization completed. Initial loss: 6.4570, Final loss: 6.4570
+Program ID 18 additional optimization completed. Initial loss: 6.4570, Final loss: 6.4570
+Program ID 13 additional optimization completed. Initial loss: 6.4764, Final loss: 6.4764
+Best candidate after iteration 5: Program ID 16, Final Loss: 6.3967
+Selected candidates for next iteration: [16, 22, 11, 18, 13]
+Program ID 31 mutation optimization completed. Initial loss: 6.8653, Final loss: 6.5752
+Program ID 32 mutation optimization completed. Initial loss: 7.0288, Final loss: 6.7834
+Program ID 33 mutation optimization completed. Initial loss: 6.8831, Final loss: 6.4854
+Program ID 34 mutation optimization completed. Initial loss: 7.0134, Final loss: 6.7559
+Program ID 35 mutation optimization completed. Initial loss: 7.1527, Final loss: 6.6416
+Program ID 16 additional optimization completed. Initial loss: 6.3967, Final loss: 6.3967
+Program ID 22 additional optimization completed. Initial loss: 6.3994, Final loss: 6.3967
+Program ID 11 additional optimization completed. Initial loss: 6.4570, Final loss: 6.4570
+Program ID 18 additional optimization completed. Initial loss: 6.4570, Final loss: 6.4570
+Program ID 13 additional optimization completed. Initial loss: 6.4764, Final loss: 6.4764
+Best candidate after iteration 6: Program ID 16, Final Loss: 6.3967
+Selected candidates for next iteration: [16, 22, 11, 18, 13]
+Error in program ID 36: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 37 mutation optimization completed. Initial loss: 6.9273, Final loss: 6.6897
+Error in program ID 38: 'mu'
+Program ID 39 mutation optimization completed. Initial loss: 6.8868, Final loss: 6.5401
+Error in program ID 40: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 16 additional optimization completed. Initial loss: 6.3967, Final loss: 6.3967
+Program ID 22 additional optimization completed. Initial loss: 6.3967, Final loss: 6.3967
+Program ID 11 additional optimization completed. Initial loss: 6.4570, Final loss: 6.4570
+Program ID 18 additional optimization completed. Initial loss: 6.4570, Final loss: 6.4570
+Program ID 13 additional optimization completed. Initial loss: 6.4764, Final loss: 6.4764
+Best candidate after iteration 7: Program ID 16, Final Loss: 6.3967
+Selected candidates for next iteration: [16, 22, 11, 18, 13]
+Early stopping after iteration 7: best loss improved by only 0.0027 over the last 3 iterations (< min_improvement=0.01).
+
+--- Final Selected Programs ---
+Program ID: 16, Final Loss: 6.3967
+Hypothesis: Both mu and sigma jointly determine subpopulations for x via nested conditionals.
+Structure: conditional2
+DeGAS code:
+mu = gm([0.50,0.50],[19.00,22.00],[3.00,4.00]); if mu > 20.00 { sigma = gm([0.55,0.45],[1.70,2.30],[1.20,1.80]); if sigma > 2.00 { x = gm([0.60,0.40],[20.00,25.00],[3.50,5.00]); } else { x = gm([0.65,0.35],[21.00,24.00],[3.00,4.50]); } end if; } else { sigma = gm([0.60,0.40],[1.90,2.10],[1.00,1.70]); if sigma > 2.00 { x = gm([0.55,0.45],[18.00,23.00],[3.20,4.80]); } else { x = gm([0.58,0.42],[19.00,22.00],[2.80,4.20]); } end if; } end if;
+
+Program ID: 22, Final Loss: 6.3967
+Hypothesis: After determining sigma regime, x distribution further depends on whether sigma exceeds a threshold.
+Structure: nested-conditional
+DeGAS code:
+mu = gm([0.50,0.50],[19.00,22.00],[3.00,4.00]); if mu > 20.00 { sigma = gm([0.55,0.45],[1.70,2.30],[1.20,1.80]); if sigma > 2.00 { x = gm([0.60,0.40],[20.00,25.00],[3.50,5.00]); } else { x = gm([0.65,0.35],[21.00,24.00],[3.00,4.50]); } } else { sigma = gm([0.60,0.40],[1.90,2.10],[1.00,1.70]); if sigma > 2.00 { x = gm([0.55,0.45],[18.00,23.00],[3.20,4.80]); } else { x = gm([0.58,0.42],[19.00,22.00],[2.80,4.20]); } }
+
+Program ID: 11, Final Loss: 6.4570
+Hypothesis: Mu determines which regime of sigma and x applies.
+Structure: conditional
+DeGAS code:
+mu = gm([0.50,0.50],[19.00,22.00],[3.00,4.00]); if mu > 20.00 { sigma = gm([0.55,0.45],[1.70,2.30],[1.20,1.80]); x = gm([0.55,0.45],[20.00,25.00],[3.50,5.00]); } else { sigma = gm([0.60,0.40],[1.90,2.10],[1.00,1.70]); x = gm([0.60,0.40],[18.00,23.00],[3.20,4.80]); } end if;
+
+Program ID: 18, Final Loss: 6.4570
+Hypothesis: Regimes of mu determine distinct sigma and x mixtures.
+Structure: conditional
+DeGAS code:
+mu = gm([0.50,0.50],[19.00,22.00],[3.00,4.00]); if mu > 20.00 { sigma = gm([0.55,0.45],[1.70,2.30],[1.20,1.80]); x = gm([0.55,0.45],[20.00,25.00],[3.50,5.00]); } else { sigma = gm([0.60,0.40],[1.90,2.10],[1.00,1.70]); x = gm([0.60,0.40],[18.00,23.00],[3.20,4.80]); } end if;
+
+Program ID: 13, Final Loss: 6.4764
+Hypothesis: Both sigma and mu regimes jointly affect the distribution of x.
+Structure: hierarchical
+DeGAS code:
+mu = gm([1.00],[20.13],[3.03]); sigma = gm([1.00],[2.03],[1.01]); if sigma > 2.00 { if mu > 22.00 { x = gm([0.60,0.40],[24.00,26.00],[2.40,3.80]); } else { x = gm([0.70,0.30],[23.00,25.00],[2.50,3.90]); } } else { if mu > 18.00 { x = gm([0.55,0.45],[18.50,20.00],[3.90,4.10]); } else { x = gm([0.65,0.35],[17.00,19.00],[4.00,4.20]); } } end if;
+
+=== Run finished in 977.4s ===

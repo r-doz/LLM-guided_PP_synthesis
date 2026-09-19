@@ -1,0 +1,145 @@
+[
+  {
+    "id": 9,
+    "hypothesis": "b's value is conditioned on whether a is negative, linking the two variables.",
+    "structure": "conditional",
+    "program": "a = gm([0.33,0.34,0.33],[-4.00,1.00,6.00],[1.20,2.00,1.80]);\nif a < 0.00 {\n  b = gm([1.00],[-10.00],[3.00]);\n} else {\n  b = gm([1.00],[9.00],[3.00]);\n}\nend if;",
+    "params": {
+      "mu1": -4.0,
+      "mu2": 1.0,
+      "mu3": 6.0,
+      "sigma1": 1.2,
+      "sigma2": 2.0,
+      "sigma3": 1.8,
+      "mu4": -10.0,
+      "sigma4": 3.0,
+      "mu5": 9.0,
+      "sigma5": 3.0
+    },
+    "rewritten": "a = gm([0.33,0.34,0.33], [_mu1, _mu2, _mu3], [_sigma1, _sigma2, _sigma3]);\nif a < 0.00 {\n  b = gm([1.00], [_mu4], [_sigma4]);\n} else {\n  b = gm([1.00], [_mu5], [_sigma5]);\n}\nend if;",
+    "optimized_params": {
+      "mu1": "tensor(-0.2656)",
+      "mu2": "tensor(0.3540)",
+      "mu3": "tensor(2.8489)",
+      "sigma1": "tensor(1.9859)",
+      "sigma2": "tensor(0.8416)",
+      "sigma3": "tensor(1.4766)",
+      "mu4": "tensor(-3.9379)",
+      "sigma4": "tensor(3.4806)",
+      "mu5": "tensor(7.9742)",
+      "sigma5": "tensor(1.0168)"
+    },
+    "initial_loss": 4.036457580631918,
+    "final_loss": 4.036457580631918,
+    "opt_time": 1.864,
+    "opt_iterations": 118
+  },
+  {
+    "id": 7,
+    "hypothesis": "a and b share a latent variable c; b depends on the sign of c.",
+    "structure": "conditional",
+    "program": "c = gm([1.00],[0.50],[1.00]);\ntemp = 2.00*c;\na = temp;\nif c < 0.00 {\n  b = gm([1.00],[-5.00],[3.00]);\n} else {\n  b = gm([1.00],[6.00],[4.00]);\n}\nend if;",
+    "params": {
+      "mu1": 0.5,
+      "sigma1": 1.0,
+      "mu2": -5.0,
+      "sigma2": 3.0,
+      "mu3": 6.0,
+      "sigma3": 4.0
+    },
+    "rewritten": "c = gm([1.00], [_mu1], [_sigma1]);\ntemp = 2.00*c;\na = temp;\nif c < 0.00 {\n  b = gm([1.00], [_mu2], [_sigma2]);\n} else {\n  b = gm([1.00], [_mu3], [_sigma3]);\n}\nend if;",
+    "optimized_params": {
+      "mu1": "tensor(0.4977)",
+      "sigma1": "tensor(1.0265)",
+      "mu2": "tensor(-3.9309)",
+      "sigma2": "tensor(3.4889)",
+      "mu3": "tensor(7.9749)",
+      "sigma3": "tensor(1.0160)"
+    },
+    "initial_loss": 4.1217568233422925,
+    "final_loss": 4.1217568233422925,
+    "opt_time": 1.535,
+    "opt_iterations": 122
+  },
+  {
+    "id": 15,
+    "hypothesis": "Use a shared latent variable c to generate both a and b, with b conditioned on the sign of c.",
+    "structure": "hierarchical_conditional",
+    "program": "c = gm([1.00],[0.50],[1.00]); temp = 2.00*c; a = temp; if c < 0.00 { b = gm([1.00],[-5.00],[3.00]); } else { b = gm([1.00],[6.00],[4.00]); } end if;",
+    "params": {
+      "mu1": 0.5,
+      "sigma1": 1.0,
+      "mu2": -5.0,
+      "sigma2": 3.0,
+      "mu3": 6.0,
+      "sigma3": 4.0
+    },
+    "rewritten": "c = gm([1.00], [_mu1], [_sigma1]); temp = 2.00*c; a = temp; if c < 0.00 { b = gm([1.00], [_mu2], [_sigma2]); } else { b = gm([1.00], [_mu3], [_sigma3]); } end if;",
+    "optimized_params": {
+      "mu1": "tensor(0.4977)",
+      "sigma1": "tensor(1.0265)",
+      "mu2": "tensor(-3.9309)",
+      "sigma2": "tensor(3.4889)",
+      "mu3": "tensor(7.9749)",
+      "sigma3": "tensor(1.0160)"
+    },
+    "initial_loss": 4.1217568233422925,
+    "final_loss": 4.1217568233422925,
+    "opt_time": 1.531,
+    "opt_iterations": 122
+  },
+  {
+    "id": 14,
+    "hypothesis": "Condition b on a to capture different regimes of the outcome.",
+    "structure": "conditional",
+    "program": "a = gm([1.00],[1.01],[2.04]); if a < 0.00 { b = gm([1.00],[-5.00],[3.00]); } else { b = gm([1.00],[6.00],[4.00]); } end if;",
+    "params": {
+      "mu1": 1.01,
+      "sigma1": 2.04,
+      "mu2": -5.0,
+      "sigma2": 3.0,
+      "mu3": 6.0,
+      "sigma3": 4.0
+    },
+    "rewritten": "a = gm([1.00], [_mu1], [_sigma1]); if a < 0.00 { b = gm([1.00], [_mu2], [_sigma2]); } else { b = gm([1.00], [_mu3], [_sigma3]); } end if;",
+    "optimized_params": {
+      "mu1": "tensor(0.9954)",
+      "sigma1": "tensor(2.0529)",
+      "mu2": "tensor(-3.9310)",
+      "sigma2": "tensor(3.4889)",
+      "mu3": "tensor(7.9749)",
+      "sigma3": "tensor(1.0160)"
+    },
+    "initial_loss": 4.121756845642613,
+    "final_loss": 4.121756845642613,
+    "opt_time": 1.318,
+    "opt_iterations": 123
+  },
+  {
+    "id": 4,
+    "hypothesis": "If a is negative, b tends to be low; otherwise b is high.",
+    "structure": "conditional",
+    "program": "a = gm([1.00],[1.01],[2.04]);\nif a < 0.00 {\n  b = gm([1.00],[-5.00],[3.00]);\n} else {\n  b = gm([1.00],[6.00],[4.00]);\n}\nend if;",
+    "params": {
+      "mu1": 1.01,
+      "sigma1": 2.04,
+      "mu2": -5.0,
+      "sigma2": 3.0,
+      "mu3": 6.0,
+      "sigma3": 4.0
+    },
+    "rewritten": "a = gm([1.00], [_mu1], [_sigma1]);\nif a < 0.00 {\n  b = gm([1.00], [_mu2], [_sigma2]);\n} else {\n  b = gm([1.00], [_mu3], [_sigma3]);\n}\nend if;",
+    "optimized_params": {
+      "mu1": "tensor(0.9954)",
+      "sigma1": "tensor(2.0529)",
+      "mu2": "tensor(-3.9309)",
+      "sigma2": "tensor(3.4889)",
+      "mu3": "tensor(7.9749)",
+      "sigma3": "tensor(1.0160)"
+    },
+    "initial_loss": 4.121756845806143,
+    "final_loss": 4.121756845806143,
+    "opt_time": 1.341,
+    "opt_iterations": 123
+  }
+]

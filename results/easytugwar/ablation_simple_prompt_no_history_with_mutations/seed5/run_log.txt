@@ -1,0 +1,218 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "easytugwar",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 10,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 50,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "simple_prompt": true,
+  "prompt_history": false,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/easytugwar/20260916_081553"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Data for all variables follows a single unimodal distribution centered near the observed means.
+DeGAS code:
+skill1 = gm([1.00],[20.07],[3.98]);
+skill2 = gm([1.00],[19.99],[4.07]);
+p1wins = gm([1.00],[0.53],[0.50]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Each variable arises from two subpopulations with distinct skill levels and binary outcomes.
+DeGAS code:
+skill1 = gm([0.45,0.55],[10.00,30.00],[2.00,2.00]);
+skill2 = gm([0.48,0.52],[12.00,28.00],[3.00,3.00]);
+p1wins = gm([0.45,0.55],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: The data exhibit three latent groups, leading to a three-component mixture for skills.
+DeGAS code:
+skill1 = gm([0.30,0.40,0.30],[8.00,20.00,30.00],[2.00,3.00,2.00]);
+skill2 = gm([0.35,0.45,0.20],[9.00,21.00,31.00],[2.50,4.00,2.50]);
+p1wins = gm([1.00],[0.53],[0.50]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Outcomes differ depending on whether a player's first skill is below a threshold.
+DeGAS code:
+skill1 = gm([1.00],[20.07],[3.98]);
+if skill1 < 15.00 {
+  skill2 = gm([1.00],[12.00],[3.00]);
+  p1wins = gm([1.00],[0.30],[0.40]);
+} else {
+  skill2 = gm([1.00],[25.00],[4.00]);
+  p1wins = gm([1.00],[0.70],[0.45]);
+}
+
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Player performance results from hierarchical interaction where skill1 scales skill2 influencing win probability.
+DeGAS code:
+skill1 = gm([1.00],[20.07],[3.98]);
+skill2 = gm([1.00],[19.99],[4.07]);
+temp = 0.50*skill1;
+p1wins = temp * skill2;
+
+Program ID 1 initial optimization completed. Initial loss: 6.3462, Final loss: 6.3462
+Program ID 2 initial optimization completed. Initial loss: 13.6161, Final loss: 9.3498
+Program ID 3 initial optimization completed. Initial loss: 7.6397, Final loss: 7.2737
+Program ID 4 initial optimization completed. Initial loss: 7.2019, Final loss: 6.7951
+Error extracting parameters from program ID 5: Expected parameter loc (Tensor of shape (3,)) of distribution MultivariateNormal(loc: torch.Size([3]), covariance_matrix: torch.Size([3, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan], grad_fn=<ExpandBackward0>)
+Program ID 6 mutation optimization completed. Initial loss: 6.3818, Final loss: 6.1717
+Program ID 7 mutation optimization completed. Initial loss: 7.3631, Final loss: 6.6828
+Program ID 8 mutation optimization completed. Initial loss: 8.1022, Final loss: 5.2777
+Program ID 9 mutation optimization completed. Initial loss: 18.2680, Final loss: 10.0104
+Program ID 8 additional optimization completed. Initial loss: 5.2653, Final loss: 3.0384
+Program ID 6 additional optimization completed. Initial loss: 6.1697, Final loss: 4.5001
+Program ID 1 additional optimization completed. Initial loss: 6.3462, Final loss: 6.3462
+Program ID 7 additional optimization completed. Initial loss: 6.6812, Final loss: 6.1479
+Program ID 4 additional optimization completed. Initial loss: 6.7932, Final loss: 6.2218
+Best candidate after iteration 1: Program ID 8, Final Loss: 3.0384
+Selected candidates for next iteration: [8, 6, 7, 4, 1]
+Program ID 11 mutation optimization completed. Initial loss: 9.6613, Final loss: 5.4008
+Error in program ID 12: could not convert string to float: '0.30 + temp'
+Program ID 13 mutation optimization completed. Initial loss: 22.9416, Final loss: 4.7234
+Program ID 14 mutation optimization completed. Initial loss: 14.5820, Final loss: 6.1436
+Error in program ID 15: could not convert string to float: 'temp + 0.50'
+Program ID 8 additional optimization completed. Initial loss: 3.0268, Final loss: 0.8769
+Program ID 6 additional optimization completed. Initial loss: 4.4847, Final loss: 2.5256
+Program ID 13 additional optimization completed. Initial loss: 4.7207, Final loss: 2.5324
+Program ID 11 additional optimization completed. Initial loss: 5.3905, Final loss: 3.1349
+Program ID 14 additional optimization completed. Initial loss: 6.1278, Final loss: 3.6077
+Best candidate after iteration 2: Program ID 8, Final Loss: 0.8769
+Selected candidates for next iteration: [8, 6, 13, 11, 14]
+Program ID 16 mutation optimization completed. Initial loss: 10.8280, Final loss: 5.4227
+Program ID 17 mutation optimization completed. Initial loss: 8.0419, Final loss: 5.7426
+Program ID 18 mutation optimization completed. Initial loss: 12.6896, Final loss: 4.7629
+Program ID 19 mutation optimization completed. Initial loss: 8.7921, Final loss: 4.9396
+Program ID 20 mutation optimization completed. Initial loss: 15.7412, Final loss: 6.3407
+Program ID 8 additional optimization completed. Initial loss: 0.8769, Final loss: 0.8769
+Program ID 6 additional optimization completed. Initial loss: 2.5112, Final loss: 1.4103
+Program ID 13 additional optimization completed. Initial loss: 2.5247, Final loss: 0.6130
+Program ID 11 additional optimization completed. Initial loss: 3.1242, Final loss: 1.0267
+Program ID 14 additional optimization completed. Initial loss: 3.5984, Final loss: 1.6593
+Best candidate after iteration 3: Program ID 13, Final Loss: 0.6130
+Selected candidates for next iteration: [13, 8, 11, 6, 14]
+Error in program ID 21: Expected parameter loc (Tensor of shape (4,)) of distribution Normal(loc: torch.Size([4]), scale: torch.Size([4])) to satisfy the constraint Real(), but found invalid values:
+tensor([nan, nan, nan, nan], grad_fn=<SelectBackward0>)
+Program ID 13 additional optimization completed. Initial loss: 0.6130, Final loss: 0.4387
+Program ID 8 additional optimization completed. Initial loss: 0.8769, Final loss: 0.8769
+Program ID 11 additional optimization completed. Initial loss: 1.0267, Final loss: 0.8157
+Program ID 6 additional optimization completed. Initial loss: 1.4103, Final loss: 1.2935
+Program ID 14 additional optimization completed. Initial loss: 1.6593, Final loss: 1.6593
+Best candidate after iteration 4: Program ID 13, Final Loss: 0.4387
+Selected candidates for next iteration: [13, 11, 8, 6, 14]
+Program ID 26 mutation optimization completed. Initial loss: 13.5744, Final loss: 5.0318
+Program ID 27 mutation optimization completed. Initial loss: 9.1134, Final loss: 5.3904
+Program ID 28 mutation optimization completed. Initial loss: 8.6305, Final loss: 5.0342
+Program ID 29 mutation optimization completed. Initial loss: 22.2374, Final loss: 4.4146
+Program ID 30 mutation optimization completed. Initial loss: 11.8558, Final loss: 4.8679
+Program ID 13 additional optimization completed. Initial loss: 0.4370, Final loss: 0.4234
+Program ID 11 additional optimization completed. Initial loss: 0.8124, Final loss: 0.8124
+Program ID 8 additional optimization completed. Initial loss: 0.8769, Final loss: 0.8769
+Program ID 6 additional optimization completed. Initial loss: 1.2914, Final loss: 1.2442
+Program ID 14 additional optimization completed. Initial loss: 1.6593, Final loss: 1.6593
+Best candidate after iteration 5: Program ID 13, Final Loss: 0.4234
+Selected candidates for next iteration: [13, 11, 8, 6, 14]
+Program ID 31 mutation optimization completed. Initial loss: 20.0695, Final loss: 4.7331
+Program ID 32 mutation optimization completed. Initial loss: 9.8670, Final loss: 5.3369
+Program ID 33 mutation optimization completed. Initial loss: 9.1889, Final loss: 5.2492
+Program ID 34 mutation optimization completed. Initial loss: 9.4596, Final loss: 4.8154
+Program ID 35 mutation optimization completed. Initial loss: 12.7259, Final loss: 6.2013
+Program ID 13 additional optimization completed. Initial loss: 0.4221, Final loss: 0.4145
+Program ID 11 additional optimization completed. Initial loss: 0.8124, Final loss: 0.8124
+Program ID 8 additional optimization completed. Initial loss: 0.8769, Final loss: 0.8769
+Program ID 6 additional optimization completed. Initial loss: 1.2425, Final loss: 1.2156
+Program ID 14 additional optimization completed. Initial loss: 1.6593, Final loss: 1.6593
+Best candidate after iteration 6: Program ID 13, Final Loss: 0.4145
+Selected candidates for next iteration: [13, 11, 8, 6, 14]
+Program ID 36 mutation optimization completed. Initial loss: 13.3931, Final loss: 5.0256
+Program ID 37 mutation optimization completed. Initial loss: 8.2952, Final loss: 5.3736
+Error in program ID 38: 'sum'
+Program ID 39 mutation optimization completed. Initial loss: 22.2503, Final loss: 4.4275
+Program ID 40 mutation optimization completed. Initial loss: 9.2044, Final loss: 4.7780
+Program ID 13 additional optimization completed. Initial loss: 0.4131, Final loss: 0.4087
+Program ID 11 additional optimization completed. Initial loss: 0.8124, Final loss: 0.8124
+Program ID 8 additional optimization completed. Initial loss: 0.8769, Final loss: 0.8769
+Program ID 6 additional optimization completed. Initial loss: 1.2141, Final loss: 1.1980
+Program ID 14 additional optimization completed. Initial loss: 1.6593, Final loss: 1.6593
+Best candidate after iteration 7: Program ID 13, Final Loss: 0.4087
+Selected candidates for next iteration: [13, 11, 8, 6, 14]
+Program ID 41 mutation optimization completed. Initial loss: 14.4102, Final loss: 4.8784
+Program ID 42 mutation optimization completed. Initial loss: 13.9692, Final loss: 5.1647
+Program ID 43 mutation optimization completed. Initial loss: 7.6386, Final loss: 5.0216
+Program ID 44 mutation optimization completed. Initial loss: 8.8958, Final loss: 6.0897
+Program ID 45 mutation optimization completed. Initial loss: 11.6951, Final loss: 4.8893
+Program ID 13 additional optimization completed. Initial loss: 0.4073, Final loss: 0.4048
+Program ID 11 additional optimization completed. Initial loss: 0.8124, Final loss: 0.8124
+Program ID 8 additional optimization completed. Initial loss: 0.8769, Final loss: 0.8769
+Program ID 6 additional optimization completed. Initial loss: 1.1966, Final loss: 1.1868
+Program ID 14 additional optimization completed. Initial loss: 1.6593, Final loss: 1.6593
+Best candidate after iteration 8: Program ID 13, Final Loss: 0.4048
+Selected candidates for next iteration: [13, 11, 8, 6, 14]
+Program ID 46 mutation optimization completed. Initial loss: 11.5194, Final loss: 4.6923
+Program ID 47 mutation optimization completed. Initial loss: 9.5203, Final loss: 5.3988
+Program ID 48 mutation optimization completed. Initial loss: 7.8259, Final loss: 5.0813
+Program ID 49 mutation optimization completed. Initial loss: 7.2009, Final loss: 6.5706
+Program ID 50 mutation optimization completed. Initial loss: 12.8650, Final loss: 5.9303
+Program ID 13 additional optimization completed. Initial loss: 0.4035, Final loss: 0.4023
+Program ID 11 additional optimization completed. Initial loss: 0.8124, Final loss: 0.8124
+Program ID 8 additional optimization completed. Initial loss: 0.8769, Final loss: 0.8769
+Program ID 6 additional optimization completed. Initial loss: 1.1855, Final loss: 1.1796
+Program ID 14 additional optimization completed. Initial loss: 1.6593, Final loss: 1.6593
+Best candidate after iteration 9: Program ID 13, Final Loss: 0.4023
+Selected candidates for next iteration: [13, 11, 8, 6, 14]
+Program ID 51 mutation optimization completed. Initial loss: 19.3147, Final loss: 4.6050
+Program ID 52 mutation optimization completed. Initial loss: 11.2363, Final loss: 5.3311
+Program ID 53 mutation optimization completed. Initial loss: 7.7079, Final loss: 4.9489
+Program ID 54 mutation optimization completed. Initial loss: 8.9445, Final loss: 6.9088
+Program ID 55 mutation optimization completed. Initial loss: 15.4387, Final loss: 6.0926
+Program ID 13 additional optimization completed. Initial loss: 0.4010, Final loss: 0.4007
+Program ID 11 additional optimization completed. Initial loss: 0.8124, Final loss: 0.8124
+Program ID 8 additional optimization completed. Initial loss: 0.8769, Final loss: 0.8769
+Program ID 6 additional optimization completed. Initial loss: 1.1783, Final loss: 1.1749
+Program ID 14 additional optimization completed. Initial loss: 1.6593, Final loss: 1.6593
+Best candidate after iteration 10: Program ID 13, Final Loss: 0.4007
+Selected candidates for next iteration: [13, 11, 8, 6, 14]
+
+--- Final Selected Programs ---
+Program ID: 13, Final Loss: 0.4007
+Hypothesis: Skill2 is a four‑component mixture covering both low and high skill regimes.
+Structure: mixture4
+DeGAS code:
+skill1 = gm([1.00],[20.07],[3.98]); skill2 = gm([0.30,0.30,0.20,0.20],[10.00,14.00,23.00,27.00],[2.00,2.00,3.00,3.00]); p1wins = gm([0.50,0.50],[0.30,0.70],[0.05,0.05]);
+
+Program ID: 11, Final Loss: 0.8124
+Hypothesis: Win probability changes across low and high skill1 regimes.
+Structure: conditional
+DeGAS code:
+skill1 = gm([0.33,0.34,0.33],[8.00,20.00,30.00],[2.00,3.00,2.00]); skill2 = gm([0.35,0.45,0.20],[9.00,21.00,31.00],[2.50,4.00,2.50]); if skill1 < 15.00 { p1wins = gm([0.40,0.60],[0.25,0.85],[0.10,0.12]); } else { p1wins = gm([0.55,0.45],[0.30,0.80],[0.09,0.11]); } end if;
+
+Program ID: 8, Final Loss: 0.8769
+Hypothesis: Win probability is multimodal reflecting different skill regimes.
+Structure: mixture3
+DeGAS code:
+skill1 = gm([0.30,0.40,0.30],[8.00,20.00,30.00],[2.00,3.00,2.00]); skill2 = gm([0.35,0.45,0.20],[9.00,21.00,31.00],[2.50,4.00,2.50]); p1wins = gm([0.25,0.50,0.25],[0.20,0.55,0.90],[0.10,0.15,0.10]);
+
+Program ID: 6, Final Loss: 1.1749
+Hypothesis: Player win probability differs for low vs high first skill.
+Structure: conditional
+DeGAS code:
+skill1 = gm([1.00],[20.07],[3.98]); skill2 = gm([1.00],[19.99],[4.07]); if skill1 < 15.00 { p1wins = gm([1.00],[0.30],[0.40]); } else { p1wins = gm([1.00],[0.70],[0.45]); } end if;
+
+Program ID: 14, Final Loss: 1.6593
+Hypothesis: Win probability has a two‑component mixture that differs below and above a skill1 threshold.
+Structure: mixture2_conditional
+DeGAS code:
+skill1 = gm([1.00],[20.07],[3.98]); if skill1 < 15.00 { skill2 = gm([1.00],[12.00],[3.00]); p1wins = gm([0.70,0.30],[0.25,0.35],[0.08,0.06]); } else { skill2 = gm([1.00],[25.00],[4.00]); p1wins = gm([0.60,0.40],[0.75,0.85],[0.07,0.09]); } end if;
+
+=== Run finished in 1245.6s ===

@@ -1,0 +1,111 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "easytugwar",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "simple_prompt": true,
+  "prompt_history": true,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/easytugwar/20260916_084124"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Skill levels are normally distributed around a common mean with modest variability, and player 1 wins roughly half the games.
+DeGAS code:
+skill1 = gm([1.00],[20.20],[4.04]);
+skill2 = gm([1.00],[20.00],[3.96]);
+p1wins = gm([0.51,0.49],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: There are two subpopulations of skill levels (low and high), while win indicator remains binary.
+DeGAS code:
+skill1 = gm([0.45,0.55],[15.00,25.00],[3.00,3.00]);
+skill2 = gm([0.48,0.52],[14.50,24.50],[3.20,3.20]);
+p1wins = gm([0.51,0.49],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Skill distributions show three modes (low, medium, high) reflecting distinct player groups.
+DeGAS code:
+skill1 = gm([0.30,0.40,0.30],[12.00,20.00,28.00],[2.50,2.50,2.50]);
+skill2 = gm([0.25,0.50,0.25],[13.00,21.00,29.00],[2.70,2.70,2.70]);
+p1wins = gm([0.51,0.49],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 4, Structure: conditional, Hypothesis: If a player's skill1 is below average they tend to have lower skill2 and slightly lower win probability.
+DeGAS code:
+skill1 = gm([1.00],[20.20],[4.04]);
+if skill1 < 20.00 {
+    skill2 = gm([1.00],[15.00],[3.50]);
+    p1wins = gm([0.45,0.55],[0.00,1.00],[0.00,0.00]);
+} else {
+    skill2 = gm([1.00],[25.00],[3.50]);
+    p1wins = gm([0.57,0.43],[0.00,1.00],[0.00,0.00]);
+}
+end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Win probability is modeled as the product of a base win propensity and scaled skill interaction.
+DeGAS code:
+skill1 = gm([1.00],[20.20],[4.04]);
+skill2 = gm([1.00],[20.00],[3.96]);
+temp = 0.05*skill1;
+p1wins = temp * skill2;
+
+Program ID 1 initial optimization completed. Initial loss: 6.3042, Final loss: 6.3041
+Program ID 2 initial optimization completed. Initial loss: 6.8138, Final loss: 6.5018
+Program ID 3 initial optimization completed. Initial loss: 6.8317, Final loss: 6.6147
+Program ID 4 initial optimization completed. Initial loss: 7.0746, Final loss: 6.7383
+Error extracting parameters from program ID 5: Expected parameter loc (Tensor of shape (3,)) of distribution MultivariateNormal(loc: torch.Size([3]), covariance_matrix: torch.Size([3, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan], grad_fn=<ExpandBackward0>)
+
+--- Final Selected Programs ---
+Program ID: 1, Final Loss: 6.3041
+Hypothesis: Skill levels are normally distributed around a common mean with modest variability, and player 1 wins roughly half the games.
+Structure: unimodal
+DeGAS code:
+skill1 = gm([1.00],[20.20],[4.04]);
+skill2 = gm([1.00],[20.00],[3.96]);
+p1wins = gm([0.51,0.49],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 2, Final Loss: 6.5018
+Hypothesis: There are two subpopulations of skill levels (low and high), while win indicator remains binary.
+Structure: mixture2
+DeGAS code:
+skill1 = gm([0.45,0.55],[15.00,25.00],[3.00,3.00]);
+skill2 = gm([0.48,0.52],[14.50,24.50],[3.20,3.20]);
+p1wins = gm([0.51,0.49],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 3, Final Loss: 6.6147
+Hypothesis: Skill distributions show three modes (low, medium, high) reflecting distinct player groups.
+Structure: mixture3
+DeGAS code:
+skill1 = gm([0.30,0.40,0.30],[12.00,20.00,28.00],[2.50,2.50,2.50]);
+skill2 = gm([0.25,0.50,0.25],[13.00,21.00,29.00],[2.70,2.70,2.70]);
+p1wins = gm([0.51,0.49],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 4, Final Loss: 6.7383
+Hypothesis: If a player's skill1 is below average they tend to have lower skill2 and slightly lower win probability.
+Structure: conditional
+DeGAS code:
+skill1 = gm([1.00],[20.20],[4.04]);
+if skill1 < 20.00 {
+    skill2 = gm([1.00],[15.00],[3.50]);
+    p1wins = gm([0.45,0.55],[0.00,1.00],[0.00,0.00]);
+} else {
+    skill2 = gm([1.00],[25.00],[3.50]);
+    p1wins = gm([0.57,0.43],[0.00,1.00],[0.00,0.00]);
+}
+end if;
+
+No fitness values to plot.
+=== Run finished in 66.9s ===

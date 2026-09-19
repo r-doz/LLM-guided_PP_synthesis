@@ -1,0 +1,173 @@
+[
+  {
+    "id": 22,
+    "hypothesis": "a is bimodal; b is unimodal when a is negative and bimodal when a is non\u2011negative",
+    "structure": "mixture2_b_positive",
+    "program": "a = gm([0.50,0.50],[-2.00,2.00],[3.00,3.00]); if a < 0.00 { b = gm([1.00],[-2.00],[3.00]); } else { b = gm([0.50,0.50],[5.00,8.00],[1.00,1.00]); } end if;",
+    "params": {
+      "mu1": -2.0,
+      "mu2": 2.0,
+      "sigma1": 3.0,
+      "sigma2": 3.0,
+      "mu3": -2.0,
+      "sigma3": 3.0,
+      "mu4": 5.0,
+      "mu5": 8.0,
+      "sigma4": 1.0,
+      "sigma5": 1.0
+    },
+    "rewritten": "a = gm([0.50,0.50], [_mu1, _mu2], [_sigma1, _sigma2]); if a < 0.00 { b = gm([1.00], [_mu3], [_sigma3]); } else { b = gm([0.50,0.50], [_mu4, _mu5], [_sigma4, _sigma5]); } end if;",
+    "optimized_params": {
+      "mu1": "tensor(-0.3298)",
+      "mu2": "tensor(2.3293)",
+      "sigma1": "tensor(1.5271)",
+      "sigma2": "tensor(1.5246)",
+      "mu3": "tensor(-3.9836)",
+      "sigma3": "tensor(3.2522)",
+      "mu4": "tensor(7.9039)",
+      "mu5": "tensor(8.0617)",
+      "sigma4": "tensor(1.1459)",
+      "sigma5": "tensor(0.7985)"
+    },
+    "initial_loss": 3.99784936762886,
+    "final_loss": 3.99784936762886,
+    "opt_time": 1.752,
+    "opt_iterations": 116
+  },
+  {
+    "id": 16,
+    "hypothesis": "Variable a follows a bimodal mixture while b's distribution depends on the sign of a as before",
+    "structure": "mixture2",
+    "program": "a = gm([0.50,0.50],[-2.00,2.00],[3.00,3.00]); if a < 0.00 { b = gm([1.00],[-2.00],[3.00]); } else { b = gm([1.00],[6.00],[4.00]); } end if;",
+    "params": {
+      "mu1": -2.0,
+      "mu2": 2.0,
+      "sigma1": 3.0,
+      "sigma2": 3.0,
+      "mu3": -2.0,
+      "sigma3": 3.0,
+      "mu4": 6.0,
+      "sigma4": 4.0
+    },
+    "rewritten": "a = gm([0.50,0.50], [_mu1, _mu2], [_sigma1, _sigma2]); if a < 0.00 { b = gm([1.00], [_mu3], [_sigma3]); } else { b = gm([1.00], [_mu4], [_sigma4]); } end if;",
+    "optimized_params": {
+      "mu1": "tensor(-0.3299)",
+      "mu2": "tensor(2.3293)",
+      "sigma1": "tensor(1.5271)",
+      "sigma2": "tensor(1.5246)",
+      "mu3": "tensor(-3.9826)",
+      "sigma3": "tensor(3.2534)",
+      "mu4": "tensor(7.9828)",
+      "sigma4": "tensor(0.9907)"
+    },
+    "initial_loss": 3.9992367933065944,
+    "final_loss": 3.9992367933065944,
+    "opt_time": 1.548,
+    "opt_iterations": 117
+  },
+  {
+    "id": 54,
+    "hypothesis": "b\u2019s positive-a branch is better modelled with three submodes.",
+    "structure": "mixture3",
+    "program": "a = gm([1.00],[1.04],[2.01]); if a < 0.00 { b = gm([0.70,0.30],[-4.00,-1.00],[2.00,2.00]); } else { b = gm([0.33,0.34,0.33],[6.00,8.00,10.00],[1.00,1.00,1.00]); } end if;",
+    "params": {
+      "mu1": 1.04,
+      "sigma1": 2.01,
+      "mu2": -4.0,
+      "mu3": -1.0,
+      "sigma2": 2.0,
+      "sigma3": 2.0,
+      "mu4": 6.0,
+      "mu5": 8.0,
+      "mu6": 10.0,
+      "sigma4": 1.0,
+      "sigma5": 1.0,
+      "sigma6": 1.0
+    },
+    "rewritten": "a = gm([1.00], [_mu1], [_sigma1]); if a < 0.00 { b = gm([0.70,0.30], [_mu2, _mu3], [_sigma2, _sigma3]); } else { b = gm([0.33,0.34,0.33], [_mu4, _mu5, _mu6], [_sigma4, _sigma5, _sigma6]); } end if;",
+    "optimized_params": {
+      "mu1": "tensor(1.0283, requires_grad=True)",
+      "sigma1": "tensor(2.0042, grad_fn=<ExpBackward0>)",
+      "mu2": "tensor(-5.1914, requires_grad=True)",
+      "mu3": "tensor(-1.4418, requires_grad=True)",
+      "sigma2": "tensor(3.2244, grad_fn=<ExpBackward0>)",
+      "sigma3": "tensor(1.1310, grad_fn=<ExpBackward0>)",
+      "mu4": "tensor(7.2447, requires_grad=True)",
+      "mu5": "tensor(8.2468, requires_grad=True)",
+      "mu6": "tensor(8.4565, requires_grad=True)",
+      "sigma4": "tensor(0.8498, grad_fn=<ExpBackward0>)",
+      "sigma5": "tensor(0.6307, grad_fn=<ExpBackward0>)",
+      "sigma6": "tensor(1.0079, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 4.028604474865059,
+    "final_loss": 4.004824172947382,
+    "opt_time": 2.941,
+    "opt_iterations": 200
+  },
+  {
+    "id": 17,
+    "hypothesis": "When a is negative, b itself is bimodal; otherwise b remains unimodal",
+    "structure": "conditional+mixture",
+    "program": "a = gm([1.00],[1.04],[2.01]); if a < 0.00 { b = gm([0.50,0.50],[-2.00,0.00],[3.00,1.00]); } else { b = gm([1.00],[6.00],[4.00]); } end if;",
+    "params": {
+      "mu1": 1.04,
+      "sigma1": 2.01,
+      "mu2": -2.0,
+      "mu3": 0.0,
+      "sigma2": 3.0,
+      "sigma3": 1.0,
+      "mu4": 6.0,
+      "sigma4": 4.0
+    },
+    "rewritten": "a = gm([1.00], [_mu1], [_sigma1]); if a < 0.00 { b = gm([0.50,0.50], [_mu2, _mu3], [_sigma2, _sigma3]); } else { b = gm([1.00], [_mu4], [_sigma4]); } end if;",
+    "optimized_params": {
+      "mu1": "tensor(1.0283)",
+      "sigma1": "tensor(2.0042)",
+      "mu2": "tensor(-6.1082)",
+      "mu3": "tensor(-1.8460)",
+      "sigma2": "tensor(3.1270)",
+      "sigma3": "tensor(1.4647)",
+      "mu4": "tensor(7.9821)",
+      "sigma4": "tensor(0.9914)"
+    },
+    "initial_loss": 4.004872837479288,
+    "final_loss": 4.004872837479288,
+    "opt_time": 1.448,
+    "opt_iterations": 122
+  },
+  {
+    "id": 49,
+    "hypothesis": "b has different mixtures depending on the sign of a",
+    "structure": "conditional+mixture2",
+    "program": "a = gm([1.00],[1.04],[2.01]); if a < 0.00 { b = gm([0.70,0.30],[-4.00,-1.00],[2.00,2.00]); } else { b = gm([0.60,0.40],[7.00,9.00],[1.00,1.00]); } end if;",
+    "params": {
+      "mu1": 1.04,
+      "sigma1": 2.01,
+      "mu2": -4.0,
+      "mu3": -1.0,
+      "sigma2": 2.0,
+      "sigma3": 2.0,
+      "mu4": 7.0,
+      "mu5": 9.0,
+      "sigma4": 1.0,
+      "sigma5": 1.0
+    },
+    "rewritten": "a = gm([1.00], [_mu1], [_sigma1]); if a < 0.00 { b = gm([0.70,0.30], [_mu2, _mu3], [_sigma2, _sigma3]); } else { b = gm([0.60,0.40], [_mu4, _mu5], [_sigma4, _sigma5]); } end if;",
+    "optimized_params": {
+      "mu1": "tensor(1.0283)",
+      "sigma1": "tensor(2.0042)",
+      "mu2": "tensor(-5.1916)",
+      "mu3": "tensor(-1.4417)",
+      "sigma2": "tensor(3.2241)",
+      "sigma3": "tensor(1.1310)",
+      "mu4": "tensor(7.9061)",
+      "mu5": "tensor(8.0967)",
+      "sigma4": "tensor(1.1149)",
+      "sigma5": "tensor(0.7548)"
+    },
+    "initial_loss": 4.0053854766415915,
+    "final_loss": 4.0053854766415915,
+    "opt_time": 1.55,
+    "opt_iterations": 118
+  }
+]

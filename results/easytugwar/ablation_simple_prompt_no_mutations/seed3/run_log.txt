@@ -1,0 +1,75 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "easytugwar",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "simple_prompt": true,
+  "prompt_history": true,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/easytugwar/20260916_083859"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Skill levels are normally distributed around their means, and the win indicator is binary.
+DeGAS code:
+skill1 = gm([1.00],[20.15],[3.99]); skill2 = gm([1.00],[19.99],[4.04]); p1wins = gm([0.51,0.49],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: There are two subpopulations of skill levels.
+DeGAS code:
+skill1 = gm([0.50,0.50],[15.00,25.00],[2.00,2.00]); skill2 = gm([0.50,0.50],[14.00,26.00],[2.20,2.20]); p1wins = gm([0.51,0.49],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Skill distributions are skewed and best captured by three components.
+DeGAS code:
+skill1 = gm([0.30,0.40,0.30],[12.00,20.00,28.00],[2.00,2.50,2.00]); skill2 = gm([0.25,0.50,0.25],[13.00,20.00,27.00],[2.10,2.60,2.10]); p1wins = gm([0.51,0.49],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Players with skill1 below 20 have lower skill2 and a higher win probability.
+DeGAS code:
+if skill1 < 20.00 { skill2 = gm([1.00],[15.00],[3.00]); p1wins = gm([0.60,0.40],[0.00,1.00],[0.00,0.00]); } else { skill2 = gm([1.00],[25.00],[3.00]); p1wins = gm([0.45,0.55],[0.00,1.00],[0.00,0.00]); } skill1 = gm([1.00],[20.15],[3.99]);
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Skill2 is proportional to skill1 plus a baseline offset.
+DeGAS code:
+skill1 = gm([1.00],[20.15],[3.99]); skill2 = 0.70*skill1; skill2 = skill2 + 5.00; p1wins = gm([0.51,0.49],[0.00,1.00],[0.00,0.00]);
+
+Program ID 1 initial optimization completed. Initial loss: 6.3107, Final loss: 6.3107
+Program ID 2 initial optimization completed. Initial loss: 7.8130, Final loss: 6.7181
+Program ID 3 initial optimization completed. Initial loss: 6.8294, Final loss: 6.5606
+Error extracting parameters from program ID 4: Expected parameter loc (Tensor of shape (3,)) of distribution MultivariateNormal(loc: torch.Size([3]), covariance_matrix: torch.Size([3, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([0., nan, nan], grad_fn=<ExpandBackward0>)
+Error extracting parameters from program ID 5: Expected parameter loc (Tensor of shape (3,)) of distribution MultivariateNormal(loc: torch.Size([3]), covariance_matrix: torch.Size([3, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan], grad_fn=<ExpandBackward0>)
+
+--- Final Selected Programs ---
+Program ID: 1, Final Loss: 6.3107
+Hypothesis: Skill levels are normally distributed around their means, and the win indicator is binary.
+Structure: unimodal
+DeGAS code:
+skill1 = gm([1.00],[20.15],[3.99]); skill2 = gm([1.00],[19.99],[4.04]); p1wins = gm([0.51,0.49],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 3, Final Loss: 6.5606
+Hypothesis: Skill distributions are skewed and best captured by three components.
+Structure: mixture3
+DeGAS code:
+skill1 = gm([0.30,0.40,0.30],[12.00,20.00,28.00],[2.00,2.50,2.00]); skill2 = gm([0.25,0.50,0.25],[13.00,20.00,27.00],[2.10,2.60,2.10]); p1wins = gm([0.51,0.49],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 2, Final Loss: 6.7181
+Hypothesis: There are two subpopulations of skill levels.
+Structure: mixture2
+DeGAS code:
+skill1 = gm([0.50,0.50],[15.00,25.00],[2.00,2.00]); skill2 = gm([0.50,0.50],[14.00,26.00],[2.20,2.20]); p1wins = gm([0.51,0.49],[0.00,1.00],[0.00,0.00]);
+
+No fitness values to plot.
+=== Run finished in 73.5s ===

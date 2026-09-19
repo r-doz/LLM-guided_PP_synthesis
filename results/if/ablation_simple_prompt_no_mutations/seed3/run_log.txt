@@ -1,0 +1,95 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "if",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "simple_prompt": true,
+  "prompt_history": true,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/if/20260916_013957"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: The data for both variables arise from a single Gaussian-like population.
+DeGAS code:
+a = gm([1.00],[0.95],[2.00]);
+b = gm([1.00],[4.34],[5.89]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Variable a consists of two subpopulations: low and high values, while b is similarly bimodal.
+DeGAS code:
+a = gm([0.40,0.60],[-3.00,4.00],[1.00,1.50]);
+b = gm([0.45,0.55],[-5.00,9.00],[2.00,3.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Variable b shows strong left skew, modeled with three Gaussian components.
+DeGAS code:
+a = gm([0.20,0.30,0.50],[-2.00,0.00,5.00],[1.00,1.00,1.00]);
+b = gm([0.10,0.40,0.50],[-8.00,-2.00,6.00],[2.00,1.50,2.50]);
+
+Program ID: 4, Structure: conditional, Hypothesis: If a is negative, b follows a lower‑mean distribution; otherwise b has higher mean.
+DeGAS code:
+if a < 0.00 {
+    b = gm([1.00],[-6.00],[2.00]);
+} else {
+    b = gm([1.00],[8.00],[3.00]);
+}
+a = gm([1.00],[0.95],[2.00]);
+
+Program ID: 5, Structure: hierarchical, Hypothesis: b is generated as a scaled version of a plus independent noise.
+DeGAS code:
+temp = 0.30*a;
+b = temp + gm([1.00],[4.34],[5.89]);
+a = gm([1.00],[0.95],[2.00]);
+
+Program ID 1 initial optimization completed. Initial loss: 5.3029, Final loss: 5.3029
+Program ID 2 initial optimization completed. Initial loss: 6.2986, Final loss: 4.8643
+Program ID 3 initial optimization completed. Initial loss: 5.8020, Final loss: 4.9643
+Error extracting parameters from program ID 4: Expected parameter loc (Tensor of shape (2,)) of distribution MultivariateNormal(loc: torch.Size([2]), covariance_matrix: torch.Size([2, 2])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([-0.0025,     nan], grad_fn=<ExpandBackward0>)
+Program ID 5 initial optimization completed. Initial loss: 5.3029, Final loss: 5.3029
+
+--- Final Selected Programs ---
+Program ID: 2, Final Loss: 4.8643
+Hypothesis: Variable a consists of two subpopulations: low and high values, while b is similarly bimodal.
+Structure: mixture2
+DeGAS code:
+a = gm([0.40,0.60],[-3.00,4.00],[1.00,1.50]);
+b = gm([0.45,0.55],[-5.00,9.00],[2.00,3.00]);
+
+Program ID: 3, Final Loss: 4.9643
+Hypothesis: Variable b shows strong left skew, modeled with three Gaussian components.
+Structure: mixture3
+DeGAS code:
+a = gm([0.20,0.30,0.50],[-2.00,0.00,5.00],[1.00,1.00,1.00]);
+b = gm([0.10,0.40,0.50],[-8.00,-2.00,6.00],[2.00,1.50,2.50]);
+
+Program ID: 5, Final Loss: 5.3029
+Hypothesis: b is generated as a scaled version of a plus independent noise.
+Structure: hierarchical
+DeGAS code:
+temp = 0.30*a;
+b = temp + gm([1.00],[4.34],[5.89]);
+a = gm([1.00],[0.95],[2.00]);
+
+Program ID: 1, Final Loss: 5.3029
+Hypothesis: The data for both variables arise from a single Gaussian-like population.
+Structure: unimodal
+DeGAS code:
+a = gm([1.00],[0.95],[2.00]);
+b = gm([1.00],[4.34],[5.89]);
+
+No fitness values to plot.
+=== Run finished in 53.5s ===

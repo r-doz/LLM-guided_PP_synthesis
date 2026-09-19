@@ -1,0 +1,165 @@
+[
+  {
+    "id": 1,
+    "hypothesis": "Data is unimodal and right-skewed.",
+    "structure": "unimodal",
+    "program": "u = gm([1.00],[0.30],[0.46]);\nv = gm([1.00],[10.12],[1.90]);\nw = gm([1.00],[6.28],[2.37]);",
+    "params": {
+      "mu1": 0.3,
+      "sigma1": 0.46,
+      "mu2": 10.12,
+      "sigma2": 1.9,
+      "mu3": 6.28,
+      "sigma3": 2.37
+    },
+    "rewritten": "u = gm([1.00], [_mu1], [_sigma1]);\nv = gm([1.00], [_mu2], [_sigma2]);\nw = gm([1.00], [_mu3], [_sigma3]);",
+    "optimized_params": {
+      "mu1": "tensor(0.3000, requires_grad=True)",
+      "sigma1": "tensor(0.4600, requires_grad=True)",
+      "mu2": "tensor(10.1200, requires_grad=True)",
+      "sigma2": "tensor(1.9000, requires_grad=True)",
+      "mu3": "tensor(6.2800, requires_grad=True)",
+      "sigma3": "tensor(2.3700, requires_grad=True)"
+    },
+    "initial_loss": 4.988254326785792,
+    "final_loss": 4.988254326785792,
+    "opt_time": 0.0,
+    "opt_iterations": 0
+  },
+  {
+    "id": 11,
+    "hypothesis": "v's distribution switches based on u, while w remains unimodal.",
+    "structure": "conditional",
+    "program": "u = gm([1.00],[0.30],[0.46]);\nif u < 5.00 {\n   v = gm([1.00],[10.12],[1.90]);\n} else {\n   v = gm([1.00],[6.28],[2.37]);\n}\nend if;\nw = gm([1.00],[6.28],[2.37]);",
+    "params": {
+      "mu1": 0.3,
+      "sigma1": 0.46,
+      "mu2": 10.12,
+      "sigma2": 1.9,
+      "mu3": 6.28,
+      "sigma3": 2.37,
+      "mu4": 6.28,
+      "sigma4": 2.37
+    },
+    "rewritten": "u = gm([1.00], [_mu1], [_sigma1]);\nif u < 5.00 {\n   v = gm([1.00], [_mu2], [_sigma2]);\n} else {\n   v = gm([1.00], [_mu3], [_sigma3]);\n}\nend if;\nw = gm([1.00], [_mu4], [_sigma4]);",
+    "optimized_params": {
+      "mu1": "tensor(0.3000, requires_grad=True)",
+      "sigma1": "tensor(0.4600, requires_grad=True)",
+      "mu2": "tensor(10.1200, requires_grad=True)",
+      "sigma2": "tensor(1.9000, requires_grad=True)",
+      "mu3": "tensor(6.2800, requires_grad=True)",
+      "sigma3": "tensor(2.3700, requires_grad=True)",
+      "mu4": "tensor(6.2800, requires_grad=True)",
+      "sigma4": "tensor(2.3700, requires_grad=True)"
+    },
+    "initial_loss": 4.988254326785792,
+    "final_loss": 4.988254326785792,
+    "opt_time": 0.0,
+    "opt_iterations": 0
+  },
+  {
+    "id": 21,
+    "hypothesis": "v switches distribution based on u while w remains independent",
+    "structure": "conditional",
+    "program": "u = gm([1.00],[0.30],[0.46]); if u < 5.00 { v = gm([1.00],[10.12],[1.90]); } else { v = gm([1.00],[6.28],[2.37]); } end if; w = gm([1.00],[6.28],[2.37]);",
+    "params": {
+      "mu1": 0.3,
+      "sigma1": 0.46,
+      "mu2": 10.12,
+      "sigma2": 1.9,
+      "mu3": 6.28,
+      "sigma3": 2.37,
+      "mu4": 6.28,
+      "sigma4": 2.37
+    },
+    "rewritten": "u = gm([1.00], [_mu1], [_sigma1]); if u < 5.00 { v = gm([1.00], [_mu2], [_sigma2]); } else { v = gm([1.00], [_mu3], [_sigma3]); } end if; w = gm([1.00], [_mu4], [_sigma4]);",
+    "optimized_params": {
+      "mu1": "tensor(0.3000, requires_grad=True)",
+      "sigma1": "tensor(0.4600, requires_grad=True)",
+      "mu2": "tensor(10.1200, requires_grad=True)",
+      "sigma2": "tensor(1.9000, requires_grad=True)",
+      "mu3": "tensor(6.2800, requires_grad=True)",
+      "sigma3": "tensor(2.3700, requires_grad=True)",
+      "mu4": "tensor(6.2800, requires_grad=True)",
+      "sigma4": "tensor(2.3700, requires_grad=True)"
+    },
+    "initial_loss": 4.988254326785792,
+    "final_loss": 4.988254326785792,
+    "opt_time": 0.0,
+    "opt_iterations": 0
+  },
+  {
+    "id": 24,
+    "hypothesis": "v is modeled as a two\u2011component mixture instead of a conditional on u",
+    "structure": "mixture2",
+    "program": "u = gm([1.00],[0.30],[0.46]); v = gm([0.50,0.50],[8.00,12.00],[2.00,3.00]); w = gm([1.00],[6.28],[2.37]);",
+    "params": {
+      "mu1": 0.3,
+      "sigma1": 0.46,
+      "mu2": 8.0,
+      "mu3": 12.0,
+      "sigma2": 2.0,
+      "sigma3": 3.0,
+      "mu4": 6.28,
+      "sigma4": 2.37
+    },
+    "rewritten": "u = gm([1.00], [_mu1], [_sigma1]); v = gm([0.50,0.50], [_mu2, _mu3], [_sigma2, _sigma3]); w = gm([1.00], [_mu4], [_sigma4]);",
+    "optimized_params": {
+      "mu1": "tensor(0.3000, requires_grad=True)",
+      "sigma1": "tensor(0.4600, requires_grad=True)",
+      "mu2": "tensor(8., requires_grad=True)",
+      "mu3": "tensor(12., requires_grad=True)",
+      "sigma2": "tensor(2., requires_grad=True)",
+      "sigma3": "tensor(3., requires_grad=True)",
+      "mu4": "tensor(6.2800, requires_grad=True)",
+      "sigma4": "tensor(2.3700, requires_grad=True)"
+    },
+    "initial_loss": 5.232441060108575,
+    "final_loss": 5.232441060108575,
+    "opt_time": 0.0,
+    "opt_iterations": 0
+  },
+  {
+    "id": 12,
+    "hypothesis": "Introduce a conditional split for v based on u and simplify u to a single component.",
+    "structure": "conditional",
+    "program": "u = gm([1.00],[0.30],[0.50]);\nif u < 2.00 {\n   v = gm([0.70,0.30],[10.12,15.00],[1.20,2.00]);\n} else {\n   v = gm([0.40,0.60],[5.00,8.00],[0.80,1.50]);\n}\nend if;\nw = gm([0.55,0.45],[6.28,9.00],[2.00,3.00]);",
+    "params": {
+      "mu1": 0.3,
+      "sigma1": 0.5,
+      "mu2": 10.12,
+      "mu3": 15.0,
+      "sigma2": 1.2,
+      "sigma3": 2.0,
+      "mu4": 5.0,
+      "mu5": 8.0,
+      "sigma4": 0.8,
+      "sigma5": 1.5,
+      "mu6": 6.28,
+      "mu7": 9.0,
+      "sigma6": 2.0,
+      "sigma7": 3.0
+    },
+    "rewritten": "u = gm([1.00], [_mu1], [_sigma1]);\nif u < 2.00 {\n   v = gm([0.70,0.30], [_mu2, _mu3], [_sigma2, _sigma3]);\n} else {\n   v = gm([0.40,0.60], [_mu4, _mu5], [_sigma4, _sigma5]);\n}\nend if;\nw = gm([0.55,0.45], [_mu6, _mu7], [_sigma6, _sigma7]);",
+    "optimized_params": {
+      "mu1": "tensor(0.3000, requires_grad=True)",
+      "sigma1": "tensor(0.5000, requires_grad=True)",
+      "mu2": "tensor(10.1200, requires_grad=True)",
+      "mu3": "tensor(15., requires_grad=True)",
+      "sigma2": "tensor(1.2000, requires_grad=True)",
+      "sigma3": "tensor(2., requires_grad=True)",
+      "mu4": "tensor(5., requires_grad=True)",
+      "mu5": "tensor(8., requires_grad=True)",
+      "sigma4": "tensor(0.8000, requires_grad=True)",
+      "sigma5": "tensor(1.5000, requires_grad=True)",
+      "mu6": "tensor(6.2800, requires_grad=True)",
+      "mu7": "tensor(9., requires_grad=True)",
+      "sigma6": "tensor(2., requires_grad=True)",
+      "sigma7": "tensor(3., requires_grad=True)"
+    },
+    "initial_loss": 5.424267847980023,
+    "final_loss": 5.424267847980023,
+    "opt_time": 0.0,
+    "opt_iterations": 0
+  }
+]

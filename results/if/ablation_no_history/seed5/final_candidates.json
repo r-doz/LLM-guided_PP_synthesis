@@ -1,0 +1,173 @@
+[
+  {
+    "id": 7,
+    "hypothesis": "Variable b follows a different distribution depending on whether a is negative or non\u2011negative.",
+    "structure": "conditional",
+    "program": "a = gm([0.33,0.34,0.33],[-2.00,0.50,4.00],[1.00,1.80,2.20]); if a < 0.00 { b = gm([1.00],[-5.00],[2.00]); } else { b = gm([0.50,0.50],[3.00,9.00],[3.00,2.50]); } end if;",
+    "params": {
+      "mu1": -2.0,
+      "mu2": 0.5,
+      "mu3": 4.0,
+      "sigma1": 1.0,
+      "sigma2": 1.8,
+      "sigma3": 2.2,
+      "mu4": -5.0,
+      "sigma4": 2.0,
+      "mu5": 3.0,
+      "mu6": 9.0,
+      "sigma5": 3.0,
+      "sigma6": 2.5
+    },
+    "rewritten": "a = gm([0.33,0.34,0.33], [_mu1, _mu2, _mu3], [_sigma1, _sigma2, _sigma3]); if a < 0.00 { b = gm([1.00], [_mu4], [_sigma4]); } else { b = gm([0.50,0.50], [_mu5, _mu6], [_sigma5, _sigma6]); } end if;",
+    "optimized_params": {
+      "mu1": "tensor(-0.1640, requires_grad=True)",
+      "mu2": "tensor(0.5618, requires_grad=True)",
+      "mu3": "tensor(3.0200, requires_grad=True)",
+      "sigma1": "tensor(1.8298, grad_fn=<ExpBackward0>)",
+      "sigma2": "tensor(0.7932, grad_fn=<ExpBackward0>)",
+      "sigma3": "tensor(1.3332, grad_fn=<ExpBackward0>)",
+      "mu4": "tensor(-3.7355, requires_grad=True)",
+      "sigma4": "tensor(3.2589, grad_fn=<ExpBackward0>)",
+      "mu5": "tensor(7.4038, requires_grad=True)",
+      "mu6": "tensor(8.4753, requires_grad=True)",
+      "sigma5": "tensor(0.8777, grad_fn=<ExpBackward0>)",
+      "sigma6": "tensor(0.8534, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 3.9335056089800644,
+    "final_loss": 3.933505608718345,
+    "opt_time": 2.129,
+    "opt_iterations": 118
+  },
+  {
+    "id": 28,
+    "hypothesis": "a is modeled with three components to better capture its shape before conditioning b on the sign of a.",
+    "structure": "mixture_expand",
+    "program": "a = gm([0.30,0.40,0.30],[-2.00,0.50,3.00],[1.00,1.20,1.50]); if a < 0.00 { b = gm([1.00],[-2.00],[3.00]); } else { b = gm([1.00],[6.00],[4.00]); } end if;",
+    "params": {
+      "mu1": -2.0,
+      "mu2": 0.5,
+      "mu3": 3.0,
+      "sigma1": 1.0,
+      "sigma2": 1.2,
+      "sigma3": 1.5,
+      "mu4": -2.0,
+      "sigma4": 3.0,
+      "mu5": 6.0,
+      "sigma5": 4.0
+    },
+    "rewritten": "a = gm([0.30,0.40,0.30], [_mu1, _mu2, _mu3], [_sigma1, _sigma2, _sigma3]); if a < 0.00 { b = gm([1.00], [_mu4], [_sigma4]); } else { b = gm([1.00], [_mu5], [_sigma5]); } end if;",
+    "optimized_params": {
+      "mu1": "tensor(-1.0085, requires_grad=True)",
+      "mu2": "tensor(1.0634, requires_grad=True)",
+      "mu3": "tensor(3.1558, requires_grad=True)",
+      "sigma1": "tensor(1.2965, grad_fn=<ExpBackward0>)",
+      "sigma2": "tensor(0.9135, grad_fn=<ExpBackward0>)",
+      "sigma3": "tensor(1.3074, grad_fn=<ExpBackward0>)",
+      "mu4": "tensor(-3.7315, requires_grad=True)",
+      "sigma4": "tensor(3.2595, grad_fn=<ExpBackward0>)",
+      "mu5": "tensor(7.9395, requires_grad=True)",
+      "sigma5": "tensor(1.0180, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 4.150979301949896,
+    "final_loss": 3.9359897893558102,
+    "opt_time": 3.029,
+    "opt_iterations": 200
+  },
+  {
+    "id": 17,
+    "hypothesis": "b\u2019s distribution varies with the sign of a, using mixtures in each branch to capture subpopulations.",
+    "structure": "conditional_mixture",
+    "program": "a = gm([0.60,0.40],[-2.00,3.00],[1.50,1.20]); if a < 0.00 { b = gm([0.70,0.30],[-2.00,-5.00],[3.00,2.00]); } else { b = gm([0.55,0.45],[6.00,9.00],[4.00,3.50]); } end if;",
+    "params": {
+      "mu1": -2.0,
+      "mu2": 3.0,
+      "sigma1": 1.5,
+      "sigma2": 1.2,
+      "mu3": -2.0,
+      "mu4": -5.0,
+      "sigma3": 3.0,
+      "sigma4": 2.0,
+      "mu5": 6.0,
+      "mu6": 9.0,
+      "sigma5": 4.0,
+      "sigma6": 3.5
+    },
+    "rewritten": "a = gm([0.60,0.40], [_mu1, _mu2], [_sigma1, _sigma2]); if a < 0.00 { b = gm([0.70,0.30], [_mu3, _mu4], [_sigma3, _sigma4]); } else { b = gm([0.55,0.45], [_mu5, _mu6], [_sigma5, _sigma6]); } end if;",
+    "optimized_params": {
+      "mu1": "tensor(0.0709)",
+      "mu2": "tensor(2.6389)",
+      "sigma1": "tensor(1.5659)",
+      "sigma2": "tensor(1.5434)",
+      "mu3": "tensor(-2.2815)",
+      "mu4": "tensor(-7.0124)",
+      "sigma3": "tensor(1.9463)",
+      "sigma4": "tensor(3.1959)",
+      "mu5": "tensor(7.4603)",
+      "mu6": "tensor(8.5238)",
+      "sigma5": "tensor(0.8913)",
+      "sigma6": "tensor(0.8440)"
+    },
+    "initial_loss": 3.951843993380407,
+    "final_loss": 3.9518439930532687,
+    "opt_time": 1.994,
+    "opt_iterations": 114
+  },
+  {
+    "id": 11,
+    "hypothesis": "Variable a is bimodal and influences b via the same sign threshold.",
+    "structure": "mixture2",
+    "program": "a = gm([0.60,0.40],[-2.00,3.00],[1.50,1.20]); if a < 0.00 { b = gm([1.00],[-2.00],[3.00]); } else { b = gm([1.00],[6.00],[4.00]); } end if;",
+    "params": {
+      "mu1": -2.0,
+      "mu2": 3.0,
+      "sigma1": 1.5,
+      "sigma2": 1.2,
+      "mu3": -2.0,
+      "sigma3": 3.0,
+      "mu4": 6.0,
+      "sigma4": 4.0
+    },
+    "rewritten": "a = gm([0.60,0.40], [_mu1, _mu2], [_sigma1, _sigma2]); if a < 0.00 { b = gm([1.00], [_mu3], [_sigma3]); } else { b = gm([1.00], [_mu4], [_sigma4]); } end if;",
+    "optimized_params": {
+      "mu1": "tensor(0.0703, requires_grad=True)",
+      "mu2": "tensor(2.6392, requires_grad=True)",
+      "sigma1": "tensor(1.5659, grad_fn=<ExpBackward0>)",
+      "sigma2": "tensor(1.5433, grad_fn=<ExpBackward0>)",
+      "mu3": "tensor(-3.7318, requires_grad=True)",
+      "sigma3": "tensor(3.2638, grad_fn=<ExpBackward0>)",
+      "mu4": "tensor(7.9398, requires_grad=True)",
+      "sigma4": "tensor(1.0178, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 3.9720102596412845,
+    "final_loss": 3.9720102594126754,
+    "opt_time": 1.652,
+    "opt_iterations": 122
+  },
+  {
+    "id": 4,
+    "hypothesis": "Values of a below zero trigger a different generating mechanism for b than non\u2011negative values of a.",
+    "structure": "conditional",
+    "program": "a = gm([1.00],[1.16],[1.98]); if a < 0.00 { b = gm([1.00],[-2.00],[3.00]); } else { b = gm([1.00],[6.00],[4.00]); } end if;",
+    "params": {
+      "mu1": 1.16,
+      "sigma1": 1.98,
+      "mu2": -2.0,
+      "sigma2": 3.0,
+      "mu3": 6.0,
+      "sigma3": 4.0
+    },
+    "rewritten": "a = gm([1.00], [_mu1], [_sigma1]); if a < 0.00 { b = gm([1.00], [_mu2], [_sigma2]); } else { b = gm([1.00], [_mu3], [_sigma3]); } end if;",
+    "optimized_params": {
+      "mu1": "tensor(1.1631)",
+      "sigma1": "tensor(1.9794)",
+      "mu2": "tensor(-3.7316)",
+      "sigma2": "tensor(3.2641)",
+      "mu3": "tensor(7.9398)",
+      "sigma3": "tensor(1.0178)"
+    },
+    "initial_loss": 4.001233471422834,
+    "final_loss": 4.001233471422834,
+    "opt_time": 1.332,
+    "opt_iterations": 123
+  }
+]

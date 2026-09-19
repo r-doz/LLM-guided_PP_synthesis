@@ -1,0 +1,85 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "mog1",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "simple_prompt": true,
+  "prompt_history": true,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/mog1/20260916_045350"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Data is unimodal with approximately normal variation around the observed means.
+DeGAS code:
+mu = gm([1.00],[19.98],[2.97]); sigma = gm([1.00],[1.99],[0.99]); x = gm([1.00],[21.97],[3.80]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: The data consists of two subpopulations, each with its own location and scale.
+DeGAS code:
+mu = gm([0.60,0.40],[15.00,25.00],[1.50,1.50]); sigma = gm([0.60,0.40],[0.70,2.30],[0.30,0.30]); x = gm([0.60,0.40],[18.00,27.00],[2.50,2.50]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Three distinct modes underlie the observed measurements.
+DeGAS code:
+mu = gm([0.40,0.35,0.25],[13.00,20.00,26.00],[1.20,1.80,1.10]); sigma = gm([0.40,0.35,0.25],[0.60,1.20,2.00],[0.20,0.20,0.20]); x = gm([0.40,0.35,0.25],[16.00,22.00,30.00],[2.00,3.00,4.00]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Measurements follow different distributions depending on whether mu is below or above 20.
+DeGAS code:
+if mu < 20.00 { mu = gm([1.00],[16.00],[1.50]); sigma = gm([1.00],[0.80],[0.20]); x = gm([1.00],[18.00],[2.50]); } else { mu = gm([1.00],[24.00],[1.70]); sigma = gm([1.00],[2.10],[0.30]); x = gm([1.00],[27.00],[3.20]); } end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: The observed x is generated as the product of independent mu and sigma components.
+DeGAS code:
+mu = gm([1.00],[19.98],[2.97]); sigma = gm([1.00],[1.99],[0.99]); x = mu * sigma;
+
+Program ID 1 initial optimization completed. Initial loss: 6.6799, Final loss: 6.6798
+Program ID 2 initial optimization completed. Initial loss: 10.2635, Final loss: 7.2203
+Program ID 3 initial optimization completed. Initial loss: 13.4977, Final loss: 7.5127
+Program ID 4 initial optimization completed. Initial loss: 40.6270, Final loss: 10.6680
+Program ID 5 initial optimization completed. Initial loss: 45.7325, Final loss: 11.5290
+
+--- Final Selected Programs ---
+Program ID: 1, Final Loss: 6.6798
+Hypothesis: Data is unimodal with approximately normal variation around the observed means.
+Structure: unimodal
+DeGAS code:
+mu = gm([1.00],[19.98],[2.97]); sigma = gm([1.00],[1.99],[0.99]); x = gm([1.00],[21.97],[3.80]);
+
+Program ID: 2, Final Loss: 7.2203
+Hypothesis: The data consists of two subpopulations, each with its own location and scale.
+Structure: mixture2
+DeGAS code:
+mu = gm([0.60,0.40],[15.00,25.00],[1.50,1.50]); sigma = gm([0.60,0.40],[0.70,2.30],[0.30,0.30]); x = gm([0.60,0.40],[18.00,27.00],[2.50,2.50]);
+
+Program ID: 3, Final Loss: 7.5127
+Hypothesis: Three distinct modes underlie the observed measurements.
+Structure: mixture3
+DeGAS code:
+mu = gm([0.40,0.35,0.25],[13.00,20.00,26.00],[1.20,1.80,1.10]); sigma = gm([0.40,0.35,0.25],[0.60,1.20,2.00],[0.20,0.20,0.20]); x = gm([0.40,0.35,0.25],[16.00,22.00,30.00],[2.00,3.00,4.00]);
+
+Program ID: 4, Final Loss: 10.6680
+Hypothesis: Measurements follow different distributions depending on whether mu is below or above 20.
+Structure: conditional
+DeGAS code:
+if mu < 20.00 { mu = gm([1.00],[16.00],[1.50]); sigma = gm([1.00],[0.80],[0.20]); x = gm([1.00],[18.00],[2.50]); } else { mu = gm([1.00],[24.00],[1.70]); sigma = gm([1.00],[2.10],[0.30]); x = gm([1.00],[27.00],[3.20]); } end if;
+
+Program ID: 5, Final Loss: 11.5290
+Hypothesis: The observed x is generated as the product of independent mu and sigma components.
+Structure: hierarchical
+DeGAS code:
+mu = gm([1.00],[19.98],[2.97]); sigma = gm([1.00],[1.99],[0.99]); x = mu * sigma;
+
+No fitness values to plot.
+=== Run finished in 49.9s ===

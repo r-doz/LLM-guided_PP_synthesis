@@ -1,0 +1,165 @@
+[
+  {
+    "id": 1,
+    "hypothesis": "Data is unimodal and approximately symmetric around the mean.",
+    "structure": "unimodal",
+    "program": "contentDifficulty = gm([1.00],[29.88],[5.01]); questionsAfterLectureLength = gm([1.00],[12.03],[6.63]);",
+    "params": {
+      "mu1": 29.88,
+      "sigma1": 5.01,
+      "mu2": 12.03,
+      "sigma2": 6.63
+    },
+    "rewritten": "contentDifficulty = gm([1.00], [_mu1], [_sigma1]); questionsAfterLectureLength = gm([1.00], [_mu2], [_sigma2]);",
+    "optimized_params": {
+      "mu1": "tensor(29.8800, requires_grad=True)",
+      "sigma1": "tensor(5.0100, requires_grad=True)",
+      "mu2": "tensor(12.0300, requires_grad=True)",
+      "sigma2": "tensor(6.6300, requires_grad=True)"
+    },
+    "initial_loss": 6.341739963058282,
+    "final_loss": 6.341739963058282,
+    "opt_time": 0.0,
+    "opt_iterations": 0
+  },
+  {
+    "id": 12,
+    "hypothesis": "Question count distribution changes depending on whether content difficulty is high or low.",
+    "structure": "conditional",
+    "program": "contentDifficulty = gm([0.55,0.45],[35.00,25.00],[4.00,3.00]); if contentDifficulty >= 30.00 { questionsAfterLectureLength = gm([0.70,0.30],[15.00,8.00],[5.00,2.00]); } else { questionsAfterLectureLength = gm([0.70,0.30],[12.00,6.00],[5.00,2.00]); } end if;",
+    "params": {
+      "mu1": 35.0,
+      "mu2": 25.0,
+      "sigma1": 4.0,
+      "sigma2": 3.0,
+      "mu3": 15.0,
+      "mu4": 8.0,
+      "sigma3": 5.0,
+      "sigma4": 2.0,
+      "mu5": 12.0,
+      "mu6": 6.0,
+      "sigma5": 5.0,
+      "sigma6": 2.0
+    },
+    "rewritten": "contentDifficulty = gm([0.55,0.45], [_mu1, _mu2], [_sigma1, _sigma2]); if contentDifficulty >= 30.00 { questionsAfterLectureLength = gm([0.70,0.30], [_mu3, _mu4], [_sigma3, _sigma4]); } else { questionsAfterLectureLength = gm([0.70,0.30], [_mu5, _mu6], [_sigma5, _sigma6]); } end if;",
+    "optimized_params": {
+      "mu1": "tensor(35., requires_grad=True)",
+      "mu2": "tensor(25., requires_grad=True)",
+      "sigma1": "tensor(4., requires_grad=True)",
+      "sigma2": "tensor(3., requires_grad=True)",
+      "mu3": "tensor(15., requires_grad=True)",
+      "mu4": "tensor(8., requires_grad=True)",
+      "sigma3": "tensor(5., requires_grad=True)",
+      "sigma4": "tensor(2., requires_grad=True)",
+      "mu5": "tensor(12., requires_grad=True)",
+      "mu6": "tensor(6., requires_grad=True)",
+      "sigma5": "tensor(5., requires_grad=True)",
+      "sigma6": "tensor(2., requires_grad=True)"
+    },
+    "initial_loss": 6.4138381249300505,
+    "final_loss": 6.4138381249300505,
+    "opt_time": 0.0,
+    "opt_iterations": 0
+  },
+  {
+    "id": 10,
+    "hypothesis": "Content difficulty and question count are captured by a two\u2011component mixture reflecting low and high difficulty lectures.",
+    "structure": "mixture2",
+    "program": "contentDifficulty = gm([0.55,0.45],[35.00,25.00],[4.00,3.00]); questionsAfterLectureLength = gm([0.55,0.45],[15.00,8.00],[5.00,2.00]);",
+    "params": {
+      "mu1": 35.0,
+      "mu2": 25.0,
+      "sigma1": 4.0,
+      "sigma2": 3.0,
+      "mu3": 15.0,
+      "mu4": 8.0,
+      "sigma3": 5.0,
+      "sigma4": 2.0
+    },
+    "rewritten": "contentDifficulty = gm([0.55,0.45], [_mu1, _mu2], [_sigma1, _sigma2]); questionsAfterLectureLength = gm([0.55,0.45], [_mu3, _mu4], [_sigma3, _sigma4]);",
+    "optimized_params": {
+      "mu1": "tensor(35., requires_grad=True)",
+      "mu2": "tensor(25., requires_grad=True)",
+      "sigma1": "tensor(4., requires_grad=True)",
+      "sigma2": "tensor(3., requires_grad=True)",
+      "mu3": "tensor(15., requires_grad=True)",
+      "mu4": "tensor(8., requires_grad=True)",
+      "sigma3": "tensor(5., requires_grad=True)",
+      "sigma4": "tensor(2., requires_grad=True)"
+    },
+    "initial_loss": 6.4153125545564285,
+    "final_loss": 6.4153125545564285,
+    "opt_time": 0.0,
+    "opt_iterations": 0
+  },
+  {
+    "id": 16,
+    "hypothesis": "Question count distribution differs between easy and hard lectures.",
+    "structure": "conditional",
+    "program": "contentDifficulty = gm([1.00],[30.00],[5.00]); if contentDifficulty >= 25.00 { questionsAfterLectureLength = gm([0.60,0.40],[15.00,8.00],[4.00,2.00]); } else { questionsAfterLectureLength = gm([0.70,0.30],[10.00,5.00],[3.00,1.50]); } end if;",
+    "params": {
+      "mu1": 30.0,
+      "sigma1": 5.0,
+      "mu2": 15.0,
+      "mu3": 8.0,
+      "sigma2": 4.0,
+      "sigma3": 2.0,
+      "mu4": 10.0,
+      "mu5": 5.0,
+      "sigma4": 3.0,
+      "sigma5": 1.5
+    },
+    "rewritten": "contentDifficulty = gm([1.00], [_mu1], [_sigma1]); if contentDifficulty >= 25.00 { questionsAfterLectureLength = gm([0.60,0.40], [_mu2, _mu3], [_sigma2, _sigma3]); } else { questionsAfterLectureLength = gm([0.70,0.30], [_mu4, _mu5], [_sigma4, _sigma5]); } end if;",
+    "optimized_params": {
+      "mu1": "tensor(30., requires_grad=True)",
+      "sigma1": "tensor(5., requires_grad=True)",
+      "mu2": "tensor(15., requires_grad=True)",
+      "mu3": "tensor(8., requires_grad=True)",
+      "sigma2": "tensor(4., requires_grad=True)",
+      "sigma3": "tensor(2., requires_grad=True)",
+      "mu4": "tensor(10., requires_grad=True)",
+      "mu5": "tensor(5., requires_grad=True)",
+      "sigma4": "tensor(3., requires_grad=True)",
+      "sigma5": "tensor(1.5000, requires_grad=True)"
+    },
+    "initial_loss": 6.487603070668998,
+    "final_loss": 6.487603070668998,
+    "opt_time": 0.0,
+    "opt_iterations": 0
+  },
+  {
+    "id": 22,
+    "hypothesis": "Both difficulty and question count follow a richer three\u2011component mixture.",
+    "structure": "mixture3",
+    "program": "contentDifficulty = gm([0.55,0.45],[35.00,25.00],[4.00,3.00]); questionsAfterLectureLength = gm([0.40,0.30,0.30],[15.00,12.00,6.00],[5.00,4.00,2.00]);",
+    "params": {
+      "mu1": 35.0,
+      "mu2": 25.0,
+      "sigma1": 4.0,
+      "sigma2": 3.0,
+      "mu3": 15.0,
+      "mu4": 12.0,
+      "mu5": 6.0,
+      "sigma3": 5.0,
+      "sigma4": 4.0,
+      "sigma5": 2.0
+    },
+    "rewritten": "contentDifficulty = gm([0.55,0.45], [_mu1, _mu2], [_sigma1, _sigma2]); questionsAfterLectureLength = gm([0.40,0.30,0.30], [_mu3, _mu4, _mu5], [_sigma3, _sigma4, _sigma5]);",
+    "optimized_params": {
+      "mu1": "tensor(35., requires_grad=True)",
+      "mu2": "tensor(25., requires_grad=True)",
+      "sigma1": "tensor(4., requires_grad=True)",
+      "sigma2": "tensor(3., requires_grad=True)",
+      "mu3": "tensor(15., requires_grad=True)",
+      "mu4": "tensor(12., requires_grad=True)",
+      "mu5": "tensor(6., requires_grad=True)",
+      "sigma3": "tensor(5., requires_grad=True)",
+      "sigma4": "tensor(4., requires_grad=True)",
+      "sigma5": "tensor(2., requires_grad=True)"
+    },
+    "initial_loss": 6.4901088150875275,
+    "final_loss": 6.4901088150875275,
+    "opt_time": 0.0,
+    "opt_iterations": 0
+  }
+]

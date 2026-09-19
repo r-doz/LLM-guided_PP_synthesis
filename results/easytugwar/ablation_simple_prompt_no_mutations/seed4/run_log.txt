@@ -1,0 +1,80 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "easytugwar",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "simple_prompt": true,
+  "prompt_history": true,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/easytugwar/20260916_084016"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Skill levels and win probability are generated from single normal-like distributions.
+DeGAS code:
+skill1 = gm([1.00],[20.02],[3.88]); skill2 = gm([1.00],[19.93],[4.00]); p1wins = gm([0.50,0.50],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Each skill variable consists of two subpopulations (low and high performers).
+DeGAS code:
+skill1 = gm([0.55,0.45],[12.00,28.00],[2.00,2.50]); skill2 = gm([0.60,0.40],[10.00,30.00],[2.20,3.00]); p1wins = gm([0.50,0.50],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Skill variables show three distinct clusters (low, medium, high).
+DeGAS code:
+skill1 = gm([0.30,0.40,0.30],[10.00,20.00,30.00],[2.00,3.00,2.50]); skill2 = gm([0.30,0.40,0.30],[8.00,18.00,28.00],[1.80,3.20,2.70]); p1wins = gm([0.50,0.50],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Win probability depends on whether skill1 exceeds a threshold.
+DeGAS code:
+skill1 = gm([1.00],[20.02],[3.88]); skill2 = gm([1.00],[19.93],[4.00]); if skill1 >= 20.00 { p1wins = gm([0.30,0.70],[0.00,1.00],[0.00,0.00]); } else { p1wins = gm([0.70,0.30],[0.00,1.00],[0.00,0.00]); } end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Skill1 is modeled as the product of skill2 and win probability, scaled.
+DeGAS code:
+skill2 = gm([1.00],[19.93],[4.00]); p1wins = gm([0.50,0.50],[0.00,1.00],[0.00,0.00]); temp = skill2 * p1wins; skill1 = 1.00*temp;
+
+Program ID 1 initial optimization completed. Initial loss: 6.2724, Final loss: 6.2724
+Program ID 2 initial optimization completed. Initial loss: 12.4455, Final loss: 8.1086
+Program ID 3 initial optimization completed. Initial loss: 7.4400, Final loss: 6.9260
+Program ID 4 initial optimization completed. Initial loss: 6.1999, Final loss: 6.1974
+Error extracting parameters from program ID 5: Expected parameter loc (Tensor of shape (3,)) of distribution MultivariateNormal(loc: torch.Size([3]), covariance_matrix: torch.Size([3, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([nan, nan, nan], grad_fn=<ExpandBackward0>)
+
+--- Final Selected Programs ---
+Program ID: 4, Final Loss: 6.1974
+Hypothesis: Win probability depends on whether skill1 exceeds a threshold.
+Structure: conditional
+DeGAS code:
+skill1 = gm([1.00],[20.02],[3.88]); skill2 = gm([1.00],[19.93],[4.00]); if skill1 >= 20.00 { p1wins = gm([0.30,0.70],[0.00,1.00],[0.00,0.00]); } else { p1wins = gm([0.70,0.30],[0.00,1.00],[0.00,0.00]); } end if;
+
+Program ID: 1, Final Loss: 6.2724
+Hypothesis: Skill levels and win probability are generated from single normal-like distributions.
+Structure: unimodal
+DeGAS code:
+skill1 = gm([1.00],[20.02],[3.88]); skill2 = gm([1.00],[19.93],[4.00]); p1wins = gm([0.50,0.50],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 3, Final Loss: 6.9260
+Hypothesis: Skill variables show three distinct clusters (low, medium, high).
+Structure: mixture3
+DeGAS code:
+skill1 = gm([0.30,0.40,0.30],[10.00,20.00,30.00],[2.00,3.00,2.50]); skill2 = gm([0.30,0.40,0.30],[8.00,18.00,28.00],[1.80,3.20,2.70]); p1wins = gm([0.50,0.50],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 2, Final Loss: 8.1086
+Hypothesis: Each skill variable consists of two subpopulations (low and high performers).
+Structure: mixture2
+DeGAS code:
+skill1 = gm([0.55,0.45],[12.00,28.00],[2.00,2.50]); skill2 = gm([0.60,0.40],[10.00,30.00],[2.20,3.00]); p1wins = gm([0.50,0.50],[0.00,1.00],[0.00,0.00]);
+
+No fitness values to plot.
+=== Run finished in 64.4s ===

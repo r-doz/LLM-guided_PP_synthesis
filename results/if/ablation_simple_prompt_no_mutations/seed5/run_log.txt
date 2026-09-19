@@ -1,0 +1,107 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "if",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 0,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 100,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "simple_prompt": true,
+  "prompt_history": true,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/if/20260916_014143"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: The data for both variables appear unimodal and roughly symmetric around their means.
+DeGAS code:
+a = gm([1.00],[1.03],[2.02]);
+b = gm([1.00],[4.40],[5.78]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Each variable seems to arise from two subpopulations, suggesting a bimodal mixture.
+DeGAS code:
+a = gm([0.50,0.50],[-2.00,4.00],[1.50,1.80]);
+b = gm([0.45,0.55],[-5.00,9.00],[3.00,2.50]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: The distributions exhibit three distinct modes, indicating multiple latent groups.
+DeGAS code:
+a = gm([0.30,0.40,0.30],[-3.00,0.00,5.00],[1.20,0.80,1.50]);
+b = gm([0.25,0.50,0.25],[-8.00,2.00,10.00],[2.00,1.00,2.00]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Variable b behaves differently depending on whether variable a is negative or non‑negative.
+DeGAS code:
+a = gm([1.00],[1.03],[2.02]);
+if a < 0.00 {
+    b = gm([1.00],[-5.00],[3.00]);
+} else {
+    b = gm([1.00],[6.00],[4.00]);
+}
+end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Variable b is modeled as a scaled version of variable a plus its own independent noise, forming a hierarchical relationship.
+DeGAS code:
+a = gm([1.00],[1.03],[2.02]);
+t = 0.30*a;
+b = t + gm([1.00],[4.40],[5.78]);
+
+Program ID 1 initial optimization completed. Initial loss: 5.2964, Final loss: 5.2964
+Program ID 2 initial optimization completed. Initial loss: 5.4864, Final loss: 4.7056
+Program ID 3 initial optimization completed. Initial loss: 6.6518, Final loss: 5.3538
+Program ID 4 initial optimization completed. Initial loss: 4.7906, Final loss: 4.3005
+Program ID 5 initial optimization completed. Initial loss: 5.2198, Final loss: 5.2115
+
+--- Final Selected Programs ---
+Program ID: 4, Final Loss: 4.3005
+Hypothesis: Variable b behaves differently depending on whether variable a is negative or non‑negative.
+Structure: conditional
+DeGAS code:
+a = gm([1.00],[1.03],[2.02]);
+if a < 0.00 {
+    b = gm([1.00],[-5.00],[3.00]);
+} else {
+    b = gm([1.00],[6.00],[4.00]);
+}
+end if;
+
+Program ID: 2, Final Loss: 4.7056
+Hypothesis: Each variable seems to arise from two subpopulations, suggesting a bimodal mixture.
+Structure: mixture2
+DeGAS code:
+a = gm([0.50,0.50],[-2.00,4.00],[1.50,1.80]);
+b = gm([0.45,0.55],[-5.00,9.00],[3.00,2.50]);
+
+Program ID: 5, Final Loss: 5.2115
+Hypothesis: Variable b is modeled as a scaled version of variable a plus its own independent noise, forming a hierarchical relationship.
+Structure: hierarchical
+DeGAS code:
+a = gm([1.00],[1.03],[2.02]);
+t = 0.30*a;
+b = t + gm([1.00],[4.40],[5.78]);
+
+Program ID: 1, Final Loss: 5.2964
+Hypothesis: The data for both variables appear unimodal and roughly symmetric around their means.
+Structure: unimodal
+DeGAS code:
+a = gm([1.00],[1.03],[2.02]);
+b = gm([1.00],[4.40],[5.78]);
+
+Program ID: 3, Final Loss: 5.3538
+Hypothesis: The distributions exhibit three distinct modes, indicating multiple latent groups.
+Structure: mixture3
+DeGAS code:
+a = gm([0.30,0.40,0.30],[-3.00,0.00,5.00],[1.20,0.80,1.50]);
+b = gm([0.25,0.50,0.25],[-8.00,2.00,10.00],[2.00,1.00,2.00]);
+
+No fitness values to plot.
+=== Run finished in 72.1s ===

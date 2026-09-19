@@ -1,0 +1,150 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "easytugwar",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 10,
+  "patience": 3,
+  "min_improvement": 0.01,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 50,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "simple_prompt": false,
+  "prompt_history": false,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/easytugwar/20260918_041605"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: All variables follow a simple unimodal distribution.
+DeGAS code:
+skill1 = gm([1.00],[19.86],[4.12]);
+skill2 = gm([1.00],[20.02],[4.06]);
+p1wins = gm([0.53,0.47],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Skill variables consist of two subpopulations with distinct ability levels.
+DeGAS code:
+skill1 = gm([0.50,0.50],[12.00,28.00],[3.00,3.00]);
+skill2 = gm([0.50,0.50],[13.00,27.00],[3.00,3.00]);
+p1wins = gm([0.53,0.47],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Skill distributions are skewed and best captured by three components.
+DeGAS code:
+skill1 = gm([0.33,0.34,0.33],[8.00,20.00,30.00],[2.50,2.50,2.50]);
+skill2 = gm([0.33,0.34,0.33],[9.00,21.00,31.00],[2.50,2.50,2.50]);
+p1wins = gm([0.53,0.47],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Players with lower skill1 have different win probabilities than higher skill1.
+DeGAS code:
+if skill1 < 20.00 {
+  skill2 = gm([1.00],[15.00],[3.00]);
+  p1wins = gm([0.60,0.40],[0.00,1.00],[0.00,0.00]);
+} else {
+  skill2 = gm([1.00],[25.00],[3.00]);
+  p1wins = gm([0.45,0.55],[0.00,1.00],[0.00,0.00]);
+}
+skill1 = gm([1.00],[19.86],[4.12]);
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Skill2 is proportional to Skill1 plus some baseline variation.
+DeGAS code:
+skill1 = gm([1.00],[19.86],[4.12]);
+temp = 0.30*skill1;
+skill2 = temp + gm([1.00],[20.02],[4.06]);
+p1wins = gm([0.53,0.47],[0.00,1.00],[0.00,0.00]);
+
+Program ID 1 initial optimization completed. Initial loss: 6.3461, Final loss: 6.3461
+Program ID 2 initial optimization completed. Initial loss: 8.6454, Final loss: 7.5491
+Program ID 3 initial optimization completed. Initial loss: 7.8805, Final loss: 7.4175
+Error extracting parameters from program ID 4: Expected parameter loc (Tensor of shape (3,)) of distribution MultivariateNormal(loc: torch.Size([3]), covariance_matrix: torch.Size([3, 3])) to satisfy the constraint IndependentConstraint(Real(), 1), but found invalid values:
+tensor([0., nan, nan], grad_fn=<ExpandBackward0>)
+Program ID 5 initial optimization completed. Initial loss: 7.4796, Final loss: 6.9172
+Error in program ID 6: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 7 mutation optimization completed. Initial loss: 6.3675, Final loss: 6.3468
+Error in program ID 8: 
+Error in program ID 9: 
+Program ID 10 mutation optimization completed. Initial loss: 6.3957, Final loss: 6.3473
+Program ID 1 additional optimization completed. Initial loss: 6.3461, Final loss: 6.3461
+Program ID 7 additional optimization completed. Initial loss: 6.3468, Final loss: 6.3458
+Program ID 10 additional optimization completed. Initial loss: 6.3472, Final loss: 6.3427
+Program ID 5 additional optimization completed. Initial loss: 6.9143, Final loss: 6.6630
+Program ID 3 additional optimization completed. Initial loss: 7.4102, Final loss: 6.9994
+Best candidate after iteration 1: Program ID 10, Final Loss: 6.3427
+Selected candidates for next iteration: [10, 7, 1, 5, 3]
+Program ID 11 mutation optimization completed. Initial loss: 6.4241, Final loss: 6.3475
+Program ID 12 mutation optimization completed. Initial loss: 7.6061, Final loss: 6.8656
+Error in program ID 13: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 14 mutation optimization completed. Initial loss: 7.4806, Final loss: 6.8517
+Program ID 15 mutation optimization completed. Initial loss: 9.2096, Final loss: 7.5649
+Program ID 10 additional optimization completed. Initial loss: 6.3427, Final loss: 6.3426
+Program ID 7 additional optimization completed. Initial loss: 6.3458, Final loss: 6.3456
+Program ID 1 additional optimization completed. Initial loss: 6.3461, Final loss: 6.3461
+Program ID 11 additional optimization completed. Initial loss: 6.3475, Final loss: 6.3423
+Program ID 5 additional optimization completed. Initial loss: 6.6619, Final loss: 6.4720
+Best candidate after iteration 2: Program ID 11, Final Loss: 6.3423
+Selected candidates for next iteration: [11, 10, 7, 1, 5]
+Program ID 16 mutation optimization completed. Initial loss: 6.4800, Final loss: 6.3603
+Program ID 17 mutation optimization completed. Initial loss: 6.4251, Final loss: 6.3549
+Program ID 18 mutation optimization completed. Initial loss: 6.4354, Final loss: 6.3937
+Program ID 19 mutation optimization completed. Initial loss: 9.4828, Final loss: 7.3732
+Program ID 20 mutation optimization completed. Initial loss: 7.5037, Final loss: 6.8520
+Program ID 11 additional optimization completed. Initial loss: 6.3423, Final loss: 6.3422
+Program ID 10 additional optimization completed. Initial loss: 6.3426, Final loss: 6.3426
+Program ID 7 additional optimization completed. Initial loss: 6.3456, Final loss: 6.3456
+Program ID 1 additional optimization completed. Initial loss: 6.3461, Final loss: 6.3461
+Program ID 17 additional optimization completed. Initial loss: 6.3548, Final loss: 6.3429
+Best candidate after iteration 3: Program ID 11, Final Loss: 6.3422
+Selected candidates for next iteration: [11, 10, 17, 7, 1]
+Program ID 21 mutation optimization completed. Initial loss: 6.6870, Final loss: 6.5378
+Program ID 11 additional optimization completed. Initial loss: 6.3422, Final loss: 6.3422
+Program ID 10 additional optimization completed. Initial loss: 6.3426, Final loss: 6.3426
+Program ID 17 additional optimization completed. Initial loss: 6.3429, Final loss: 6.3423
+Program ID 7 additional optimization completed. Initial loss: 6.3456, Final loss: 6.3456
+Program ID 1 additional optimization completed. Initial loss: 6.3461, Final loss: 6.3461
+Best candidate after iteration 4: Program ID 11, Final Loss: 6.3422
+Selected candidates for next iteration: [11, 17, 10, 7, 1]
+Early stopping after iteration 4: best loss improved by only 0.0005 over the last 3 iterations (< min_improvement=0.01).
+
+--- Final Selected Programs ---
+Program ID: 11, Final Loss: 6.3422
+Hypothesis: Skill2 has two subpopulations rather than one
+Structure: mixture2
+DeGAS code:
+skill1 = gm([0.33,0.34,0.33],[15.00,20.00,25.00],[2.50,2.50,2.50]); skill2 = gm([0.60,0.40],[18.00,22.00],[3.00,3.00]); p1wins = gm([0.53,0.47],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 17, Final Loss: 6.3423
+Hypothesis: Skill2 is bimodal with two subpopulations.
+Structure: mixture2
+DeGAS code:
+skill1 = gm([0.33,0.34,0.33],[15.00,20.00,25.00],[2.50,2.50,2.50]); skill2 = gm([0.55,0.45],[18.00,24.00],[3.00,3.00]); p1wins = gm([0.53,0.47],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 10, Final Loss: 6.3426
+Hypothesis: Skill1 is multimodal with three subpopulations.
+Structure: mixture3
+DeGAS code:
+skill1 = gm([0.33,0.34,0.33],[15.00,20.00,25.00],[2.50,2.50,2.50]); skill2 = gm([1.00],[20.02],[4.06]); p1wins = gm([0.53,0.47],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 7, Final Loss: 6.3456
+Hypothesis: Skill2 is multimodal, captured by two subpopulations.
+Structure: mixture2
+DeGAS code:
+skill1 = gm([1.00],[19.86],[4.12]); skill2 = gm([0.50,0.50],[18.00,22.00],[3.00,3.00]); p1wins = gm([0.53,0.47],[0.00,1.00],[0.00,0.00]);
+
+Program ID: 1, Final Loss: 6.3461
+Hypothesis: All variables follow a simple unimodal distribution.
+Structure: unimodal
+DeGAS code:
+skill1 = gm([1.00],[19.86],[4.12]);
+skill2 = gm([1.00],[20.02],[4.06]);
+p1wins = gm([0.53,0.47],[0.00,1.00],[0.00,0.00]);
+
+=== Run finished in 390.7s ===

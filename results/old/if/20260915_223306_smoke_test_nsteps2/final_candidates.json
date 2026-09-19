@@ -1,0 +1,161 @@
+[
+  {
+    "id": 7,
+    "hypothesis": "Variable a follows a two\u2011component mixture and determines whether b is low or high.",
+    "structure": "conditional_dep",
+    "program": "a = gm([0.45,0.55],[-2.00,3.50],[1.00,1.20]); if a < 0.00 { b = gm([1.00],[0.00],[2.00]); } else { b = gm([1.00],[8.00],[2.00]); } end if;",
+    "params": {
+      "mu1": -2.0,
+      "mu2": 3.5,
+      "sigma1": 1.0,
+      "sigma2": 1.2,
+      "mu3": 0.0,
+      "sigma3": 2.0,
+      "mu4": 8.0,
+      "sigma4": 2.0
+    },
+    "rewritten": "a = gm([0.45,0.55], [_mu1, _mu2], [_sigma1, _sigma2]); if a < 0.00 { b = gm([1.00], [_mu3], [_sigma3]); } else { b = gm([1.00], [_mu4], [_sigma4]); } end if;",
+    "optimized_params": {
+      "mu1": "tensor(-0.5550, requires_grad=True)",
+      "mu2": "tensor(2.1102, requires_grad=True)",
+      "sigma1": "tensor(1.4568, grad_fn=<ExpBackward0>)",
+      "sigma2": "tensor(1.5440, grad_fn=<ExpBackward0>)",
+      "mu3": "tensor(-3.8276, requires_grad=True)",
+      "sigma3": "tensor(3.3213, grad_fn=<ExpBackward0>)",
+      "mu4": "tensor(7.9502, requires_grad=True)",
+      "sigma4": "tensor(0.9927, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 4.066343833001812,
+    "final_loss": 4.039722579604427,
+    "opt_time": 2.506,
+    "opt_iterations": 200
+  },
+  {
+    "id": 6,
+    "hypothesis": "Variable a has two subpopulations, each leading to a distinct low or high value for b.",
+    "structure": "conditional_split",
+    "program": "a = gm([0.50,0.50],[-1.00,2.00],[1.00,1.00]); if a < 0.00 { b = gm([1.00],[0.00],[2.00]); } else { b = gm([1.00],[8.00],[2.00]); } end if;",
+    "params": {
+      "mu1": -1.0,
+      "mu2": 2.0,
+      "sigma1": 1.0,
+      "sigma2": 1.0,
+      "mu3": 0.0,
+      "sigma3": 2.0,
+      "mu4": 8.0,
+      "sigma4": 2.0
+    },
+    "rewritten": "a = gm([0.50,0.50], [_mu1, _mu2], [_sigma1, _sigma2]); if a < 0.00 { b = gm([1.00], [_mu3], [_sigma3]); } else { b = gm([1.00], [_mu4], [_sigma4]); } end if;",
+    "optimized_params": {
+      "mu1": "tensor(-0.4333, requires_grad=True)",
+      "mu2": "tensor(2.2195, requires_grad=True)",
+      "sigma1": "tensor(1.4834, grad_fn=<ExpBackward0>)",
+      "sigma2": "tensor(1.5318, grad_fn=<ExpBackward0>)",
+      "mu3": "tensor(-3.8268, requires_grad=True)",
+      "sigma3": "tensor(3.3215, grad_fn=<ExpBackward0>)",
+      "mu4": "tensor(7.9503, requires_grad=True)",
+      "sigma4": "tensor(0.9927, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 4.066642914120406,
+    "final_loss": 4.039973229652182,
+    "opt_time": 2.553,
+    "opt_iterations": 200
+  },
+  {
+    "id": 13,
+    "hypothesis": "a has two subpopulations, each leading to low or high b.",
+    "structure": "mixture2",
+    "program": "a = gm([0.50,0.50],[-1.00,2.00],[1.00,1.00]); if a < 0.00 { b = gm([1.00],[0.00],[2.00]); } else { b = gm([1.00],[8.00],[2.00]); } end if;",
+    "params": {
+      "mu1": -1.0,
+      "mu2": 2.0,
+      "sigma1": 1.0,
+      "sigma2": 1.0,
+      "mu3": 0.0,
+      "sigma3": 2.0,
+      "mu4": 8.0,
+      "sigma4": 2.0
+    },
+    "rewritten": "a = gm([0.50,0.50], [_mu1, _mu2], [_sigma1, _sigma2]); if a < 0.00 { b = gm([1.00], [_mu3], [_sigma3]); } else { b = gm([1.00], [_mu4], [_sigma4]); } end if;",
+    "optimized_params": {
+      "mu1": "tensor(-0.4341, requires_grad=True)",
+      "mu2": "tensor(2.2193, requires_grad=True)",
+      "sigma1": "tensor(1.4836, grad_fn=<ExpBackward0>)",
+      "sigma2": "tensor(1.5324, grad_fn=<ExpBackward0>)",
+      "mu3": "tensor(-2.5127, requires_grad=True)",
+      "sigma3": "tensor(3.6592, grad_fn=<ExpBackward0>)",
+      "mu4": "tensor(7.9518, requires_grad=True)",
+      "sigma4": "tensor(0.9916, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 4.1603331226371,
+    "final_loss": 4.0669248669431,
+    "opt_time": 2.557,
+    "opt_iterations": 200
+  },
+  {
+    "id": 4,
+    "hypothesis": "Variable a determines whether variable b is low or high.",
+    "structure": "conditional",
+    "program": "a = gm([1.00],[0.93],[1.99]); if a < 0.00 { b = gm([1.00],[0.00],[2.00]); } else { b = gm([1.00],[8.00],[2.00]); } end if;",
+    "params": {
+      "mu1": 0.93,
+      "sigma1": 1.99,
+      "mu2": 0.0,
+      "sigma2": 2.0,
+      "mu3": 8.0,
+      "sigma3": 2.0
+    },
+    "rewritten": "a = gm([1.00], [_mu1], [_sigma1]); if a < 0.00 { b = gm([1.00], [_mu2], [_sigma2]); } else { b = gm([1.00], [_mu3], [_sigma3]); } end if;",
+    "optimized_params": {
+      "mu1": "tensor(0.9338, requires_grad=True)",
+      "sigma1": "tensor(1.9888, grad_fn=<ExpBackward0>)",
+      "mu2": "tensor(-3.5240, requires_grad=True)",
+      "sigma2": "tensor(3.3507, grad_fn=<ExpBackward0>)",
+      "mu3": "tensor(7.9505, requires_grad=True)",
+      "sigma3": "tensor(0.9925, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 4.121529326093066,
+    "final_loss": 4.074928850926879,
+    "opt_time": 2.082,
+    "opt_iterations": 200
+  },
+  {
+    "id": 14,
+    "hypothesis": "b's distribution depends on whether a is negative or non\u2011negative.",
+    "structure": "conditional",
+    "program": "a = gm([1.00],[0.93],[1.99]); if a < 0.00 { b = gm([0.50,0.50],[-2.00,4.00],[2.00,2.00]); } else { b = gm([0.33,0.34,0.33],[5.00,8.00,12.00],[2.00,2.00,2.00]); } end if;",
+    "params": {
+      "mu1": 0.93,
+      "sigma1": 1.99,
+      "mu2": -2.0,
+      "mu3": 4.0,
+      "sigma2": 2.0,
+      "sigma3": 2.0,
+      "mu4": 5.0,
+      "mu5": 8.0,
+      "mu6": 12.0,
+      "sigma4": 2.0,
+      "sigma5": 2.0,
+      "sigma6": 2.0
+    },
+    "rewritten": "a = gm([1.00], [_mu1], [_sigma1]); if a < 0.00 { b = gm([0.50,0.50], [_mu2, _mu3], [_sigma2, _sigma3]); } else { b = gm([0.33,0.34,0.33], [_mu4, _mu5, _mu6], [_sigma4, _sigma5, _sigma6]); } end if;",
+    "optimized_params": {
+      "mu1": "tensor(0.9264, requires_grad=True)",
+      "sigma1": "tensor(1.9938, grad_fn=<ExpBackward0>)",
+      "mu2": "tensor(-3.3717, requires_grad=True)",
+      "mu3": "tensor(0.9490, requires_grad=True)",
+      "sigma2": "tensor(2.3591, grad_fn=<ExpBackward0>)",
+      "sigma3": "tensor(7.3466, grad_fn=<ExpBackward0>)",
+      "mu4": "tensor(7.0269, requires_grad=True)",
+      "mu5": "tensor(8.0488, requires_grad=True)",
+      "mu6": "tensor(8.9079, requires_grad=True)",
+      "sigma4": "tensor(0.6290, grad_fn=<ExpBackward0>)",
+      "sigma5": "tensor(0.5141, grad_fn=<ExpBackward0>)",
+      "sigma6": "tensor(0.7522, grad_fn=<ExpBackward0>)"
+    },
+    "initial_loss": 4.486702049943178,
+    "final_loss": 4.132902299630048,
+    "opt_time": 2.841,
+    "opt_iterations": 200
+  }
+]

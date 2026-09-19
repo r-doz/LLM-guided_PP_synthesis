@@ -1,0 +1,173 @@
+[
+  {
+    "id": 12,
+    "hypothesis": "Each skill level arises from a two\u2011component mixture capturing low and high ability subpopulations.",
+    "structure": "mixture2",
+    "program": "skill1 = gm([0.50,0.50],[18.00,22.00],[3.00,3.00]);\nskill2 = gm([0.50,0.50],[17.00,23.00],[3.00,3.00]);\np1wins = gm([0.82,0.18],[0.00,1.00],[0.00,0.00]);",
+    "params": {
+      "mu1": 18.0,
+      "mu2": 22.0,
+      "sigma1": 3.0,
+      "sigma2": 3.0,
+      "mu3": 17.0,
+      "mu4": 23.0,
+      "sigma3": 3.0,
+      "sigma4": 3.0,
+      "mu5": 0.0,
+      "mu6": 1.0,
+      "sigma5": 0.0,
+      "sigma6": 0.0
+    },
+    "rewritten": "skill1 = gm([0.50,0.50], [_mu1, _mu2], [_sigma1, _sigma2]);\nskill2 = gm([0.50,0.50], [_mu3, _mu4], [_sigma3, _sigma4]);\np1wins = gm([0.82,0.18], [_mu5, _mu6], [_sigma5, _sigma6]);",
+    "optimized_params": {
+      "mu1": "tensor(19.8475, requires_grad=True)",
+      "mu2": "tensor(20.0715, requires_grad=True)",
+      "sigma1": "tensor(3.5347, grad_fn=<ExpBackward0>)",
+      "sigma2": "tensor(4.6264, grad_fn=<ExpBackward0>)",
+      "mu3": "tensor(18.7427, requires_grad=True)",
+      "mu4": "tensor(21.3115, requires_grad=True)",
+      "sigma3": "tensor(3.7604, grad_fn=<ExpBackward0>)",
+      "sigma4": "tensor(3.8512, grad_fn=<ExpBackward0>)",
+      "mu5": "tensor(0., requires_grad=True)",
+      "mu6": "tensor(1., requires_grad=True)",
+      "sigma5": "tensor(0., requires_grad=True)",
+      "sigma6": "tensor(0., requires_grad=True)"
+    },
+    "initial_loss": 6.120522856149428,
+    "final_loss": 6.120522585684829,
+    "opt_time": 1.433,
+    "opt_iterations": 116
+  },
+  {
+    "id": 17,
+    "hypothesis": "Skill1 is modeled as a mixture of two subpopulations; skill2 stays unimodal; win probability remains binary.",
+    "structure": "mixture_split",
+    "program": "skill1 = gm([0.60,0.40],[18.50,21.00],[3.20,3.80]);\nskill2 = gm([1.00],[20.03],[4.02]);\np1wins = gm([0.82,0.18],[0.00,1.00],[0.00,0.00]);",
+    "params": {
+      "mu1": 18.5,
+      "mu2": 21.0,
+      "sigma1": 3.2,
+      "sigma2": 3.8,
+      "mu3": 20.03,
+      "sigma3": 4.02,
+      "mu4": 0.0,
+      "mu5": 1.0,
+      "sigma4": 0.0,
+      "sigma5": 0.0
+    },
+    "rewritten": "skill1 = gm([0.60,0.40], [_mu1, _mu2], [_sigma1, _sigma2]);\nskill2 = gm([1.00], [_mu3], [_sigma3]);\np1wins = gm([0.82,0.18], [_mu4, _mu5], [_sigma4, _sigma5]);",
+    "optimized_params": {
+      "mu1": "tensor(19.8416)",
+      "mu2": "tensor(20.1364)",
+      "sigma1": "tensor(3.6476)",
+      "sigma2": "tensor(4.7320)",
+      "mu3": "tensor(20.0271)",
+      "sigma3": "tensor(4.0169)",
+      "mu4": "tensor(0.)",
+      "mu5": "tensor(1.)",
+      "sigma4": "tensor(0.)",
+      "sigma5": "tensor(0.)"
+    },
+    "initial_loss": 6.120599041544968,
+    "final_loss": 6.120599041544968,
+    "opt_time": 0.973,
+    "opt_iterations": 114
+  },
+  {
+    "id": 23,
+    "hypothesis": "Skill2 consists of two subpopulations while win probability remains binary.",
+    "structure": "mixture2",
+    "program": "skill1 = gm([1.00],[19.96],[4.12]); skill2 = gm([0.55,0.45],[18.50,21.50],[3.00,5.00]); p1wins = gm([0.82,0.18],[0.00,1.00],[0.00,0.00]);",
+    "params": {
+      "mu1": 19.96,
+      "sigma1": 4.12,
+      "mu2": 18.5,
+      "mu3": 21.5,
+      "sigma2": 3.0,
+      "sigma3": 5.0,
+      "mu4": 0.0,
+      "mu5": 1.0,
+      "sigma4": 0.0,
+      "sigma5": 0.0
+    },
+    "rewritten": "skill1 = gm([1.00], [_mu1], [_sigma1]); skill2 = gm([0.55,0.45], [_mu2, _mu3], [_sigma2, _sigma3]); p1wins = gm([0.82,0.18], [_mu4, _mu5], [_sigma4, _sigma5]);",
+    "optimized_params": {
+      "mu1": "tensor(19.9595, requires_grad=True)",
+      "sigma1": "tensor(4.1184, grad_fn=<ExpBackward0>)",
+      "mu2": "tensor(18.8313, requires_grad=True)",
+      "mu3": "tensor(21.4886, requires_grad=True)",
+      "sigma2": "tensor(3.7671, grad_fn=<ExpBackward0>)",
+      "sigma3": "tensor(3.8247, grad_fn=<ExpBackward0>)",
+      "mu4": "tensor(0., requires_grad=True)",
+      "mu5": "tensor(1., requires_grad=True)",
+      "sigma4": "tensor(0., requires_grad=True)",
+      "sigma5": "tensor(0., requires_grad=True)"
+    },
+    "initial_loss": 6.121264331483158,
+    "final_loss": 6.121262993735203,
+    "opt_time": 1.168,
+    "opt_iterations": 135
+  },
+  {
+    "id": 1,
+    "hypothesis": "Skill levels are generated from a single normal-like distribution and wins follow a Bernoulli process.",
+    "structure": "unimodal",
+    "program": "skill1 = gm([1.00],[19.96],[4.12]);\nskill2 = gm([1.00],[20.03],[4.02]);\np1wins = gm([0.82,0.18],[0.00,1.00],[0.00,0.00]);",
+    "params": {
+      "mu1": 19.96,
+      "sigma1": 4.12,
+      "mu2": 20.03,
+      "sigma2": 4.02,
+      "mu3": 0.0,
+      "mu4": 1.0,
+      "sigma3": 0.0,
+      "sigma4": 0.0
+    },
+    "rewritten": "skill1 = gm([1.00], [_mu1], [_sigma1]);\nskill2 = gm([1.00], [_mu2], [_sigma2]);\np1wins = gm([0.82,0.18], [_mu3, _mu4], [_sigma3, _sigma4]);",
+    "optimized_params": {
+      "mu1": "tensor(19.9595)",
+      "sigma1": "tensor(4.1184)",
+      "mu2": "tensor(20.0271)",
+      "sigma2": "tensor(4.0169)",
+      "mu3": "tensor(0.)",
+      "mu4": "tensor(1.)",
+      "sigma3": "tensor(0.)",
+      "sigma4": "tensor(0.)"
+    },
+    "initial_loss": 6.121309878136815,
+    "final_loss": 6.121309878136815,
+    "opt_time": 0.77,
+    "opt_iterations": 119
+  },
+  {
+    "id": 10,
+    "hypothesis": "Introduce a product relationship between skills to model correlation.",
+    "structure": "product",
+    "program": "skill1 = gm([1.00],[19.96],[4.12]);\nskill2 = gm([1.00],[20.03],[4.02]);\ntemp = 0.50*skill1;\ncombined = temp + 0.50*skill2;\np1wins = gm([0.82,0.18],[0.00,1.00],[0.00,0.00]);",
+    "params": {
+      "mu1": 19.96,
+      "sigma1": 4.12,
+      "mu2": 20.03,
+      "sigma2": 4.02,
+      "mu3": 0.0,
+      "mu4": 1.0,
+      "sigma3": 0.0,
+      "sigma4": 0.0
+    },
+    "rewritten": "skill1 = gm([1.00], [_mu1], [_sigma1]);\nskill2 = gm([1.00], [_mu2], [_sigma2]);\ntemp = 0.50*skill1;\ncombined = temp + 0.50*skill2;\np1wins = gm([0.82,0.18], [_mu3, _mu4], [_sigma3, _sigma4]);",
+    "optimized_params": {
+      "mu1": "tensor(19.9595)",
+      "sigma1": "tensor(4.1184)",
+      "mu2": "tensor(20.0271)",
+      "sigma2": "tensor(4.0169)",
+      "mu3": "tensor(0.)",
+      "mu4": "tensor(1.)",
+      "sigma3": "tensor(0.)",
+      "sigma4": "tensor(0.)"
+    },
+    "initial_loss": 6.1213098781435065,
+    "final_loss": 6.1213098781435065,
+    "opt_time": 1.082,
+    "opt_iterations": 119
+  }
+]

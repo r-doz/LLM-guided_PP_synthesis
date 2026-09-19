@@ -1,0 +1,183 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": true,
+  "program": "multiplebranches",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 10,
+  "patience": 3,
+  "min_improvement": 0.01,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 50,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "simple_prompt": false,
+  "prompt_history": true,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/multiplebranches/20260917_152409"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: The distribution of both variables appears unimodal and roughly symmetric around their means.
+DeGAS code:
+contentDifficulty = gm([1.00],[30.09],[5.09]);
+questionsAfterLectureLength = gm([1.00],[12.47],[6.84]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Two latent subpopulations generate each variable, leading to a bimodal pattern.
+DeGAS code:
+contentDifficulty = gm([0.55,0.45],[25.00,35.00],[4.00,6.00]);
+questionsAfterLectureLength = gm([0.60,0.40],[5.00,20.00],[3.00,8.00]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Three underlying groups produce the observed skewness and heavy tails.
+DeGAS code:
+contentDifficulty = gm([0.33,0.34,0.33],[22.00,30.00,38.00],[3.00,4.00,5.00]);
+questionsAfterLectureLength = gm([0.20,0.50,0.30],[2.00,12.00,25.00],[2.00,6.00,9.00]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Content difficulty influences question length, creating distinct regimes.
+DeGAS code:
+contentDifficulty = gm([1.00],[30.09],[5.09]);
+if contentDifficulty < 30.00 {
+    questionsAfterLectureLength = gm([1.00],[8.00],[2.00]);
+} else {
+    questionsAfterLectureLength = gm([1.00],[18.00],[4.00]);
+}
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Question length scales proportionally with content difficulty plus additional variability.
+DeGAS code:
+contentDifficulty = gm([1.00],[30.09],[5.09]);
+temp = 0.20*contentDifficulty;
+questionsAfterLectureLength = temp + gm([1.00],[10.00],[3.00]);
+
+Program ID 1 initial optimization completed. Initial loss: 6.3869, Final loss: 6.3869
+Program ID 2 initial optimization completed. Initial loss: 6.7822, Final loss: 6.7822
+Program ID 3 initial optimization completed. Initial loss: 6.7436, Final loss: 6.7436
+Program ID 4 initial optimization completed. Initial loss: 6.6273, Final loss: 6.6273
+Program ID 5 initial optimization completed. Initial loss: 7.9465, Final loss: 7.9465
+Program ID 6 mutation optimization completed. Initial loss: 7.4322, Final loss: 7.4322
+Program ID 7 mutation optimization completed. Initial loss: 6.6856, Final loss: 6.6856
+Program ID 8 mutation optimization completed. Initial loss: 7.9470, Final loss: 7.9470
+Program ID 9 mutation optimization completed. Initial loss: 16.6073, Final loss: 16.6073
+Program ID 10 mutation optimization completed. Initial loss: inf, Final loss: inf
+Program ID 1 additional optimization completed. Initial loss: 6.3869, Final loss: 6.3869
+Program ID 4 additional optimization completed. Initial loss: 6.6273, Final loss: 6.6273
+Program ID 7 additional optimization completed. Initial loss: 6.6856, Final loss: 6.6856
+Program ID 3 additional optimization completed. Initial loss: 6.7436, Final loss: 6.7436
+Program ID 2 additional optimization completed. Initial loss: 6.7822, Final loss: 6.7822
+Best candidate after iteration 1: Program ID 1, Final Loss: 6.3869
+Selected candidates for next iteration: [1, 4, 7, 3, 2]
+Program ID 11 mutation optimization completed. Initial loss: 6.3689, Final loss: 6.3689
+Program ID 12 mutation optimization completed. Initial loss: 6.5335, Final loss: 6.5335
+Program ID 13 mutation optimization completed. Initial loss: 7.7719, Final loss: 7.7719
+Program ID 14 mutation optimization completed. Initial loss: 6.6973, Final loss: 6.6973
+Program ID 15 mutation optimization completed. Initial loss: 6.7822, Final loss: 6.7822
+Program ID 11 additional optimization completed. Initial loss: 6.3689, Final loss: 6.3689
+Program ID 1 additional optimization completed. Initial loss: 6.3869, Final loss: 6.3869
+Program ID 12 additional optimization completed. Initial loss: 6.5335, Final loss: 6.5335
+Program ID 4 additional optimization completed. Initial loss: 6.6273, Final loss: 6.6273
+Program ID 7 additional optimization completed. Initial loss: 6.6856, Final loss: 6.6856
+Best candidate after iteration 2: Program ID 11, Final Loss: 6.3689
+Selected candidates for next iteration: [11, 1, 12, 4, 7]
+Program ID 16 mutation optimization completed. Initial loss: 6.3512, Final loss: 6.3512
+Program ID 17 mutation optimization completed. Initial loss: 6.3992, Final loss: 6.3992
+Program ID 18 mutation optimization completed. Initial loss: 6.5063, Final loss: 6.5063
+Program ID 19 mutation optimization completed. Initial loss: 6.6866, Final loss: 6.6866
+Program ID 20 mutation optimization completed. Initial loss: 6.7528, Final loss: 6.7528
+Program ID 16 additional optimization completed. Initial loss: 6.3512, Final loss: 6.3512
+Program ID 11 additional optimization completed. Initial loss: 6.3689, Final loss: 6.3689
+Program ID 1 additional optimization completed. Initial loss: 6.3869, Final loss: 6.3869
+Program ID 17 additional optimization completed. Initial loss: 6.3992, Final loss: 6.3992
+Program ID 18 additional optimization completed. Initial loss: 6.5063, Final loss: 6.5063
+Best candidate after iteration 3: Program ID 16, Final Loss: 6.3512
+Selected candidates for next iteration: [16, 11, 1, 17, 18]
+Program ID 21 mutation optimization completed. Initial loss: 6.8016, Final loss: 6.8016
+Program ID 22 mutation optimization completed. Initial loss: 6.4754, Final loss: 6.4754
+Program ID 23 mutation optimization completed. Initial loss: 6.5066, Final loss: 6.5066
+Program ID 24 mutation optimization completed. Initial loss: 6.4022, Final loss: 6.4022
+Program ID 25 mutation optimization completed. Initial loss: 6.6897, Final loss: 6.6897
+Program ID 16 additional optimization completed. Initial loss: 6.3512, Final loss: 6.3512
+Program ID 11 additional optimization completed. Initial loss: 6.3689, Final loss: 6.3689
+Program ID 1 additional optimization completed. Initial loss: 6.3869, Final loss: 6.3869
+Program ID 17 additional optimization completed. Initial loss: 6.3992, Final loss: 6.3992
+Program ID 24 additional optimization completed. Initial loss: 6.4022, Final loss: 6.4022
+Best candidate after iteration 4: Program ID 16, Final Loss: 6.3512
+Selected candidates for next iteration: [16, 11, 1, 17, 24]
+Program ID 26 mutation optimization completed. Initial loss: 6.4603, Final loss: 6.4603
+Program ID 27 mutation optimization completed. Initial loss: 6.7509, Final loss: 6.7509
+Program ID 28 mutation optimization completed. Initial loss: 7.2472, Final loss: 7.2472
+Program ID 29 mutation optimization completed. Initial loss: 6.3535, Final loss: 6.3535
+Program ID 30 mutation optimization completed. Initial loss: 6.3580, Final loss: 6.3580
+Program ID 16 additional optimization completed. Initial loss: 6.3512, Final loss: 6.3512
+Program ID 29 additional optimization completed. Initial loss: 6.3535, Final loss: 6.3535
+Program ID 30 additional optimization completed. Initial loss: 6.3580, Final loss: 6.3580
+Program ID 11 additional optimization completed. Initial loss: 6.3689, Final loss: 6.3689
+Program ID 1 additional optimization completed. Initial loss: 6.3869, Final loss: 6.3869
+Best candidate after iteration 5: Program ID 16, Final Loss: 6.3512
+Selected candidates for next iteration: [16, 29, 30, 11, 1]
+Error in program ID 31: could not convert string to float: 'meanQL'
+Program ID 32 mutation optimization completed. Initial loss: 6.4156, Final loss: 6.4156
+Program ID 33 mutation optimization completed. Initial loss: 6.3764, Final loss: 6.3764
+Error in program ID 34: could not convert string to float: 'meanQL'
+Program ID 35 mutation optimization completed. Initial loss: 6.5362, Final loss: 6.5362
+Program ID 16 additional optimization completed. Initial loss: 6.3512, Final loss: 6.3512
+Program ID 29 additional optimization completed. Initial loss: 6.3535, Final loss: 6.3535
+Program ID 30 additional optimization completed. Initial loss: 6.3580, Final loss: 6.3580
+Program ID 11 additional optimization completed. Initial loss: 6.3689, Final loss: 6.3689
+Program ID 33 additional optimization completed. Initial loss: 6.3764, Final loss: 6.3764
+Best candidate after iteration 6: Program ID 16, Final Loss: 6.3512
+Selected candidates for next iteration: [16, 29, 30, 11, 33]
+Early stopping after iteration 6: best loss improved by only 0.0000 over the last 3 iterations (< min_improvement=0.01).
+
+--- Final Selected Programs ---
+Program ID: 16, Final Loss: 6.3512
+Hypothesis: Content difficulty determines distinct regimes of question length, each modeled with its own mixture.
+Structure: conditional
+DeGAS code:
+contentDifficulty = gm([0.50,0.50],[25.00,35.00],[4.00,6.00]);
+if contentDifficulty < 30.00 {
+    questionsAfterLectureLength = gm([0.70,0.30],[8.00,20.00],[3.00,8.00]);
+} else {
+    questionsAfterLectureLength = gm([0.40,0.60],[8.00,20.00],[3.00,8.00]);
+}
+end if;
+
+Program ID: 29, Final Loss: 6.3535
+Hypothesis: Question length distribution changes with the regime of content difficulty via a conditional.
+Structure: conditional
+DeGAS code:
+contentDifficulty = gm([0.55,0.45],[28.00,32.00],[5.50,4.70]);
+if contentDifficulty < 30.00 {
+    questionsAfterLectureLength = gm([1.00],[12.00],[6.00]);
+} else {
+    questionsAfterLectureLength = gm([1.00],[13.00],[7.00]);
+}
+end if;
+
+Program ID: 30, Final Loss: 6.3580
+Hypothesis: A single Gaussian mixture for question length captures both regimes, removing the conditional.
+Structure: merged
+DeGAS code:
+contentDifficulty = gm([0.55,0.45],[28.00,32.00],[5.50,4.70]);
+questionsAfterLectureLength = gm([0.65,0.35],[12.00,20.00],[4.00,6.00]);
+
+Program ID: 11, Final Loss: 6.3689
+Hypothesis: Both variables arise from two latent subpopulations, leading to bimodal distributions.
+Structure: mixture2
+DeGAS code:
+contentDifficulty = gm([0.50,0.50],[25.00,35.00],[4.00,6.00]);
+questionsAfterLectureLength = gm([0.60,0.40],[8.00,20.00],[3.00,8.00]);
+
+Program ID: 33, Final Loss: 6.3764
+Hypothesis: Question length distribution changes across regimes of content difficulty via a conditional mixture.
+Structure: conditional
+DeGAS code:
+contentDifficulty = gm([0.55,0.45],[28.00,32.00],[5.50,4.70]); if contentDifficulty < 30.00 { questionsAfterLectureLength = gm([0.70,0.30],[12.00,20.00],[4.00,6.00]); } else { questionsAfterLectureLength = gm([0.40,0.60],[12.00,20.00],[4.00,6.00]); } end if;
+
+=== Run finished in 463.1s ===

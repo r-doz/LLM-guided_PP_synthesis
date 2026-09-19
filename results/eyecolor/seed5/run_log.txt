@@ -1,0 +1,180 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": false,
+  "program": "eyecolor",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 10,
+  "patience": 3,
+  "min_improvement": 0.01,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 50,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "simple_prompt": false,
+  "prompt_history": true,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/eyecolor/20260917_055155"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Data is unimodal and right-skewed.
+DeGAS code:
+eyecolor = gm([1.00],[0.21],[0.57]);
+haircolor = gm([1.00],[0.58],[1.24]);
+hairlenght = gm([1.00],[0.68],[0.86]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Two latent subpopulations generate the observed traits.
+DeGAS code:
+eyecolor = gm([0.60,0.40],[0.05,2.50],[0.30,0.30]);
+haircolor = gm([0.55,0.45],[0.10,3.80],[0.70,0.70]);
+hairlenght = gm([0.65,0.35],[0.20,1.80],[0.40,0.40]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Three distinct groups explain the skewness and kurtosis.
+DeGAS code:
+eyecolor = gm([0.30,0.50,0.20],[0.00,0.80,2.70],[0.20,0.40,0.20]);
+haircolor = gm([0.25,0.55,0.20],[0.20,1.00,3.60],[0.30,0.50,0.30]);
+hairlenght = gm([0.35,0.45,0.20],[0.10,0.90,1.70],[0.25,0.35,0.25]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Eye color distribution changes with hair length.
+DeGAS code:
+if hairlenght <= 1.00 {
+    eyecolor = gm([0.70,0.30],[0.10,2.80],[0.25,0.25]);
+} else {
+    eyecolor = gm([0.40,0.60],[0.50,2.20],[0.30,0.30]);
+}
+end if;
+haircolor = gm([1.00],[0.58],[1.24]);
+hairlenght = uniform([0.00,2.00], 2);
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Eye color is a multiplicative combination of hair color and length.
+DeGAS code:
+eyecolor = gm([1.00],[0.21],[0.57]);
+haircolor = gm([1.00],[0.58],[1.24]);
+temp = eyecolor*haircolor;
+eyecolor = temp;
+hairlenght = uniform([0.00,2.00], 2);
+
+Program ID 1 initial optimization completed. Initial loss: 3.7559, Final loss: 3.7558
+Program ID 2 initial optimization completed. Initial loss: 3.0742, Final loss: 1.7727
+Program ID 3 initial optimization completed. Initial loss: 2.9540, Final loss: 1.0367
+Program ID 4 initial optimization completed. Initial loss: 4.1660, Final loss: 3.9523
+Program ID 5 initial optimization completed. Initial loss: 4.3772, Final loss: 4.2902
+Program ID 6 mutation optimization completed. Initial loss: 2.8161, Final loss: -0.2712
+Program ID 7 mutation optimization completed. Initial loss: 3.9936, Final loss: 2.0515
+Program ID 8 mutation optimization completed. Initial loss: 3.9678, Final loss: 1.8374
+Program ID 9 mutation optimization completed. Initial loss: 4.2458, Final loss: 3.0246
+Program ID 10 mutation optimization completed. Initial loss: 5.6211, Final loss: 4.5236
+Program ID 6 additional optimization completed. Initial loss: -0.2988, Final loss: -5.7607
+Program ID 3 additional optimization completed. Initial loss: 1.0146, Final loss: -4.4039
+Program ID 2 additional optimization completed. Initial loss: 1.7447, Final loss: -2.8044
+Program ID 8 additional optimization completed. Initial loss: 1.8128, Final loss: -2.6000
+Program ID 7 additional optimization completed. Initial loss: 2.0322, Final loss: -1.2304
+Best candidate after iteration 1: Program ID 6, Final Loss: -5.7607
+Selected candidates for next iteration: [6, 3, 2, 8, 7]
+Program ID 11 mutation optimization completed. Initial loss: 4.3130, Final loss: 2.4216
+Program ID 12 mutation optimization completed. Initial loss: 4.4152, Final loss: 1.7725
+Program ID 13 mutation optimization completed. Initial loss: 3.3019, Final loss: 0.5723
+Program ID 14 mutation optimization completed. Initial loss: 3.9641, Final loss: 1.8057
+Program ID 15 mutation optimization completed. Initial loss: 4.2814, Final loss: 2.2448
+Program ID 6 additional optimization completed. Initial loss: -5.7862, Final loss: -10.9653
+Program ID 3 additional optimization completed. Initial loss: -4.4325, Final loss: -9.9527
+Program ID 2 additional optimization completed. Initial loss: -2.8268, Final loss: -7.1874
+Program ID 8 additional optimization completed. Initial loss: -2.6223, Final loss: -6.9847
+Program ID 7 additional optimization completed. Initial loss: -1.2464, Final loss: -4.4389
+Best candidate after iteration 2: Program ID 6, Final Loss: -10.9653
+Selected candidates for next iteration: [6, 3, 2, 8, 7]
+Program ID 16 mutation optimization completed. Initial loss: 2.4365, Final loss: -1.0120
+Error in program ID 17: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 18 mutation optimization completed. Initial loss: 3.5183, Final loss: 0.7297
+Program ID 19 mutation optimization completed. Initial loss: 3.9347, Final loss: 1.7144
+Program ID 20 mutation optimization completed. Initial loss: 3.7546, Final loss: 2.0407
+Program ID 6 additional optimization completed. Initial loss: -10.9653, Final loss: -10.9653
+Program ID 3 additional optimization completed. Initial loss: -9.9370, Final loss: -12.2894
+Program ID 2 additional optimization completed. Initial loss: -7.1874, Final loss: -10.2583
+Program ID 8 additional optimization completed. Initial loss: -6.9847, Final loss: -10.1305
+Program ID 7 additional optimization completed. Initial loss: -4.4389, Final loss: -4.4389
+Best candidate after iteration 3: Program ID 3, Final Loss: -12.2894
+Selected candidates for next iteration: [3, 6, 2, 8, 7]
+Program ID 21 mutation optimization completed. Initial loss: 2.9534, Final loss: -0.1396
+Program ID 22 mutation optimization completed. Initial loss: 4.5641, Final loss: 2.1739
+Program ID 23 mutation optimization completed. Initial loss: 3.1119, Final loss: 0.7537
+Program ID 24 mutation optimization completed. Initial loss: 3.9345, Final loss: 1.7032
+Program ID 25 mutation optimization completed. Initial loss: 4.0199, Final loss: 2.2120
+Program ID 3 additional optimization completed. Initial loss: -12.2894, Final loss: -12.2894
+Program ID 6 additional optimization completed. Initial loss: -10.9653, Final loss: -10.9653
+Program ID 2 additional optimization completed. Initial loss: -10.2583, Final loss: -10.2583
+Program ID 8 additional optimization completed. Initial loss: -10.1305, Final loss: -10.1305
+Program ID 7 additional optimization completed. Initial loss: -4.4389, Final loss: -4.4389
+Best candidate after iteration 4: Program ID 3, Final Loss: -12.2894
+Selected candidates for next iteration: [3, 6, 2, 8, 7]
+Program ID 26 mutation optimization completed. Initial loss: 3.0329, Final loss: 0.0361
+Error in program ID 27: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 28: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 29: element 0 of tensors does not require grad and does not have a grad_fn
+Error in program ID 30: element 0 of tensors does not require grad and does not have a grad_fn
+Program ID 3 additional optimization completed. Initial loss: -12.2894, Final loss: -12.2894
+Program ID 6 additional optimization completed. Initial loss: -10.9653, Final loss: -10.9653
+Program ID 2 additional optimization completed. Initial loss: -10.2583, Final loss: -10.2583
+Program ID 8 additional optimization completed. Initial loss: -10.1305, Final loss: -10.1305
+Program ID 7 additional optimization completed. Initial loss: -4.4389, Final loss: -4.4389
+Best candidate after iteration 5: Program ID 3, Final Loss: -12.2894
+Selected candidates for next iteration: [3, 6, 2, 8, 7]
+Program ID 31 mutation optimization completed. Initial loss: 7.4277, Final loss: 1.7157
+Program ID 32 mutation optimization completed. Initial loss: 3.0001, Final loss: -0.1846
+Program ID 33 mutation optimization completed. Initial loss: 2.9702, Final loss: 0.6970
+Error in program ID 34: 
+Program ID 35 mutation optimization completed. Initial loss: 3.9706, Final loss: 2.2281
+Program ID 3 additional optimization completed. Initial loss: -12.2894, Final loss: -12.2894
+Program ID 6 additional optimization completed. Initial loss: -10.9653, Final loss: -10.9653
+Program ID 2 additional optimization completed. Initial loss: -10.2583, Final loss: -10.2583
+Program ID 8 additional optimization completed. Initial loss: -10.1305, Final loss: -10.1305
+Program ID 7 additional optimization completed. Initial loss: -4.4389, Final loss: -4.4389
+Best candidate after iteration 6: Program ID 3, Final Loss: -12.2894
+Selected candidates for next iteration: [3, 6, 2, 8, 7]
+Early stopping after iteration 6: best loss improved by only 0.0000 over the last 3 iterations (< min_improvement=0.01).
+
+--- Final Selected Programs ---
+Program ID: 3, Final Loss: -12.2894
+Hypothesis: Three distinct groups explain the skewness and kurtosis.
+Structure: mixture3
+DeGAS code:
+eyecolor = gm([0.30,0.50,0.20],[0.00,0.80,2.70],[0.20,0.40,0.20]);
+haircolor = gm([0.25,0.55,0.20],[0.20,1.00,3.60],[0.30,0.50,0.30]);
+hairlenght = gm([0.35,0.45,0.20],[0.10,0.90,1.70],[0.25,0.35,0.25]);
+
+Program ID: 6, Final Loss: -10.9653
+Hypothesis: Eye color distribution is a mixture of four subpopulations capturing finer modes.
+Structure: mixture4
+DeGAS code:
+eyecolor = gm([0.30,0.25,0.25,0.20],[0.00,0.45,1.15,2.70],[0.20,0.40,0.40,0.20]); haircolor = gm([0.25,0.55,0.20],[0.20,1.00,3.60],[0.30,0.50,0.30]); hairlenght = gm([0.35,0.45,0.20],[0.10,0.90,1.70],[0.25,0.35,0.25]);
+
+Program ID: 2, Final Loss: -10.2583
+Hypothesis: Two latent subpopulations generate the observed traits.
+Structure: mixture2
+DeGAS code:
+eyecolor = gm([0.60,0.40],[0.05,2.50],[0.30,0.30]);
+haircolor = gm([0.55,0.45],[0.10,3.80],[0.70,0.70]);
+hairlenght = gm([0.65,0.35],[0.20,1.80],[0.40,0.40]);
+
+Program ID: 8, Final Loss: -10.1305
+Hypothesis: Each trait is generated by a two‑component mixture capturing bimodality.
+Structure: mixture2
+DeGAS code:
+eyecolor = gm([0.50,0.50],[0.21,0.80],[0.57,0.57]); haircolor = gm([0.50,0.50],[0.58,1.20],[1.24,1.24]); hairlenght = gm([0.50,0.50],[0.68,1.30],[0.86,0.86]);
+
+Program ID: 7, Final Loss: -4.4389
+Hypothesis: Eye color distribution changes depending on whether hair length is short or long.
+Structure: conditional
+DeGAS code:
+hairlenght = uniform([0.00,2.00], 2); if hairlenght <= 1.00 { eyecolor = gm([0.70,0.30],[0.05,2.50],[0.30,0.30]); } else { eyecolor = gm([0.40,0.60],[0.05,2.50],[0.30,0.30]); } end if; haircolor = gm([0.55,0.45],[0.10,3.80],[0.70,0.70]);
+
+=== Run finished in 938.6s ===

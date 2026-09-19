@@ -1,0 +1,155 @@
+=== Run Started ===
+{
+  "llm_model": "gpt-oss:120b",
+  "skip_gradient": true,
+  "program": "eyecolor",
+  "data_size": 1000,
+  "n_programs": 5,
+  "n_mutations": 5,
+  "n_steps": 10,
+  "patience": 3,
+  "min_improvement": 0.01,
+  "init_temperature": 0.2,
+  "mutation_temperature": 0.4,
+  "init_opt_steps": 50,
+  "mutation_opt_steps": 100,
+  "extra_opt_steps": 200,
+  "learning_rate": 0.01,
+  "require_json": true,
+  "max_retries": 1,
+  "use_chat": true,
+  "request_timeout": 600,
+  "max_http_retries": 3,
+  "simple_prompt": false,
+  "prompt_history": true,
+  "results_dir": "/home/rdoz/PhD/LLM-guided_PP_synthesis/results/eyecolor/20260917_160201"
+}
+
+=== Initial Candidates ===
+Program ID: 1, Structure: unimodal, Hypothesis: Data is generated from a single continuous distribution for each trait.
+DeGAS code:
+eyecolor = gm([1.00],[0.19],[0.57]);
+haircolor = gm([1.00],[0.60],[1.27]);
+hairlenght = gm([1.00],[0.65],[0.86]);
+
+Program ID: 2, Structure: mixture2, Hypothesis: Two subpopulations exist for each trait, leading to a bimodal distribution.
+DeGAS code:
+eyecolor = gm([0.80,0.20],[0.00,3.00],[0.30,0.30]);
+haircolor = gm([0.60,0.40],[1.00,4.00],[0.50,0.50]);
+hairlenght = gm([0.70,0.30],[0.00,2.00],[0.20,0.20]);
+
+Program ID: 3, Structure: mixture3, Hypothesis: Three distinct groups shape the distribution of each trait.
+DeGAS code:
+eyecolor = gm([0.50,0.30,0.20],[0.00,1.00,3.00],[0.25,0.25,0.25]);
+haircolor = gm([0.40,0.35,0.25],[0.00,2.00,4.00],[0.40,0.40,0.40]);
+hairlenght = gm([0.45,0.35,0.20],[0.00,1.00,2.00],[0.30,0.30,0.30]);
+
+Program ID: 4, Structure: conditional, Hypothesis: Trait distributions differ depending on whether eye color is low or high.
+DeGAS code:
+if eyecolor < 1.50 {
+  eyecolor = gm([1.00],[0.20],[0.30]);
+  haircolor = gm([1.00],[0.50],[0.80]);
+  hairlenght = gm([1.00],[0.60],[0.40]);
+} else {
+  eyecolor = gm([1.00],[2.80],[0.25]);
+  haircolor = gm([1.00],[3.20],[0.70]);
+  hairlenght = gm([1.00],[1.50],[0.30]);
+}
+end if;
+
+Program ID: 5, Structure: hierarchical, Hypothesis: Hair length is influenced by a weighted combination of eye color and hair color.
+DeGAS code:
+eyecolor = gm([1.00],[0.19],[0.57]);
+haircolor = gm([1.00],[0.60],[1.27]);
+temp = 0.50*eyecolor;
+hairlenght = temp + 0.30*haircolor;
+
+Program ID 1 initial optimization completed. Initial loss: 3.7688, Final loss: 3.7688
+Program ID 2 initial optimization completed. Initial loss: 4.6793, Final loss: 4.6793
+Program ID 3 initial optimization completed. Initial loss: 2.5755, Final loss: 2.5755
+Program ID 4 initial optimization completed. Initial loss: 5.7562, Final loss: 5.7562
+Program ID 5 initial optimization completed. Initial loss: inf, Final loss: inf
+Program ID 6 mutation optimization completed. Initial loss: 3.2232, Final loss: 3.2232
+Program ID 7 mutation optimization completed. Initial loss: 3.7911, Final loss: 3.7911
+Program ID 8 mutation optimization completed. Initial loss: 5.5147, Final loss: 5.5147
+Program ID 9 mutation optimization completed. Initial loss: 4.5728, Final loss: 4.5728
+Program ID 10 mutation optimization completed. Initial loss: 8.5231, Final loss: 8.5231
+Program ID 3 additional optimization completed. Initial loss: 2.5755, Final loss: 2.5755
+Program ID 6 additional optimization completed. Initial loss: 3.2232, Final loss: 3.2232
+Program ID 1 additional optimization completed. Initial loss: 3.7688, Final loss: 3.7688
+Program ID 7 additional optimization completed. Initial loss: 3.7911, Final loss: 3.7911
+Program ID 9 additional optimization completed. Initial loss: 4.5728, Final loss: 4.5728
+Best candidate after iteration 1: Program ID 3, Final Loss: 2.5755
+Selected candidates for next iteration: [3, 6, 1, 7, 9]
+Program ID 11 mutation optimization completed. Initial loss: 2.6255, Final loss: 2.6255
+Error in program ID 12: 
+Program ID 13 mutation optimization completed. Initial loss: 3.8598, Final loss: 3.8598
+Program ID 14 mutation optimization completed. Initial loss: 3.8839, Final loss: 3.8839
+Program ID 15 mutation optimization completed. Initial loss: 4.7462, Final loss: 4.7462
+Program ID 3 additional optimization completed. Initial loss: 2.5755, Final loss: 2.5755
+Program ID 11 additional optimization completed. Initial loss: 2.6255, Final loss: 2.6255
+Program ID 6 additional optimization completed. Initial loss: 3.2232, Final loss: 3.2232
+Program ID 1 additional optimization completed. Initial loss: 3.7688, Final loss: 3.7688
+Program ID 7 additional optimization completed. Initial loss: 3.7911, Final loss: 3.7911
+Best candidate after iteration 2: Program ID 3, Final Loss: 2.5755
+Selected candidates for next iteration: [3, 11, 6, 1, 7]
+Program ID 16 mutation optimization completed. Initial loss: 3.2318, Final loss: 3.2318
+Program ID 17 mutation optimization completed. Initial loss: 4.6762, Final loss: 4.6762
+Program ID 18 mutation optimization completed. Initial loss: 4.1556, Final loss: 4.1556
+Program ID 19 mutation optimization completed. Initial loss: 3.8888, Final loss: 3.8888
+Program ID 20 mutation optimization completed. Initial loss: 4.2482, Final loss: 4.2482
+Program ID 3 additional optimization completed. Initial loss: 2.5755, Final loss: 2.5755
+Program ID 11 additional optimization completed. Initial loss: 2.6255, Final loss: 2.6255
+Program ID 6 additional optimization completed. Initial loss: 3.2232, Final loss: 3.2232
+Program ID 16 additional optimization completed. Initial loss: 3.2318, Final loss: 3.2318
+Program ID 1 additional optimization completed. Initial loss: 3.7688, Final loss: 3.7688
+Best candidate after iteration 3: Program ID 3, Final Loss: 2.5755
+Selected candidates for next iteration: [3, 11, 6, 16, 1]
+Error in program ID 21: could not convert string to float: 'haircolor_mean'
+Program ID 22 mutation optimization completed. Initial loss: 3.2318, Final loss: 3.2318
+Error in program ID 23: 'group'
+Error in program ID 24: could not convert string to float: 'haircolor_mean'
+Program ID 25 mutation optimization completed. Initial loss: 3.5189, Final loss: 3.5189
+Program ID 3 additional optimization completed. Initial loss: 2.5755, Final loss: 2.5755
+Program ID 11 additional optimization completed. Initial loss: 2.6255, Final loss: 2.6255
+Program ID 6 additional optimization completed. Initial loss: 3.2232, Final loss: 3.2232
+Program ID 16 additional optimization completed. Initial loss: 3.2318, Final loss: 3.2318
+Program ID 22 additional optimization completed. Initial loss: 3.2318, Final loss: 3.2318
+Best candidate after iteration 4: Program ID 3, Final Loss: 2.5755
+Selected candidates for next iteration: [3, 11, 6, 16, 22]
+Early stopping after iteration 4: best loss improved by only 0.0000 over the last 3 iterations (< min_improvement=0.01).
+
+--- Final Selected Programs ---
+Program ID: 3, Final Loss: 2.5755
+Hypothesis: Three distinct groups shape the distribution of each trait.
+Structure: mixture3
+DeGAS code:
+eyecolor = gm([0.50,0.30,0.20],[0.00,1.00,3.00],[0.25,0.25,0.25]);
+haircolor = gm([0.40,0.35,0.25],[0.00,2.00,4.00],[0.40,0.40,0.40]);
+hairlenght = gm([0.45,0.35,0.20],[0.00,1.00,2.00],[0.30,0.30,0.30]);
+
+Program ID: 11, Final Loss: 2.6255
+Hypothesis: Eye color mixture influences hair color via a richer multimodal distribution.
+Structure: mixture4
+DeGAS code:
+eyecolor = gm([0.50,0.30,0.20],[0.00,1.00,3.00],[0.25,0.25,0.25]); haircolor = gm([0.40,0.35,0.15,0.10],[0.00,2.00,4.00,5.00],[0.40,0.40,0.40,0.40]); hairlenght = gm([0.45,0.35,0.20],[0.00,1.00,2.00],[0.30,0.30,0.30]);
+
+Program ID: 6, Final Loss: 3.2232
+Hypothesis: Eye color determines distinct subpopulations for hair color and length.
+Structure: conditional
+DeGAS code:
+eyecolor = gm([0.50,0.30,0.20],[0.00,1.00,3.00],[0.25,0.25,0.25]); if eyecolor < 1.00 { haircolor = gm([0.70,0.30],[0.00,4.00],[0.40,0.40]); hairlenght = gm([0.60,0.40],[0.00,2.00],[0.30,0.30]); } else { haircolor = gm([0.50,0.50],[1.00,3.00],[0.40,0.40]); hairlenght = gm([0.55,0.45],[1.00,2.00],[0.30,0.30]); } end if;
+
+Program ID: 16, Final Loss: 3.2318
+Hypothesis: Eye color determines subpopulations that affect hair color and length via conditional branches.
+Structure: conditional
+DeGAS code:
+eyecolor = gm([0.50,0.30,0.20],[0.00,1.00,3.00],[0.25,0.25,0.25]); if eyecolor < 1.00 { haircolor = gm([0.70,0.30],[0.00,4.00],[0.40,0.40]); hairlenght = gm([0.60,0.40],[0.00,2.00],[0.30,0.30]); } else { haircolor = gm([0.45,0.55],[1.00,3.00],[0.40,0.40]); hairlenght = gm([0.50,0.50],[1.00,2.00],[0.30,0.30]); } end if;
+
+Program ID: 22, Final Loss: 3.2318
+Hypothesis: Eye color creates two subpopulations with distinct hair color and length distributions.
+Structure: conditional
+DeGAS code:
+eyecolor = gm([0.50,0.30,0.20],[0.00,1.00,3.00],[0.25,0.25,0.25]); if eyecolor < 1.00 { haircolor = gm([0.70,0.30],[0.00,4.00],[0.40,0.40]); hairlenght = gm([0.60,0.40],[0.00,2.00],[0.30,0.30]); } else { haircolor = gm([0.45,0.55],[1.00,3.00],[0.40,0.40]); hairlenght = gm([0.50,0.50],[1.00,2.00],[0.30,0.30]); } end if;
+
+=== Run finished in 467.0s ===

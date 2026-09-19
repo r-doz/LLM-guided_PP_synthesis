@@ -1,0 +1,173 @@
+[
+  {
+    "id": 3,
+    "hypothesis": "Three latent groups generate the observed skewed distributions.",
+    "structure": "mixture3",
+    "program": "preplevel = gm([0.30,0.35,0.35],[0.10,0.80,1.60],[0.15,0.20,0.25]); damage = gm([0.30,0.40,0.30],[0.10,0.50,0.90],[0.08,0.12,0.07]);",
+    "params": {
+      "mu1": 0.1,
+      "mu2": 0.8,
+      "mu3": 1.6,
+      "sigma1": 0.15,
+      "sigma2": 0.2,
+      "sigma3": 0.25,
+      "mu4": 0.1,
+      "mu5": 0.5,
+      "mu6": 0.9,
+      "sigma4": 0.08,
+      "sigma5": 0.12,
+      "sigma6": 0.07
+    },
+    "rewritten": "preplevel = gm([0.30,0.35,0.35], [_mu1, _mu2, _mu3], [_sigma1, _sigma2, _sigma3]); damage = gm([0.30,0.40,0.30], [_mu4, _mu5, _mu6], [_sigma4, _sigma5, _sigma6]);",
+    "optimized_params": {
+      "mu1": "tensor(0.1000, requires_grad=True)",
+      "mu2": "tensor(0.8000, requires_grad=True)",
+      "mu3": "tensor(1.6000, requires_grad=True)",
+      "sigma1": "tensor(0.1500, requires_grad=True)",
+      "sigma2": "tensor(0.2000, requires_grad=True)",
+      "sigma3": "tensor(0.2500, requires_grad=True)",
+      "mu4": "tensor(0.1000, requires_grad=True)",
+      "mu5": "tensor(0.5000, requires_grad=True)",
+      "mu6": "tensor(0.9000, requires_grad=True)",
+      "sigma4": "tensor(0.0800, requires_grad=True)",
+      "sigma5": "tensor(0.1200, requires_grad=True)",
+      "sigma6": "tensor(0.0700, requires_grad=True)"
+    },
+    "initial_loss": 1.34327077907019,
+    "final_loss": 1.34327077907019,
+    "opt_time": 0.0,
+    "opt_iterations": 0
+  },
+  {
+    "id": 25,
+    "hypothesis": "Damage depends on scaled preplevel risk with two regimes.",
+    "structure": "dependency",
+    "program": "preplevel = gm([1.00],[0.74],[0.85]); risk = 3.00*preplevel; if risk < 1.50 { damage = gm([0.60,0.40],[0.30,0.90],[0.20,0.15]); } else { damage = gm([0.45,0.55],[0.30,0.90],[0.20,0.15]); } end if;",
+    "params": {
+      "mu1": 0.74,
+      "sigma1": 0.85,
+      "mu2": 0.3,
+      "mu3": 0.9,
+      "sigma2": 0.2,
+      "sigma3": 0.15,
+      "mu4": 0.3,
+      "mu5": 0.9,
+      "sigma4": 0.2,
+      "sigma5": 0.15
+    },
+    "rewritten": "preplevel = gm([1.00], [_mu1], [_sigma1]); risk = 3.00*preplevel; if risk < 1.50 { damage = gm([0.60,0.40], [_mu2, _mu3], [_sigma2, _sigma3]); } else { damage = gm([0.45,0.55], [_mu4, _mu5], [_sigma4, _sigma5]); } end if;",
+    "optimized_params": {
+      "mu1": "tensor(0.7400, requires_grad=True)",
+      "sigma1": "tensor(0.8500, requires_grad=True)",
+      "mu2": "tensor(0.3000, requires_grad=True)",
+      "mu3": "tensor(0.9000, requires_grad=True)",
+      "sigma2": "tensor(0.2000, requires_grad=True)",
+      "sigma3": "tensor(0.1500, requires_grad=True)",
+      "mu4": "tensor(0.3000, requires_grad=True)",
+      "mu5": "tensor(0.9000, requires_grad=True)",
+      "sigma4": "tensor(0.2000, requires_grad=True)",
+      "sigma5": "tensor(0.1500, requires_grad=True)"
+    },
+    "initial_loss": 1.6119149732822775,
+    "final_loss": 1.6119149732822775,
+    "opt_time": 0.0,
+    "opt_iterations": 0
+  },
+  {
+    "id": 12,
+    "hypothesis": "Damage regime switches based on low vs high preplevel (introducing conditional).",
+    "structure": "conditional2",
+    "program": "preplevel = gm([1.00],[0.74],[0.85]); if preplevel < 0.50 { damage = gm([0.60,0.40],[0.30,0.90],[0.20,0.15]); } else { damage = gm([0.55,0.45],[0.30,0.90],[0.20,0.15]); } end if;",
+    "params": {
+      "mu1": 0.74,
+      "sigma1": 0.85,
+      "mu2": 0.3,
+      "mu3": 0.9,
+      "sigma2": 0.2,
+      "sigma3": 0.15,
+      "mu4": 0.3,
+      "mu5": 0.9,
+      "sigma4": 0.2,
+      "sigma5": 0.15
+    },
+    "rewritten": "preplevel = gm([1.00], [_mu1], [_sigma1]); if preplevel < 0.50 { damage = gm([0.60,0.40], [_mu2, _mu3], [_sigma2, _sigma3]); } else { damage = gm([0.55,0.45], [_mu4, _mu5], [_sigma4, _sigma5]); } end if;",
+    "optimized_params": {
+      "mu1": "tensor(0.7400, requires_grad=True)",
+      "sigma1": "tensor(0.8500, requires_grad=True)",
+      "mu2": "tensor(0.3000, requires_grad=True)",
+      "mu3": "tensor(0.9000, requires_grad=True)",
+      "sigma2": "tensor(0.2000, requires_grad=True)",
+      "sigma3": "tensor(0.1500, requires_grad=True)",
+      "mu4": "tensor(0.3000, requires_grad=True)",
+      "mu5": "tensor(0.9000, requires_grad=True)",
+      "sigma4": "tensor(0.2000, requires_grad=True)",
+      "sigma5": "tensor(0.1500, requires_grad=True)"
+    },
+    "initial_loss": 1.6120643846635065,
+    "final_loss": 1.6120643846635065,
+    "opt_time": 0.0,
+    "opt_iterations": 0
+  },
+  {
+    "id": 17,
+    "hypothesis": "Damage is influenced by a scaled version of preplevel (risk) with a conditional split.",
+    "structure": "hierarchical",
+    "program": "preplevel = gm([1.00],[0.74],[0.85]); risk = 2.00*preplevel; if risk < 1.00 { damage = gm([0.60,0.40],[0.30,0.90],[0.20,0.15]); } else { damage = gm([0.55,0.45],[0.30,0.90],[0.20,0.15]); } end if;",
+    "params": {
+      "mu1": 0.74,
+      "sigma1": 0.85,
+      "mu2": 0.3,
+      "mu3": 0.9,
+      "sigma2": 0.2,
+      "sigma3": 0.15,
+      "mu4": 0.3,
+      "mu5": 0.9,
+      "sigma4": 0.2,
+      "sigma5": 0.15
+    },
+    "rewritten": "preplevel = gm([1.00], [_mu1], [_sigma1]); risk = 2.00*preplevel; if risk < 1.00 { damage = gm([0.60,0.40], [_mu2, _mu3], [_sigma2, _sigma3]); } else { damage = gm([0.55,0.45], [_mu4, _mu5], [_sigma4, _sigma5]); } end if;",
+    "optimized_params": {
+      "mu1": "tensor(0.7400, requires_grad=True)",
+      "sigma1": "tensor(0.8500, requires_grad=True)",
+      "mu2": "tensor(0.3000, requires_grad=True)",
+      "mu3": "tensor(0.9000, requires_grad=True)",
+      "sigma2": "tensor(0.2000, requires_grad=True)",
+      "sigma3": "tensor(0.1500, requires_grad=True)",
+      "mu4": "tensor(0.3000, requires_grad=True)",
+      "mu5": "tensor(0.9000, requires_grad=True)",
+      "sigma4": "tensor(0.2000, requires_grad=True)",
+      "sigma5": "tensor(0.1500, requires_grad=True)"
+    },
+    "initial_loss": 1.6120644592295064,
+    "final_loss": 1.6120644592295064,
+    "opt_time": 0.0,
+    "opt_iterations": 0
+  },
+  {
+    "id": 7,
+    "hypothesis": "Damage arises from two subpopulations while preplevel remains unimodal.",
+    "structure": "mixture2",
+    "program": "preplevel = gm([1.00],[0.74],[0.85]); damage = gm([0.55,0.45],[0.30,0.90],[0.20,0.15]);",
+    "params": {
+      "mu1": 0.74,
+      "sigma1": 0.85,
+      "mu2": 0.3,
+      "mu3": 0.9,
+      "sigma2": 0.2,
+      "sigma3": 0.15
+    },
+    "rewritten": "preplevel = gm([1.00], [_mu1], [_sigma1]); damage = gm([0.55,0.45], [_mu2, _mu3], [_sigma2, _sigma3]);",
+    "optimized_params": {
+      "mu1": "tensor(0.7400, requires_grad=True)",
+      "sigma1": "tensor(0.8500, requires_grad=True)",
+      "mu2": "tensor(0.3000, requires_grad=True)",
+      "mu3": "tensor(0.9000, requires_grad=True)",
+      "sigma2": "tensor(0.2000, requires_grad=True)",
+      "sigma3": "tensor(0.1500, requires_grad=True)"
+    },
+    "initial_loss": 1.6564457935123942,
+    "final_loss": 1.6564457935123942,
+    "opt_time": 0.0,
+    "opt_iterations": 0
+  }
+]

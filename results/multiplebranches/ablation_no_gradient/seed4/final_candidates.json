@@ -1,0 +1,165 @@
+[
+  {
+    "id": 16,
+    "hypothesis": "Question length depends on difficulty via a hierarchical shift.",
+    "structure": "hierarchical",
+    "program": "contentDifficulty = gm([1.00],[29.91],[4.92]); baseLength = gm([0.65,0.35],[9.00,21.00],[3.00,5.00]); shift = 0.02*contentDifficulty; questionsAfterLectureLength = baseLength + shift;",
+    "params": {
+      "mu1": 29.91,
+      "sigma1": 4.92,
+      "mu2": 9.0,
+      "mu3": 21.0,
+      "sigma2": 3.0,
+      "sigma3": 5.0
+    },
+    "rewritten": "contentDifficulty = gm([1.00], [_mu1], [_sigma1]); baseLength = gm([0.65,0.35], [_mu2, _mu3], [_sigma2, _sigma3]); shift = 0.02*contentDifficulty; questionsAfterLectureLength = baseLength + shift;",
+    "optimized_params": {
+      "mu1": "tensor(29.9100, requires_grad=True)",
+      "sigma1": "tensor(4.9200, requires_grad=True)",
+      "mu2": "tensor(9., requires_grad=True)",
+      "mu3": "tensor(21., requires_grad=True)",
+      "sigma2": "tensor(3., requires_grad=True)",
+      "sigma3": "tensor(5., requires_grad=True)"
+    },
+    "initial_loss": 6.115565234601432,
+    "final_loss": 6.115565234601432,
+    "opt_time": 0.0,
+    "opt_iterations": 0
+  },
+  {
+    "id": 30,
+    "hypothesis": "Question length distribution differs for low vs high content difficulty, each modeled as a single Gaussian.",
+    "structure": "conditional_unimodal",
+    "program": "contentDifficulty = gm([1.00],[29.91],[4.92]); if contentDifficulty < 30.00 { questionsAfterLectureLength = gm([1.00],[10.00],[5.00]); } else { questionsAfterLectureLength = gm([1.00],[15.00],[7.00]); } end if;",
+    "params": {
+      "mu1": 29.91,
+      "sigma1": 4.92,
+      "mu2": 10.0,
+      "sigma2": 5.0,
+      "mu3": 15.0,
+      "sigma3": 7.0
+    },
+    "rewritten": "contentDifficulty = gm([1.00], [_mu1], [_sigma1]); if contentDifficulty < 30.00 { questionsAfterLectureLength = gm([1.00], [_mu2], [_sigma2]); } else { questionsAfterLectureLength = gm([1.00], [_mu3], [_sigma3]); } end if;",
+    "optimized_params": {
+      "mu1": "tensor(29.9100, requires_grad=True)",
+      "sigma1": "tensor(4.9200, requires_grad=True)",
+      "mu2": "tensor(10., requires_grad=True)",
+      "sigma2": "tensor(5., requires_grad=True)",
+      "mu3": "tensor(15., requires_grad=True)",
+      "sigma3": "tensor(7., requires_grad=True)"
+    },
+    "initial_loss": 6.146187014968508,
+    "final_loss": 6.146187014968508,
+    "opt_time": 0.0,
+    "opt_iterations": 0
+  },
+  {
+    "id": 12,
+    "hypothesis": "Question length distribution changes depending on difficulty level.",
+    "structure": "conditional",
+    "program": "contentDifficulty = gm([1.00],[29.91],[4.92]);if contentDifficulty < 30.00 {questionsAfterLectureLength = gm([0.70,0.30],[7.00,15.00],[2.00,3.00]);} else {questionsAfterLectureLength = gm([0.60,0.40],[12.00,25.00],[3.00,4.00]);} end if;",
+    "params": {
+      "mu1": 29.91,
+      "sigma1": 4.92,
+      "mu2": 7.0,
+      "mu3": 15.0,
+      "sigma2": 2.0,
+      "sigma3": 3.0,
+      "mu4": 12.0,
+      "mu5": 25.0,
+      "sigma4": 3.0,
+      "sigma5": 4.0
+    },
+    "rewritten": "contentDifficulty = gm([1.00], [_mu1], [_sigma1]);if contentDifficulty < 30.00 {questionsAfterLectureLength = gm([0.70,0.30], [_mu2, _mu3], [_sigma2, _sigma3]);} else {questionsAfterLectureLength = gm([0.60,0.40], [_mu4, _mu5], [_sigma4, _sigma5]);} end if;",
+    "optimized_params": {
+      "mu1": "tensor(29.9100, requires_grad=True)",
+      "sigma1": "tensor(4.9200, requires_grad=True)",
+      "mu2": "tensor(7., requires_grad=True)",
+      "mu3": "tensor(15., requires_grad=True)",
+      "sigma2": "tensor(2., requires_grad=True)",
+      "sigma3": "tensor(3., requires_grad=True)",
+      "mu4": "tensor(12., requires_grad=True)",
+      "mu5": "tensor(25., requires_grad=True)",
+      "sigma4": "tensor(3., requires_grad=True)",
+      "sigma5": "tensor(4., requires_grad=True)"
+    },
+    "initial_loss": 6.16622802819178,
+    "final_loss": 6.16622802819178,
+    "opt_time": 0.0,
+    "opt_iterations": 0
+  },
+  {
+    "id": 27,
+    "hypothesis": "Within each difficulty regime, question length has a baseline mixture plus a small linear shift proportional to difficulty.",
+    "structure": "hierarchical",
+    "program": "contentDifficulty = gm([1.00],[29.91],[4.92]); if contentDifficulty < 30.00 { baseLen = gm([0.70,0.30],[7.00,15.00],[2.00,3.00]); shift = 0.01*contentDifficulty; questionsAfterLectureLength = baseLen + shift; } else { baseLen = gm([0.60,0.40],[12.00,25.00],[3.00,4.00]); shift = 0.01*contentDifficulty; questionsAfterLectureLength = baseLen + shift; } end if;",
+    "params": {
+      "mu1": 29.91,
+      "sigma1": 4.92,
+      "mu2": 7.0,
+      "mu3": 15.0,
+      "sigma2": 2.0,
+      "sigma3": 3.0,
+      "mu4": 12.0,
+      "mu5": 25.0,
+      "sigma4": 3.0,
+      "sigma5": 4.0
+    },
+    "rewritten": "contentDifficulty = gm([1.00], [_mu1], [_sigma1]); if contentDifficulty < 30.00 { baseLen = gm([0.70,0.30], [_mu2, _mu3], [_sigma2, _sigma3]); shift = 0.01*contentDifficulty; questionsAfterLectureLength = baseLen + shift; } else { baseLen = gm([0.60,0.40], [_mu4, _mu5], [_sigma4, _sigma5]); shift = 0.01*contentDifficulty; questionsAfterLectureLength = baseLen + shift; } end if;",
+    "optimized_params": {
+      "mu1": "tensor(29.9100, requires_grad=True)",
+      "sigma1": "tensor(4.9200, requires_grad=True)",
+      "mu2": "tensor(7., requires_grad=True)",
+      "mu3": "tensor(15., requires_grad=True)",
+      "sigma2": "tensor(2., requires_grad=True)",
+      "sigma3": "tensor(3., requires_grad=True)",
+      "mu4": "tensor(12., requires_grad=True)",
+      "mu5": "tensor(25., requires_grad=True)",
+      "sigma4": "tensor(3., requires_grad=True)",
+      "sigma5": "tensor(4., requires_grad=True)"
+    },
+    "initial_loss": 6.173862177664278,
+    "final_loss": 6.173862177664278,
+    "opt_time": 0.0,
+    "opt_iterations": 0
+  },
+  {
+    "id": 22,
+    "hypothesis": "Difficulty influences a multimodal distribution of question length with richer components for easier questions.",
+    "structure": "mixture_expand",
+    "program": "contentDifficulty = gm([1.00],[29.91],[4.92]); if contentDifficulty < 30.00 { questionsAfterLectureLength = gm([0.50,0.30,0.20],[6.00,10.00,14.00],[1.50,2.00,3.00]); } else { questionsAfterLectureLength = gm([0.55,0.45],[13.00,27.00],[2.80,4.20]); }",
+    "params": {
+      "mu1": 29.91,
+      "sigma1": 4.92,
+      "mu2": 6.0,
+      "mu3": 10.0,
+      "mu4": 14.0,
+      "sigma2": 1.5,
+      "sigma3": 2.0,
+      "sigma4": 3.0,
+      "mu5": 13.0,
+      "mu6": 27.0,
+      "sigma5": 2.8,
+      "sigma6": 4.2
+    },
+    "rewritten": "contentDifficulty = gm([1.00], [_mu1], [_sigma1]); if contentDifficulty < 30.00 { questionsAfterLectureLength = gm([0.50,0.30,0.20], [_mu2, _mu3, _mu4], [_sigma2, _sigma3, _sigma4]); } else { questionsAfterLectureLength = gm([0.55,0.45], [_mu5, _mu6], [_sigma5, _sigma6]); }",
+    "optimized_params": {
+      "mu1": "tensor(29.9100, requires_grad=True)",
+      "sigma1": "tensor(4.9200, requires_grad=True)",
+      "mu2": "tensor(6., requires_grad=True)",
+      "mu3": "tensor(10., requires_grad=True)",
+      "mu4": "tensor(14., requires_grad=True)",
+      "sigma2": "tensor(1.5000, requires_grad=True)",
+      "sigma3": "tensor(2., requires_grad=True)",
+      "sigma4": "tensor(3., requires_grad=True)",
+      "mu5": "tensor(13., requires_grad=True)",
+      "mu6": "tensor(27., requires_grad=True)",
+      "sigma5": "tensor(2.8000, requires_grad=True)",
+      "sigma6": "tensor(4.2000, requires_grad=True)"
+    },
+    "initial_loss": 6.180213683595271,
+    "final_loss": 6.180213683595271,
+    "opt_time": 0.0,
+    "opt_iterations": 0
+  }
+]
